@@ -80,17 +80,28 @@ const Navbar = () => {
       {/* Mobile Menu Overlay */}
       <div
         id="mobile-menu"
-        className={`fixed inset-0 bg-dark-900/40 backdrop-blur-3xl z-40 flex flex-col items-center justify-center transition-opacity duration-500 ${
+        onClick={(e) => {
+          if (e.target.id === 'mobile-menu' || e.target.id === 'mobile-menu-inner') {
+            closeMobileMenu();
+          }
+        }}
+        className={`fixed inset-0 z-40 flex flex-col items-center justify-center transition-all duration-500 ease-in-out ${
           isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
       >
-        <div className="absolute inset-0 luxury-lines z-0 opacity-20"></div>
-        <nav className="relative z-10 flex flex-col items-center space-y-8 text-sm uppercase tracking-[0.3em] text-gray-300">
-          <a href="#about" onClick={(e) => handleMobileLinkClick(e, '#about')} className="hover:text-gold transition-colors duration-300">About</a>
-          <a href="#teaching" onClick={(e) => handleMobileLinkClick(e, '#teaching')} className="hover:text-gold transition-colors duration-300">Academic</a>
-          <a href="#performance" onClick={(e) => handleMobileLinkClick(e, '#performance')} className="hover:text-gold transition-colors duration-300">Performance</a>
-          <a href="#contact" onClick={(e) => handleMobileLinkClick(e, '#contact')} className="hover:text-gold transition-colors duration-300">Contact</a>
-        </nav>
+        {/* Layered Glass Background */}
+        <div className="absolute inset-0 bg-dark-900/40 backdrop-blur-3xl"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-dark-900/60 via-transparent to-dark-900/60"></div>
+        <div className="absolute inset-0 luxury-lines z-0 opacity-10"></div>
+        
+        <div id="mobile-menu-inner" className="relative z-10 w-full h-full flex flex-col items-center justify-center">
+          <nav className="flex flex-col items-center space-y-10 text-sm uppercase tracking-[0.4em] text-gray-300">
+            <a href="#about" onClick={(e) => handleMobileLinkClick(e, '#about')} className="hover:text-gold transition-colors duration-300">About</a>
+            <a href="#teaching" onClick={(e) => handleMobileLinkClick(e, '#teaching')} className="hover:text-gold transition-colors duration-300">Academic</a>
+            <a href="#performance" onClick={(e) => handleMobileLinkClick(e, '#performance')} className="hover:text-gold transition-colors duration-300">Performance</a>
+            <a href="#contact" onClick={(e) => handleMobileLinkClick(e, '#contact')} className="hover:text-gold transition-colors duration-300">Contact</a>
+          </nav>
+        </div>
       </div>
     </>
   );
