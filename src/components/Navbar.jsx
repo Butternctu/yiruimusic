@@ -52,7 +52,7 @@ const Navbar = () => {
         <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
           <a href="/#" className="flex items-center scroll-link">
             <div 
-              className={`w-auto bg-gold transition-all duration-300 ${isScrolled ? 'h-12 md:h-16 w-32 md:w-40' : 'h-20 md:h-24 w-48 md:w-56'}`}
+              className={`bg-gold transition-all duration-300 ${isScrolled ? 'h-12 md:h-16 w-32 md:w-40' : 'h-20 md:h-24 w-48 md:w-56'}`}
               style={{ 
                 WebkitMaskImage: `url(${yiruiLogo})`,
                 maskImage: `url(${yiruiLogo})`,
