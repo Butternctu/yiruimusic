@@ -47,7 +47,7 @@ const Portfolio = () => {
               </div>
               <h2 className="font-serif text-3xl text-white mb-6 tracking-wide">Orchestral Engagements</h2>
               <p className="text-gray-400 font-light leading-relaxed mb-6">
-                Dr. Li's expansive orchestral repertoire spans canonical masterworks such as Berlioz's <em>Symphonie Fantastique</em>, Holst's <em>The Planets</em>, and Mahler's rich symphonic textures. She has held principal and guest harpist positions with esteemed ensembles including Orchestra Next, the Eugene Ballet, Vancouver Symphony Orchestra, and West Texas Symphony.
+                Dr. Li’s expansive orchestral repertoire spans canonical masterworks and technically demanding modern scores, ranging from Berlioz’s Symphonie Fantastique and Holst’s The Planets to the intricate textures of Stravinsky’s Firebird Suite and Zhou Tian’s Petals of Fire. She has held principal and guest harpist positions with esteemed ensembles, including Orchestra Next, the Eugene Ballet, Vancouver Symphony Orchestra, and the West Texas Symphony, where she served as Principal Harp. Her versatile collaborative career also includes performances with the Skagit Symphony Orchestra, SFA Symphony Orchestra, and the Co-Cathedral of the Sacred Heart in Houston.
               </p>
               <p className="text-gray-500 font-light text-sm italic">
                 * Detailed repertoire lists and upcoming orchestral schedules will be updated continuously.
@@ -69,7 +69,7 @@ const Portfolio = () => {
               </div>
               <h2 className="font-serif text-3xl text-white mb-6 tracking-wide">Masterclasses & Mentorship</h2>
               <p className="text-gray-400 font-light leading-relaxed mb-6">
-                As a dedicated pedagogue, Dr. Li actively bridges traditions, participating in the World Harp Congress and serving as a certified instructor with the China Orchestra Network. Her masterclasses focus not only on refined technical execution but also on interpreting complex musical narratives and managing performance anxiety.
+                A dedicated pedagogue and scholar, Dr. Li currently serves as Adjunct Harp Professor at Sam Houston State University, providing elite instruction in advanced technique and orchestral excerpts. Her commitment to music education extends to all levels, having served as a chamber music coach and conductor at Sartartia Middle School, Dulles High School, and Klein High School. As a member of the World Harp Congress and a Certified Teacher for the China Orchestra Network, her mentorship uniquely integrates her doctoral research on pedagogical strategies for managing music performance anxiety, helping students pair refined technical execution with psychological resilience.
               </p>
             </div>
           </div>
@@ -88,7 +88,7 @@ const Portfolio = () => {
               </div>
               <h2 className="font-serif text-3xl text-white mb-6 tracking-wide">Solo Recitals</h2>
               <p className="text-gray-400 font-light leading-relaxed mb-6">
-                Recognized with First Prize at both the American International Music Competition and the Van Bach International Music Competition, Dr. Li's solo recitals are celebrated for their profound emotional depth and pristine clarity. Her solo programming seamlessly integrates traditional European harp literature with contemporary cross-cultural gems.
+                Recognized with First Prize at the American International Music Competition and the Gold Prize at the Van Bach International Music Competition, Dr. Li’s solo recitals are celebrated for their profound emotional depth and pristine clarity. Her solo programming seamlessly integrates traditional European harp literature with contemporary cross-cultural gems. As the President of the Greater Houston Chapter of the American Harp Society, she remains at the forefront of the region’s solo performance landscape, delivering recitals that are both technically brilliant and intellectually engaging.
               </p>
             </div>
           </div>
@@ -107,7 +107,7 @@ const Portfolio = () => {
               </div>
               <h2 className="font-serif text-3xl text-white mb-6 tracking-wide">Private Engagements</h2>
               <p className="text-gray-400 font-light leading-relaxed mb-6">
-                Beyond the concert hall, Dr. Li curates elegant musical atmospheres for exclusive private events, corporate galas, and luxury weddings across the Houston metropolitan area. Each engagement is tailored with a bespoke repertoire to elevate the aesthetic and emotional resonance of the occasion.
+                Beyond the concert hall, Dr. Li curates elegant musical atmospheres for exclusive private events, corporate galas, and luxury weddings across the Houston metropolitan area. Each engagement is tailored with a bespoke repertoire, ranging from classical elegance to contemporary sophistication, designed to elevate the aesthetic and emotional resonance of the occasion. Her professional approach ensures that every performance provides a sophisticated and unforgettable experience for distinguished guests.
               </p>
               <Link to="/#contact" className="inline-flex items-center text-white text-xs uppercase tracking-[0.1em] hover:text-gold transition-colors group mt-4">
                 Inquire for Booking

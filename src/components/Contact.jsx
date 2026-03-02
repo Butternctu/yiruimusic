@@ -202,7 +202,7 @@ const Contact = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-12">
             <div className="relative group">
-              <label className="block text-xs uppercase tracking-[0.1em] text-gray-500 mb-2">Full Name</label>
+              <label htmlFor="name" className="block text-xs uppercase tracking-[0.1em] text-gray-500 mb-2">Full Name</label>
               <input 
                 type="text" 
                 id="name"
@@ -220,7 +220,7 @@ const Contact = () => {
               )}
             </div>
             <div className="relative group">
-              <label className="block text-xs uppercase tracking-[0.1em] text-gray-500 mb-2">Email Address</label>
+              <label htmlFor="email" className="block text-xs uppercase tracking-[0.1em] text-gray-500 mb-2">Email Address</label>
               <input 
                 type="email" 
                 id="email"
@@ -228,6 +228,7 @@ const Contact = () => {
                 value={formData.email}
                 onChange={handleChange}
                 autoComplete="email"
+                inputMode="email"
                 className={`w-full bg-transparent border-b py-3 text-gold placeholder-gray-600 focus:outline-none focus:ring-0 transition-colors ${errors.email ? 'border-[#d9736c]/50' : 'border-white/20 focus:border-gold'}`} 
                 placeholder="email@example.com"
               />
