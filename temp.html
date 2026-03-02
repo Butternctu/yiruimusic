@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dr. Yirui Li, Harpist & Educator | Houston, Texas</title>
+
+    <meta name="description" content="Official portfolio of Dr. Yirui Li — professional harpist and educator in Houston, Texas. Explore biography, performances, masterclasses, academic work on performance anxiety, and booking contact.">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="author" content="Dr. Yirui Li">
+    <meta name="theme-color"   content="#0a0a0a">
+
+    <link rel="canonical" href="https://yiruimusic.com/">
+
+    <!-- Structured Data for Google Site Name -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Yirui Li, Houston Harpist",
+      "url": "https://yiruimusic.com/"
+    }
+    </script>
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Yirui Li, Houston Harpist">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="Dr. Yirui Li, Harpist & Educator | Houston, Texas">
+    <meta property="og:description" content="Professional harpist and educator. Performances, masterclasses, research, and booking information.">
+    <meta property="og:url" content="https://yiruimusic.com/">
+    <meta property="og:image" content="https://butternctu.github.io/Yirui-Gallery/yirui_cover.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Dr. Yirui Li — Harpist & Educator">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Dr. Yirui Li | Harpist & Educator in Houston, Texas">
+    <meta name="twitter:description" content="Official portfolio — performances, masterclasses, research, and booking.">
+    <meta name="twitter:image" content="https://butternctu.github.io/Yirui-Gallery/yirui_cover.jpg">
+
+    <!-- Favicon -->
+    <link id="favicon" rel="icon" type="image/png" sizes="32x32" href="https://butternctu.github.io/Yirui-Gallery/yirui_logo_black.png">
+    <link id="apple-icon" rel="apple-touch-icon" sizes="180x180" href="https://butternctu.github.io/Yirui-Gallery/yirui_logo_black.png">
+    
+    <!-- Dynamic Favicon Corner Rounding Script -->
+    <script>
+        (function() {
+            const img = new Image();
+            img.crossOrigin = "anonymous";
+            img.onload = function() {
+                const canvas = document.createElement('canvas');
+                const size = img.width;
+                canvas.width = size;
+                canvas.height = size;
+                const ctx = canvas.getContext('2d');
+                
+                const radius = size * 0.22; 
+                
+                ctx.beginPath();
+                ctx.moveTo(radius, 0);
+                ctx.lineTo(size - radius, 0);
+                ctx.quadraticCurveTo(size, 0, size, radius);
+                ctx.lineTo(size, size - radius);
+                ctx.quadraticCurveTo(size, size, size - radius, size);
+                ctx.lineTo(radius, size);
+                ctx.quadraticCurveTo(0, size, 0, size - radius);
+                ctx.lineTo(0, radius);
+                ctx.quadraticCurveTo(0, 0, radius, 0);
+                ctx.closePath();
+                ctx.clip();
+                
+                ctx.drawImage(img, 0, 0);
+                
+                const roundedDataUrl = canvas.toDataURL('image/png');
+                document.getElementById('favicon').href = roundedDataUrl;
+                document.getElementById('apple-icon').href = roundedDataUrl;
+            };
+            img.src = "https://butternctu.github.io/Yirui-Gallery/yirui_logo_black.png";
+        })();
+    </script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Mobile Viewport Height Fix Script -->
+    <script>
+        function setDocHeight() {
+            document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+        }
+        setDocHeight();
+        let windowWidth = window.innerWidth;
+        window.addEventListener('resize', () => {
+            if (window.innerWidth !== windowWidth) {
+                windowWidth = window.innerWidth;
+                setDocHeight();
+            }
+        });
+    </script>
+
+    <!-- Custom Configuration and Styles -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: {
+                            900: '#0a0a0a',
+                            800: '#141414',
+                            700: '#1f1f1f',
+                        },
+                        gold: {
+                            light: '#e8d3a2',
+                            DEFAULT: '#c5a059',
+                            dark: '#8c6d31',
+                        },
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['Lato', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        :root {
+            color-scheme: dark;
+        }
+
+        .hero-section {
+            min-height: 100vh;
+            min-height: calc(var(--vh, 1vh) * 100);
+        }
+
+        .fade-in-section {
+            opacity: 0;
+            transform: translate3d(0, 30px, 0);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+            backface-visibility: hidden;
+        }
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translate3d(0, 0, 0);
+        }
+
+        @media (max-width: 768px) {
+            .fade-in-section {
+                transform: none !important;
+                transition: opacity 0.8s ease-out !important;
+            }
+            .fade-in-section.is-visible {
+                transform: none !important;
+            }
+        }
+        
+        .bg-parallax {
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        @media (min-width: 768px) {
+            .bg-parallax {
+                background-attachment: fixed;
+            }
+        }
+        
+        .luxury-lines {
+            background-image: repeating-linear-gradient(90deg, transparent, transparent 4%, rgba(197, 160, 89, 0.03) 4%, rgba(197, 160, 89, 0.03) 4.1%);
+            pointer-events: none;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #1f1f1f;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #c5a059;
+        }
+
+        @media (max-height: 680px) {
+            .scroll-indicator {
+                display: none !important;
+            }
+        }
+
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover, 
+        input:-webkit-autofill:focus, 
+        input:-webkit-autofill:active,
+        textarea:-webkit-autofill,
+        textarea:-webkit-autofill:hover,
+        textarea:-webkit-autofill:focus,
+        textarea:-webkit-autofill:active {
+            -webkit-box-shadow: 0 0 0px 1000px #0a0a0a inset !important;
+            -webkit-text-fill-color: #ffffff !important;
+            transition: background-color 5000s ease-in-out 0s;
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-300 bg-dark-900 antialiased selection:bg-gold selection:text-dark-900">
+
+    <!-- Navigation -->
+    <header id="main-nav" class="fixed w-full z-50 transition-all duration-300 bg-transparent py-2 border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
+            <a href="#" class="flex items-center scroll-link">
+                <img id="nav-logo" src="https://butternctu.github.io/Yirui-Gallery/yirui_logo.png" alt="Dr. Yirui Li Logo" class="h-20 md:h-24 w-auto object-contain transition-all duration-300">
+            </a>
+            
+            <!-- Desktop Menu -->
+            <nav class="hidden md:flex space-x-10 text-xs uppercase tracking-[0.2em] text-gray-300">
+                <a href="#about" class="hover:text-gold transition-colors duration-300 scroll-link">About</a>
+                <a href="#teaching" class="hover:text-gold transition-colors duration-300 scroll-link">Academic</a>
+                <a href="#performance" class="hover:text-gold transition-colors duration-300 scroll-link">Performance</a>
+                <a href="#contact" class="hover:text-gold transition-colors duration-300 scroll-link">Contact</a>
+            </nav>
+
+            <button id="mobile-menu-btn" class="md:hidden text-gray-300 hover:text-gold focus:outline-none transition-colors relative z-50">
+                <span id="menu-icon-wrapper">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 bg-dark-900/98 backdrop-blur-xl z-40 flex flex-col items-center justify-center opacity-0 pointer-events-none transition-opacity duration-500">
+        <nav class="flex flex-col items-center space-y-8 text-sm uppercase tracking-[0.3em] text-gray-300">
+            <a href="#about" class="mobile-link hover:text-gold transition-colors duration-300">About</a>
+            <a href="#teaching" class="mobile-link hover:text-gold transition-colors duration-300">Academic</a>
+            <a href="#performance" class="mobile-link hover:text-gold transition-colors duration-300">Performance</a>
+            <a href="#contact" class="mobile-link hover:text-gold transition-colors duration-300">Contact</a>
+        </nav>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="relative hero-section flex items-center justify-center bg-parallax" style="background-image: url('https://butternctu.github.io/Yirui-Gallery/yirui_cover.jpg');">
+        <div class="absolute inset-0 bg-gradient-to-b from-dark-900/80 via-dark-900/60 to-dark-900"></div>
+        <div class="absolute inset-0 luxury-lines z-0"></div>
+        
+        <div class="relative z-10 text-center px-6 max-w-4xl mx-auto fade-in-section is-visible w-full">
+            <h2 class="text-gold text-xs md:text-sm uppercase tracking-[0.4em] mb-6">Harpist &bull; Educator &bull; Innovator</h2>
+            <h1 class="font-serif text-5xl md:text-7xl text-white mb-8 leading-tight tracking-wide">
+                Bridging Tradition <br/><span class="italic font-light text-gray-400">&amp;</span> Innovation
+            </h1>
+            <p class="text-gray-400 text-lg font-light leading-relaxed max-w-2xl mx-auto mb-12">
+                Cultivating cross-cultural dialogue and empowering the next generation of classical musicians through the resonant artistry of the harp.
+            </p>
+            <a href="#contact" class="inline-block border border-gold text-gold hover:bg-gold hover:text-dark-900 px-10 py-4 tracking-[0.2em] uppercase text-xs transition-all duration-500 scroll-link">
+                Book a Performance
+            </a>
+        </div>
+        
+        <div class="absolute bottom-8 md:bottom-12 left-1/2 transform -translate-x-1/2 z-10 pointer-events-none scroll-indicator">
+            <div class="h-16 md:h-20 w-[1px] bg-gradient-to-b from-gold to-transparent mx-auto"></div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-32 bg-dark-900 relative">
+        <div class="absolute inset-0 luxury-lines z-0 opacity-50"></div>
+        <div class="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-20 items-center relative z-10">
+            <div class="fade-in-section relative">
+                <div class="absolute -inset-4 border border-gold/30 translate-x-4 translate-y-4 hidden md:block z-0"></div>
+                <img src="https://butternctu.github.io/Yirui-Gallery/yirui_smile.jpg" decoding="async" alt="Dr. Yirui Li - Professional Harpist and Educator" class="relative z-10 w-full h-auto shadow-2xl object-cover hover:scale-[1.02] opacity-75 hover:opacity-100 transition-all duration-700 aspect-[3/4]">
+            </div>
+            <div class="fade-in-section">
+                <div class="flex items-center mb-6">
+                    <div class="w-12 h-[1px] bg-gold mr-4"></div>
+                    <h3 class="text-gold uppercase tracking-[0.2em] text-xs">Biography</h3>
+                </div>
+                <h2 class="font-serif text-4xl text-white mb-8 tracking-wide">A Legacy of Excellence</h2>
+                <div class="space-y-6 text-gray-400 font-light leading-relaxed text-base">
+                    <p>
+                        Dr. Yirui Li is a distinguished harpist and pedagogue based in Houston, Texas, celebrated for her refined artistry, scholarly insight, and dynamic contributions to the global harp community. A native of China, she commenced her formal education at the Tianjin Conservatory of Music, later earning her Master of Music from SUNY Fredonia and her Doctor of Musical Arts from the University of Oregon.
+                    </p>
+                    
+                    <div id="extended-bio" class="hidden space-y-6 opacity-0 transition-opacity duration-700">
+                        <p>
+                            As a sought-after performer, Dr. Li has appeared with prestigious ensembles including Orchestra Next, the Eugene Ballet, Vancouver Symphony Orchestra, and West Texas Symphony. Her artistic achievements have been recognized through numerous international accolades, including First Prize at both the American International Music Competition and the Van Bach International Music Competition.
+                        </p>
+                        <p>
+                            Through her multifaceted career as a performer, educator, and scholar, Dr. Li continues to elevate the harp's expressive possibilities and inspire a global community of musicians.
+                        </p>
+                    </div>
+                </div>
+                <div class="mt-10">
+                    <button id="bio-toggle-btn" class="inline-flex items-center text-white text-sm uppercase tracking-[0.1em] hover:text-gold transition-colors group focus:outline-none">
+                        <span id="bio-toggle-text">Read Full Biography</span> 
+                        <span class="ml-4 w-8 h-[1px] bg-white group-hover:bg-gold transition-colors"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Teaching & Research -->
+    <section id="teaching" class="py-32 bg-dark-800 relative border-y border-white/5">
+        <div class="max-w-7xl mx-auto px-6 md:px-12">
+            <div class="text-center fade-in-section mb-20">
+                <h3 class="text-gold uppercase tracking-[0.2em] text-xs mb-4">Academic Leadership</h3>
+                <h2 class="font-serif text-4xl text-white tracking-wide">Teaching & Research</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- SHSU Professorship -->
+                <div class="bg-dark-900 p-12 border border-white/5 hover:border-gold/30 transition-colors duration-500 fade-in-section group relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-gold transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700"></div>
+                    <i data-lucide="book-open" class="w-8 h-8 text-gold mb-8 stroke-[1.5]"></i>
+                    <h4 class="font-serif text-2xl text-white mb-2 tracking-wide">Adjunct Professorship</h4>
+                    <p class="text-gray-500 text-xs uppercase tracking-[0.1em] mb-6">Sam Houston State University</p>
+                    <p class="text-gray-400 font-light leading-relaxed">
+                        Currently serving as Adjunct Professor of Harp at SHSU and presiding over the Greater Houston Chapter of the American Harp Society. Her pedagogical philosophy emphasizes technical excellence, artistic expression, and cultural literacy, nurturing versatile and thoughtful musicians.
+                    </p>
+                </div>
+                
+                <!-- Research -->
+                <div class="bg-dark-900 p-12 border border-white/5 hover:border-gold/30 transition-colors duration-500 fade-in-section group relative overflow-hidden" style="transition-delay: 200ms;">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-gold transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700"></div>
+                    <i data-lucide="brain-circuit" class="w-8 h-8 text-gold mb-8 stroke-[1.5]"></i>
+                    <h4 class="font-serif text-2xl text-white mb-2 tracking-wide">Performance Anxiety</h4>
+                    <p class="text-gray-500 text-xs uppercase tracking-[0.1em] mb-6">Doctoral Dissertation</p>
+                    <p class="text-gray-400 font-light leading-relaxed">
+                        Her doctoral dissertation, <em>Pedagogical Strategies for Managing Music Performance Anxiety on the Harp</em>, underscores her innovative approach to holistic music education, offering actionable methodologies for artists to reclaim their cognitive focus on stage.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Performance & Initiatives -->
+    <section id="performance" class="py-32 bg-dark-900 relative">
+        <div class="absolute inset-0 luxury-lines z-0 opacity-30"></div>
+        <div class="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-20 fade-in-section">
+                <div class="max-w-2xl">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-[1px] bg-gold mr-4"></div>
+                        <h3 class="text-gold uppercase tracking-[0.2em] text-xs">Global Vision</h3>
+                    </div>
+                    <h2 class="font-serif text-4xl text-white mb-6 tracking-wide">Performance Portfolio</h2>
+                    <p class="text-gray-400 font-light leading-relaxed">
+                        Dr. Li's expansive repertoire spans canonical masterworks such as Berlioz's <em>Symphonie Fantastique</em> and Holst's <em>The Planets</em>, alongside contemporary gems. She actively bridges traditions, participating in the World Harp Congress and serving as a certified instructor with the China Orchestra Network.
+                    </p>
+                </div>
+                <div class="mt-8 md:mt-0">
+                    <a href="portfolio.html" class="inline-flex items-center text-white text-sm uppercase tracking-[0.1em] hover:text-gold transition-colors group">
+                        View All Projects
+                        <i data-lucide="arrow-right" class="w-4 h-4 ml-3 group-hover:translate-x-2 transition-transform"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 fade-in-section">
+                <div class="aspect-[4/5] bg-dark-800 relative overflow-hidden group">
+                    <img src="https://butternctu.github.io/Yirui-Gallery/orchestral-001.jpeg" decoding="async" class="absolute inset-0 w-full h-full object-cover object-left opacity-75 group-hover:opacity-100 group-hover:scale-105 origin-left transition-all duration-1000" alt="Dr. Yirui Li Orchestral Engagements">
+                    <div class="absolute inset-0 bg-gradient-to-t from-dark-900 via-transparent to-transparent opacity-80 pointer-events-none"></div>
+                    <div class="absolute bottom-0 left-0 p-4 sm:p-6 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 pointer-events-none">
+                        <div class="w-6 sm:w-8 h-[1px] bg-gold mb-2 sm:mb-3 opacity-0 group-hover:opacity-100 transition-opacity delay-300"></div>
+                        <span class="block font-serif text-base sm:text-xl text-white tracking-wide">Orchestral</span>
+                    </div>
+                </div>
+                <div class="aspect-[4/5] bg-dark-800 relative overflow-hidden group">
+                    <img src="https://butternctu.github.io/Yirui-Gallery/teaching-001.jpeg" decoding="async" class="absolute inset-0 w-full h-full object-cover object-[center_25%] opacity-75 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000" alt="Dr. Yirui Li Masterclasses">
+                    <div class="absolute inset-0 bg-gradient-to-t from-dark-900 via-transparent to-transparent opacity-80 pointer-events-none"></div>
+                    <div class="absolute bottom-0 left-0 p-4 sm:p-6 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 pointer-events-none">
+                        <div class="w-6 sm:w-8 h-[1px] bg-gold mb-2 sm:mb-3 opacity-0 group-hover:opacity-100 transition-opacity delay-300"></div>
+                        <span class="block font-serif text-base sm:text-xl text-white tracking-wide">Mentorship</span>
+                    </div>
+                </div>
+                <div class="aspect-[4/5] bg-dark-800 relative overflow-hidden group">
+                    <img src="https://butternctu.github.io/Yirui-Gallery/recitals-001.jpeg" decoding="async" class="absolute inset-0 w-full h-full object-cover object-[center_20%] scale-125 opacity-75 group-hover:opacity-100 group-hover:scale-[1.3] transition-all duration-1000" alt="Dr. Yirui Li Solo Recitals">
+                    <div class="absolute inset-0 bg-gradient-to-t from-dark-900 via-transparent to-transparent opacity-80 pointer-events-none"></div>
+                    <div class="absolute bottom-0 left-0 p-4 sm:p-6 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 pointer-events-none">
+                        <div class="w-6 sm:w-8 h-[1px] bg-gold mb-2 sm:mb-3 opacity-0 group-hover:opacity-100 transition-opacity delay-300"></div>
+                        <span class="block font-serif text-base sm:text-xl text-white tracking-wide">Solo Recitals</span>
+                    </div>
+                </div>
+                <div class="aspect-[4/5] bg-dark-800 relative overflow-hidden group">
+                    <img src="https://butternctu.github.io/Yirui-Gallery/gig-001.jpeg" decoding="async" class="absolute inset-0 w-full h-full object-cover object-[center_25%] opacity-75 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000" alt="Dr. Yirui Li Private Engagements">
+                    <div class="absolute inset-0 bg-gradient-to-t from-dark-900 via-transparent to-transparent opacity-80 pointer-events-none"></div>
+                    <div class="absolute bottom-0 left-0 p-4 sm:p-6 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 pointer-events-none">
+                        <div class="w-6 sm:w-8 h-[1px] bg-gold mb-2 sm:mb-3 opacity-0 group-hover:opacity-100 transition-opacity delay-300"></div>
+                        <span class="block font-serif text-base sm:text-xl text-white tracking-wide">Private Engagements</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-32 bg-dark-800 relative border-t border-white/5">
+        <div class="max-w-4xl mx-auto px-6 md:px-12 fade-in-section relative z-10">
+            <div class="text-center mb-16">
+                <h3 class="text-gold uppercase tracking-[0.2em] text-xs mb-4">Connect</h3>
+                <h2 class="font-serif text-4xl text-white tracking-wide">Inquiries & Booking</h2>
+                <div class="h-[1px] w-24 bg-gold mx-auto mt-8 mb-6 opacity-50"></div>
+                
+                <div class="inline-flex items-center space-x-3 px-5 py-2 mt-2 rounded-full border border-white/10 bg-dark-900 shadow-lg">
+                    <i data-lucide="message-square" class="w-4 h-4 text-gold opacity-80"></i>
+                    <span class="text-gray-400 font-light text-[11px] tracking-[0.15em] uppercase">
+                        Direct WeChat: <span class="text-white font-medium select-all cursor-pointer copy-wechat ml-1" title="Click to copy">harpist11</span>
+                    </span>
+                </div>
+            </div>
+            
+            <form id="inquiry-form" class="space-y-10">
+                <input type="hidden" name="_subject" value="New Inquiry from Dr. Yirui Li Portfolio">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_template" value="table">
+                <input type="text" name="_honey" style="display:none">
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                    <div class="relative group">
+                        <label class="block text-xs uppercase tracking-[0.1em] text-gray-500 mb-2">Full Name</label>
+                        <input type="text" name="name" required class="w-full bg-transparent border-b border-white/20 py-3 text-white placeholder-gray-600 focus:outline-none focus:ring-0 focus:border-gold transition-colors" placeholder="Yirui Li">
+                    </div>
+                    <div class="relative group">
+                        <label class="block text-xs uppercase tracking-[0.1em] text-gray-500 mb-2">Email Address</label>
+                        <input type="email" name="email" required class="w-full bg-transparent border-b border-white/20 py-3 text-white placeholder-gray-600 focus:outline-none focus:ring-0 focus:border-gold transition-colors" placeholder="email@example.com">
+                    </div>
+                </div>
+                
+                <div class="relative group" id="custom-dropdown-container">
+                    <label class="block text-xs uppercase tracking-[0.1em] text-gray-500 mb-2">Inquiry Type</label>
+                    <input type="hidden" name="inquiry_type" id="inquiry_type" value="Performance Booking">
+                    
+                    <div id="dropdown-trigger" class="w-full bg-transparent border-b border-white/20 py-3 text-white focus:outline-none focus:border-gold transition-colors cursor-pointer flex justify-between items-center relative z-20 hover:border-white/50">
+                        <span id="dropdown-selected-text">Performance Booking</span>
+                        <i data-lucide="chevron-down" class="w-4 h-4 text-gold transition-transform duration-300 pointer-events-none" id="dropdown-icon"></i>
+                    </div>
+
+                    <div id="dropdown-panel" class="absolute left-0 top-full w-full mt-2 bg-dark-900 border border-white/10 shadow-2xl opacity-0 invisible transition-all duration-300 transform -translate-y-2 z-30 max-h-60 overflow-y-auto custom-scrollbar">
+                        <div class="dropdown-option px-6 py-4 text-gray-400 hover:bg-[#151515] hover:text-gold cursor-pointer transition-colors border-b border-white/5" data-value="Performance Booking">Performance Booking</div>
+                        <div class="dropdown-option px-6 py-4 text-gray-400 hover:bg-[#151515] hover:text-gold cursor-pointer transition-colors border-b border-white/5" data-value="Masterclass / Guest Lecture">Masterclass / Guest Lecture</div>
+                        <div class="dropdown-option px-6 py-4 text-gray-400 hover:bg-[#151515] hover:text-gold cursor-pointer transition-colors border-b border-white/5" data-value="Prospective Student">Prospective Student (SHSU)</div>
+                        <div class="dropdown-option px-6 py-4 text-gray-400 hover:bg-[#151515] hover:text-gold cursor-pointer transition-colors" data-value="Media & Press">Media & Press</div>
+                    </div>
+                </div>
+
+                <div class="relative group">
+                    <label class="block text-xs uppercase tracking-[0.1em] text-gray-500 mb-2">Message</label>
+                    <textarea name="message" rows="4" required class="w-full bg-transparent border-b border-white/20 py-3 text-white placeholder-gray-600 focus:outline-none focus:ring-0 focus:border-gold transition-colors resize-none" placeholder="Provide details regarding dates, venue, or academic background..."></textarea>
+                </div>
+                <div class="text-center pt-8 flex flex-col items-center">
+                    <button type="submit" id="submit-btn" class="border border-gold text-gold hover:bg-gold hover:text-dark-900 px-12 py-4 tracking-[0.2em] uppercase text-xs transition-all duration-500 w-full md:w-auto">
+                        Submit Inquiry
+                    </button>
+                    <div id="form-success-msg" class="hidden mt-6 text-gold text-xs tracking-[0.2em] uppercase">
+                        Message sent successfully.
+                    </div>
+                    <div id="form-error-msg" class="hidden mt-6 text-red-500/80 text-xs tracking-[0.2em] uppercase max-w-md mx-auto leading-relaxed">
+                        Please wait 1 hour before submitting again.
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark-900 pt-24 pb-12 border-t border-white/5 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 md:px-12 flex flex-col items-center">
+            <img src="https://butternctu.github.io/Yirui-Gallery/yirui_logo.png" alt="Dr. Yirui Li Logo" class="h-24 md:h-28 w-auto object-contain mb-10 opacity-80 hover:opacity-100 transition-opacity duration-500">
+            <div class="flex flex-wrap justify-center items-center gap-6 mb-12">
+                <a href="https://youtube.com/@harpist-li?si=3UvIHHgf0jfMZpKp" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center w-12 h-12 rounded-full border border-white/10 text-gray-400 hover:text-gold hover:border-gold transition-all duration-500 group" aria-label="YouTube">
+                    <i data-lucide="youtube" class="w-5 h-5 stroke-[1.5] group-hover:scale-110 transition-transform duration-500"></i>
+                </a>
+                <a href="https://www.instagram.com/harpist.yr?igsh=ZjhqeDh1Mm54ZHZp" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center w-12 h-12 rounded-full border border-white/10 text-gray-400 hover:text-gold hover:border-gold transition-all duration-500 group" aria-label="Instagram">
+                    <i data-lucide="instagram" class="w-5 h-5 stroke-[1.5] group-hover:scale-110 transition-transform duration-500"></i>
+                </a>
+                <a href="https://xhslink.com/m/A1JHHnLKI3C" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center w-12 h-12 rounded-full border border-white/10 text-gray-400 hover:text-gold hover:border-gold transition-all duration-500 group" aria-label="Xiaohongshu">
+                    <div class="w-5 h-5 bg-current group-hover:scale-110 transition-transform duration-500" style="-webkit-mask: url('https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/xiaohongshu.svg') center/contain no-repeat; mask: url('https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/xiaohongshu.svg') center/contain no-repeat;"></div>
+                </a>
+                <a href="https://www.linkedin.com/in/yirui-li-14b83b200/" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center w-12 h-12 rounded-full border border-white/10 text-gray-400 hover:text-gold hover:border-gold transition-all duration-500 group" aria-label="LinkedIn">
+                    <i data-lucide="linkedin" class="w-5 h-5 stroke-[1.5] group-hover:scale-110 transition-transform duration-500"></i>
+                </a>
+            </div>
+            <div class="w-full max-w-sm h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent mb-10"></div>
+            <div class="flex items-center space-x-3 mb-10 text-[11px] font-light text-gray-400 tracking-[0.2em] uppercase">
+                <span>WeChat</span>
+                <span class="w-1 h-1 rounded-full bg-gold/50"></span>
+                <span class="text-white font-medium select-all cursor-pointer copy-wechat" title="Click to copy">harpist11</span>
+            </div>
+            <div class="text-[10px] font-light text-gray-600 tracking-[0.2em] uppercase">
+                &copy; 2026 Dr. Yirui Li. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Initialize Icons and Interactions -->
+    <script>
+        lucide.createIcons();
+
+        const nav = document.getElementById('main-nav');
+        const navLogo = document.getElementById('nav-logo');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                nav.classList.add('bg-dark-900/95', 'backdrop-blur-md', 'border-white/10');
+                nav.classList.remove('bg-transparent', 'border-white/5');
+                if (navLogo) {
+                    navLogo.classList.remove('h-20', 'md:h-24');
+                    navLogo.classList.add('h-12', 'md:h-16');
+                }
+            } else {
+                nav.classList.remove('bg-dark-900/95', 'backdrop-blur-md', 'border-white/10');
+                nav.classList.add('bg-transparent', 'border-white/5');
+                if (navLogo) {
+                    navLogo.classList.remove('h-12', 'md:h-16');
+                    navLogo.classList.add('h-20', 'md:h-24');
+                }
+            }
+        });
+
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const iconWrapper = document.getElementById('menu-icon-wrapper');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        let isMobileMenuOpen = false;
+
+        if (mobileMenuBtn && mobileMenu) {
+            function toggleMobileMenu() {
+                isMobileMenuOpen = !isMobileMenuOpen;
+                if (isMobileMenuOpen) {
+                    mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
+                    mobileMenu.classList.add('opacity-100', 'pointer-events-auto');
+                    document.body.style.overflow = 'hidden'; 
+                    iconWrapper.innerHTML = '<i data-lucide="x" class="w-6 h-6"></i>';
+                    lucide.createIcons();
+                } else {
+                    mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+                    mobileMenu.classList.remove('opacity-100', 'pointer-events-auto');
+                    document.body.style.overflow = ''; 
+                    iconWrapper.innerHTML = '<i data-lucide="menu" class="w-6 h-6"></i>';
+                    lucide.createIcons();
+                }
+            }
+
+            mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    const targetId = link.getAttribute('href');
+                    if (targetId && targetId.startsWith('#')) {
+                        e.preventDefault();
+                        toggleMobileMenu();
+                        setTimeout(() => {
+                            if (targetId === '#') {
+                                window.scrollTo({ top: 0, behavior: 'smooth' });
+                            } else {
+                                const targetElement = document.querySelector(targetId);
+                                if (targetElement) {
+                                    targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                }
+                            }
+                        }, 300);
+                    }
+                });
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            const sections = document.querySelectorAll('.fade-in-section');
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            document.querySelectorAll('a.scroll-link').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const targetId = this.getAttribute('href');
+                    if (targetId && targetId.startsWith('#')) {
+                        e.preventDefault();
+                        if (targetId === '#') {
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                        } else {
+                            const targetElement = document.querySelector(targetId);
+                            if (targetElement) {
+                                targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            }
+                        }
+                    }
+                });
+            });
+
+            const copyWechatElements = document.querySelectorAll('.copy-wechat');
+            copyWechatElements.forEach(el => {
+                el.addEventListener('click', async function() {
+                    const textToCopy = 'harpist11';
+                    try {
+                        await navigator.clipboard.writeText(textToCopy);
+                        const originalText = this.innerText;
+                        this.innerText = 'Copied!';
+                        setTimeout(() => {
+                            this.innerText = originalText;
+                        }, 2000);
+                    } catch (err) {
+                        console.error('Failed to copy text: ', err);
+                    }
+                });
+            });
+
+            const dropdownContainer = document.getElementById('custom-dropdown-container');
+            const dropdownTrigger = document.getElementById('dropdown-trigger');
+            const dropdownPanel = document.getElementById('dropdown-panel');
+            const dropdownIcon = document.getElementById('dropdown-icon');
+            const dropdownSelectedText = document.getElementById('dropdown-selected-text');
+            const inquiryTypeInput = document.getElementById('inquiry_type');
+            const dropdownOptions = document.querySelectorAll('.dropdown-option');
+
+            if (dropdownTrigger && dropdownPanel) {
+                dropdownTrigger.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const isExpanded = !dropdownPanel.classList.contains('invisible');
+                    
+                    if (isExpanded) {
+                        closeDropdown();
+                    } else {
+                        dropdownPanel.classList.remove('opacity-0', 'invisible', '-translate-y-2');
+                        dropdownPanel.classList.add('opacity-100', 'translate-y-0');
+                        dropdownIcon.classList.add('rotate-180');
+                        dropdownTrigger.classList.add('border-gold');
+                        dropdownTrigger.classList.remove('border-white/20');
+                    }
+                });
+
+                dropdownOptions.forEach(option => {
+                    option.addEventListener('click', function() {
+                        const value = this.getAttribute('data-value');
+                        const text = this.innerText;
+
+                        dropdownSelectedText.innerText = text;
+                        inquiryTypeInput.value = value;
+                        
+                        dropdownOptions.forEach(opt => opt.classList.remove('text-gold', 'bg-[#151515]'));
+                        this.classList.add('text-gold', 'bg-[#151515]');
+
+                        closeDropdown();
+                    });
+                });
+
+                document.addEventListener('click', function(e) {
+                    if (!dropdownContainer.contains(e.target)) {
+                        closeDropdown();
+                    }
+                });
+
+                function closeDropdown() {
+                    dropdownPanel.classList.add('opacity-0', 'invisible', '-translate-y-2');
+                    dropdownPanel.classList.remove('opacity-100', 'translate-y-0');
+                    dropdownIcon.classList.remove('rotate-180');
+                    dropdownTrigger.classList.remove('border-gold');
+                    dropdownTrigger.classList.add('border-white/20');
+                }
+            }
+
+            const bioToggleBtn = document.getElementById('bio-toggle-btn');
+            const bioToggleText = document.getElementById('bio-toggle-text');
+            const extendedBio = document.getElementById('extended-bio');
+
+            if (bioToggleBtn && extendedBio) {
+                bioToggleBtn.addEventListener('click', function() {
+                    const isHidden = extendedBio.classList.contains('hidden');
+                    
+                    if (isHidden) {
+                        extendedBio.classList.remove('hidden');
+                        setTimeout(() => {
+                            extendedBio.classList.remove('opacity-0');
+                            extendedBio.classList.add('opacity-100');
+                        }, 20);
+                        bioToggleText.innerText = 'Show Less';
+                    } else {
+                        extendedBio.classList.remove('opacity-100');
+                        extendedBio.classList.add('opacity-0');
+                        setTimeout(() => {
+                            extendedBio.classList.add('hidden');
+                        }, 700);
+                        bioToggleText.innerText = 'Read Full Biography';
+                    }
+                });
+            }
+
+            const form = document.getElementById('inquiry-form');
+            const submitBtn = document.getElementById('submit-btn');
+            const successMsg = document.getElementById('form-success-msg');
+            const errorMsg = document.getElementById('form-error-msg');
+
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const cooldownPeriod = 3600000; 
+                    const lastSubmission = localStorage.getItem('lastInquirySubmission');
+                    
+                    if (lastSubmission && (Date.now() - parseInt(lastSubmission)) < cooldownPeriod) {
+                        errorMsg.innerText = 'Please wait 1 hour before submitting again.';
+                        errorMsg.classList.remove('text-gold');
+                        errorMsg.classList.add('text-red-500/80');
+                        errorMsg.classList.remove('hidden');
+                        setTimeout(() => {
+                            errorMsg.classList.add('hidden');
+                        }, 5000);
+                        return;
+                    }
+                    
+                    const originalText = submitBtn.innerText;
+                    submitBtn.innerText = 'SENDING...';
+                    submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                    submitBtn.disabled = true;
+
+                    const formData = new FormData(form);
+
+                    fetch('https://formsubmit.co/ajax/liyiyi0411@gmail.com', {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json'
+                        },
+                        body: formData
+                    })
+                    .then(response => {
+                        return response.json();
+                    })
+                    .then(data => {
+                        if(data.success) {
+                            form.reset();
+                            localStorage.setItem('lastInquirySubmission', Date.now());
+                            
+                            submitBtn.innerText = originalText;
+                            submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                            submitBtn.disabled = false;
+                            
+                            successMsg.classList.remove('hidden');
+                            successMsg.classList.add('animate-pulse');
+                            
+                            setTimeout(() => {
+                                successMsg.classList.add('hidden');
+                                successMsg.classList.remove('animate-pulse');
+                            }, 5000);
+                        } else {
+                            throw new Error('FormSubmit returned success: false');
+                        }
+                    })
+                    .catch(error => {
+                        console.warn('Submission network issue (likely firewall blocking response):', error);
+                        submitBtn.innerText = 'NETWORK ISSUE';
+                        
+                        errorMsg.innerText = 'Network unstable. If we do not reply, please contact via WeChat.';
+                        errorMsg.classList.remove('text-red-500/80');
+                        errorMsg.classList.add('text-gold');
+                        errorMsg.classList.remove('hidden');
+                        
+                        submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                        submitBtn.disabled = false;
+                        
+                        setTimeout(() => {
+                            submitBtn.innerText = originalText;
+                        }, 4000);
+
+                        setTimeout(() => {
+                            errorMsg.classList.add('hidden');
+                            setTimeout(() => {
+                                errorMsg.innerText = 'Please wait 1 hour before submitting again.';
+                                errorMsg.classList.remove('text-gold');
+                                errorMsg.classList.add('text-red-500/80');
+                            }, 500);
+                        }, 8000);
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>
