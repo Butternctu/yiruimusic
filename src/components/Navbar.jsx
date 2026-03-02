@@ -53,14 +53,16 @@ const Navbar = () => {
             onClick={toggleMobileMenu}
             className="md:hidden text-gray-300 hover:text-gold focus:outline-none transition-colors relative z-50"
           >
-            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            <span className="transition-all duration-300">
+              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </span>
           </button>
         </div>
       </header>
 
       {/* Mobile Menu Overlay */}
       <div
-        className={`fixed inset-0 bg-dark-900/98 backdrop-blur-xl z-40 flex flex-col items-center justify-center transition-opacity duration-500 ${
+        className={`fixed inset-0 bg-dark-900/98 backdrop-blur-xl z-40 flex flex-col items-center justify-center transition-all duration-500 ${
           isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
       >
