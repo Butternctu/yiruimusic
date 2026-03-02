@@ -18,6 +18,28 @@
 
     <link rel="canonical" href="https://yiruimusic.com/">
 
+    <!-- SPA Redirect Recovery Script -->
+    <script type="text/javascript">
+      (function(l) {
+        if (l.search[1] === 'p') {
+          var decoded = l.search.slice(1).split('&').map(function(s) { 
+            return s.replace(/~and~/g, '&') 
+          }).reduce(function(obj, p) {
+            var kv = p.split('=');
+            obj[kv[0]] = kv[1];
+            return obj;
+          }, {});
+          if (decoded.p !== undefined) {
+            window.history.replaceState(null, null,
+              l.pathname.slice(0, -1) + (decoded.p || '') +
+              (decoded.q ? ('?' + decoded.q) : '') +
+              l.hash
+            );
+          }
+        }
+      }(window.location))
+    </script>
+
     <!-- Structured Data for Google Site Name -->
     <script type="application/ld+json">
     {
