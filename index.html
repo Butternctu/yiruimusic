@@ -2,7 +2,6 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <!-- Google Fonts -->
@@ -10,8 +9,85 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
     
-    <title>yiruimusic_react</title>
-  </head>
+    <title>Dr. Yirui Li, Harpist & Educator | Houston, Texas</title>
+
+    <meta name="description" content="Official portfolio of Dr. Yirui Li — professional harpist and educator in Houston, Texas. Explore biography, performances, masterclasses, academic work on performance anxiety, and booking contact.">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="author" content="Dr. Yirui Li">
+    <meta name="theme-color"   content="#0a0a0a">
+
+    <link rel="canonical" href="https://yiruimusic.com/">
+
+    <!-- Structured Data for Google Site Name -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Yirui Li, Houston Harpist",
+      "url": "https://yiruimusic.com/"
+    }
+    </script>
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Yirui Li, Houston Harpist">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="Dr. Yirui Li, Harpist & Educator | Houston, Texas">
+    <meta property="og:description" content="Professional harpist and educator. Performances, masterclasses, research, and booking information.">
+    <meta property="og:url" content="https://yiruimusic.com/">
+    <meta property="og:image" content="/yiruimusic/yirui_cover.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Dr. Yirui Li — Harpist & Educator">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Dr. Yirui Li | Harpist & Educator in Houston, Texas">
+    <meta name="twitter:description" content="Official portfolio — performances, masterclasses, research, and booking.">
+    <meta name="twitter:image" content="/yiruimusic/yirui_cover.jpg">
+
+    <!-- Favicon -->
+    <link id="favicon" rel="icon" type="image/png" sizes="32x32" href="/yiruimusic/yirui_logo_black.png">
+    <link id="apple-icon" rel="apple-touch-icon" sizes="180x180" href="/yiruimusic/yirui_logo_black.png">
+    
+    <!-- Dynamic Favicon Corner Rounding Script -->
+    <script>
+        (function() {
+            const img = new Image();
+            img.crossOrigin = "anonymous";
+            img.onload = function() {
+                const canvas = document.createElement('canvas');
+                const size = img.width;
+                canvas.width = size;
+                canvas.height = size;
+                const ctx = canvas.getContext('2d');
+                
+                const radius = size * 0.22; 
+                
+                ctx.beginPath();
+                ctx.moveTo(radius, 0);
+                ctx.lineTo(size - radius, 0);
+                ctx.quadraticCurveTo(size, 0, size, radius);
+                ctx.lineTo(size, size - radius);
+                ctx.quadraticCurveTo(size, size, size - radius, size);
+                ctx.lineTo(radius, size);
+                ctx.quadraticCurveTo(0, size, 0, size - radius);
+                ctx.lineTo(0, radius);
+                ctx.quadraticCurveTo(0, 0, radius, 0);
+                ctx.closePath();
+                ctx.clip();
+                
+                ctx.drawImage(img, 0, 0);
+                
+                const roundedDataUrl = canvas.toDataURL('image/png');
+                document.getElementById('favicon').href = roundedDataUrl;
+                document.getElementById('apple-icon').href = roundedDataUrl;
+            };
+            // Use the original logo URL for script execution since vite bundles might dynamically change
+            img.src = "/yiruimusic/yirui_logo_black.png";
+        })();
+    </script>
+
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>

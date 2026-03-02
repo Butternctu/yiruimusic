@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Youtube, Instagram, Linkedin, MessageSquare } from 'lucide-react';
+import yiruiLogo from '../assets/yirui_logo.png';
 
 const Footer = () => {
   const [copyStatus, setCopyStatus] = useState('harpist11');
@@ -18,7 +19,7 @@ const Footer = () => {
     <footer className="bg-dark-900 pt-24 pb-12 border-t border-white/5 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 md:px-12 flex flex-col items-center">
         <img 
-          src="/assets/yirui_logo.png" 
+          src={yiruiLogo} 
           alt="Dr. Yirui Li Logo" 
           className="h-24 md:h-28 w-auto object-contain mb-10 opacity-80 hover:opacity-100 transition-opacity duration-500"
         />

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import yiruiCover from '../assets/yirui_cover.jpg';
 
 const Hero = () => {
   const [vh, setVh] = useState(window.innerHeight * 0.01);
@@ -13,7 +14,7 @@ const Hero = () => {
   return (
     <section 
       className="relative hero-section flex items-center justify-center bg-parallax"
-      style={{ backgroundImage: 'url("/assets/yirui_cover.jpg")' }}
+      style={{ backgroundImage: `url(${yiruiCover})` }}
     >
       <div className="absolute inset-0 bg-gradient-to-b from-dark-900/80 via-dark-900/60 to-dark-900"></div>
       <div className="absolute inset-0 luxury-lines z-0"></div>

@@ -137,7 +137,7 @@ const Contact = () => {
     submitData.append('_captcha', 'false');
 
     // Make AJAX request to FormSubmit
-    fetch('https://formsubmit.co/ajax/butternctu@gmail.com', {
+    fetch('https://formsubmit.co/ajax/liyiyi0411@gmail.com', {
       method: 'POST',
       headers: {
         'Accept': 'application/json'

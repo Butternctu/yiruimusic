@@ -2,6 +2,10 @@ import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
+import imgOrchestral from '../assets/orchestral-001.jpeg';
+import imgTeaching from '../assets/teaching-001.jpeg';
+import imgRecitals from '../assets/recitals-001.jpeg';
+import imgGig from '../assets/gig-001.jpeg';
 
 const PerformancePreview = () => {
   useIntersectionObserver();
@@ -24,7 +28,7 @@ const PerformancePreview = () => {
           </div>
           <div className="mt-8 md:mt-0">
             <Link to="/portfolio" className="inline-flex items-center text-white text-sm uppercase tracking-[0.1em] hover:text-gold transition-colors group">
-              View All Projects
+              Explore Portfolio
               <ArrowRight className="w-4 h-4 ml-3 group-hover:translate-x-2 transition-transform" />
             </Link>
           </div>
@@ -33,7 +37,7 @@ const PerformancePreview = () => {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 fade-in-section">
           <div className="aspect-[4/5] bg-dark-800 relative overflow-hidden group">
             <img 
-              src="/assets/orchestral-001.jpeg" 
+              src={imgOrchestral} 
               decoding="async" 
               className="absolute inset-0 w-full h-full object-cover object-left opacity-75 group-hover:opacity-100 group-hover:scale-105 origin-left transition-all duration-1000" 
               alt="Dr. Yirui Li Orchestral Engagements" 
@@ -47,7 +51,7 @@ const PerformancePreview = () => {
           
           <div className="aspect-[4/5] bg-dark-800 relative overflow-hidden group">
             <img 
-              src="/assets/teaching-001.jpeg" 
+              src={imgTeaching} 
               decoding="async" 
               className="absolute inset-0 w-full h-full object-cover object-[center_25%] opacity-75 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000" 
               alt="Dr. Yirui Li Masterclasses" 
@@ -61,7 +65,7 @@ const PerformancePreview = () => {
           
           <div className="aspect-[4/5] bg-dark-800 relative overflow-hidden group">
             <img 
-              src="/assets/recitals-001.jpeg" 
+              src={imgRecitals} 
               decoding="async" 
               className="absolute inset-0 w-full h-full object-cover object-[center_20%] scale-125 opacity-75 group-hover:opacity-100 group-hover:scale-[1.3] transition-all duration-1000" 
               alt="Dr. Yirui Li Solo Recitals" 
@@ -75,7 +79,7 @@ const PerformancePreview = () => {
           
           <div className="aspect-[4/5] bg-dark-800 relative overflow-hidden group">
             <img 
-              src="/assets/gig-001.jpeg" 
+              src={imgGig} 
               decoding="async" 
               className="absolute inset-0 w-full h-full object-cover object-[center_25%] opacity-75 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000" 
               alt="Dr. Yirui Li Private Engagements" 

@@ -4,6 +4,10 @@ import Footer from '../components/Footer';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import imgOrchestral from '../assets/orchestral-001.jpeg';
+import imgTeaching from '../assets/teaching-001.jpeg';
+import imgRecitals from '../assets/recitals-001.jpeg';
+import imgGig from '../assets/gig-001.jpeg';
 
 const Portfolio = () => {
   useIntersectionObserver();
@@ -33,7 +37,7 @@ const Portfolio = () => {
           <div className="flex flex-col md:flex-row items-center gap-16 fade-in-section">
             <div className="w-full md:w-1/2">
               <div className="relative group overflow-hidden border border-white/5">
-                <img src="/assets/orchestral-001.jpeg" alt="Orchestral Engagements" className="w-full h-auto aspect-[4/3] object-cover opacity-85 group-hover:opacity-100 group-hover:scale-[1.03] transition-all duration-1000" />
+                <img src={imgOrchestral} alt="Orchestral Engagements" className="w-full h-auto aspect-[4/3] object-cover opacity-85 group-hover:opacity-100 group-hover:scale-[1.03] transition-all duration-1000" />
               </div>
             </div>
             <div className="w-full md:w-1/2">
@@ -55,7 +59,7 @@ const Portfolio = () => {
           <div className="flex flex-col md:flex-row-reverse items-center gap-16 fade-in-section">
             <div className="w-full md:w-1/2">
               <div className="relative group overflow-hidden border border-white/5">
-                <img src="/assets/teaching-001.jpeg" alt="Masterclasses & Mentorship" className="w-full h-auto aspect-[4/3] object-cover object-[center_25%] opacity-85 group-hover:opacity-100 group-hover:scale-[1.03] transition-all duration-1000" />
+                <img src={imgTeaching} alt="Masterclasses & Mentorship" className="w-full h-auto aspect-[4/3] object-cover object-[center_25%] opacity-85 group-hover:opacity-100 group-hover:scale-[1.03] transition-all duration-1000" />
               </div>
             </div>
             <div className="w-full md:w-1/2">
@@ -74,7 +78,7 @@ const Portfolio = () => {
           <div className="flex flex-col md:flex-row items-center gap-16 fade-in-section">
             <div className="w-full md:w-1/2">
               <div className="relative group overflow-hidden border border-white/5">
-                <img src="/assets/recitals-001.jpeg" alt="Solo Recitals" className="w-full h-auto aspect-[4/3] object-cover scale-[1.15] opacity-85 group-hover:opacity-100 group-hover:scale-[1.2] transition-all duration-1000" />
+                <img src={imgRecitals} alt="Solo Recitals" className="w-full h-auto aspect-[4/3] object-cover scale-[1.15] opacity-85 group-hover:opacity-100 group-hover:scale-[1.2] transition-all duration-1000" />
               </div>
             </div>
             <div className="w-full md:w-1/2">
@@ -93,7 +97,7 @@ const Portfolio = () => {
           <div className="flex flex-col md:flex-row-reverse items-center gap-16 fade-in-section">
             <div className="w-full md:w-1/2">
               <div className="relative group overflow-hidden border border-white/5">
-                <img src="/assets/gig-001.jpeg" alt="Private Engagements" className="w-full h-auto aspect-[4/3] object-cover object-[center_35%] opacity-85 group-hover:opacity-100 group-hover:scale-[1.03] transition-all duration-1000" />
+                <img src={imgGig} alt="Private Engagements" className="w-full h-auto aspect-[4/3] object-cover object-[center_35%] opacity-85 group-hover:opacity-100 group-hover:scale-[1.03] transition-all duration-1000" />
               </div>
             </div>
             <div className="w-full md:w-1/2">

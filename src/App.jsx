@@ -5,7 +5,7 @@ import ScrollToHash from './components/ScrollToHash';
 
 function App() {
   return (
-    <Router>
+    <Router basename="/yiruimusic">
       <ScrollToHash />
       <Routes>
         <Route path="/" element={<Home />} />

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
+import yiruiLogo from '../assets/yirui_logo.png';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -34,7 +35,7 @@ const Navbar = () => {
         <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
           <a href="/#" className="flex items-center scroll-link">
             <img
-              src="/assets/yirui_logo.png"
+              src={yiruiLogo}
               alt="Dr. Yirui Li Logo"
               className={`w-auto object-contain transition-all duration-300 ${isScrolled ? 'h-12 md:h-16' : 'h-20 md:h-24'}`}
             />

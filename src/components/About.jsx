@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
+import yiruiSmile from '../assets/yirui_smile.jpg';
 
 const About = () => {
   const [showFullBio, setShowFullBio] = useState(false);
@@ -14,7 +15,7 @@ const About = () => {
         <div className="fade-in-section relative">
           <div className="absolute -inset-4 border border-gold/30 translate-x-4 translate-y-4 hidden md:block z-0"></div>
           <img 
-            src="/assets/yirui_smile.jpg" 
+            src={yiruiSmile} 
             decoding="async"
             alt="Dr. Yirui Li - Professional Harpist and Educator" 
             className="relative z-10 w-full h-auto shadow-2xl object-cover hover:scale-[1.02] opacity-75 hover:opacity-100 transition-all duration-700 aspect-[3/4]"
