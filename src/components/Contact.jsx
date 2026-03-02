@@ -196,7 +196,7 @@ const Contact = () => {
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-12 relative z-10" autoComplete="off">
+        <form onSubmit={handleSubmit} className="space-y-12 relative z-10">
           {/* Honeypot field for bot protection */}
           <input type="text" name="_honey" style={{ display: 'none' }} tabIndex="-1" autoComplete="off" />
           
@@ -208,6 +208,7 @@ const Contact = () => {
                 name="name" 
                 value={formData.name}
                 onChange={handleChange}
+                autoComplete="name"
                 className={`w-full bg-transparent border-b py-3 text-gold placeholder-gray-600 focus:outline-none focus:ring-0 transition-colors ${errors.name ? 'border-[#d9736c]/50' : 'border-white/20 focus:border-gold'}`} 
                 placeholder="Yirui Li"
               />
@@ -224,6 +225,7 @@ const Contact = () => {
                 name="email" 
                 value={formData.email}
                 onChange={handleChange}
+                autoComplete="email"
                 className={`w-full bg-transparent border-b py-3 text-gold placeholder-gray-600 focus:outline-none focus:ring-0 transition-colors ${errors.email ? 'border-[#d9736c]/50' : 'border-white/20 focus:border-gold'}`} 
                 placeholder="email@example.com"
               />

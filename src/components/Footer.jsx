@@ -21,6 +21,7 @@ const Footer = () => {
         <img 
           src={yiruiLogo} 
           alt="Dr. Yirui Li Logo" 
+          style={{ filter: 'brightness(1.1) sepia(100%) hue-rotate(-10deg) saturate(200%)' }}
           className="h-24 md:h-28 w-auto object-contain mb-10 opacity-80 hover:opacity-100 transition-opacity duration-500"
         />
         

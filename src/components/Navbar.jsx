@@ -54,6 +54,7 @@ const Navbar = () => {
             <img
               src={yiruiLogo}
               alt="Dr. Yirui Li Logo"
+              style={{ filter: 'brightness(1.1) sepia(100%) hue-rotate(-10deg) saturate(200%)' }}
               className={`w-auto object-contain transition-all duration-300 ${isScrolled ? 'h-12 md:h-16' : 'h-20 md:h-24'}`}
             />
           </a>
