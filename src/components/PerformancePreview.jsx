@@ -34,8 +34,8 @@ const PerformancePreview = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 fade-in-section">
-          <div className="aspect-[4/5] bg-dark-800 relative overflow-hidden group">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="aspect-[4/5] bg-dark-800 relative overflow-hidden group fade-in-gentle">
             <img 
               src={imgOrchestral} 
               decoding="async" 
@@ -49,7 +49,7 @@ const PerformancePreview = () => {
             </div>
           </div>
           
-          <div className="aspect-[4/5] bg-dark-800 relative overflow-hidden group">
+          <div className="aspect-[4/5] bg-dark-800 relative overflow-hidden group fade-in-gentle">
             <img 
               src={imgTeaching} 
               decoding="async" 
@@ -63,7 +63,7 @@ const PerformancePreview = () => {
             </div>
           </div>
           
-          <div className="aspect-[4/5] bg-dark-800 relative overflow-hidden group">
+          <div className="aspect-[4/5] bg-dark-800 relative overflow-hidden group fade-in-gentle">
             <img 
               src={imgRecitals} 
               decoding="async" 
@@ -77,7 +77,7 @@ const PerformancePreview = () => {
             </div>
           </div>
           
-          <div className="aspect-[4/5] bg-dark-800 relative overflow-hidden group">
+          <div className="aspect-[4/5] bg-dark-800 relative overflow-hidden group fade-in-gentle">
             <img 
               src={imgGig} 
               decoding="async" 

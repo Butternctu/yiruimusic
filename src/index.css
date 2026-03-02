@@ -68,6 +68,16 @@ button, a {
   transform: translate3d(0, 0, 0);
 }
 
+.fade-in-gentle {
+  opacity: 0;
+  transition: opacity 2s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: opacity;
+}
+
+.fade-in-gentle.is-visible {
+  opacity: 1;
+}
+
 @media (max-width: 768px) {
   .fade-in-section {
     transform: none !important;
