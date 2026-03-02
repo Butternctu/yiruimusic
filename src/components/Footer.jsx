@@ -46,7 +46,7 @@ const Footer = () => {
           <span>WeChat</span>
           <span className="w-1 h-1 rounded-full bg-gold/50"></span>
           <span 
-            className="text-gold font-medium select-all cursor-pointer transition-all duration-300 hover:text-white hover:drop-shadow-[0_0_8px_rgba(197,160,89,0.8)]" 
+            className="text-gold font-medium cursor-pointer transition-all duration-300 hover:text-white hover:drop-shadow-[0_0_8px_rgba(197,160,89,0.8)]" 
             title="Click to copy"
             onClick={handleCopyWeChat}
           >

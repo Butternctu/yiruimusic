@@ -186,7 +186,7 @@ const Contact = () => {
             <span className="text-gray-400 font-light text-[11px] tracking-[0.15em] uppercase">
               Direct WeChat: 
               <span 
-                className="text-gold font-medium select-all cursor-pointer transition-all duration-300 hover:text-white hover:drop-shadow-[0_0_8px_rgba(197,160,89,0.8)] ml-1" 
+                className="text-gold font-medium cursor-pointer transition-all duration-300 hover:text-white hover:drop-shadow-[0_0_8px_rgba(197,160,89,0.8)] ml-1" 
                 title="Click to copy"
                 onClick={handleCopyWeChat}
               >
