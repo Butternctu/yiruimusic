@@ -85,12 +85,12 @@ const Navbar = () => {
             closeMobileMenu();
           }
         }}
-        className={`fixed inset-0 z-40 flex flex-col items-center justify-center transition-all duration-500 ease-in-out ${
+        className={`fixed inset-0 z-40 flex flex-col items-center justify-center transition-opacity duration-300 ease-in-out will-change-opacity ${
           isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
       >
-        {/* Layered Glass Background */}
-        <div className="absolute inset-0 bg-dark-900/40 backdrop-blur-3xl"></div>
+        {/* Layered Glass Background - Static blur to prevent animation stutter */}
+        <div className="absolute inset-0 bg-dark-900/40 backdrop-blur-2xl"></div>
         <div className="absolute inset-0 bg-gradient-to-b from-dark-900/60 via-transparent to-dark-900/60"></div>
         <div className="absolute inset-0 luxury-lines z-0 opacity-10"></div>
         
