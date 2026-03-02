@@ -25,13 +25,30 @@ const Navbar = () => {
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
+  const handleMobileLinkClick = (e, targetId) => {
+    e.preventDefault();
+    setIsMobileMenuOpen(false);
+    
+    // Match the 300ms delay from the original index.html script
+    setTimeout(() => {
+      if (targetId === '#') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    }, 300);
+  };
+
   const navClass = `fixed w-full z-50 transition-all duration-300 py-2 border-b ${
     isScrolled ? 'bg-dark-900/95 backdrop-blur-md border-white/10' : 'bg-transparent border-white/5'
   }`;
 
   return (
     <>
-      <header className={navClass}>
+      <header id="main-nav" className={navClass}>
         <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
           <a href="/#" className="flex items-center scroll-link">
             <img
@@ -53,7 +70,7 @@ const Navbar = () => {
             onClick={toggleMobileMenu}
             className="md:hidden text-gray-300 hover:text-gold focus:outline-none transition-colors relative z-50"
           >
-            <span className="transition-all duration-300">
+            <span id="menu-icon-wrapper">
               {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </span>
           </button>
@@ -62,15 +79,16 @@ const Navbar = () => {
 
       {/* Mobile Menu Overlay */}
       <div
-        className={`fixed inset-0 bg-dark-900/98 backdrop-blur-xl z-40 flex flex-col items-center justify-center transition-all duration-500 ${
+        id="mobile-menu"
+        className={`fixed inset-0 bg-dark-900/98 backdrop-blur-xl z-40 flex flex-col items-center justify-center transition-opacity duration-500 ${
           isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
       >
         <nav className="flex flex-col items-center space-y-8 text-sm uppercase tracking-[0.3em] text-gray-300">
-          <a href="/#about" onClick={closeMobileMenu} className="hover:text-gold transition-colors duration-300">About</a>
-          <a href="/#teaching" onClick={closeMobileMenu} className="hover:text-gold transition-colors duration-300">Academic</a>
-          <a href="/#performance" onClick={closeMobileMenu} className="hover:text-gold transition-colors duration-300">Performance</a>
-          <a href="/#contact" onClick={closeMobileMenu} className="hover:text-gold transition-colors duration-300">Contact</a>
+          <a href="#about" onClick={(e) => handleMobileLinkClick(e, '#about')} className="hover:text-gold transition-colors duration-300">About</a>
+          <a href="#teaching" onClick={(e) => handleMobileLinkClick(e, '#teaching')} className="hover:text-gold transition-colors duration-300">Academic</a>
+          <a href="#performance" onClick={(e) => handleMobileLinkClick(e, '#performance')} className="hover:text-gold transition-colors duration-300">Performance</a>
+          <a href="#contact" onClick={(e) => handleMobileLinkClick(e, '#contact')} className="hover:text-gold transition-colors duration-300">Contact</a>
         </nav>
       </div>
     </>
