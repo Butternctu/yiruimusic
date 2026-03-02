@@ -2,14 +2,26 @@ import React, { useEffect, useState } from 'react';
 import yiruiCover from '../assets/yirui_cover.jpg';
 
 const Hero = () => {
-  const [vh, setVh] = useState(window.innerHeight * 0.01);
-
   useEffect(() => {
-    const handleResize = () => setVh(window.innerHeight * 0.01);
+    let lastWidth = window.innerWidth;
+    
+    const updateVh = () => {
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    };
+
+    const handleResize = () => {
+      const currentWidth = window.innerWidth;
+      if (currentWidth !== lastWidth) {
+        updateVh();
+        lastWidth = currentWidth;
+      }
+    };
+
+    updateVh();
     window.addEventListener('resize', handleResize);
-    document.documentElement.style.setProperty('--vh', `${vh}px`);
     return () => window.removeEventListener('resize', handleResize);
-  }, [vh]);
+  }, []);
 
   return (
     <section 
