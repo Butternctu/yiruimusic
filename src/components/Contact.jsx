@@ -205,6 +205,7 @@ const Contact = () => {
               <label className="block text-xs uppercase tracking-[0.1em] text-gray-500 mb-2">Full Name</label>
               <input 
                 type="text" 
+                id="name"
                 name="name" 
                 value={formData.name}
                 onChange={handleChange}
@@ -222,6 +223,7 @@ const Contact = () => {
               <label className="block text-xs uppercase tracking-[0.1em] text-gray-500 mb-2">Email Address</label>
               <input 
                 type="email" 
+                id="email"
                 name="email" 
                 value={formData.email}
                 onChange={handleChange}
