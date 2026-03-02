@@ -116,6 +116,10 @@ button, a {
   scrollbar-width: none; /* Firefox */
 }
 
+.will-change-opacity {
+  will-change: opacity;
+}
+
 @media (max-height: 680px) {
   .scroll-indicator {
     display: none !important;
