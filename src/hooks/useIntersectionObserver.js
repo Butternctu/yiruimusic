@@ -17,7 +17,7 @@ export const useIntersectionObserver = () => {
       });
     }, observerOptions);
 
-    const sections = document.querySelectorAll('.fade-in-section');
+    const sections = document.querySelectorAll('.fade-in-section, .fade-in-gentle');
     sections.forEach(section => {
       observer.observe(section);
     });
