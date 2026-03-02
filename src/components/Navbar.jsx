@@ -51,11 +51,19 @@ const Navbar = () => {
       <header id="main-nav" className={navClass}>
         <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
           <a href="/#" className="flex items-center scroll-link">
-            <img
-              src={yiruiLogo}
-              alt="Dr. Yirui Li Logo"
-              style={{ filter: 'brightness(1.1) sepia(100%) hue-rotate(-10deg) saturate(200%)' }}
-              className={`w-auto object-contain transition-all duration-300 ${isScrolled ? 'h-12 md:h-16' : 'h-20 md:h-24'}`}
+            <div 
+              className={`w-auto bg-gold transition-all duration-300 ${isScrolled ? 'h-12 md:h-16 w-32 md:w-40' : 'h-20 md:h-24 w-48 md:w-56'}`}
+              style={{ 
+                WebkitMaskImage: `url(${yiruiLogo})`,
+                maskImage: `url(${yiruiLogo})`,
+                WebkitMaskRepeat: 'no-repeat',
+                maskRepeat: 'no-repeat',
+                WebkitMaskPosition: 'left center',
+                maskPosition: 'left center',
+                WebkitMaskSize: 'contain',
+                maskSize: 'contain'
+              }}
+              aria-label="Dr. Yirui Li Logo"
             />
           </a>
 

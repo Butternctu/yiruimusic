@@ -18,11 +18,19 @@ const Footer = () => {
   return (
     <footer className="bg-dark-900 pt-24 pb-12 border-t border-white/5 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 md:px-12 flex flex-col items-center">
-        <img 
-          src={yiruiLogo} 
-          alt="Dr. Yirui Li Logo" 
-          style={{ filter: 'brightness(1.1) sepia(100%) hue-rotate(-10deg) saturate(200%)' }}
-          className="h-24 md:h-28 w-auto object-contain mb-10 opacity-80 hover:opacity-100 transition-opacity duration-500"
+        <div 
+          className="h-24 md:h-28 w-64 md:w-72 bg-gold mb-10 opacity-80 hover:opacity-100 transition-all duration-500"
+          style={{ 
+            WebkitMaskImage: `url(${yiruiLogo})`,
+            maskImage: `url(${yiruiLogo})`,
+            WebkitMaskRepeat: 'no-repeat',
+            maskRepeat: 'no-repeat',
+            WebkitMaskPosition: 'center',
+            maskPosition: 'center',
+            WebkitMaskSize: 'contain',
+            maskSize: 'contain'
+          }}
+          aria-label="Dr. Yirui Li Logo"
         />
         
         <div className="flex flex-wrap justify-center items-center gap-6 mb-12">
