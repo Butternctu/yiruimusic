@@ -80,11 +80,12 @@ const Navbar = () => {
       {/* Mobile Menu Overlay */}
       <div
         id="mobile-menu"
-        className={`fixed inset-0 bg-dark-900/98 backdrop-blur-xl z-40 flex flex-col items-center justify-center transition-opacity duration-500 ${
+        className={`fixed inset-0 bg-dark-900/40 backdrop-blur-3xl z-40 flex flex-col items-center justify-center transition-opacity duration-500 ${
           isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
       >
-        <nav className="flex flex-col items-center space-y-8 text-sm uppercase tracking-[0.3em] text-gray-300">
+        <div className="absolute inset-0 luxury-lines z-0 opacity-20"></div>
+        <nav className="relative z-10 flex flex-col items-center space-y-8 text-sm uppercase tracking-[0.3em] text-gray-300">
           <a href="#about" onClick={(e) => handleMobileLinkClick(e, '#about')} className="hover:text-gold transition-colors duration-300">About</a>
           <a href="#teaching" onClick={(e) => handleMobileLinkClick(e, '#teaching')} className="hover:text-gold transition-colors duration-300">Academic</a>
           <a href="#performance" onClick={(e) => handleMobileLinkClick(e, '#performance')} className="hover:text-gold transition-colors duration-300">Performance</a>
