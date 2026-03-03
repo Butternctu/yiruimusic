@@ -46,11 +46,7 @@ const Portfolio = () => {
 
       {/* Quick Jump Subnav */}
       <div className="bg-dark-900 border-b border-white/5 sticky top-[65px] md:top-[81px] z-40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 py-3 md:py-4 relative">
-          
-          {/* Right fade edge for scroll hint on mobile */}
-          <div className="absolute right-0 top-0 bottom-0 w-12 bg-linear-to-l from-dark-900 to-transparent pointer-events-none md:hidden z-10"></div>
-          
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 py-3 md:py-4">
           <nav className="flex space-x-6 md:space-x-10 text-[9px] md:text-[10px] uppercase tracking-[0.15em] md:tracking-[0.2em] text-gray-400 overflow-x-auto whitespace-nowrap scrollbar-hide items-center md:justify-center relative z-0">
             <a href="#orchestral" className="hover:text-gold transition-colors duration-300 shrink-0">Symphonic</a>
             <a href="#teaching" className="hover:text-gold transition-colors duration-300 shrink-0">Mentorship</a>
@@ -156,7 +152,7 @@ const Portfolio = () => {
       {/* Visual Archival / Gallery Section */}
       <section id="gallery" className="py-24 bg-dark-800 relative border-t border-white/5 scroll-mt-20">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
-            <div className="text-center fade-in-section mb-16">
+            <div className="text-center fade-in-section mb-8">
                 <div className="flex items-center justify-center mb-6">
                     <div className="w-12 h-px bg-gold mr-4"></div>
                     <h3 className="text-gold uppercase tracking-[0.2em] text-xs">Behind the Scenes</h3>
