@@ -152,8 +152,8 @@ const Repertoire = () => {
 
             const handleScroll = (e) => {
                 const { scrollTop, clientHeight, scrollHeight } = e.target;
-                // Add a generous buffer (10px) to ensure it triggers when nearly at the bottom
-                setIsAtBottom(scrollTop + clientHeight >= scrollHeight - 10);
+                // Add a very generous buffer (30px) to ensure it triggers when nearly at the bottom on all mobile devices
+                setIsAtBottom(scrollTop + clientHeight >= scrollHeight - 30);
             };
 
             // Reset state when lists change
@@ -164,7 +164,7 @@ const Repertoire = () => {
             return (
                 <div className="relative h-full w-full">
                     <div
-                        className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-2 max-h-[50vh] overflow-y-auto pr-4 custom-scrollbar pb-12 transition-all duration-300"
+                        className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-2 max-h-[50vh] overflow-y-auto pr-4 custom-scrollbar pb-4 transition-all duration-300"
                         onScroll={handleScroll}
                         style={{
                             WebkitMaskImage: isAtBottom ? 'none' : 'linear-gradient(to bottom, black calc(100% - 3rem), transparent 100%)',
