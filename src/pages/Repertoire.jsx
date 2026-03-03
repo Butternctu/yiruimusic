@@ -149,30 +149,42 @@ const Repertoire = () => {
         switch (id) {
             case 'orchestral':
                 return (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-2 max-h-[50vh] overflow-y-auto pr-4 custom-scrollbar">
-                        {renderItems(orchestral.slice(0, 15))}
-                        {renderItems(orchestral.slice(15))}
+                    <div className="relative h-full w-full">
+                        <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-dark-800 to-transparent pointer-events-none z-10"></div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-2 max-h-[50vh] overflow-y-auto pr-4 custom-scrollbar pb-8">
+                            {renderItems(orchestral.slice(0, 15))}
+                            {renderItems(orchestral.slice(15))}
+                        </div>
                     </div>
                 );
             case 'chamber':
                 return (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-2 max-h-[50vh] overflow-y-auto pr-4 custom-scrollbar">
-                        {renderItems(chamber.slice(0, 15))}
-                        {renderItems(chamber.slice(15))}
+                    <div className="relative h-full w-full">
+                        <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-dark-800 to-transparent pointer-events-none z-10"></div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-2 max-h-[50vh] overflow-y-auto pr-4 custom-scrollbar pb-8">
+                            {renderItems(chamber.slice(0, 15))}
+                            {renderItems(chamber.slice(15))}
+                        </div>
                     </div>
                 );
             case 'church':
                 return (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-2 max-h-[50vh] overflow-y-auto pr-4 custom-scrollbar">
-                        {renderItems(church.slice(0, 15))}
-                        {renderItems(church.slice(15))}
+                    <div className="relative h-full w-full">
+                        <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-dark-800 to-transparent pointer-events-none z-10"></div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-2 max-h-[50vh] overflow-y-auto pr-4 custom-scrollbar pb-8">
+                            {renderItems(church.slice(0, 15))}
+                            {renderItems(church.slice(15))}
+                        </div>
                     </div>
                 );
             case 'private':
                 return (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-2 max-h-[50vh] overflow-y-auto pr-4 custom-scrollbar">
-                        {renderItems(privateEngagements.slice(0, 15))}
-                        {renderItems(privateEngagements.slice(15))}
+                    <div className="relative h-full w-full">
+                        <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-dark-800 to-transparent pointer-events-none z-10"></div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-2 max-h-[50vh] overflow-y-auto pr-4 custom-scrollbar pb-8">
+                            {renderItems(privateEngagements.slice(0, 15))}
+                            {renderItems(privateEngagements.slice(15))}
+                        </div>
                     </div>
                 );
             default: return null;
