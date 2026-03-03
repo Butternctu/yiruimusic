@@ -150,9 +150,9 @@ const Portfolio = () => {
       </section>
 
       {/* Visual Archival / Gallery Section */}
-      <section id="gallery" className="py-24 bg-dark-800 relative border-t border-white/5 scroll-mt-20">
+      <section id="gallery" className="py-20 bg-dark-800 relative border-t border-white/5 scroll-mt-20">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
-            <div className="text-center fade-in-section mb-8">
+            <div className="text-center fade-in-section mb-6">
                 <div className="flex items-center justify-center mb-6">
                     <div className="w-12 h-px bg-gold mr-4"></div>
                     <h3 className="text-gold uppercase tracking-[0.2em] text-xs">Behind the Scenes</h3>
@@ -160,7 +160,7 @@ const Portfolio = () => {
                 </div>
                 <h2 className="font-serif text-4xl text-white tracking-wide mb-6">Visual Archival</h2>
                 <p className="text-gray-400 font-light leading-relaxed max-w-2xl mx-auto">
-                    A collection of moments captured during rehearsals, masterclasses, and private engagements, reflecting a lifelong dedication to the art of the harp.
+                    A collection of moments from private engagements, masterclasses, and the stage.
                 </p>
             </div>
             <div className="fade-in-section">
