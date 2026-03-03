@@ -257,6 +257,86 @@ export const repertoireData = {
         {
                 "composer": "Andrès",
                 "piece": "Algues"
+        },
+        {
+                "composer": "Saint-Saëns",
+                "piece": "Le Cygne (The Swan)"
+        },
+        {
+                "composer": "Massenet",
+                "piece": "Méditation from Thaïs"
+        },
+        {
+                "composer": "Ibert",
+                "piece": "Entr'acte (Flute and Harp)"
+        },
+        {
+                "composer": "Donizetti",
+                "piece": "Sonata for Flute and Harp"
+        },
+        {
+                "composer": "Rossini",
+                "piece": "Andante with Variations"
+        },
+        {
+                "composer": "Gluck",
+                "piece": "Dance of the Blessed Spirits"
+        },
+        {
+                "composer": "Bach/Gounod",
+                "piece": "Ave Maria"
+        },
+        {
+                "composer": "Ravel",
+                "piece": "Pavane pour une infante défunte"
+        },
+        {
+                "composer": "Debussy",
+                "piece": "Clair de Lune"
+        },
+        {
+                "composer": "Tournier",
+                "piece": "Images, Op. 35"
+        },
+        {
+                "composer": "Pierné",
+                "piece": "Impromptu-Caprice"
+        },
+        {
+                "composer": "Salzedo",
+                "piece": "Scintillation"
+        },
+        {
+                "composer": "Grandjany",
+                "piece": "Rhapsodie"
+        },
+        {
+                "composer": "Schubert",
+                "piece": "Serenade (Ständchen)"
+        },
+        {
+                "composer": "Traditional",
+                "piece": "Greensleeves"
+        },
+        {
+                "composer": "Bizet",
+                "piece": "Minuet from L'Arlésienne"
+        },
+        {
+                "composer": "Thomas",
+                "piece": "Watching the Wheat"
+        },
+        {
+                "composer": "Hasselmans",
+                "piece": "La Source"
+        },
+        {
+                "composer": "Watkins",
+                "piece": "Fire Dance"
+        },
+        {
+                "composer": "Godefroid",
+                "piece": "Étude de Concert"
         }
 ],
     church: [
