@@ -41,8 +41,8 @@ const Repertoire = () => {
     const SWIPE_THRESHOLD = 30;
 
     const handleSwipeLeft = (e) => {
-        // Must be a deliberate horizontal swipe, and distance must exceed threshold
-        if (Math.abs(e.deltaY) > Math.abs(e.deltaX) || Math.abs(e.deltaX) < SWIPE_THRESHOLD) {
+        // Must be a deliberate horizontal swipe: horizontal distance must be at least 2.5x the vertical distance
+        if (Math.abs(e.deltaX) < SWIPE_THRESHOLD || Math.abs(e.deltaX) < (Math.abs(e.deltaY) * 2.5)) {
             setDragOffset(0);
             return;
         }
@@ -51,8 +51,8 @@ const Repertoire = () => {
     };
 
     const handleSwipeRight = (e) => {
-        // Must be a deliberate horizontal swipe, and distance must exceed threshold
-        if (Math.abs(e.deltaY) > Math.abs(e.deltaX) || Math.abs(e.deltaX) < SWIPE_THRESHOLD) {
+        // Must be a deliberate horizontal swipe: horizontal distance must be at least 2.5x the vertical distance
+        if (Math.abs(e.deltaX) < SWIPE_THRESHOLD || Math.abs(e.deltaX) < (Math.abs(e.deltaY) * 2.5)) {
             setDragOffset(0);
             return;
         }
@@ -64,9 +64,8 @@ const Repertoire = () => {
         onSwipedLeft: (e) => handleSwipeLeft(e),
         onSwipedRight: (e) => handleSwipeRight(e),
         onSwiping: (e) => {
-            // Only trigger horizontal drag preview if the user is swiping horizontally significantly more than vertically
-            // This prevents the carousel from sticking to the finger during messy vertical scrolls
-            if (Math.abs(e.deltaX) > Math.abs(e.deltaY) * 1.5) {
+            // Require a very horizontal trajectory to even preview the drag
+            if (Math.abs(e.deltaX) > Math.abs(e.deltaY) * 2.5) {
                 const dragLimit = centerSpacing * 1.2;
                 if (currentIndex === 0 && e.deltaX > 0) setDragOffset(Math.min(e.deltaX * 0.4, dragLimit));
                 else if (currentIndex === tabs.length - 1 && e.deltaX < 0) setDragOffset(Math.max(e.deltaX * 0.4, -dragLimit));
@@ -76,8 +75,8 @@ const Repertoire = () => {
             }
         },
         onSwiped: () => setDragOffset(0),
-        trackMouse: true,
-        preventDefaultTouchmoveEvent: false, // Set to false to allow browser to handle vertical scrolling
+        trackMouse: false, // Disabling mouse drag helps prevent native scroll momentum conflicts
+        preventDefaultTouchmoveEvent: false, // Allow browser to handle vertical scrolling freely
     });
 
     const getListContent = (id) => {
