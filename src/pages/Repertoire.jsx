@@ -162,7 +162,7 @@ const Repertoire = () => {
                             {renderItems(orchestral.slice(15))}
                         </div>
                         {/* Gradient Mask to indicate more content */}
-                        <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-dark-800 to-transparent pointer-events-none z-10 transition-opacity duration-500"></div>
+                        <div className="absolute -bottom-1 left-0 w-full h-24 bg-gradient-to-t from-dark-800 to-transparent pointer-events-none z-10 transition-opacity duration-500"></div>
                     </div>
                 );
             case 'chamber':
