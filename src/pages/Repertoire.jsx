@@ -43,8 +43,8 @@ const Repertoire = () => {
     const SWIPE_THRESHOLD = 30;
 
     const handleSwipeLeft = (e) => {
-        // Must be a deliberate horizontal swipe: horizontal distance must be at least 2.5x the vertical distance
-        if (Math.abs(e.deltaX) < SWIPE_THRESHOLD || Math.abs(e.deltaX) < (Math.abs(e.deltaY) * 2.5)) {
+        // Must be a primarily horizontal swipe
+        if (Math.abs(e.deltaX) < SWIPE_THRESHOLD || Math.abs(e.deltaX) < (Math.abs(e.deltaY) * 1.5)) {
             setDragOffset(0);
             return;
         }
@@ -53,8 +53,8 @@ const Repertoire = () => {
     };
 
     const handleSwipeRight = (e) => {
-        // Must be a deliberate horizontal swipe: horizontal distance must be at least 2.5x the vertical distance
-        if (Math.abs(e.deltaX) < SWIPE_THRESHOLD || Math.abs(e.deltaX) < (Math.abs(e.deltaY) * 2.5)) {
+        // Must be a primarily horizontal swipe
+        if (Math.abs(e.deltaX) < SWIPE_THRESHOLD || Math.abs(e.deltaX) < (Math.abs(e.deltaY) * 1.5)) {
             setDragOffset(0);
             return;
         }
@@ -66,17 +66,24 @@ const Repertoire = () => {
         onSwipedLeft: (e) => handleSwipeLeft(e),
         onSwipedRight: (e) => handleSwipeRight(e),
         onSwiping: (e) => {
-            // Require a very horizontal trajectory to even preview the drag
-            if (Math.abs(e.deltaX) > Math.abs(e.deltaY) * 2.5) {
+            // Allow slightly sloppy horizontal trajectories
+            if (Math.abs(e.deltaX) > Math.abs(e.deltaY) * 1.2) {
                 const dragLimit = centerSpacing * 1.2;
                 if (currentIndex === 0 && e.deltaX > 0) setDragOffset(Math.min(e.deltaX * 0.4, dragLimit));
                 else if (currentIndex === tabs.length - 1 && e.deltaX < 0) setDragOffset(Math.max(e.deltaX * 0.4, -dragLimit));
                 else setDragOffset(e.deltaX);
-            } else {
+            } else if (dragOffset !== 0) {
                 setDragOffset(0);
             }
         },
-        onSwiped: () => setDragOffset(0),
+        onSwiped: () => {
+            // Guarantee offset resets to 0 when finger leaves screen, regardless of swipe success
+            setDragOffset(0);
+        },
+        onTouchEndOrOnMouseUp: () => {
+            // Fallback: forcefully clear offset if a touch ends abruptly
+            setDragOffset(0);
+        },
         trackMouse: true, // Re-enabled for desktop dragging. The strict delta ratio should prevent momentum conflicts.
         preventDefaultTouchmoveEvent: false, // Allow browser to handle vertical scrolling freely
     });
@@ -146,47 +153,35 @@ const Repertoire = () => {
             { composer: 'Ortiz', piece: 'Milonga para amar' }, { composer: 'Andrès', piece: 'Epices' }, { composer: 'Chertok', piece: 'Around the Clock Suite' }
         ];
 
-        // Scrollable inner component to handle individual list scroll states without re-rendering the whole 3D carousel
-        const ScrollableList = ({ column1, column2 }) => {
-            const [isAtBottom, setIsAtBottom] = React.useState(false);
-
-            const handleScroll = (e) => {
-                const { scrollTop, clientHeight, scrollHeight } = e.target;
-                // Add a very generous buffer (30px) to ensure it triggers when nearly at the bottom on all mobile devices
-                setIsAtBottom(scrollTop + clientHeight >= scrollHeight - 30);
-            };
-
-            // Reset state when lists change
-            React.useEffect(() => {
-                setIsAtBottom(false);
-            }, [column1, column2]);
-
-            return (
-                <div className="relative h-full w-full">
-                    <div
-                        className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-2 max-h-[50vh] overflow-y-auto pr-4 custom-scrollbar pb-4 transition-all duration-300"
-                        onScroll={handleScroll}
-                        style={{
-                            WebkitMaskImage: isAtBottom ? 'none' : 'linear-gradient(to bottom, black calc(100% - 3rem), transparent 100%)',
-                            maskImage: isAtBottom ? 'none' : 'linear-gradient(to bottom, black calc(100% - 3rem), transparent 100%)'
-                        }}
-                    >
-                        {renderItems(column1)}
-                        {renderItems(column2)}
-                    </div>
-                </div>
-            );
-        };
-
         switch (id) {
             case 'orchestral':
-                return <ScrollableList column1={orchestral.slice(0, 15)} column2={orchestral.slice(15)} />;
+                return (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-2 max-h-[50vh] overflow-y-auto pr-4 custom-scrollbar pb-4">
+                        {renderItems(orchestral.slice(0, 15))}
+                        {renderItems(orchestral.slice(15))}
+                    </div>
+                );
             case 'chamber':
-                return <ScrollableList column1={chamber.slice(0, 15)} column2={chamber.slice(15)} />;
+                return (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-2 max-h-[50vh] overflow-y-auto pr-4 custom-scrollbar pb-4">
+                        {renderItems(chamber.slice(0, 15))}
+                        {renderItems(chamber.slice(15))}
+                    </div>
+                );
             case 'church':
-                return <ScrollableList column1={church.slice(0, 15)} column2={church.slice(15)} />;
+                return (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-2 max-h-[50vh] overflow-y-auto pr-4 custom-scrollbar pb-4">
+                        {renderItems(church.slice(0, 15))}
+                        {renderItems(church.slice(15))}
+                    </div>
+                );
             case 'private':
-                return <ScrollableList column1={privateEngagements.slice(0, 15)} column2={privateEngagements.slice(15)} />;
+                return (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-2 max-h-[50vh] overflow-y-auto pr-4 custom-scrollbar pb-4">
+                        {renderItems(privateEngagements.slice(0, 15))}
+                        {renderItems(privateEngagements.slice(15))}
+                    </div>
+                );
             default: return null;
         }
     };
