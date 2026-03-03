@@ -152,8 +152,8 @@ const Repertoire = () => {
 
             const handleScroll = (e) => {
                 const { scrollTop, clientHeight, scrollHeight } = e.target;
-                // Add a small 2px buffer to ensure it triggers
-                setIsAtBottom(scrollTop + clientHeight >= scrollHeight - 2);
+                // Add a generous buffer (10px) to ensure it triggers when nearly at the bottom
+                setIsAtBottom(scrollTop + clientHeight >= scrollHeight - 10);
             };
 
             // Reset state when lists change
@@ -163,15 +163,13 @@ const Repertoire = () => {
 
             return (
                 <div className="relative h-full w-full">
-                    {/* Fade out mask at the bottom - disappears when scrolled to end */}
                     <div
-                        className={`absolute bottom-0 left-0 w-[calc(100%-1rem)] h-20 bg-gradient-to-t from-dark-800 to-transparent pointer-events-none z-10 transition-opacity duration-300 ${isAtBottom ? 'opacity-0' : 'opacity-100'}`}
-                        style={{ paddingRight: '1rem' }}
-                    ></div>
-
-                    <div
-                        className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-2 max-h-[50vh] overflow-y-auto pr-4 custom-scrollbar pb-12"
+                        className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-2 max-h-[50vh] overflow-y-auto pr-4 custom-scrollbar pb-12 transition-all duration-300"
                         onScroll={handleScroll}
+                        style={{
+                            WebkitMaskImage: isAtBottom ? 'none' : 'linear-gradient(to bottom, black calc(100% - 3rem), transparent 100%)',
+                            maskImage: isAtBottom ? 'none' : 'linear-gradient(to bottom, black calc(100% - 3rem), transparent 100%)'
+                        }}
                     >
                         {renderItems(column1)}
                         {renderItems(column2)}
@@ -235,7 +233,7 @@ const Repertoire = () => {
                 </section>
 
                 {/* Repertoire Content - Cover Flow */}
-                <section {...handlers} className="py-12 bg-dark-900 relative cursor-grab active:cursor-grabbing select-none overflow-hidden" style={{ perspective: '1200px', touchAction: 'pan-y' }}>
+                <section {...handlers} className="pt-6 pb-12 bg-dark-900 relative cursor-grab active:cursor-grabbing select-none overflow-hidden" style={{ perspective: '1200px', touchAction: 'pan-y' }}>
                     <div className="grid w-full place-items-center" style={{ transformStyle: 'preserve-3d' }}>
                         {tabs.map((tab, idx) => {
                             const swipeProgress = dragOffset / centerSpacing;
@@ -279,7 +277,7 @@ const Repertoire = () => {
                                         <h2 className={`font-serif text-3xl mb-6 tracking-wide text-center transition-colors duration-500 ${idx === currentIndex ? 'text-white' : 'text-gray-400'}`}>
                                             {tab.title}
                                         </h2>
-                                        <div className="h-[1px] w-24 bg-gold mx-auto opacity-50 mb-10"></div>
+                                        <div className="h-[1px] w-24 bg-gold mx-auto opacity-50 mb-6"></div>
                                         {getListContent(tab.id)}
 
                                         {/* Overlay to darken side items visually */}
