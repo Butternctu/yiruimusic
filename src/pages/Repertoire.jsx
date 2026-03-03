@@ -15,6 +15,16 @@ const Repertoire = () => {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
+    // Reset scroll position of lists when the active tab changes
+    useEffect(() => {
+        const scrollContainers = document.querySelectorAll('.custom-scrollbar');
+        scrollContainers.forEach(container => {
+            // Optional: only reset if it's NOT the currently active tab's container
+            // However, resetting all of them on tab change matches the "fresh start" mental model.
+            container.scrollTop = 0;
+        });
+    }, [activeTab]);
+
     const tabs = [
         { id: 'orchestral', label: 'Orchestral', title: 'Orchestral Works' },
         { id: 'chamber', label: 'Chamber', title: 'Chamber Music' },
@@ -28,28 +38,46 @@ const Repertoire = () => {
     const itemWidth = Math.min(windowWidth, 1024);
     const centerSpacing = itemWidth * 0.35 + (windowWidth > 1024 ? 120 : 60);
 
-    const handleSwipeLeft = () => {
+    const SWIPE_THRESHOLD = 30;
+
+    const handleSwipeLeft = (e) => {
+        // Must be a deliberate horizontal swipe, and distance must exceed threshold
+        if (Math.abs(e.deltaY) > Math.abs(e.deltaX) || Math.abs(e.deltaX) < SWIPE_THRESHOLD) {
+            setDragOffset(0);
+            return;
+        }
         if (currentIndex < tabs.length - 1) setActiveTab(tabs[currentIndex + 1].id);
         setDragOffset(0);
     };
 
-    const handleSwipeRight = () => {
+    const handleSwipeRight = (e) => {
+        // Must be a deliberate horizontal swipe, and distance must exceed threshold
+        if (Math.abs(e.deltaY) > Math.abs(e.deltaX) || Math.abs(e.deltaX) < SWIPE_THRESHOLD) {
+            setDragOffset(0);
+            return;
+        }
         if (currentIndex > 0) setActiveTab(tabs[currentIndex - 1].id);
         setDragOffset(0);
     };
 
     const handlers = useSwipeable({
-        onSwipedLeft: handleSwipeLeft,
-        onSwipedRight: handleSwipeRight,
+        onSwipedLeft: (e) => handleSwipeLeft(e),
+        onSwipedRight: (e) => handleSwipeRight(e),
         onSwiping: (e) => {
-            const dragLimit = centerSpacing * 1.2;
-            if (currentIndex === 0 && e.deltaX > 0) setDragOffset(Math.min(e.deltaX * 0.4, dragLimit));
-            else if (currentIndex === tabs.length - 1 && e.deltaX < 0) setDragOffset(Math.max(e.deltaX * 0.4, -dragLimit));
-            else setDragOffset(e.deltaX);
+            // Only trigger horizontal drag preview if the user is swiping horizontally significantly more than vertically
+            // This prevents the carousel from sticking to the finger during messy vertical scrolls
+            if (Math.abs(e.deltaX) > Math.abs(e.deltaY) * 1.5) {
+                const dragLimit = centerSpacing * 1.2;
+                if (currentIndex === 0 && e.deltaX > 0) setDragOffset(Math.min(e.deltaX * 0.4, dragLimit));
+                else if (currentIndex === tabs.length - 1 && e.deltaX < 0) setDragOffset(Math.max(e.deltaX * 0.4, -dragLimit));
+                else setDragOffset(e.deltaX);
+            } else {
+                setDragOffset(0);
+            }
         },
         onSwiped: () => setDragOffset(0),
         trackMouse: true,
-        preventDefaultTouchmoveEvent: true,
+        preventDefaultTouchmoveEvent: false, // Set to false to allow browser to handle vertical scrolling
     });
 
     const getListContent = (id) => {
@@ -192,7 +220,7 @@ const Repertoire = () => {
                 </section>
 
                 {/* Repertoire Content - Cover Flow */}
-                <section {...handlers} className="py-12 bg-dark-900 relative cursor-grab active:cursor-grabbing select-none overflow-hidden" style={{ perspective: '1200px' }}>
+                <section {...handlers} className="py-12 bg-dark-900 relative cursor-grab active:cursor-grabbing select-none overflow-hidden" style={{ perspective: '1200px', touchAction: 'pan-y' }}>
                     <div className="grid w-full place-items-center" style={{ transformStyle: 'preserve-3d' }}>
                         {tabs.map((tab, idx) => {
                             const swipeProgress = dragOffset / centerSpacing;
