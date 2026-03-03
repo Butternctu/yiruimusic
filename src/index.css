@@ -152,3 +152,13 @@ textarea:-webkit-autofill:active {
   -webkit-text-fill-color: #c5a059 !important;
   caret-color: #c5a059 !important;
 }
+
+/* Fix Safari bug where autofill text color sticks on the placeholder after form reset */
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder {
+  -webkit-text-fill-color: #4b5563; /* Tailwind gray-600 */
+}
+input::placeholder,
+textarea::placeholder {
+  -webkit-text-fill-color: #4b5563; /* Tailwind gray-600 */
+}

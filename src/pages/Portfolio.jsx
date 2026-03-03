@@ -9,6 +9,15 @@ import imgOrchestral from '../assets/orchestral-001.jpeg';
 import imgTeaching from '../assets/teaching-001.jpeg';
 import imgRecitals from '../assets/recitals-001.jpeg';
 import imgGig from '../assets/gig-001.jpeg';
+import imgS1 from '../assets/S__102162443_0.jpg';
+import imgS2 from '../assets/S__102162464_0.jpg';
+import imgS3 from '../assets/S__102162466_0.jpg';
+import imgS4 from '../assets/S__102162467_0.jpg';
+import imgS5 from '../assets/S__102162468_0.jpg';
+import imgS6 from '../assets/S__102162469_0.jpg';
+import PhotoGallery from '../components/PhotoGallery';
+
+const galleryImages = [imgS1, imgS2, imgS3, imgS4, imgS5, imgS6];
 
 const Portfolio = () => {
   useIntersectionObserver();
@@ -43,7 +52,7 @@ const Portfolio = () => {
           <div className="flex flex-col md:flex-row items-center gap-16 fade-in-section">
             <div className="w-full md:w-1/2">
               <div className="relative group overflow-hidden border border-white/5">
-                <img src={imgOrchestral} alt="Orchestral Engagements" className="w-full h-auto aspect-4/3 object-cover opacity-85 group-hover:opacity-100 group-hover:scale-[1.03] transition-all duration-1000" />
+                <img src={imgOrchestral} alt="Orchestral Engagements" className="w-full h-auto aspect-4/3 object-cover opacity-100 md:opacity-85 md:group-hover:opacity-100 md:group-hover:scale-[1.03] transition-all duration-1000" />
               </div>
             </div>
             <div className="w-full md:w-1/2">
@@ -68,7 +77,7 @@ const Portfolio = () => {
           <div className="flex flex-col md:flex-row-reverse items-center gap-16 fade-in-section">
             <div className="w-full md:w-1/2">
               <div className="relative group overflow-hidden border border-white/5">
-                <img src={imgTeaching} alt="Masterclasses & Mentorship" className="w-full h-auto aspect-4/3 object-cover object-[center_25%] opacity-85 group-hover:opacity-100 group-hover:scale-[1.03] transition-all duration-1000" />
+                <img src={imgTeaching} alt="Masterclasses & Mentorship" className="w-full h-auto aspect-4/3 object-cover object-[center_25%] opacity-100 md:opacity-85 md:group-hover:opacity-100 md:group-hover:scale-[1.03] transition-all duration-1000" />
               </div>
             </div>
             <div className="w-full md:w-1/2">
@@ -87,7 +96,7 @@ const Portfolio = () => {
           <div className="flex flex-col md:flex-row items-center gap-16 fade-in-section">
             <div className="w-full md:w-1/2">
               <div className="relative group overflow-hidden border border-white/5">
-                <img src={imgRecitals} alt="Solo Recitals" className="w-full h-auto aspect-4/3 object-cover scale-[1.15] opacity-85 group-hover:opacity-100 group-hover:scale-[1.2] transition-all duration-1000" />
+                <img src={imgRecitals} alt="Solo Recitals" className="w-full h-auto aspect-4/3 object-cover scale-[1.15] opacity-100 md:opacity-85 md:group-hover:opacity-100 md:group-hover:scale-[1.2] transition-all duration-1000" />
               </div>
             </div>
             <div className="w-full md:w-1/2">
@@ -106,7 +115,7 @@ const Portfolio = () => {
           <div className="flex flex-col md:flex-row-reverse items-center gap-16 fade-in-section">
             <div className="w-full md:w-1/2">
               <div className="relative group overflow-hidden border border-white/5">
-                <img src={imgGig} alt="Private Engagements" className="w-full h-auto aspect-4/3 object-cover object-[center_35%] opacity-85 group-hover:opacity-100 group-hover:scale-[1.03] transition-all duration-1000" />
+                <img src={imgGig} alt="Private Engagements" className="w-full h-auto aspect-4/3 object-cover object-[center_35%] opacity-100 md:opacity-85 md:group-hover:opacity-100 md:group-hover:scale-[1.03] transition-all duration-1000" />
               </div>
             </div>
             <div className="w-full md:w-1/2">
@@ -124,6 +133,26 @@ const Portfolio = () => {
             </div>
           </div>
 
+        </div>
+      </section>
+
+      {/* Visual Archival / Gallery Section */}
+      <section className="py-24 bg-dark-800 relative border-t border-white/5">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+            <div className="text-center fade-in-section mb-16">
+                <div className="flex items-center justify-center mb-6">
+                    <div className="w-12 h-px bg-gold mr-4"></div>
+                    <h3 className="text-gold uppercase tracking-[0.2em] text-xs">Behind the Scenes</h3>
+                    <div className="w-12 h-px bg-gold ml-4"></div>
+                </div>
+                <h2 className="font-serif text-4xl text-white tracking-wide mb-6">Visual Archival</h2>
+                <p className="text-gray-400 font-light leading-relaxed max-w-2xl mx-auto">
+                    A collection of moments captured during rehearsals, masterclasses, and private engagements, reflecting a lifelong dedication to the art of the harp.
+                </p>
+            </div>
+            <div className="fade-in-section">
+                <PhotoGallery images={galleryImages} />
+            </div>
         </div>
       </section>
 

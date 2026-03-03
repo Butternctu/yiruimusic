@@ -50,12 +50,12 @@ const PerformancePreview = () => {
             <img
               src={imgOrchestral}
               decoding="async"
-              className="absolute inset-0 w-full h-full object-cover object-left opacity-75 group-hover:opacity-100 group-hover:scale-105 origin-left transition-all duration-1000"
+              className="absolute inset-0 w-full h-full object-cover object-left opacity-100 md:opacity-75 md:group-hover:opacity-100 md:group-hover:scale-105 origin-left transition-all duration-1000"
               alt="Dr. Yirui Li Orchestral Engagements"
             />
             <div className="absolute inset-0 bg-linear-to-t from-dark-900 via-transparent to-transparent opacity-80 pointer-events-none"></div>
-            <div className="absolute bottom-0 left-0 p-4 sm:p-6 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 pointer-events-none">
-              <div className="w-6 sm:w-8 h-px bg-gold mb-2 sm:mb-3 opacity-0 group-hover:opacity-100 transition-opacity delay-300"></div>
+            <div className="absolute bottom-0 left-0 p-4 sm:p-6 w-full transform translate-y-0 md:translate-y-4 md:group-hover:translate-y-0 transition-transform duration-500 pointer-events-none">
+              <div className="w-6 sm:w-8 h-px bg-gold mb-2 sm:mb-3 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity delay-300"></div>
               <span className="block font-serif text-base sm:text-xl text-white tracking-wide">Orchestral</span>
             </div>
           </div>
@@ -64,12 +64,12 @@ const PerformancePreview = () => {
             <img
               src={imgTeaching}
               decoding="async"
-              className="absolute inset-0 w-full h-full object-cover object-[center_25%] opacity-75 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000"
+              className="absolute inset-0 w-full h-full object-cover object-[center_25%] opacity-100 md:opacity-75 md:group-hover:opacity-100 md:group-hover:scale-105 transition-all duration-1000"
               alt="Dr. Yirui Li Masterclasses"
             />
             <div className="absolute inset-0 bg-linear-to-t from-dark-900 via-transparent to-transparent opacity-80 pointer-events-none"></div>
-            <div className="absolute bottom-0 left-0 p-4 sm:p-6 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 pointer-events-none">
-              <div className="w-6 sm:w-8 h-px bg-gold mb-2 sm:mb-3 opacity-0 group-hover:opacity-100 transition-opacity delay-300"></div>
+            <div className="absolute bottom-0 left-0 p-4 sm:p-6 w-full transform translate-y-0 md:translate-y-4 md:group-hover:translate-y-0 transition-transform duration-500 pointer-events-none">
+              <div className="w-6 sm:w-8 h-px bg-gold mb-2 sm:mb-3 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity delay-300"></div>
               <span className="block font-serif text-base sm:text-xl text-white tracking-wide">Mentorship</span>
             </div>
           </div>
@@ -78,12 +78,12 @@ const PerformancePreview = () => {
             <img
               src={imgRecitals}
               decoding="async"
-              className="absolute inset-0 w-full h-full object-cover object-[center_20%] scale-125 opacity-75 group-hover:opacity-100 group-hover:scale-[1.3] transition-all duration-1000"
+              className="absolute inset-0 w-full h-full object-cover object-[center_20%] scale-125 opacity-100 md:opacity-75 md:group-hover:opacity-100 md:group-hover:scale-[1.3] transition-all duration-1000"
               alt="Dr. Yirui Li Solo Recitals"
             />
             <div className="absolute inset-0 bg-linear-to-t from-dark-900 via-transparent to-transparent opacity-80 pointer-events-none"></div>
-            <div className="absolute bottom-0 left-0 p-4 sm:p-6 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 pointer-events-none">
-              <div className="w-6 sm:w-8 h-px bg-gold mb-2 sm:mb-3 opacity-0 group-hover:opacity-100 transition-opacity delay-300"></div>
+            <div className="absolute bottom-0 left-0 p-4 sm:p-6 w-full transform translate-y-0 md:translate-y-4 md:group-hover:translate-y-0 transition-transform duration-500 pointer-events-none">
+              <div className="w-6 sm:w-8 h-px bg-gold mb-2 sm:mb-3 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity delay-300"></div>
               <span className="block font-serif text-base sm:text-xl text-white tracking-wide">Solo Recitals</span>
             </div>
           </div>
@@ -92,12 +92,12 @@ const PerformancePreview = () => {
             <img
               src={imgGig}
               decoding="async"
-              className="absolute inset-0 w-full h-full object-cover object-[center_25%] opacity-75 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000"
+              className="absolute inset-0 w-full h-full object-cover object-[center_25%] opacity-100 md:opacity-75 md:group-hover:opacity-100 md:group-hover:scale-105 transition-all duration-1000"
               alt="Dr. Yirui Li Private Engagements"
             />
             <div className="absolute inset-0 bg-linear-to-t from-dark-900 via-transparent to-transparent opacity-80 pointer-events-none"></div>
-            <div className="absolute bottom-0 left-0 p-4 sm:p-6 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 pointer-events-none">
-              <div className="w-6 sm:w-8 h-px bg-gold mb-2 sm:mb-3 opacity-0 group-hover:opacity-100 transition-opacity delay-300"></div>
+            <div className="absolute bottom-0 left-0 p-4 sm:p-6 w-full transform translate-y-0 md:translate-y-4 md:group-hover:translate-y-0 transition-transform duration-500 pointer-events-none">
+              <div className="w-6 sm:w-8 h-px bg-gold mb-2 sm:mb-3 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity delay-300"></div>
               <span className="block font-serif text-base sm:text-xl text-white tracking-wide">Private Engagements</span>
             </div>
           </div>
