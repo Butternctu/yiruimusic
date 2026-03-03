@@ -22,7 +22,7 @@ const Portfolio = () => {
         <div className="max-w-4xl mx-auto px-6 text-center relative z-10 fade-in-section is-visible">
           <h3 className="text-gold uppercase tracking-[0.2em] text-xs mb-4">Curated Engagements</h3>
           <h1 className="font-serif text-5xl md:text-6xl text-white tracking-wide mb-6">Performance Portfolio</h1>
-          <div className="h-[1px] w-24 bg-gold mx-auto opacity-50 mb-8"></div>
+          <div className="h-px w-24 bg-gold mx-auto opacity-50 mb-8"></div>
           <p className="text-gray-400 font-light leading-relaxed max-w-2xl mx-auto">
             A comprehensive archive of Dr. Yirui Li's global performances, highlighting her versatility across orchestral masterworks, solo recitals, and academic mentorship.
           </p>
@@ -37,21 +37,20 @@ const Portfolio = () => {
           <div className="flex flex-col md:flex-row items-center gap-16 fade-in-section">
             <div className="w-full md:w-1/2">
               <div className="relative group overflow-hidden border border-white/5">
-                <img src={imgOrchestral} alt="Orchestral Engagements" className="w-full h-auto aspect-[4/3] object-cover opacity-85 group-hover:opacity-100 group-hover:scale-[1.03] transition-all duration-1000" />
+                <img src={imgOrchestral} alt="Orchestral Engagements" className="w-full h-auto aspect-4/3 object-cover opacity-85 group-hover:opacity-100 group-hover:scale-[1.03] transition-all duration-1000" />
               </div>
             </div>
             <div className="w-full md:w-1/2">
               <div className="flex items-center mb-4">
-                <div className="w-8 h-[1px] bg-gold mr-4"></div>
+                <div className="w-8 h-px bg-gold mr-4"></div>
                 <h3 className="text-gold uppercase tracking-[0.2em] text-[10px]">Symphonic Repertoire</h3>
               </div>
               <h2 className="font-serif text-3xl text-white mb-6 tracking-wide">Orchestral Engagements</h2>
               <p className="text-gray-400 font-light leading-relaxed mb-6">
                 Dr. Li’s expansive orchestral repertoire spans canonical masterworks and technically demanding modern scores, ranging from Berlioz’s Symphonie Fantastique and Holst’s The Planets to the intricate textures of Stravinsky’s Firebird Suite and Zhou Tian’s Petals of Fire. She has held principal and guest harpist positions with esteemed ensembles, including Orchestra Next, the Eugene Ballet, Vancouver Symphony Orchestra, and the West Texas Symphony, where she served as Principal Harp. Her versatile collaborative career also includes performances with the Skagit Symphony Orchestra, SFA Symphony Orchestra, and the Co-Cathedral of the Sacred Heart in Houston.
               </p>
-              <Link to="/repertoire" className="inline-flex items-center text-white text-xs uppercase tracking-[0.1em] hover:text-gold transition-colors group mt-2 mb-4">
+              <Link to="/repertoire" className="inline-flex items-center justify-center border border-gold text-gold hover:bg-gold hover:text-dark-900 px-10 py-4 tracking-[0.2em] uppercase text-xs transition-all duration-500 min-w-[300px] mt-2 mb-4">
                 View Programs
-                <ArrowRight className="w-4 h-4 ml-3 group-hover:translate-x-2 transition-transform" />
               </Link>
               <p className="text-gray-500 font-light text-sm italic">
                 * Detailed repertoire lists available upon request.
@@ -63,12 +62,12 @@ const Portfolio = () => {
           <div className="flex flex-col md:flex-row-reverse items-center gap-16 fade-in-section">
             <div className="w-full md:w-1/2">
               <div className="relative group overflow-hidden border border-white/5">
-                <img src={imgTeaching} alt="Masterclasses & Mentorship" className="w-full h-auto aspect-[4/3] object-cover object-[center_25%] opacity-85 group-hover:opacity-100 group-hover:scale-[1.03] transition-all duration-1000" />
+                <img src={imgTeaching} alt="Masterclasses & Mentorship" className="w-full h-auto aspect-4/3 object-cover object-[center_25%] opacity-85 group-hover:opacity-100 group-hover:scale-[1.03] transition-all duration-1000" />
               </div>
             </div>
             <div className="w-full md:w-1/2">
               <div className="flex items-center mb-4">
-                <div className="w-8 h-[1px] bg-gold mr-4"></div>
+                <div className="w-8 h-px bg-gold mr-4"></div>
                 <h3 className="text-gold uppercase tracking-[0.2em] text-[10px]">Academic Initiatives</h3>
               </div>
               <h2 className="font-serif text-3xl text-white mb-6 tracking-wide">Masterclasses & Mentorship</h2>
@@ -82,12 +81,12 @@ const Portfolio = () => {
           <div className="flex flex-col md:flex-row items-center gap-16 fade-in-section">
             <div className="w-full md:w-1/2">
               <div className="relative group overflow-hidden border border-white/5">
-                <img src={imgRecitals} alt="Solo Recitals" className="w-full h-auto aspect-[4/3] object-cover scale-[1.15] opacity-85 group-hover:opacity-100 group-hover:scale-[1.2] transition-all duration-1000" />
+                <img src={imgRecitals} alt="Solo Recitals" className="w-full h-auto aspect-4/3 object-cover scale-[1.15] opacity-85 group-hover:opacity-100 group-hover:scale-[1.2] transition-all duration-1000" />
               </div>
             </div>
             <div className="w-full md:w-1/2">
               <div className="flex items-center mb-4">
-                <div className="w-8 h-[1px] bg-gold mr-4"></div>
+                <div className="w-8 h-px bg-gold mr-4"></div>
                 <h3 className="text-gold uppercase tracking-[0.2em] text-[10px]">Featured Performances</h3>
               </div>
               <h2 className="font-serif text-3xl text-white mb-6 tracking-wide">Solo Recitals</h2>
@@ -101,21 +100,20 @@ const Portfolio = () => {
           <div className="flex flex-col md:flex-row-reverse items-center gap-16 fade-in-section">
             <div className="w-full md:w-1/2">
               <div className="relative group overflow-hidden border border-white/5">
-                <img src={imgGig} alt="Private Engagements" className="w-full h-auto aspect-[4/3] object-cover object-[center_35%] opacity-85 group-hover:opacity-100 group-hover:scale-[1.03] transition-all duration-1000" />
+                <img src={imgGig} alt="Private Engagements" className="w-full h-auto aspect-4/3 object-cover object-[center_35%] opacity-85 group-hover:opacity-100 group-hover:scale-[1.03] transition-all duration-1000" />
               </div>
             </div>
             <div className="w-full md:w-1/2">
               <div className="flex items-center mb-4">
-                <div className="w-8 h-[1px] bg-gold mr-4"></div>
+                <div className="w-8 h-px bg-gold mr-4"></div>
                 <h3 className="text-gold uppercase tracking-[0.2em] text-[10px]">Bespoke Events</h3>
               </div>
               <h2 className="font-serif text-3xl text-white mb-6 tracking-wide">Private Engagements</h2>
               <p className="text-gray-400 font-light leading-relaxed mb-6">
                 Beyond the concert hall, Dr. Li curates elegant musical atmospheres for exclusive private events, corporate galas, and luxury weddings across the Houston metropolitan area. Each engagement is tailored with a bespoke repertoire, ranging from classical elegance to contemporary sophistication, designed to elevate the aesthetic and emotional resonance of the occasion. Her professional approach ensures that every performance provides a sophisticated and unforgettable experience for distinguished guests.
               </p>
-              <Link to="/#contact" className="inline-flex items-center text-white text-xs uppercase tracking-[0.1em] hover:text-gold transition-colors group mt-4">
+              <Link to="/#contact" className="inline-flex items-center justify-center border border-gold text-gold hover:bg-gold hover:text-dark-900 px-10 py-4 tracking-[0.2em] uppercase text-xs transition-all duration-500 min-w-[300px] mt-4">
                 Inquire for Booking
-                <ArrowRight className="w-4 h-4 ml-3 group-hover:translate-x-2 transition-transform" />
               </Link>
             </div>
           </div>

@@ -28,7 +28,7 @@ const Hero = () => {
       className="relative hero-section flex items-center justify-center bg-parallax"
       style={{ backgroundImage: `url(${yiruiCover})` }}
     >
-      <div className="absolute inset-0 bg-gradient-to-b from-dark-900/80 via-dark-900/60 to-dark-900"></div>
+      <div className="absolute inset-0 bg-linear-to-b from-dark-900/80 via-dark-900/60 to-dark-900"></div>
       <div className="absolute inset-0 luxury-lines z-0"></div>
 
       <div className="relative z-10 text-center px-6 max-w-4xl mx-auto fade-in-section is-visible w-full">
@@ -50,7 +50,7 @@ const Hero = () => {
       </div>
 
       <div className="absolute bottom-8 md:bottom-12 left-1/2 transform -translate-x-1/2 z-10 pointer-events-none scroll-indicator">
-        <div className="h-16 md:h-20 w-[1px] bg-gradient-to-b from-gold to-transparent mx-auto"></div>
+        <div className="h-16 md:h-20 w-px bg-linear-to-b from-gold to-transparent mx-auto"></div>
       </div>
     </section>
   );

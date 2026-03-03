@@ -114,7 +114,7 @@ const Repertoire = () => {
                             {renderItems(orchestral.slice(Math.ceil(orchestral.length / 2)))}
                         </div>
                         {/* Gradient Mask to indicate more content */}
-                        <div className="absolute -bottom-1 left-0 w-full h-20 bg-gradient-to-t from-dark-800 to-transparent pointer-events-none z-10 transition-opacity duration-500"></div>
+                        <div className="absolute -bottom-1 left-0 w-full h-20 bg-linear-to-t from-dark-800 to-transparent pointer-events-none z-10 transition-opacity duration-500"></div>
                     </div>
                 );
             case 'chamber':
@@ -125,7 +125,7 @@ const Repertoire = () => {
                             {renderItems(chamber.slice(Math.ceil(chamber.length / 2)))}
                         </div>
                         {/* Gradient Mask to indicate more content */}
-                        <div className="absolute -bottom-1 left-0 w-full h-20 bg-gradient-to-t from-dark-800 to-transparent pointer-events-none z-10 transition-opacity duration-500"></div>
+                        <div className="absolute -bottom-1 left-0 w-full h-20 bg-linear-to-t from-dark-800 to-transparent pointer-events-none z-10 transition-opacity duration-500"></div>
                     </div>
                 );
             case 'church':
@@ -136,7 +136,7 @@ const Repertoire = () => {
                             {renderItems(church.slice(Math.ceil(church.length / 2)))}
                         </div>
                         {/* Gradient Mask to indicate more content */}
-                        <div className="absolute -bottom-1 left-0 w-full h-20 bg-gradient-to-t from-dark-800 to-transparent pointer-events-none z-10 transition-opacity duration-500"></div>
+                        <div className="absolute -bottom-1 left-0 w-full h-20 bg-linear-to-t from-dark-800 to-transparent pointer-events-none z-10 transition-opacity duration-500"></div>
                     </div>
                 );
             case 'private':
@@ -147,7 +147,7 @@ const Repertoire = () => {
                             {renderItems(privateEngagements.slice(Math.ceil(privateEngagements.length / 2)))}
                         </div>
                         {/* Gradient Mask to indicate more content */}
-                        <div className="absolute -bottom-1 left-0 w-full h-20 bg-gradient-to-t from-dark-800 to-transparent pointer-events-none z-10 transition-opacity duration-500"></div>
+                        <div className="absolute -bottom-1 left-0 w-full h-20 bg-linear-to-t from-dark-800 to-transparent pointer-events-none z-10 transition-opacity duration-500"></div>
                     </div>
                 );
             default: return null;
@@ -158,14 +158,14 @@ const Repertoire = () => {
         <div className="font-sans text-gray-300 bg-dark-900 antialiased selection:bg-gold selection:text-dark-900 min-h-screen flex flex-col justify-between">
             <Navbar />
 
-            <main className="flex-grow pb-32 overflow-hidden">
+            <main className="grow pb-32 overflow-hidden">
                 {/* Page Header */}
                 <section className="pt-48 pb-16 bg-dark-800 relative border-b border-white/5">
                     <div className="absolute inset-0 luxury-lines z-0 opacity-30"></div>
                     <div className="max-w-4xl mx-auto px-6 text-center relative z-10 fade-in-section is-visible">
                         <h3 className="text-gold uppercase tracking-[0.2em] text-xs mb-4">Complete Music Services</h3>
                         <h1 className="font-serif text-5xl md:text-6xl text-white tracking-wide mb-6">Programs & Repertoire</h1>
-                        <div className="h-[1px] w-24 bg-gold mx-auto opacity-50 mb-8"></div>
+                        <div className="h-px w-24 bg-gold mx-auto opacity-50 mb-8"></div>
                         <p className="text-gray-400 font-light leading-relaxed max-w-2xl mx-auto">
                             A curated selection spanning from canonical orchestral masterworks and intimate chamber music, to elegant selections for church services and bespoke private engagements.
                         </p>
@@ -185,7 +185,7 @@ const Repertoire = () => {
                                 >
                                     {tab.label}
                                     <span
-                                        className={`absolute bottom-[-17px] left-0 w-full h-[1px] bg-gold transition-all duration-500 
+                                        className={`absolute bottom-[-17px] left-0 w-full h-px bg-gold transition-all duration-500 
                                         ${activeTab === tab.id ? 'opacity-100' : 'opacity-0 group-hover:opacity-50'}`}
                                     ></span>
                                 </button>
@@ -236,11 +236,11 @@ const Repertoire = () => {
                                         className="bg-dark-800/90 p-8 md:p-16 border border-white/10 rounded-lg relative h-full w-full shadow-2xl backdrop-blur-sm"
                                         style={{ boxShadow: idx === currentIndex ? '0 25px 50px -12px rgba(0, 0, 0, 0.8)' : '0 10px 30px rgba(0,0,0,0.5)' }}
                                     >
-                                        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-gold to-transparent opacity-30"></div>
+                                        <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-transparent via-gold to-transparent opacity-30"></div>
                                         <h2 className={`font-serif text-3xl mb-6 tracking-wide text-center transition-colors duration-500 ${idx === currentIndex ? 'text-white' : 'text-gray-400'}`}>
                                             {tab.title}
                                         </h2>
-                                        <div className="h-[1px] w-24 bg-gold mx-auto opacity-50 mb-6"></div>
+                                        <div className="h-px w-24 bg-gold mx-auto opacity-50 mb-6"></div>
                                         {getListContent(tab.id)}
 
                                         {/* Overlay to darken side items visually */}
@@ -256,10 +256,10 @@ const Repertoire = () => {
                 </section>
 
                 <section className="bg-dark-900 pb-24 text-center relative z-10">
-                    <p className="text-gray-500 font-light text-sm italic max-w-2xl mx-auto px-6 mb-8">
+                    <p className="text-gray-500 font-light text-sm italic max-w-2xl mx-auto px-6 mb-10">
                         * Comprehensive repertoire lists across all domains are available upon request.
                     </p>
-                    <a href="/#contact" className="inline-block text-gold border border-gold/50 px-8 py-3 hover:bg-gold hover:text-dark-900 transition-all duration-300 rounded-sm uppercase tracking-[0.2em] text-sm hover:scale-105 active:scale-95 shadow-[0_0_15px_rgba(197,160,89,0.1)] hover:shadow-[0_0_25px_rgba(197,160,89,0.3)]">
+                    <a href="/#contact" className="inline-flex items-center justify-center border border-gold text-gold hover:bg-gold hover:text-dark-900 px-10 py-4 tracking-[0.2em] uppercase text-xs transition-all duration-500 min-w-[300px]">
                         Inquire for Booking
                     </a>
                 </section>

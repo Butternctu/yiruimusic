@@ -18,7 +18,7 @@ const PerformancePreview = () => {
         <div className="flex flex-col md:flex-row justify-between items-end mb-20 fade-in-section">
           <div className="max-w-2xl">
             <div className="flex items-center mb-6">
-              <div className="w-12 h-[1px] bg-gold mr-4"></div>
+              <div className="w-12 h-px bg-gold mr-4"></div>
               <h3 className="text-gold uppercase tracking-[0.2em] text-xs">Global Vision</h3>
             </div>
             <h2 className="font-serif text-4xl text-white mb-6 tracking-wide">Performance Portfolio</h2>
@@ -35,7 +35,7 @@ const PerformancePreview = () => {
               <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:translate-x-1 transition-transform" strokeWidth={1.5} />
             </Link>
 
-            <Link to="/repertoire" className="flex items-center justify-between bg-[#C69C5C] text-dark-900 px-3 sm:px-6 py-3 sm:py-4 w-40 sm:w-56 hover:bg-[#b0884d] transition-colors duration-300 group rounded-[2px]">
+            <Link to="/repertoire" className="flex items-center justify-between bg-transparent text-gold border border-gold px-3 sm:px-6 py-3 sm:py-4 w-40 sm:w-56 hover:bg-gold hover:text-dark-900 transition-all duration-300 group rounded-[2px]">
               <div className="flex flex-col items-start leading-tight tracking-[0.15em] font-medium text-[0.6rem] sm:text-xs">
                 <span>VIEW</span>
                 <span>PROGRAMS</span>
@@ -46,58 +46,58 @@ const PerformancePreview = () => {
         </div>
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="aspect-[4/5] bg-dark-800 relative overflow-hidden group fade-in-gentle">
+          <div className="aspect-4/5 bg-dark-800 relative overflow-hidden group fade-in-gentle">
             <img
               src={imgOrchestral}
               decoding="async"
               className="absolute inset-0 w-full h-full object-cover object-left opacity-75 group-hover:opacity-100 group-hover:scale-105 origin-left transition-all duration-1000"
               alt="Dr. Yirui Li Orchestral Engagements"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-dark-900 via-transparent to-transparent opacity-80 pointer-events-none"></div>
+            <div className="absolute inset-0 bg-linear-to-t from-dark-900 via-transparent to-transparent opacity-80 pointer-events-none"></div>
             <div className="absolute bottom-0 left-0 p-4 sm:p-6 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 pointer-events-none">
-              <div className="w-6 sm:w-8 h-[1px] bg-gold mb-2 sm:mb-3 opacity-0 group-hover:opacity-100 transition-opacity delay-300"></div>
+              <div className="w-6 sm:w-8 h-px bg-gold mb-2 sm:mb-3 opacity-0 group-hover:opacity-100 transition-opacity delay-300"></div>
               <span className="block font-serif text-base sm:text-xl text-white tracking-wide">Orchestral</span>
             </div>
           </div>
 
-          <div className="aspect-[4/5] bg-dark-800 relative overflow-hidden group fade-in-gentle">
+          <div className="aspect-4/5 bg-dark-800 relative overflow-hidden group fade-in-gentle">
             <img
               src={imgTeaching}
               decoding="async"
               className="absolute inset-0 w-full h-full object-cover object-[center_25%] opacity-75 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000"
               alt="Dr. Yirui Li Masterclasses"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-dark-900 via-transparent to-transparent opacity-80 pointer-events-none"></div>
+            <div className="absolute inset-0 bg-linear-to-t from-dark-900 via-transparent to-transparent opacity-80 pointer-events-none"></div>
             <div className="absolute bottom-0 left-0 p-4 sm:p-6 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 pointer-events-none">
-              <div className="w-6 sm:w-8 h-[1px] bg-gold mb-2 sm:mb-3 opacity-0 group-hover:opacity-100 transition-opacity delay-300"></div>
+              <div className="w-6 sm:w-8 h-px bg-gold mb-2 sm:mb-3 opacity-0 group-hover:opacity-100 transition-opacity delay-300"></div>
               <span className="block font-serif text-base sm:text-xl text-white tracking-wide">Mentorship</span>
             </div>
           </div>
 
-          <div className="aspect-[4/5] bg-dark-800 relative overflow-hidden group fade-in-gentle">
+          <div className="aspect-4/5 bg-dark-800 relative overflow-hidden group fade-in-gentle">
             <img
               src={imgRecitals}
               decoding="async"
               className="absolute inset-0 w-full h-full object-cover object-[center_20%] scale-125 opacity-75 group-hover:opacity-100 group-hover:scale-[1.3] transition-all duration-1000"
               alt="Dr. Yirui Li Solo Recitals"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-dark-900 via-transparent to-transparent opacity-80 pointer-events-none"></div>
+            <div className="absolute inset-0 bg-linear-to-t from-dark-900 via-transparent to-transparent opacity-80 pointer-events-none"></div>
             <div className="absolute bottom-0 left-0 p-4 sm:p-6 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 pointer-events-none">
-              <div className="w-6 sm:w-8 h-[1px] bg-gold mb-2 sm:mb-3 opacity-0 group-hover:opacity-100 transition-opacity delay-300"></div>
+              <div className="w-6 sm:w-8 h-px bg-gold mb-2 sm:mb-3 opacity-0 group-hover:opacity-100 transition-opacity delay-300"></div>
               <span className="block font-serif text-base sm:text-xl text-white tracking-wide">Solo Recitals</span>
             </div>
           </div>
 
-          <div className="aspect-[4/5] bg-dark-800 relative overflow-hidden group fade-in-gentle">
+          <div className="aspect-4/5 bg-dark-800 relative overflow-hidden group fade-in-gentle">
             <img
               src={imgGig}
               decoding="async"
               className="absolute inset-0 w-full h-full object-cover object-[center_25%] opacity-75 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000"
               alt="Dr. Yirui Li Private Engagements"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-dark-900 via-transparent to-transparent opacity-80 pointer-events-none"></div>
+            <div className="absolute inset-0 bg-linear-to-t from-dark-900 via-transparent to-transparent opacity-80 pointer-events-none"></div>
             <div className="absolute bottom-0 left-0 p-4 sm:p-6 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 pointer-events-none">
-              <div className="w-6 sm:w-8 h-[1px] bg-gold mb-2 sm:mb-3 opacity-0 group-hover:opacity-100 transition-opacity delay-300"></div>
+              <div className="w-6 sm:w-8 h-px bg-gold mb-2 sm:mb-3 opacity-0 group-hover:opacity-100 transition-opacity delay-300"></div>
               <span className="block font-serif text-base sm:text-xl text-white tracking-wide">Private Engagements</span>
             </div>
           </div>

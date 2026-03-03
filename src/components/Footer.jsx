@@ -49,7 +49,7 @@ const Footer = () => {
           </a>
         </div>
         
-        <div className="w-full max-w-sm h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent mb-10"></div>
+        <div className="w-full max-w-sm h-px bg-linear-to-r from-transparent via-white/10 to-transparent mb-10"></div>
         
         <div className="flex items-center space-x-3 mb-10 text-[11px] font-light text-gray-400 tracking-[0.2em] uppercase">
           <span>WeChat</span>
