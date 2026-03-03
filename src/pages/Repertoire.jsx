@@ -34,9 +34,11 @@ const Repertoire = () => {
 
     const currentIndex = tabs.findIndex(tab => tab.id === activeTab);
 
-    // Box width: 100vw on mobile, max 1024px on desktop. Gap between items is 0.
-    const itemWidth = Math.min(windowWidth, 1024);
-    const centerSpacing = itemWidth * 0.35 + (windowWidth > 1024 ? 120 : 60);
+    // Desktop max: 896px (matches max-w-4xl of the header).
+    // Mobile width: exactly windowWidth - 48px, which matches the `px-6` padding (24px * 2) of the text/tab containers above it.
+    const itemWidth = Math.min(windowWidth - 48, 896);
+    // Spacing between cards
+    const centerSpacing = itemWidth * 0.35 + (windowWidth > 896 ? 120 : 40);
 
     const SWIPE_THRESHOLD = 30;
 
@@ -75,7 +77,7 @@ const Repertoire = () => {
             }
         },
         onSwiped: () => setDragOffset(0),
-        trackMouse: false, // Disabling mouse drag helps prevent native scroll momentum conflicts
+        trackMouse: true, // Re-enabled for desktop dragging. The strict delta ratio should prevent momentum conflicts.
         preventDefaultTouchmoveEvent: false, // Allow browser to handle vertical scrolling freely
     });
 
@@ -246,7 +248,7 @@ const Repertoire = () => {
                             return (
                                 <div
                                     key={tab.id}
-                                    className={`col-start-1 row-start-1 px-4 md:px-6 transition-all duration-300 ${absOffset > 0.5 ? 'pointer-events-none' : ''}`}
+                                    className={`col-start-1 row-start-1 transition-all duration-300 ${absOffset > 0.5 ? 'pointer-events-none' : ''}`}
                                     style={{
                                         width: `${itemWidth}px`,
                                         zIndex: Math.round(zIndex),
@@ -256,7 +258,7 @@ const Repertoire = () => {
                                     }}
                                 >
                                     <div
-                                        className="bg-dark-800/90 p-8 md:p-16 border border-white/10 rounded-lg relative h-full max-w-4xl mx-auto shadow-2xl backdrop-blur-sm"
+                                        className="bg-dark-800/90 p-8 md:p-16 border border-white/10 rounded-lg relative h-full w-full shadow-2xl backdrop-blur-sm"
                                         style={{ boxShadow: idx === currentIndex ? '0 25px 50px -12px rgba(0, 0, 0, 0.8)' : '0 10px 30px rgba(0,0,0,0.5)' }}
                                     >
                                         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-gold to-transparent opacity-30"></div>
