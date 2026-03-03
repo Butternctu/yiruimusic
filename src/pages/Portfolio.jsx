@@ -44,12 +44,29 @@ const Portfolio = () => {
         </div>
       </section>
 
+      {/* Quick Jump Subnav */}
+      <div className="bg-dark-900 border-b border-white/5 sticky top-[65px] md:top-[81px] z-40">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 py-3 md:py-4 relative">
+          
+          {/* Right fade edge for scroll hint on mobile */}
+          <div className="absolute right-0 top-0 bottom-0 w-12 bg-linear-to-l from-dark-900 to-transparent pointer-events-none md:hidden z-10"></div>
+          
+          <nav className="flex space-x-6 md:space-x-10 text-[9px] md:text-[10px] uppercase tracking-[0.15em] md:tracking-[0.2em] text-gray-400 overflow-x-auto whitespace-nowrap scrollbar-hide items-center md:justify-center relative z-0">
+            <a href="#orchestral" className="hover:text-gold transition-colors duration-300 shrink-0">Symphonic</a>
+            <a href="#teaching" className="hover:text-gold transition-colors duration-300 shrink-0">Mentorship</a>
+            <a href="#recitals" className="hover:text-gold transition-colors duration-300 shrink-0">Recitals</a>
+            <a href="#engagements" className="hover:text-gold transition-colors duration-300 shrink-0">Private Events</a>
+            <a href="#gallery" className="text-gold font-medium hover:text-white transition-colors duration-300 shrink-0 pr-8 md:pr-0">Gallery</a>
+          </nav>
+        </div>
+      </div>
+
       {/* Portfolio Content (Alternating Layout) */}
       <section className="py-24 bg-dark-900 relative">
         <div className="max-w-7xl mx-auto px-6 md:px-12 space-y-32">
 
           {/* Project 1: Orchestral */}
-          <div className="flex flex-col md:flex-row items-center gap-16 fade-in-section">
+          <div id="orchestral" className="flex flex-col md:flex-row items-center gap-16 fade-in-section scroll-mt-32">
             <div className="w-full md:w-1/2">
               <div className="relative group overflow-hidden border border-white/5">
                 <img src={imgOrchestral} alt="Orchestral Engagements" className="w-full h-auto aspect-4/3 object-cover opacity-100 md:opacity-85 md:group-hover:opacity-100 md:group-hover:scale-[1.03] transition-all duration-1000" />
@@ -74,7 +91,7 @@ const Portfolio = () => {
           </div>
 
           {/* Project 2: Masterclasses (Reversed) */}
-          <div className="flex flex-col md:flex-row-reverse items-center gap-16 fade-in-section">
+          <div id="teaching" className="flex flex-col md:flex-row-reverse items-center gap-16 fade-in-section scroll-mt-32">
             <div className="w-full md:w-1/2">
               <div className="relative group overflow-hidden border border-white/5">
                 <img src={imgTeaching} alt="Masterclasses & Mentorship" className="w-full h-auto aspect-4/3 object-cover object-[center_25%] opacity-100 md:opacity-85 md:group-hover:opacity-100 md:group-hover:scale-[1.03] transition-all duration-1000" />
@@ -93,7 +110,7 @@ const Portfolio = () => {
           </div>
 
           {/* Project 3: Solo Recitals */}
-          <div className="flex flex-col md:flex-row items-center gap-16 fade-in-section">
+          <div id="recitals" className="flex flex-col md:flex-row items-center gap-16 fade-in-section scroll-mt-32">
             <div className="w-full md:w-1/2">
               <div className="relative group overflow-hidden border border-white/5">
                 <img src={imgRecitals} alt="Solo Recitals" className="w-full h-auto aspect-4/3 object-cover scale-[1.15] opacity-100 md:opacity-85 md:group-hover:opacity-100 md:group-hover:scale-[1.2] transition-all duration-1000" />
@@ -112,7 +129,7 @@ const Portfolio = () => {
           </div>
 
           {/* Project 4: Private Engagements (Reversed) */}
-          <div className="flex flex-col md:flex-row-reverse items-center gap-16 fade-in-section">
+          <div id="engagements" className="flex flex-col md:flex-row-reverse items-center gap-16 fade-in-section scroll-mt-32">
             <div className="w-full md:w-1/2">
               <div className="relative group overflow-hidden border border-white/5">
                 <img src={imgGig} alt="Private Engagements" className="w-full h-auto aspect-4/3 object-cover object-[center_35%] opacity-100 md:opacity-85 md:group-hover:opacity-100 md:group-hover:scale-[1.03] transition-all duration-1000" />
@@ -137,7 +154,7 @@ const Portfolio = () => {
       </section>
 
       {/* Visual Archival / Gallery Section */}
-      <section className="py-24 bg-dark-800 relative border-t border-white/5">
+      <section id="gallery" className="py-24 bg-dark-800 relative border-t border-white/5 scroll-mt-20">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
             <div className="text-center fade-in-section mb-16">
                 <div className="flex items-center justify-center mb-6">

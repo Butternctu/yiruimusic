@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Youtube, Instagram, Linkedin, MessageSquare } from 'lucide-react';
+import { Youtube, Instagram, Linkedin, MessageSquare, Facebook } from 'lucide-react';
 import yiruiLogo from '../assets/yirui_logo.png';
 
 const Footer = () => {
@@ -43,6 +43,9 @@ const Footer = () => {
           <a href="https://xhslink.com/m/A1JHHnLKI3C" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-12 h-12 rounded-full border border-white/10 text-gray-400 hover:text-gold hover:border-gold transition-all duration-500 group" aria-label="Xiaohongshu">
             {/* Simple Xiaohongshu icon approximation */}
             <div className="w-5 h-5 bg-current group-hover:scale-110 transition-transform duration-500" style={{WebkitMask: `url('https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/xiaohongshu.svg') center/contain no-repeat`, mask: `url('https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/xiaohongshu.svg') center/contain no-repeat`}}></div>
+          </a>
+          <a href="https://www.facebook.com/share/14a5mkfqpd9/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-12 h-12 rounded-full border border-white/10 text-gray-400 hover:text-gold hover:border-gold transition-all duration-500 group" aria-label="Facebook">
+            <Facebook className="w-5 h-5 stroke-[1.5] group-hover:scale-110 transition-transform duration-500" />
           </a>
           <a href="https://www.linkedin.com/in/yirui-li-14b83b200/" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-12 h-12 rounded-full border border-white/10 text-gray-400 hover:text-gold hover:border-gold transition-all duration-500 group" aria-label="LinkedIn">
             <Linkedin className="w-5 h-5 stroke-[1.5] group-hover:scale-110 transition-transform duration-500" />

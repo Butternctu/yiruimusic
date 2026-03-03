@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
@@ -9,6 +9,30 @@ import imgGig from '../assets/gig-001.jpeg';
 
 const PerformancePreview = () => {
   useIntersectionObserver();
+  const galleryLinkRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('mobile-hover-active');
+          } else {
+            entry.target.classList.remove('mobile-hover-active');
+          }
+        });
+      },
+      {
+        threshold: 0.8, // Require 80% visibility to trigger the hover state naturally on mobile
+      }
+    );
+
+    if (galleryLinkRef.current) {
+      observer.observe(galleryLinkRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <section id="performance" className="py-32 bg-dark-900 relative">
@@ -101,6 +125,20 @@ const PerformancePreview = () => {
               <span className="block font-serif text-base sm:text-xl text-white tracking-wide">Private Engagements</span>
             </div>
           </div>
+        </div>
+
+        <div className="mt-16 text-center flex justify-center w-full">
+          <Link 
+            to="/portfolio#gallery" 
+            ref={galleryLinkRef}
+            className="inline-flex items-center text-xs sm:text-sm text-gray-400 hover:text-white uppercase tracking-[0.2em] transition-colors duration-300 group"
+          >
+            <span className="relative">
+              Explore Visual Archival
+              <span className="absolute -bottom-2 left-0 w-0 h-px bg-gold transition-all duration-1000 group-hover:w-full group-[.mobile-hover-active]:w-full"></span>
+            </span>
+            <ArrowRight className="w-4 h-4 ml-3 group-hover:translate-x-1 group-hover:text-gold group-[.mobile-hover-active]:translate-x-1 group-[.mobile-hover-active]:text-gold transition-all duration-300" strokeWidth={1.5} />
+          </Link>
         </div>
       </div>
     </section>

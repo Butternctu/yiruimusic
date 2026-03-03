@@ -18,13 +18,13 @@ const About = () => {
             src={yiruiSmile} 
             decoding="async"
             alt="Dr. Yirui Li - Professional Harpist and Educator" 
-            className="relative z-10 w-full h-auto shadow-2xl object-cover hover:scale-[1.02] opacity-75 hover:opacity-100 transition-all duration-700 aspect-[3/4]"
+            className="relative z-10 w-full h-auto shadow-2xl object-cover hover:scale-[1.02] opacity-75 hover:opacity-100 transition-all duration-700 aspect-3/4"
           />
         </div>
 
         <div className="fade-in-section">
           <div className="flex items-center mb-6">
-            <div className="w-12 h-[1px] bg-gold mr-4"></div>
+            <div className="w-12 h-px bg-gold mr-4"></div>
             <h3 className="text-gold uppercase tracking-[0.2em] text-xs">Biography</h3>
           </div>
           <h2 className="font-serif text-4xl text-white mb-8 tracking-wide">A Legacy of Excellence</h2>
@@ -45,10 +45,10 @@ const About = () => {
           <div className="mt-10">
             <button 
               onClick={toggleBio}
-              className="inline-flex items-center text-white text-sm uppercase tracking-[0.1em] hover:text-gold transition-colors group focus:outline-none"
+              className="inline-flex items-center text-gray-300 text-sm uppercase tracking-widest hover:text-gold transition-colors group focus:outline-none animate-pulse"
             >
               <span>{showFullBio ? 'Show Less' : 'Read Full Biography'}</span>
-              <span className="ml-4 w-8 h-[1px] bg-white group-hover:bg-gold transition-colors"></span>
+              <span className="ml-4 w-8 h-px bg-white group-hover:bg-gold transition-colors"></span>
             </button>
           </div>
         </div>
