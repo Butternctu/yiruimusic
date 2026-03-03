@@ -3,6 +3,8 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 import { useSwipeable } from 'react-swipeable';
+import { repertoireData } from '../data/repertoire';
+
 const Repertoire = () => {
     useIntersectionObserver();
     const [activeTab, setActiveTab] = useState('orchestral');
@@ -101,65 +103,15 @@ const Repertoire = () => {
             </ul>
         );
 
-        const orchestral = [
-            { composer: 'Berlioz', piece: 'Symphonie Fantastique' }, { composer: 'Shostakovich', piece: 'Symphony No.5' }, { composer: 'Zhou Tian', piece: 'Petals of Fire' },
-            { composer: 'Bernstein', piece: 'Symphonic Dances' }, { composer: 'Ravel', piece: 'Le Tombeau de Couperin' }, { composer: 'Holst', piece: 'The Planets' },
-            { composer: 'Mahler', piece: 'Symphony No.1' }, { composer: 'Stravinsky', piece: 'Firebird Suite' }, { composer: 'Wagner', piece: 'Der Fliegende Holländer' },
-            { composer: 'Respighi', piece: 'Pini di Roma' }, { composer: 'Tchaikovsky', piece: 'Swan Lake Suite' }, { composer: 'Brahms', piece: 'Symphony No.4' },
-            { composer: 'Beethoven', piece: 'Symphony No.9' }, { composer: 'Rimsky-Korsakov', piece: 'Scheherazade' }, { composer: 'Strauss', piece: 'Don Juan' },
-            { composer: 'Debussy', piece: 'La Mer' }, { composer: 'Mussorgsky', piece: 'Pictures at an Exhibition' }, { composer: 'Bartók', piece: 'Concerto for Orchestra' },
-            { composer: 'Copland', piece: 'Appalachian Spring' }, { composer: 'Sibelius', piece: 'Symphony No.2' }, { composer: 'Dvořák', piece: 'Symphony No.9' },
-            { composer: 'Elgar', piece: 'Enigma Variations' }, { composer: 'Gershwin', piece: 'An American in Paris' }, { composer: 'Prokofiev', piece: 'Romeo and Juliet' },
-            { composer: 'Rachmaninoff', piece: 'Symphonic Dances' }, { composer: 'Smetana', piece: 'Ma Vlast' }, { composer: 'Vaughan Williams', piece: 'Fantasia on a Theme by Thomas Tallis' },
-            { composer: 'Bruckner', piece: 'Symphony No.7' }, { composer: 'Hindemith', piece: 'Symphonic Metamorphosis' }, { composer: 'Janáček', piece: 'Sinfonietta' }
-        ];
-
-        const chamber = [
-            { composer: 'Debussy', piece: 'Sonata for Flute, Viola and Harp' }, { composer: 'Ravel', piece: 'Introduction and Allegro' }, { composer: 'Jolivet', piece: 'Chant de Linos' },
-            { composer: 'Piazzolla', piece: 'Histoire du Tango' }, { composer: 'Bax', piece: 'Elegiac Trio' }, { composer: 'Ibert', piece: 'Deux Interludes' },
-            { composer: 'Fauré', piece: 'Sicilienne' }, { composer: 'Tournier', piece: 'Suite for Flute, Violin, Viola, Cello and Harp' }, { composer: 'Caplet', piece: 'Conte Fantastique' },
-            { composer: 'Saint-Saëns', piece: 'Fantaisie for Violin and Harp' }, { composer: 'Alwyn', piece: 'Naiades' }, { composer: 'Mozart', piece: 'Concerto for Flute and Harp' },
-            { composer: 'Salzedo', piece: 'Chanson dans la nuit' }, { composer: 'Grandjany', piece: 'Aria in Classic Style' }, { composer: 'Damase', piece: 'Sonata for Flute and Harp' },
-            { composer: 'Persichetti', piece: 'Serenade No. 10' }, { composer: 'Roussel', piece: 'Serenade' }, { composer: 'Cras', piece: 'Quintet for Harp, Flute, and Strings' },
-            { composer: 'Spohr', piece: 'Sonata in C minor' }, { composer: 'Glinka', piece: 'Nocturne' }, { composer: 'Françaix', piece: 'Quintet for Flute, Harp and String Trio' },
-            { composer: 'Brahms', piece: 'Songs for Women\'s Chorus, Two Horns and Harp' }, { composer: 'Britten', piece: 'A Ceremony of Carols' }, { composer: 'Hovhaness', piece: 'Sonata for Flute and Harp' },
-            { composer: 'Rorem', piece: 'Book of Hours' }, { composer: 'Krumpholtz', piece: 'Sonata for Flute and Harp' }, { composer: 'Naderman', piece: 'Sonatas' },
-            { composer: 'Parish Alvars', piece: 'Romances' }, { composer: 'Connesson', piece: 'Toccata' }, { composer: 'Andrès', piece: 'Algues' }
-        ];
-
-        const church = [
-            { composer: 'Bach', piece: 'Jesu, Joy of Man\'s Desiring' }, { composer: 'Schubert', piece: 'Ave Maria' }, { composer: 'Franck', piece: 'Panis Angelicus' },
-            { composer: 'Vaughan Williams', piece: 'Rhosymedre' }, { composer: 'Handel', piece: 'Largo from Xerxes' }, { composer: 'Mendelssohn', piece: 'O Rest in the Lord' },
-            { composer: 'Fauré', piece: 'Pie Jesu' }, { composer: 'Malotte', piece: 'The Lord\'s Prayer' }, { composer: 'Purcell', piece: 'Trumpet Tune' },
-            { composer: 'Clarke', piece: 'Trumpet Voluntary' }, { composer: 'Wagner', piece: 'Bridal Chorus' }, { composer: 'Mendelssohn', piece: 'Wedding March' },
-            { composer: 'Bach', piece: 'Air on the G String' }, { composer: 'Vivaldi', piece: 'Winter (Largo)' }, { composer: 'Bach/Gounod', piece: 'Ave Maria' },
-            { composer: 'Mozart', piece: 'Ave Verum Corpus' }, { composer: 'Traditional', piece: 'Be Thou My Vision' }, { composer: 'Traditional', piece: 'Amazing Grace' },
-            { composer: 'Pachelbel', piece: 'Canon in D' }, { composer: 'Campra', piece: 'Rigaudon' }, { composer: 'Marcello', piece: 'Psalm 19' },
-            { composer: 'Charpentier', piece: 'Te Deum (Prelude)' }, { composer: 'Karg-Elert', piece: 'Nun danket alle Gott' }, { composer: 'Widor', piece: 'Toccata from Symphony No.5' },
-            { composer: 'Buxtehude', piece: 'Prelude, Fugue and Chaconne' }, { composer: 'Vierne', piece: 'Carillon de Westminster' }, { composer: 'Stanley', piece: 'Trumpet Voluntary' },
-            { composer: 'Brahms', piece: 'How Lovely is Thy Dwelling Place' }, { composer: 'Rutter', piece: 'The Lord Bless You and Keep You' }, { composer: 'Tallis', piece: 'If Ye Love Me' }
-        ];
-
-        const privateEngagements = [
-            { composer: 'Debussy', piece: 'Clair de Lune' }, { composer: 'Satie', piece: 'Gymnopédie No. 1' }, { composer: 'Henson-Conant', piece: 'The Nightingale' },
-            { composer: 'Pachelbel', piece: 'Canon in D' }, { composer: 'Mancini', piece: 'Moon River' }, { composer: 'Weiss', piece: 'What a Wonderful World' },
-            { composer: 'Arlen', piece: 'Over the Rainbow' }, { composer: 'Morricone', piece: 'Gabriel\'s Oboe' }, { composer: 'Piazzolla', piece: 'Oblivion' },
-            { composer: 'Einaudi', piece: 'Nuvole Bianche' }, { composer: 'Yiruma', piece: 'River Flows in You' }, { composer: 'Tiersen', piece: 'Comptine d\'un autre été' },
-            { composer: 'Williams', piece: 'Theme from Schindler\'s List' }, { composer: 'Rota', piece: 'Love Theme from The Godfather' }, { composer: 'Horner', piece: 'My Heart Will Go On' },
-            { composer: 'Menken', piece: 'A Whole New World' }, { composer: 'Elton John', piece: 'Can You Feel the Love Tonight' }, { composer: 'Beatles', piece: 'Here Comes the Sun' },
-            { composer: 'Presley', piece: 'Can\'t Help Falling in Love' }, { composer: 'Sinatra', piece: 'Fly Me to the Moon' }, { composer: 'Gershwin', piece: 'Summertime' },
-            { composer: 'Jobim', piece: 'The Girl from Ipanema' }, { composer: 'Piaf', piece: 'La Vie en Rose' }, { composer: 'Traditional', piece: 'Danny Boy' },
-            { composer: 'Traditional', piece: 'Greensleeves' }, { composer: 'O\'Carolan', piece: 'Carolan\'s Concerto' }, { composer: 'Salzedo', piece: 'Tango' },
-            { composer: 'Ortiz', piece: 'Milonga para amar' }, { composer: 'Andrès', piece: 'Epices' }, { composer: 'Chertok', piece: 'Around the Clock Suite' }
-        ];
+        const { orchestral, chamber, church, privateEngagements } = repertoireData;
 
         switch (id) {
             case 'orchestral':
                 return (
                     <div className="relative group/list">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-2 max-h-[50vh] overflow-y-auto pr-4 custom-scrollbar pb-12">
-                            {renderItems(orchestral.slice(0, 15))}
-                            {renderItems(orchestral.slice(15))}
+                            {renderItems(orchestral.slice(0, Math.ceil(orchestral.length / 2)))}
+                            {renderItems(orchestral.slice(Math.ceil(orchestral.length / 2)))}
                         </div>
                         {/* Gradient Mask to indicate more content */}
                         <div className="absolute -bottom-1 left-0 w-full h-20 bg-gradient-to-t from-dark-800 to-transparent pointer-events-none z-10 transition-opacity duration-500"></div>
@@ -169,8 +121,8 @@ const Repertoire = () => {
                 return (
                     <div className="relative group/list">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-2 max-h-[50vh] overflow-y-auto pr-4 custom-scrollbar pb-12">
-                            {renderItems(chamber.slice(0, 15))}
-                            {renderItems(chamber.slice(15))}
+                            {renderItems(chamber.slice(0, Math.ceil(chamber.length / 2)))}
+                            {renderItems(chamber.slice(Math.ceil(chamber.length / 2)))}
                         </div>
                         {/* Gradient Mask to indicate more content */}
                         <div className="absolute -bottom-1 left-0 w-full h-20 bg-gradient-to-t from-dark-800 to-transparent pointer-events-none z-10 transition-opacity duration-500"></div>
@@ -180,8 +132,8 @@ const Repertoire = () => {
                 return (
                     <div className="relative group/list">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-2 max-h-[50vh] overflow-y-auto pr-4 custom-scrollbar pb-12">
-                            {renderItems(church.slice(0, 15))}
-                            {renderItems(church.slice(15))}
+                            {renderItems(church.slice(0, Math.ceil(church.length / 2)))}
+                            {renderItems(church.slice(Math.ceil(church.length / 2)))}
                         </div>
                         {/* Gradient Mask to indicate more content */}
                         <div className="absolute -bottom-1 left-0 w-full h-20 bg-gradient-to-t from-dark-800 to-transparent pointer-events-none z-10 transition-opacity duration-500"></div>
@@ -191,8 +143,8 @@ const Repertoire = () => {
                 return (
                     <div className="relative group/list">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-2 max-h-[50vh] overflow-y-auto pr-4 custom-scrollbar pb-12">
-                            {renderItems(privateEngagements.slice(0, 15))}
-                            {renderItems(privateEngagements.slice(15))}
+                            {renderItems(privateEngagements.slice(0, Math.ceil(privateEngagements.length / 2)))}
+                            {renderItems(privateEngagements.slice(Math.ceil(privateEngagements.length / 2)))}
                         </div>
                         {/* Gradient Mask to indicate more content */}
                         <div className="absolute -bottom-1 left-0 w-full h-20 bg-gradient-to-t from-dark-800 to-transparent pointer-events-none z-10 transition-opacity duration-500"></div>
@@ -304,9 +256,12 @@ const Repertoire = () => {
                 </section>
 
                 <section className="bg-dark-900 pb-24 text-center relative z-10">
-                    <p className="text-gray-500 font-light text-sm italic max-w-2xl mx-auto px-6">
+                    <p className="text-gray-500 font-light text-sm italic max-w-2xl mx-auto px-6 mb-8">
                         * Comprehensive repertoire lists across all domains are available upon request.
                     </p>
+                    <a href="/#contact" className="inline-block text-gold border border-gold/50 px-8 py-3 hover:bg-gold hover:text-dark-900 transition-all duration-300 rounded-sm uppercase tracking-[0.2em] text-sm hover:scale-105 active:scale-95 shadow-[0_0_15px_rgba(197,160,89,0.1)] hover:shadow-[0_0_25px_rgba(197,160,89,0.3)]">
+                        Inquire for Booking
+                    </a>
                 </section>
 
             </main>
