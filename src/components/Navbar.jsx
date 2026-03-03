@@ -25,21 +25,31 @@ const Navbar = () => {
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
-  const handleMobileLinkClick = (e, targetId) => {
-    e.preventDefault();
-    setIsMobileMenuOpen(false);
+  const handleMobileLinkClick = (e, targetPath) => {
+    const isHomepage = window.location.pathname === '/' || window.location.pathname === '';
+    const isHashLink = targetPath.startsWith('/#');
 
-    // Match the 300ms delay from the original index.html script
-    setTimeout(() => {
-      if (targetId === '#') {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      } else {
-        const targetElement = document.querySelector(targetId);
-        if (targetElement) {
-          targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // If we are already on the homepage and clicking a hash link, do smooth scroll
+    if (isHomepage && isHashLink) {
+      e.preventDefault();
+      setIsMobileMenuOpen(false);
+      const targetId = targetPath.substring(1); // Convert '/#about' to '#about'
+
+      setTimeout(() => {
+        if (targetId === '#') {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) {
+            targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
         }
-      }
-    }, 300);
+      }, 300);
+    } else {
+      // If we are on another page (like /repertoire), let the browser navigate normally
+      // We just close the menu so it's not open when they hit the back button later
+      setIsMobileMenuOpen(false);
+    }
   };
 
   const navClass = `fixed w-full z-50 transition-all duration-300 py-2 border-b ${isScrolled ? 'bg-dark-900/95 backdrop-blur-md border-white/10' : 'bg-transparent border-white/5'
@@ -100,11 +110,11 @@ const Navbar = () => {
       >
         <div id="mobile-menu-inner" className="relative z-10 w-full h-full flex flex-col items-center justify-center">
           <nav className="flex flex-col items-center space-y-8 text-sm uppercase tracking-[0.3em] text-gray-300">
-            <a href="#about" onClick={(e) => handleMobileLinkClick(e, '#about')} className="hover:text-gold transition-colors duration-300">About</a>
-            <a href="#teaching" onClick={(e) => handleMobileLinkClick(e, '#teaching')} className="hover:text-gold transition-colors duration-300">Academic</a>
-            <a href="#performance" onClick={(e) => handleMobileLinkClick(e, '#performance')} className="hover:text-gold transition-colors duration-300">Performance</a>
-            <a href="/repertoire" onClick={(e) => { setIsMobileMenuOpen(false); }} className="hover:text-gold transition-colors duration-300">Programs</a>
-            <a href="#contact" onClick={(e) => handleMobileLinkClick(e, '#contact')} className="text-gold border border-gold/50 px-6 py-3 hover:bg-gold hover:text-dark-900 transition-all duration-300 rounded-sm">Contact</a>
+            <a href="/#about" onClick={(e) => handleMobileLinkClick(e, '/#about')} className="hover:text-gold transition-colors duration-300">About</a>
+            <a href="/#teaching" onClick={(e) => handleMobileLinkClick(e, '/#teaching')} className="hover:text-gold transition-colors duration-300">Academic</a>
+            <a href="/#performance" onClick={(e) => handleMobileLinkClick(e, '/#performance')} className="hover:text-gold transition-colors duration-300">Performance</a>
+            <a href="/repertoire" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-gold transition-colors duration-300">Programs</a>
+            <a href="/#contact" onClick={(e) => handleMobileLinkClick(e, '/#contact')} className="text-gold border border-gold/50 px-6 py-3 hover:bg-gold hover:text-dark-900 transition-all duration-300 rounded-sm">Contact</a>
           </nav>
         </div>
       </div>
