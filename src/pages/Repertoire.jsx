@@ -162,7 +162,7 @@ const Repertoire = () => {
                             {renderItems(orchestral.slice(15))}
                         </div>
                         {/* Gradient Mask to indicate more content */}
-                        <div className="absolute -bottom-1 left-0 w-full h-24 bg-gradient-to-t from-dark-800 to-transparent pointer-events-none z-10 transition-opacity duration-500"></div>
+                        <div className="absolute -bottom-1 left-0 w-full h-20 bg-gradient-to-t from-dark-800 to-transparent pointer-events-none z-10 transition-opacity duration-500"></div>
                     </div>
                 );
             case 'chamber':
@@ -173,7 +173,7 @@ const Repertoire = () => {
                             {renderItems(chamber.slice(15))}
                         </div>
                         {/* Gradient Mask to indicate more content */}
-                        <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-dark-800 to-transparent pointer-events-none z-10 transition-opacity duration-500"></div>
+                        <div className="absolute -bottom-1 left-0 w-full h-20 bg-gradient-to-t from-dark-800 to-transparent pointer-events-none z-10 transition-opacity duration-500"></div>
                     </div>
                 );
             case 'church':
@@ -184,7 +184,7 @@ const Repertoire = () => {
                             {renderItems(church.slice(15))}
                         </div>
                         {/* Gradient Mask to indicate more content */}
-                        <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-dark-800 to-transparent pointer-events-none z-10 transition-opacity duration-500"></div>
+                        <div className="absolute -bottom-1 left-0 w-full h-20 bg-gradient-to-t from-dark-800 to-transparent pointer-events-none z-10 transition-opacity duration-500"></div>
                     </div>
                 );
             case 'private':
@@ -195,7 +195,7 @@ const Repertoire = () => {
                             {renderItems(privateEngagements.slice(15))}
                         </div>
                         {/* Gradient Mask to indicate more content */}
-                        <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-dark-800 to-transparent pointer-events-none z-10 transition-opacity duration-500"></div>
+                        <div className="absolute -bottom-1 left-0 w-full h-20 bg-gradient-to-t from-dark-800 to-transparent pointer-events-none z-10 transition-opacity duration-500"></div>
                     </div>
                 );
             default: return null;
