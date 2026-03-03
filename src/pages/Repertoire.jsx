@@ -146,47 +146,49 @@ const Repertoire = () => {
             { composer: 'Ortiz', piece: 'Milonga para amar' }, { composer: 'Andrès', piece: 'Epices' }, { composer: 'Chertok', piece: 'Around the Clock Suite' }
         ];
 
+        // Scrollable inner component to handle individual list scroll states without re-rendering the whole 3D carousel
+        const ScrollableList = ({ column1, column2 }) => {
+            const [isAtBottom, setIsAtBottom] = React.useState(false);
+
+            const handleScroll = (e) => {
+                const { scrollTop, clientHeight, scrollHeight } = e.target;
+                // Add a small 2px buffer to ensure it triggers
+                setIsAtBottom(scrollTop + clientHeight >= scrollHeight - 2);
+            };
+
+            // Reset state when lists change
+            React.useEffect(() => {
+                setIsAtBottom(false);
+            }, [column1, column2]);
+
+            return (
+                <div className="relative h-full w-full">
+                    {/* Fade out mask at the bottom - disappears when scrolled to end */}
+                    <div
+                        className={`absolute bottom-0 left-0 w-[calc(100%-1rem)] h-20 bg-gradient-to-t from-dark-800 to-transparent pointer-events-none z-10 transition-opacity duration-300 ${isAtBottom ? 'opacity-0' : 'opacity-100'}`}
+                        style={{ paddingRight: '1rem' }}
+                    ></div>
+
+                    <div
+                        className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-2 max-h-[50vh] overflow-y-auto pr-4 custom-scrollbar pb-12"
+                        onScroll={handleScroll}
+                    >
+                        {renderItems(column1)}
+                        {renderItems(column2)}
+                    </div>
+                </div>
+            );
+        };
+
         switch (id) {
             case 'orchestral':
-                return (
-                    <div className="relative h-full w-full">
-                        <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-dark-800 to-transparent pointer-events-none z-10"></div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-2 max-h-[50vh] overflow-y-auto pr-4 custom-scrollbar pb-8">
-                            {renderItems(orchestral.slice(0, 15))}
-                            {renderItems(orchestral.slice(15))}
-                        </div>
-                    </div>
-                );
+                return <ScrollableList column1={orchestral.slice(0, 15)} column2={orchestral.slice(15)} />;
             case 'chamber':
-                return (
-                    <div className="relative h-full w-full">
-                        <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-dark-800 to-transparent pointer-events-none z-10"></div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-2 max-h-[50vh] overflow-y-auto pr-4 custom-scrollbar pb-8">
-                            {renderItems(chamber.slice(0, 15))}
-                            {renderItems(chamber.slice(15))}
-                        </div>
-                    </div>
-                );
+                return <ScrollableList column1={chamber.slice(0, 15)} column2={chamber.slice(15)} />;
             case 'church':
-                return (
-                    <div className="relative h-full w-full">
-                        <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-dark-800 to-transparent pointer-events-none z-10"></div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-2 max-h-[50vh] overflow-y-auto pr-4 custom-scrollbar pb-8">
-                            {renderItems(church.slice(0, 15))}
-                            {renderItems(church.slice(15))}
-                        </div>
-                    </div>
-                );
+                return <ScrollableList column1={church.slice(0, 15)} column2={church.slice(15)} />;
             case 'private':
-                return (
-                    <div className="relative h-full w-full">
-                        <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-dark-800 to-transparent pointer-events-none z-10"></div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-2 max-h-[50vh] overflow-y-auto pr-4 custom-scrollbar pb-8">
-                            {renderItems(privateEngagements.slice(0, 15))}
-                            {renderItems(privateEngagements.slice(15))}
-                        </div>
-                    </div>
-                );
+                return <ScrollableList column1={privateEngagements.slice(0, 15)} column2={privateEngagements.slice(15)} />;
             default: return null;
         }
     };
