@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
 import yiruiLogo from '../assets/yirui_logo.png';
 
 const Navbar = () => {
@@ -59,7 +60,7 @@ const Navbar = () => {
     <>
       <header id="main-nav" className={navClass}>
         <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
-          <a href="/#" className="flex items-center scroll-link">
+          <Link to="/" className="flex items-center scroll-link">
             <div
               className={`bg-gold transition-all duration-300 ${isScrolled ? 'h-12 md:h-16 w-32 md:w-40' : 'h-20 md:h-24 w-48 md:w-56'}`}
               style={{
@@ -74,15 +75,15 @@ const Navbar = () => {
               }}
               aria-label="Dr. Yirui Li Logo"
             />
-          </a>
+          </Link>
 
           {/* Desktop Menu */}
           <nav className="hidden md:flex items-center space-x-10 text-xs uppercase tracking-[0.2em] text-gray-300">
-            <a href="/#about" className="hover:text-gold transition-colors duration-300">About</a>
-            <a href="/#teaching" className="hover:text-gold transition-colors duration-300">Academic</a>
-            <a href="/#performance" className="hover:text-gold transition-colors duration-300">Performance</a>
-            <a href="/repertoire" className="hover:text-gold transition-colors duration-300">Programs</a>
-            <a href="/#contact" className="text-gold border border-gold/50 px-4 py-2 hover:bg-gold hover:text-dark-900 transition-all duration-300 rounded-sm">Contact</a>
+            <Link to="/#about" className="hover:text-gold transition-colors duration-300">About</Link>
+            <Link to="/#teaching" className="hover:text-gold transition-colors duration-300">Academic</Link>
+            <Link to="/#performance" className="hover:text-gold transition-colors duration-300">Performance</Link>
+            <Link to="/repertoire" className="hover:text-gold transition-colors duration-300">Programs</Link>
+            <Link to="/#contact" className="text-gold border border-gold/50 px-4 py-2 hover:bg-gold hover:text-dark-900 transition-all duration-300 rounded-sm">Contact</Link>
           </nav>
 
           <button
@@ -110,11 +111,11 @@ const Navbar = () => {
       >
         <div id="mobile-menu-inner" className="relative z-10 w-full h-full flex flex-col items-center justify-center">
           <nav className="flex flex-col items-center space-y-8 text-sm uppercase tracking-[0.3em] text-gray-300">
-            <a href="/#about" onClick={(e) => handleMobileLinkClick(e, '/#about')} className="hover:text-gold transition-colors duration-300">About</a>
-            <a href="/#teaching" onClick={(e) => handleMobileLinkClick(e, '/#teaching')} className="hover:text-gold transition-colors duration-300">Academic</a>
-            <a href="/#performance" onClick={(e) => handleMobileLinkClick(e, '/#performance')} className="hover:text-gold transition-colors duration-300">Performance</a>
-            <a href="/repertoire" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-gold transition-colors duration-300">Programs</a>
-            <a href="/#contact" onClick={(e) => handleMobileLinkClick(e, '/#contact')} className="text-gold border border-gold/50 px-6 py-3 hover:bg-gold hover:text-dark-900 transition-all duration-300 rounded-sm">Contact</a>
+            <Link to="/#about" onClick={(e) => handleMobileLinkClick(e, '/#about')} className="hover:text-gold transition-colors duration-300">About</Link>
+            <Link to="/#teaching" onClick={(e) => handleMobileLinkClick(e, '/#teaching')} className="hover:text-gold transition-colors duration-300">Academic</Link>
+            <Link to="/#performance" onClick={(e) => handleMobileLinkClick(e, '/#performance')} className="hover:text-gold transition-colors duration-300">Performance</Link>
+            <Link to="/repertoire" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-gold transition-colors duration-300">Programs</Link>
+            <Link to="/#contact" onClick={(e) => handleMobileLinkClick(e, '/#contact')} className="text-gold border border-gold/50 px-6 py-3 hover:bg-gold hover:text-dark-900 transition-all duration-300 rounded-sm">Contact</Link>
           </nav>
         </div>
       </div>
