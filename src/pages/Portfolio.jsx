@@ -55,7 +55,7 @@ const Portfolio = () => {
             <a href="#orchestral" className="hover:text-gold transition-colors duration-300 shrink-0">Symphonic</a>
             <a href="#teaching" className="hover:text-gold transition-colors duration-300 shrink-0">Mentorship</a>
             <a href="#recitals" className="hover:text-gold transition-colors duration-300 shrink-0">Recitals</a>
-            <a href="#engagements" className="hover:text-gold transition-colors duration-300 shrink-0">Private Events</a>
+            <a href="#engagements" className="hover:text-gold transition-colors duration-300 shrink-0">Private</a>
             <a href="#gallery" className="text-gold font-medium hover:text-white transition-colors duration-300 shrink-0 pr-8 md:pr-0">Gallery</a>
           </nav>
         </div>
