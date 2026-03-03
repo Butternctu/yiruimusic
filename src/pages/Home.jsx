@@ -1,4 +1,5 @@
 import React from 'react';
+import SEO from '../components/SEO';
 import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
 import About from '../components/About';
@@ -10,6 +11,7 @@ import Footer from '../components/Footer';
 const Home = () => {
   return (
     <div className="font-sans text-gray-300 bg-dark-900 antialiased selection:bg-gold selection:text-dark-900">
+      <SEO title="Dr. Yirui Li, Harpist & Educator | Houston, Texas" url="/" />
       <Navbar />
       <Hero />
       <About />

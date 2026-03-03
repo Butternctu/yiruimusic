@@ -1,4 +1,5 @@
 import React from 'react';
+import SEO from '../components/SEO';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
@@ -14,6 +15,11 @@ const Portfolio = () => {
 
   return (
     <div className="font-sans text-gray-300 bg-dark-900 antialiased selection:bg-gold selection:text-dark-900">
+      <SEO 
+        title="Performance Portfolio" 
+        description="A comprehensive archive of Dr. Yirui Li's global performances, highlighting her versatility across orchestral masterworks, solo recitals, and academic mentorship."
+        url="/portfolio"
+      />
       <Navbar />
 
       {/* Page Header */}
