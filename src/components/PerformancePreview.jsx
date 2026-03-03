@@ -14,7 +14,7 @@ const PerformancePreview = () => {
     <section id="performance" className="py-32 bg-dark-900 relative">
       <div className="absolute inset-0 luxury-lines z-0 opacity-30"></div>
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-        
+
         <div className="flex flex-col md:flex-row justify-between items-end mb-20 fade-in-section">
           <div className="max-w-2xl">
             <div className="flex items-center mb-6">
@@ -26,21 +26,32 @@ const PerformancePreview = () => {
               Dr. Li's expansive repertoire spans canonical masterworks such as Berlioz's <em>Symphonie Fantastique</em> and Holst's <em>The Planets</em>, alongside contemporary gems. She actively bridges traditions, participating in the World Harp Congress and serving as a certified instructor with the China Orchestra Network.
             </p>
           </div>
-          <div className="mt-8 md:mt-0">
-            <Link to="/portfolio" className="inline-flex items-center text-white text-sm uppercase tracking-[0.1em] hover:text-gold transition-colors group">
-              Explore Portfolio
-              <ArrowRight className="w-4 h-4 ml-3 group-hover:translate-x-2 transition-transform" />
+          <div className="mt-8 md:mt-0 flex flex-row gap-3 sm:gap-6 items-center">
+            <Link to="/portfolio" className="flex items-center justify-between bg-transparent text-white border border-white/20 px-3 sm:px-6 py-3 sm:py-4 w-40 sm:w-56 hover:border-[#C69C5C] hover:text-[#C69C5C] transition-all duration-300 group rounded-[2px]">
+              <div className="flex flex-col items-start leading-tight tracking-[0.15em] font-medium text-[0.6rem] sm:text-xs">
+                <span>EXPLORE</span>
+                <span>PORTFOLIO</span>
+              </div>
+              <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:translate-x-1 transition-transform" strokeWidth={1.5} />
+            </Link>
+
+            <Link to="/repertoire" className="flex items-center justify-between bg-[#C69C5C] text-dark-900 px-3 sm:px-6 py-3 sm:py-4 w-40 sm:w-56 hover:bg-[#b0884d] transition-colors duration-300 group rounded-[2px]">
+              <div className="flex flex-col items-start leading-tight tracking-[0.15em] font-medium text-[0.6rem] sm:text-xs">
+                <span>VIEW</span>
+                <span>PROGRAMS</span>
+              </div>
+              <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:translate-x-1 transition-transform" strokeWidth={1.5} />
             </Link>
           </div>
         </div>
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="aspect-[4/5] bg-dark-800 relative overflow-hidden group fade-in-gentle">
-            <img 
-              src={imgOrchestral} 
-              decoding="async" 
-              className="absolute inset-0 w-full h-full object-cover object-left opacity-75 group-hover:opacity-100 group-hover:scale-105 origin-left transition-all duration-1000" 
-              alt="Dr. Yirui Li Orchestral Engagements" 
+            <img
+              src={imgOrchestral}
+              decoding="async"
+              className="absolute inset-0 w-full h-full object-cover object-left opacity-75 group-hover:opacity-100 group-hover:scale-105 origin-left transition-all duration-1000"
+              alt="Dr. Yirui Li Orchestral Engagements"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-dark-900 via-transparent to-transparent opacity-80 pointer-events-none"></div>
             <div className="absolute bottom-0 left-0 p-4 sm:p-6 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 pointer-events-none">
@@ -48,13 +59,13 @@ const PerformancePreview = () => {
               <span className="block font-serif text-base sm:text-xl text-white tracking-wide">Orchestral</span>
             </div>
           </div>
-          
+
           <div className="aspect-[4/5] bg-dark-800 relative overflow-hidden group fade-in-gentle">
-            <img 
-              src={imgTeaching} 
-              decoding="async" 
-              className="absolute inset-0 w-full h-full object-cover object-[center_25%] opacity-75 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000" 
-              alt="Dr. Yirui Li Masterclasses" 
+            <img
+              src={imgTeaching}
+              decoding="async"
+              className="absolute inset-0 w-full h-full object-cover object-[center_25%] opacity-75 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000"
+              alt="Dr. Yirui Li Masterclasses"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-dark-900 via-transparent to-transparent opacity-80 pointer-events-none"></div>
             <div className="absolute bottom-0 left-0 p-4 sm:p-6 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 pointer-events-none">
@@ -62,13 +73,13 @@ const PerformancePreview = () => {
               <span className="block font-serif text-base sm:text-xl text-white tracking-wide">Mentorship</span>
             </div>
           </div>
-          
+
           <div className="aspect-[4/5] bg-dark-800 relative overflow-hidden group fade-in-gentle">
-            <img 
-              src={imgRecitals} 
-              decoding="async" 
-              className="absolute inset-0 w-full h-full object-cover object-[center_20%] scale-125 opacity-75 group-hover:opacity-100 group-hover:scale-[1.3] transition-all duration-1000" 
-              alt="Dr. Yirui Li Solo Recitals" 
+            <img
+              src={imgRecitals}
+              decoding="async"
+              className="absolute inset-0 w-full h-full object-cover object-[center_20%] scale-125 opacity-75 group-hover:opacity-100 group-hover:scale-[1.3] transition-all duration-1000"
+              alt="Dr. Yirui Li Solo Recitals"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-dark-900 via-transparent to-transparent opacity-80 pointer-events-none"></div>
             <div className="absolute bottom-0 left-0 p-4 sm:p-6 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 pointer-events-none">
@@ -76,13 +87,13 @@ const PerformancePreview = () => {
               <span className="block font-serif text-base sm:text-xl text-white tracking-wide">Solo Recitals</span>
             </div>
           </div>
-          
+
           <div className="aspect-[4/5] bg-dark-800 relative overflow-hidden group fade-in-gentle">
-            <img 
-              src={imgGig} 
-              decoding="async" 
-              className="absolute inset-0 w-full h-full object-cover object-[center_25%] opacity-75 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000" 
-              alt="Dr. Yirui Li Private Engagements" 
+            <img
+              src={imgGig}
+              decoding="async"
+              className="absolute inset-0 w-full h-full object-cover object-[center_25%] opacity-75 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000"
+              alt="Dr. Yirui Li Private Engagements"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-dark-900 via-transparent to-transparent opacity-80 pointer-events-none"></div>
             <div className="absolute bottom-0 left-0 p-4 sm:p-6 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 pointer-events-none">

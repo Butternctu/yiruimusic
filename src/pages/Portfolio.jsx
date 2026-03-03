@@ -32,7 +32,7 @@ const Portfolio = () => {
       {/* Portfolio Content (Alternating Layout) */}
       <section className="py-24 bg-dark-900 relative">
         <div className="max-w-7xl mx-auto px-6 md:px-12 space-y-32">
-          
+
           {/* Project 1: Orchestral */}
           <div className="flex flex-col md:flex-row items-center gap-16 fade-in-section">
             <div className="w-full md:w-1/2">
@@ -49,8 +49,12 @@ const Portfolio = () => {
               <p className="text-gray-400 font-light leading-relaxed mb-6">
                 Dr. Li’s expansive orchestral repertoire spans canonical masterworks and technically demanding modern scores, ranging from Berlioz’s Symphonie Fantastique and Holst’s The Planets to the intricate textures of Stravinsky’s Firebird Suite and Zhou Tian’s Petals of Fire. She has held principal and guest harpist positions with esteemed ensembles, including Orchestra Next, the Eugene Ballet, Vancouver Symphony Orchestra, and the West Texas Symphony, where she served as Principal Harp. Her versatile collaborative career also includes performances with the Skagit Symphony Orchestra, SFA Symphony Orchestra, and the Co-Cathedral of the Sacred Heart in Houston.
               </p>
+              <Link to="/repertoire" className="inline-flex items-center text-white text-xs uppercase tracking-[0.1em] hover:text-gold transition-colors group mt-2 mb-4">
+                View Programs
+                <ArrowRight className="w-4 h-4 ml-3 group-hover:translate-x-2 transition-transform" />
+              </Link>
               <p className="text-gray-500 font-light text-sm italic">
-                * Detailed repertoire lists and upcoming orchestral schedules will be updated continuously.
+                * Detailed repertoire lists available upon request.
               </p>
             </div>
           </div>

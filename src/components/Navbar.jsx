@@ -28,7 +28,7 @@ const Navbar = () => {
   const handleMobileLinkClick = (e, targetId) => {
     e.preventDefault();
     setIsMobileMenuOpen(false);
-    
+
     // Match the 300ms delay from the original index.html script
     setTimeout(() => {
       if (targetId === '#') {
@@ -42,18 +42,17 @@ const Navbar = () => {
     }, 300);
   };
 
-  const navClass = `fixed w-full z-50 transition-all duration-300 py-2 border-b ${
-    isScrolled ? 'bg-dark-900/95 backdrop-blur-md border-white/10' : 'bg-transparent border-white/5'
-  }`;
+  const navClass = `fixed w-full z-50 transition-all duration-300 py-2 border-b ${isScrolled ? 'bg-dark-900/95 backdrop-blur-md border-white/10' : 'bg-transparent border-white/5'
+    }`;
 
   return (
     <>
       <header id="main-nav" className={navClass}>
         <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
           <a href="/#" className="flex items-center scroll-link">
-            <div 
+            <div
               className={`bg-gold transition-all duration-300 ${isScrolled ? 'h-12 md:h-16 w-32 md:w-40' : 'h-20 md:h-24 w-48 md:w-56'}`}
-              style={{ 
+              style={{
                 WebkitMaskImage: `url(${yiruiLogo})`,
                 maskImage: `url(${yiruiLogo})`,
                 WebkitMaskRepeat: 'no-repeat',
@@ -68,11 +67,12 @@ const Navbar = () => {
           </a>
 
           {/* Desktop Menu */}
-          <nav className="hidden md:flex space-x-10 text-xs uppercase tracking-[0.2em] text-gray-300">
+          <nav className="hidden md:flex items-center space-x-10 text-xs uppercase tracking-[0.2em] text-gray-300">
             <a href="/#about" className="hover:text-gold transition-colors duration-300">About</a>
             <a href="/#teaching" className="hover:text-gold transition-colors duration-300">Academic</a>
             <a href="/#performance" className="hover:text-gold transition-colors duration-300">Performance</a>
-            <a href="/#contact" className="hover:text-gold transition-colors duration-300">Contact</a>
+            <a href="/repertoire" className="hover:text-gold transition-colors duration-300">Programs</a>
+            <a href="/#contact" className="text-gold border border-gold/50 px-4 py-2 hover:bg-gold hover:text-dark-900 transition-all duration-300 rounded-sm">Contact</a>
           </nav>
 
           <button
@@ -95,16 +95,16 @@ const Navbar = () => {
             closeMobileMenu();
           }
         }}
-        className={`fixed inset-0 bg-dark-900/30 backdrop-blur-xl z-40 flex flex-col items-center justify-center transition-opacity duration-500 will-change-opacity ${
-          isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-        }`}
+        className={`fixed inset-0 bg-dark-900/30 backdrop-blur-xl z-40 flex flex-col items-center justify-center transition-opacity duration-500 will-change-opacity ${isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+          }`}
       >
         <div id="mobile-menu-inner" className="relative z-10 w-full h-full flex flex-col items-center justify-center">
           <nav className="flex flex-col items-center space-y-8 text-sm uppercase tracking-[0.3em] text-gray-300">
             <a href="#about" onClick={(e) => handleMobileLinkClick(e, '#about')} className="hover:text-gold transition-colors duration-300">About</a>
             <a href="#teaching" onClick={(e) => handleMobileLinkClick(e, '#teaching')} className="hover:text-gold transition-colors duration-300">Academic</a>
             <a href="#performance" onClick={(e) => handleMobileLinkClick(e, '#performance')} className="hover:text-gold transition-colors duration-300">Performance</a>
-            <a href="#contact" onClick={(e) => handleMobileLinkClick(e, '#contact')} className="hover:text-gold transition-colors duration-300">Contact</a>
+            <a href="/repertoire" onClick={(e) => { setIsMobileMenuOpen(false); }} className="hover:text-gold transition-colors duration-300">Programs</a>
+            <a href="#contact" onClick={(e) => handleMobileLinkClick(e, '#contact')} className="text-gold border border-gold/50 px-6 py-3 hover:bg-gold hover:text-dark-900 transition-all duration-300 rounded-sm">Contact</a>
           </nav>
         </div>
       </div>
