@@ -47,12 +47,12 @@ const Portfolio = () => {
       {/* Quick Jump Subnav */}
       <div className="bg-dark-900 border-b border-white/5 sticky top-[65px] md:top-[81px] z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 py-3 md:py-4">
-          <nav className="flex space-x-6 md:space-x-10 text-[9px] md:text-[10px] uppercase tracking-[0.15em] md:tracking-[0.2em] text-gray-400 overflow-x-auto whitespace-nowrap scrollbar-hide items-center md:justify-center relative z-0">
+          <nav className="flex justify-between md:justify-center w-full md:space-x-10 text-[9px] sm:text-[10px] uppercase tracking-widest md:tracking-[0.2em] text-gray-400 overflow-x-auto whitespace-nowrap scrollbar-hide items-center relative z-0">
             <a href="#orchestral" className="hover:text-gold transition-colors duration-300 shrink-0">Symphonic</a>
             <a href="#teaching" className="hover:text-gold transition-colors duration-300 shrink-0">Mentorship</a>
             <a href="#recitals" className="hover:text-gold transition-colors duration-300 shrink-0">Recitals</a>
             <a href="#engagements" className="hover:text-gold transition-colors duration-300 shrink-0">Private</a>
-            <a href="#gallery" className="text-gold font-medium hover:text-white transition-colors duration-300 shrink-0 pr-8 md:pr-0">Gallery</a>
+            <a href="#gallery" className="text-gold font-medium hover:text-white transition-colors duration-300 shrink-0">Gallery</a>
           </nav>
         </div>
       </div>
