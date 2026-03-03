@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
@@ -10,6 +10,7 @@ const Repertoire = () => {
     const [activeTab, setActiveTab] = useState('orchestral');
     const [dragOffset, setDragOffset] = useState(0);
     const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? document.documentElement.clientWidth : 1200);
+    const tabsRef = useRef(null);
 
     useEffect(() => {
         const handleResize = () => setWindowWidth(document.documentElement.clientWidth);
@@ -33,6 +34,20 @@ const Repertoire = () => {
         { id: 'church', label: 'Church', title: 'Church Services' },
         { id: 'private', label: 'Private', title: 'Private Engagements' }
     ];
+
+    const handleTabClick = (id) => {
+        setActiveTab(id);
+        if (tabsRef.current) {
+            const navbarHeight = 80; // approximate height of the fixed navbar
+            const elementPosition = tabsRef.current.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.scrollY - navbarHeight + 16;
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
+        }
+    };
 
     const currentIndex = tabs.findIndex(tab => tab.id === activeTab);
 
@@ -173,13 +188,13 @@ const Repertoire = () => {
                 </section>
 
                 {/* Tab Navigation */}
-                <section className="pt-12 pb-4 bg-dark-900 relative z-10">
+                <section ref={tabsRef} className="pt-12 pb-4 bg-dark-900 relative z-10">
                     <div className="max-w-4xl mx-auto px-6 text-center">
                         <div className="flex flex-wrap justify-center gap-6 md:gap-12 border-b border-white/10 pb-4">
                             {tabs.map((tab) => (
                                 <button
                                     key={tab.id}
-                                    onClick={() => setActiveTab(tab.id)}
+                                    onClick={() => handleTabClick(tab.id)}
                                     className={`text-xs md:text-sm uppercase tracking-[0.15em] transition-all duration-300 pb-2 relative group 
                                     ${activeTab === tab.id ? 'text-gold' : 'text-gray-500 hover:text-white'}`}
                                 >
