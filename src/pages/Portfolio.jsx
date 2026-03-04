@@ -15,8 +15,9 @@ import PhotoGallery from '../components/PhotoGallery';
 import g1 from '../assets/gallery/DSCF4015.jpeg';
 import g2 from '../assets/gallery/DSCF4023.jpeg';
 import g3 from '../assets/gallery/DSC_9064_HeadshotsEugeneb.jpeg';
-import g4 from '../assets/gallery/IMG_1658.jpeg';
-import g5 from '../assets/gallery/IMG_1667.jpeg';
+import img0001 from '../assets/gallery/IMG_0001.jpeg';
+import img0002 from '../assets/gallery/IMG_0002.jpg';
+import img0003 from '../assets/gallery/IMG_0003.jpeg';
 import g7 from '../assets/gallery/IMG_2361.jpeg';
 import g9 from '../assets/gallery/IMG_5195.jpeg';
 import g10 from '../assets/gallery/IMG_6180.jpeg';
@@ -31,13 +32,12 @@ import g19 from '../assets/gallery/IMG_7105.JPG';
 import g20 from '../assets/gallery/IMG_7431.JPG';
 import g25 from '../assets/gallery/IMG_2868.jpg';
 import g27 from '../assets/gallery/IMG_5722.jpg';
-import g29 from '../assets/gallery/S__102162464_0.jpg';
 import g30 from '../assets/gallery/S__102162469_0.jpg';
 
 const galleryImages = [
-  g3, g4, g1, g2, g5, g7, g9,
+  img0001, img0002, img0003, g1, g2, g3, g7, g9,
   g10, g12, g13, g14, g15, g16, g17, g18,
-  g19, g20, g25, g27, g29, g30
+  g19, g20, g25, g27, g30
 ];
 
 const Portfolio = () => {
