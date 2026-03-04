@@ -53,12 +53,9 @@ const Navbar = () => {
     }
   };
 
-  const navClass = `fixed w-full z-50 transition-all duration-300 py-2 border-b ${isScrolled ? 'bg-dark-900/95 backdrop-blur-md border-white/10' : 'bg-transparent border-white/5'
-    }`;
-
   return (
     <>
-      <header id="main-nav" className={navClass}>
+      <header id="main-nav" className={`fixed w-full z-[110] transition-all duration-300 py-2 border-b ${isScrolled ? 'bg-dark-900/95 backdrop-blur-md border-white/10' : 'bg-transparent border-white/5'}`}>
         <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
           <Link to="/" className="flex items-center scroll-link">
             <div
@@ -106,7 +103,7 @@ const Navbar = () => {
             closeMobileMenu();
           }
         }}
-        className={`fixed inset-0 bg-dark-900/30 backdrop-blur-xl z-40 flex flex-col items-center justify-center transition-opacity duration-500 will-change-opacity ${isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        className={`fixed inset-0 bg-dark-900/40 backdrop-blur-xl z-[100] flex flex-col items-center justify-center transition-opacity duration-500 will-change-opacity ${isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
           }`}
       >
         <div id="mobile-menu-inner" className="relative z-10 w-full h-full flex flex-col items-center justify-center">
