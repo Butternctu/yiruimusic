@@ -210,7 +210,7 @@ const Contact = () => {
                 value={formData.name}
                 onChange={handleChange}
                 autoComplete="name"
-                className={`w-full bg-transparent border-b py-3 text-gold placeholder-gray-600 focus:outline-none focus:ring-0 transition-colors [&:-webkit-autofill]:[-webkit-text-fill-color:#C5A059] [&:-webkit-autofill]:[transition:background-color_9999s_ease-in-out_0s] ${errors.name ? 'border-[#d9736c]/50' : 'border-white/20 focus:border-gold'}`}
+                className={`w-full bg-transparent border-b py-3 text-gold placeholder-gray-600 focus:outline-none focus:ring-0 transition-colors [&:-webkit-autofill]:[-webkit-text-fill-color:#C5A059] [&:-webkit-autofill]:[box-shadow:0_0_0_1000px_#111111_inset] ${errors.name ? 'border-[#d9736c]/50' : 'border-white/20 focus:border-gold'}`}
                 placeholder="Yirui Li"
               />
               {errors.name && (
@@ -229,7 +229,7 @@ const Contact = () => {
                 onChange={handleChange}
                 autoComplete="email"
                 inputMode="email"
-                className={`w-full bg-transparent border-b py-3 text-gold placeholder-gray-600 focus:outline-none focus:ring-0 transition-colors [&:-webkit-autofill]:[-webkit-text-fill-color:#C5A059] [&:-webkit-autofill]:[transition:background-color_9999s_ease-in-out_0s] ${errors.email ? 'border-[#d9736c]/50' : 'border-white/20 focus:border-gold'}`}
+                className={`w-full bg-transparent border-b py-3 text-gold placeholder-gray-600 focus:outline-none focus:ring-0 transition-colors [&:-webkit-autofill]:[-webkit-text-fill-color:#C5A059] [&:-webkit-autofill]:[box-shadow:0_0_0_1000px_#111111_inset] ${errors.email ? 'border-[#d9736c]/50' : 'border-white/20 focus:border-gold'}`}
                 placeholder="email@example.com"
               />
               {errors.email && (
@@ -294,8 +294,8 @@ const Contact = () => {
                 type="submit"
                 disabled={isSubmitting || cooldownTime > 0}
                 className={`inline-flex items-center justify-center space-x-3 border px-10 py-4 tracking-[0.2em] uppercase text-xs transition-all duration-500 min-w-[300px] ${isSubmitting ? 'border-gold text-dark-900 bg-gold/70 cursor-wait'
-                    : cooldownTime > 0 ? 'border-white/10 text-gray-500 bg-transparent cursor-not-allowed hover:bg-white/5'
-                      : 'border-gold text-gold hover:bg-gold hover:text-dark-900'
+                  : cooldownTime > 0 ? 'border-white/10 text-gray-500 bg-transparent cursor-not-allowed hover:bg-white/5'
+                    : 'border-gold text-gold hover:bg-gold hover:text-dark-900'
                   }`}
               >
                 {isSubmitting ? (
