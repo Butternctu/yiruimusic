@@ -114,6 +114,17 @@ a {
   }
 }
 
+@media (max-width: 1024px) {
+  .mobile-hover-active.mobile-explore-target {
+    border-color: var(--color-gold) !important;
+    color: var(--color-gold) !important;
+  }
+  
+  .mobile-hover-active.mobile-explore-target svg {
+    color: var(--color-gold) !important;
+  }
+}
+
 .bg-parallax {
   background-position: center;
   background-repeat: no-repeat;

@@ -33,13 +33,15 @@ const About = () => {
               Dr. Yirui Li is a distinguished harpist and pedagogue based in Houston, Texas, celebrated for her refined artistry, scholarly insight, and dynamic contributions to the global harp community. A native of China, she commenced her formal education at the Tianjin Conservatory of Music, later earning her Master of Music from SUNY Fredonia and her Doctor of Musical Arts from the University of Oregon.
             </p>
             
-            <div className={`space-y-6 transition-all duration-700 ${showFullBio ? 'opacity-100 max-h-[1000px]' : 'opacity-0 max-h-0 overflow-hidden'}`}>
-              <p>
-                As a sought-after performer, Dr. Li has appeared with prestigious ensembles including Orchestra Next, the Eugene Ballet, Vancouver Symphony Orchestra, and West Texas Symphony. Her artistic achievements have been recognized through numerous international accolades, including First Prize at both the American International Music Competition and the Van Bach International Music Competition.
-              </p>
-              <p>
-                Through her multifaceted career as a performer, educator, and scholar, Dr. Li continues to elevate the harp's expressive possibilities and inspire a global community of musicians.
-              </p>
+            <div className={`grid transition-all duration-700 ease-in-out ${showFullBio ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
+              <div className="overflow-hidden space-y-6">
+                <p>
+                  As a sought-after performer, Dr. Li has appeared with prestigious ensembles including Orchestra Next, the Eugene Ballet, Vancouver Symphony Orchestra, and West Texas Symphony. Her artistic achievements have been recognized through numerous international accolades, including First Prize at both the American International Music Competition and the Van Bach International Music Competition.
+                </p>
+                <p>
+                  Through her multifaceted career as a performer, educator, and scholar, Dr. Li continues to elevate the harp's expressive possibilities and inspire a global community of musicians.
+                </p>
+              </div>
             </div>
           </div>
           <div className="mt-10">

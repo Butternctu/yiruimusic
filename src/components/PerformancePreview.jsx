@@ -10,6 +10,8 @@ import imgGig from '../assets/gig-001.jpeg';
 const PerformancePreview = () => {
   useIntersectionObserver();
   const galleryLinkRef = useRef(null);
+  const viewProgramsRef = useRef(null);
+  const explorePortfolioRef = useRef(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -27,9 +29,9 @@ const PerformancePreview = () => {
       }
     );
 
-    if (galleryLinkRef.current) {
-      observer.observe(galleryLinkRef.current);
-    }
+    if (galleryLinkRef.current) observer.observe(galleryLinkRef.current);
+    if (viewProgramsRef.current) observer.observe(viewProgramsRef.current);
+    if (explorePortfolioRef.current) observer.observe(explorePortfolioRef.current);
 
     return () => observer.disconnect();
   }, []);
@@ -51,20 +53,30 @@ const PerformancePreview = () => {
             </p>
           </div>
           <div className="mt-8 md:mt-0 flex flex-row gap-3 sm:gap-6 items-center">
-            <Link to="/portfolio" className="flex items-center justify-between bg-transparent text-white border border-white/20 px-3 sm:px-6 py-3 sm:py-4 w-40 sm:w-56 hover:border-[#C69C5C] hover:text-[#C69C5C] transition-all duration-300 group rounded-[2px]">
+            <Link 
+              to="/portfolio" 
+              ref={explorePortfolioRef}
+              className="mobile-explore-target flex items-center justify-between bg-transparent text-white border border-white/20 px-3 sm:px-6 py-3 sm:py-4 w-40 sm:w-56 hover:border-[#C69C5C] hover:text-[#C69C5C] transition-all duration-500 group rounded-[2px]"
+            >
               <div className="flex flex-col items-start leading-tight tracking-[0.15em] font-medium text-[0.6rem] sm:text-xs">
                 <span>EXPLORE</span>
                 <span>PORTFOLIO</span>
               </div>
-              <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:translate-x-1 transition-transform" strokeWidth={1.5} />
+              <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:translate-x-1 max-lg:group-[.mobile-hover-active]:translate-x-1 transition-transform duration-500" strokeWidth={1.5} />
             </Link>
 
-            <Link to="/repertoire" className="flex items-center justify-between bg-transparent text-gold border border-gold px-3 sm:px-6 py-3 sm:py-4 w-40 sm:w-56 hover:bg-gold hover:text-dark-900 transition-all duration-300 group rounded-[2px]">
-              <div className="flex flex-col items-start leading-tight tracking-[0.15em] font-medium text-[0.6rem] sm:text-xs">
+            <Link 
+              to="/repertoire" 
+              ref={viewProgramsRef}
+              className="relative overflow-hidden flex items-center justify-between text-gold border border-gold px-3 sm:px-6 py-3 sm:py-4 w-40 sm:w-56 transition-all duration-500 group rounded-[2px]"
+            >
+              <div className="absolute inset-0 bg-gold origin-left scale-x-0 group-hover:scale-x-100 max-lg:group-[.mobile-hover-active]:scale-x-100 transition-transform duration-500 ease-out z-0"></div>
+              
+              <div className="flex flex-col items-start leading-tight tracking-[0.15em] font-medium text-[0.6rem] sm:text-xs relative z-10 group-hover:text-dark-900 max-lg:group-[.mobile-hover-active]:text-dark-900 transition-colors duration-500">
                 <span>VIEW</span>
                 <span>PROGRAMS</span>
               </div>
-              <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:translate-x-1 transition-transform" strokeWidth={1.5} />
+              <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 relative z-10 group-hover:text-dark-900 max-lg:group-[.mobile-hover-active]:text-dark-900 group-hover:translate-x-1 max-lg:group-[.mobile-hover-active]:translate-x-1 transition-all duration-500" strokeWidth={1.5} />
             </Link>
           </div>
         </div>
