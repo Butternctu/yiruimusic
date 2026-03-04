@@ -55,7 +55,7 @@ const FAQItem = ({ faq, isOpen, onClick }) => {
 };
 
 const FAQ = () => {
-  const [openIndex, setOpenIndex] = useState(0); // First one open by default
+  const [openIndex, setOpenIndex] = useState(-1); // No items open by default
   useIntersectionObserver();
 
   return (
