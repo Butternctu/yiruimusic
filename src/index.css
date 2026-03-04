@@ -1,10 +1,14 @@
 @import "tailwindcss";
 
+:root {
+  color-scheme: dark;
+}
+
 @theme {
   --color-dark-900: #0a0a0a;
   --color-dark-800: #141414;
   --color-dark-700: #1f1f1f;
-  
+
   --color-gold: #c5a059;
   --color-gold-light: #e8d3a2;
   --color-gold-dark: #8c6d31;
@@ -14,21 +18,41 @@
 
   --animate-error-pulse: error-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   --animate-error-shake: error-shake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
-  
+
   @keyframes error-pulse {
-    0%, 100% {
+
+    0%,
+    100% {
       opacity: 1;
     }
+
     50% {
       opacity: .5;
     }
   }
 
   @keyframes error-shake {
-    10%, 90% { transform: translate3d(-1px, 0, 0); }
-    20%, 80% { transform: translate3d(2px, 0, 0); }
-    30%, 50%, 70% { transform: translate3d(-2px, 0, 0); }
-    40%, 60% { transform: translate3d(2px, 0, 0); }
+
+    10%,
+    90% {
+      transform: translate3d(-1px, 0, 0);
+    }
+
+    20%,
+    80% {
+      transform: translate3d(2px, 0, 0);
+    }
+
+    30%,
+    50%,
+    70% {
+      transform: translate3d(-2px, 0, 0);
+    }
+
+    40%,
+    60% {
+      transform: translate3d(2px, 0, 0);
+    }
   }
 }
 
@@ -44,7 +68,8 @@ body {
   @apply font-sans;
 }
 
-button, a {
+button,
+a {
   @apply cursor-pointer;
 }
 
@@ -83,6 +108,7 @@ button, a {
     transform: none !important;
     transition: opacity 0.8s ease-out !important;
   }
+
   .fade-in-section.is-visible {
     transform: none !important;
   }
@@ -93,6 +119,7 @@ button, a {
   background-repeat: no-repeat;
   background-size: cover;
 }
+
 @media (min-width: 768px) {
   .bg-parallax {
     background-attachment: fixed;
@@ -107,14 +134,18 @@ button, a {
 .custom-scrollbar::-webkit-scrollbar {
   width: 4px;
 }
+
 .custom-scrollbar::-webkit-scrollbar-track {
   background: rgba(255, 255, 255, 0.05);
   border-radius: 4px;
 }
+
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(197, 160, 89, 0.4); /* Gold with opacity */
+  background: rgba(197, 160, 89, 0.4);
+  /* Gold with opacity */
   border-radius: 4px;
 }
+
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: rgba(197, 160, 89, 0.8);
 }
@@ -122,9 +153,12 @@ button, a {
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+
 .scrollbar-hide {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }
 
 .will-change-opacity {
@@ -139,8 +173,8 @@ button, a {
 
 /* Robust Autofill CSS - Matches Contact Section Background (#141414) */
 input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
 input:-webkit-autofill:active,
 textarea:-webkit-autofill,
 textarea:-webkit-autofill:hover,
@@ -148,17 +182,21 @@ textarea:-webkit-autofill:focus,
 textarea:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0px 1000px #141414 inset !important;
   box-shadow: 0 0 0px 1000px #141414 inset !important;
-  transition: background-color 5000s ease-in-out 0s !important;
+  background-color: #141414 !important;
   -webkit-text-fill-color: #c5a059 !important;
+  color: #c5a059 !important;
   caret-color: #c5a059 !important;
 }
 
 /* Fix Safari bug where autofill text color sticks on the placeholder after form reset */
 input::-webkit-input-placeholder,
 textarea::-webkit-input-placeholder {
-  -webkit-text-fill-color: #4b5563; /* Tailwind gray-600 */
+  -webkit-text-fill-color: #4b5563;
+  /* Tailwind gray-600 */
 }
+
 input::placeholder,
 textarea::placeholder {
-  -webkit-text-fill-color: #4b5563; /* Tailwind gray-600 */
+  -webkit-text-fill-color: #4b5563;
+  /* Tailwind gray-600 */
 }
