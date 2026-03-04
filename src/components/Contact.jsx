@@ -30,7 +30,7 @@ const Contact = () => {
         }
       }
     };
-    
+
     checkCooldown();
     const interval = setInterval(checkCooldown, 1000);
     return () => clearInterval(interval);
@@ -89,7 +89,7 @@ const Contact = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     // Check cooldown
     if (cooldownTime > 0) {
       setSubmitError(`Please wait ${formatTime(cooldownTime)} before sending another inquiry.`);
@@ -108,7 +108,7 @@ const Contact = () => {
     }
 
     const newErrors = {};
-    
+
     if (!formData.name.trim()) newErrors.name = 'Please provide your full name.';
     if (!formData.email.trim()) {
       newErrors.email = 'Please provide an email address.';
@@ -120,7 +120,7 @@ const Contact = () => {
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       setShakeError(true);
-      setTimeout(() => setShakeError(false), 500); 
+      setTimeout(() => setShakeError(false), 500);
       return;
     }
 
@@ -144,33 +144,33 @@ const Contact = () => {
       },
       body: submitData
     })
-    .then(response => response.json())
-    .then(data => {
-      setIsSubmitting(false);
-      
-      const isSuccess = data.success === 'true' || data.success === true;
-      const needsActivation = data.message && data.message.toLowerCase().includes('activation');
+      .then(response => response.json())
+      .then(data => {
+        setIsSubmitting(false);
 
-      if (isSuccess || needsActivation) {
-        setIsSuccess(true);
-        setFormData({ name: '', email: '', message: '' });
-        
-        // Set 3 minute cooldown
-        const cooldownEnd = Date.now() + 3 * 60 * 1000;
-        localStorage.setItem('yirui_form_cooldown', cooldownEnd.toString());
-        setCooldownTime(3 * 60);
-        
-        // Auto-hide success message after 5 seconds
-        setTimeout(() => setIsSuccess(false), 5000);
-      } else {
-        setSubmitError(data.message || 'Something went wrong. Please try again later.');
-      }
-    })
-    .catch(error => {
-      setIsSubmitting(false);
-      setSubmitError('Failed to send message. Please try again later.');
-      console.error('FormSubmit Error:', error);
-    });
+        const isSuccess = data.success === 'true' || data.success === true;
+        const needsActivation = data.message && data.message.toLowerCase().includes('activation');
+
+        if (isSuccess || needsActivation) {
+          setIsSuccess(true);
+          setFormData({ name: '', email: '', message: '' });
+
+          // Set 3 minute cooldown
+          const cooldownEnd = Date.now() + 3 * 60 * 1000;
+          localStorage.setItem('yirui_form_cooldown', cooldownEnd.toString());
+          setCooldownTime(3 * 60);
+
+          // Auto-hide success message after 5 seconds
+          setTimeout(() => setIsSuccess(false), 5000);
+        } else {
+          setSubmitError(data.message || 'Something went wrong. Please try again later.');
+        }
+      })
+      .catch(error => {
+        setIsSubmitting(false);
+        setSubmitError('Failed to send message. Please try again later.');
+        console.error('FormSubmit Error:', error);
+      });
   };
 
   return (
@@ -180,13 +180,13 @@ const Contact = () => {
           <h3 className="text-gold uppercase tracking-[0.2em] text-xs mb-4">Connect</h3>
           <h2 className="font-serif text-4xl text-white tracking-wide">Inquiries & Booking</h2>
           <div className="h-[1px] w-24 bg-gold mx-auto mt-8 mb-6 opacity-50"></div>
-          
+
           <div className="inline-flex items-center space-x-3 px-5 py-2 mt-2 rounded-full border border-white/10 bg-dark-900 shadow-lg">
             <MessageSquare className="w-4 h-4 text-gold opacity-80" />
             <span className="text-gray-400 font-light text-[11px] tracking-[0.15em] uppercase">
-              Direct WeChat: 
-              <span 
-                className="text-gold font-medium cursor-pointer transition-all duration-300 hover:text-white hover:drop-shadow-[0_0_8px_rgba(197,160,89,0.8)] ml-1" 
+              Direct WeChat:
+              <span
+                className="text-gold font-medium cursor-pointer transition-all duration-300 hover:text-white hover:drop-shadow-[0_0_8px_rgba(197,160,89,0.8)] ml-1"
                 title="Click to copy"
                 onClick={handleCopyWeChat}
               >
@@ -199,18 +199,18 @@ const Contact = () => {
         <form onSubmit={handleSubmit} className="space-y-12 relative z-10">
           {/* Honeypot field for bot protection */}
           <input type="text" name="_honey" style={{ display: 'none' }} tabIndex="-1" autoComplete="off" />
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-12">
             <div className="relative group">
               <label htmlFor="name" className="block text-xs uppercase tracking-[0.1em] text-gray-500 mb-2">Full Name</label>
-              <input 
-                type="text" 
+              <input
+                type="text"
                 id="name"
-                name="name" 
+                name="name"
                 value={formData.name}
                 onChange={handleChange}
                 autoComplete="name"
-                className={`w-full bg-transparent border-b py-3 text-gold placeholder-gray-600 focus:outline-none focus:ring-0 transition-colors ${errors.name ? 'border-[#d9736c]/50' : 'border-white/20 focus:border-gold'}`} 
+                className={`w-full bg-transparent border-b py-3 text-gold placeholder-gray-600 focus:outline-none focus:ring-0 transition-colors [&:-webkit-autofill]:[-webkit-text-fill-color:#C5A059] [&:-webkit-autofill]:[transition:background-color_9999s_ease-in-out_0s] ${errors.name ? 'border-[#d9736c]/50' : 'border-white/20 focus:border-gold'}`}
                 placeholder="Yirui Li"
               />
               {errors.name && (
@@ -221,15 +221,15 @@ const Contact = () => {
             </div>
             <div className="relative group">
               <label htmlFor="email" className="block text-xs uppercase tracking-[0.1em] text-gray-500 mb-2">Email Address</label>
-              <input 
-                type="email" 
+              <input
+                type="email"
                 id="email"
-                name="email" 
+                name="email"
                 value={formData.email}
                 onChange={handleChange}
                 autoComplete="email"
                 inputMode="email"
-                className={`w-full bg-transparent border-b py-3 text-gold placeholder-gray-600 focus:outline-none focus:ring-0 transition-colors ${errors.email ? 'border-[#d9736c]/50' : 'border-white/20 focus:border-gold'}`} 
+                className={`w-full bg-transparent border-b py-3 text-gold placeholder-gray-600 focus:outline-none focus:ring-0 transition-colors [&:-webkit-autofill]:[-webkit-text-fill-color:#C5A059] [&:-webkit-autofill]:[transition:background-color_9999s_ease-in-out_0s] ${errors.email ? 'border-[#d9736c]/50' : 'border-white/20 focus:border-gold'}`}
                 placeholder="email@example.com"
               />
               {errors.email && (
@@ -243,8 +243,8 @@ const Contact = () => {
           <div className="relative group" ref={dropdownRef}>
             <label className="block text-xs uppercase tracking-[0.1em] text-gray-500 mb-2">Inquiry Type</label>
             <input type="hidden" name="inquiry_type" value={selectedInquiry} />
-            
-            <div 
+
+            <div
               className={`w-full bg-transparent border-b py-3 focus:outline-none transition-colors cursor-pointer flex justify-between items-center relative z-20 ${dropdownOpen ? 'border-gold' : 'border-white/20 hover:border-white/50'}`}
               onClick={() => setDropdownOpen(!dropdownOpen)}
             >
@@ -254,7 +254,7 @@ const Contact = () => {
 
             <div className={`absolute left-0 top-full w-full mt-2 bg-dark-900 border border-white/10 shadow-2xl transition-all duration-300 transform z-30 ${dropdownOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'}`}>
               {inquiryOptions.map((option, index) => (
-                <div 
+                <div
                   key={index}
                   className={`px-6 py-3 cursor-pointer transition-colors border-b border-white/5 last:border-0 flex justify-between items-center ${selectedInquiry === option ? 'bg-[#1a1a1a] text-gold' : 'text-gray-400 hover:bg-[#151515] hover:text-white'}`}
                   onClick={() => selectOption(option)}
@@ -268,12 +268,12 @@ const Contact = () => {
 
           <div className="relative group">
             <label className="block text-xs uppercase tracking-[0.1em] text-gray-500 mb-2">Message</label>
-            <textarea 
-              name="message" 
+            <textarea
+              name="message"
               value={formData.message}
               onChange={handleChange}
-              rows="4" 
-              className={`w-full bg-transparent border-b py-3 text-gold placeholder-gray-600 focus:outline-none focus:ring-0 transition-colors resize-none custom-scrollbar ${errors.message ? 'border-[#d9736c]/50' : 'border-white/20 focus:border-gold'}`} 
+              rows="4"
+              className={`w-full bg-transparent border-b py-3 text-gold placeholder-gray-600 focus:outline-none focus:ring-0 transition-colors resize-none custom-scrollbar ${errors.message ? 'border-[#d9736c]/50' : 'border-white/20 focus:border-gold'}`}
               placeholder="Please share details about your inquiry, potential dates, and location..."
             ></textarea>
             {errors.message && (
@@ -290,14 +290,13 @@ const Contact = () => {
                 <span>INQUIRY SENT SUCCESSFULLY</span>
               </div>
             ) : (
-              <button 
-                type="submit" 
+              <button
+                type="submit"
                 disabled={isSubmitting || cooldownTime > 0}
-                className={`inline-flex items-center justify-center space-x-3 border px-10 py-4 tracking-[0.2em] uppercase text-xs transition-all duration-500 min-w-[300px] ${
-                  isSubmitting ? 'border-gold text-dark-900 bg-gold/70 cursor-wait' 
-                  : cooldownTime > 0 ? 'border-white/10 text-gray-500 bg-transparent cursor-not-allowed hover:bg-white/5' 
-                  : 'border-gold text-gold hover:bg-gold hover:text-dark-900'
-                }`}
+                className={`inline-flex items-center justify-center space-x-3 border px-10 py-4 tracking-[0.2em] uppercase text-xs transition-all duration-500 min-w-[300px] ${isSubmitting ? 'border-gold text-dark-900 bg-gold/70 cursor-wait'
+                    : cooldownTime > 0 ? 'border-white/10 text-gray-500 bg-transparent cursor-not-allowed hover:bg-white/5'
+                      : 'border-gold text-gold hover:bg-gold hover:text-dark-900'
+                  }`}
               >
                 {isSubmitting ? (
                   <span>SENDING...</span>
