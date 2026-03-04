@@ -179,7 +179,7 @@ const Contact = () => {
         <div className="text-center mb-16">
           <h3 className="text-gold uppercase tracking-[0.2em] text-xs mb-4">Connect</h3>
           <h2 className="font-serif text-4xl text-white tracking-wide">Inquiries & Booking</h2>
-          <div className="h-[1px] w-24 bg-gold mx-auto mt-8 mb-6 opacity-50"></div>
+          <div className="h-px w-24 bg-gold mx-auto mt-8 mb-6 opacity-50"></div>
 
           <div className="inline-flex items-center space-x-3 px-5 py-2 mt-2 rounded-full border border-white/10 bg-dark-900 shadow-lg">
             <MessageSquare className="w-4 h-4 text-gold opacity-80" />
@@ -202,7 +202,7 @@ const Contact = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-12">
             <div className="relative group">
-              <label htmlFor="name" className="block text-xs uppercase tracking-[0.1em] text-gray-500 mb-2">Full Name</label>
+              <label htmlFor="name" className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Full Name</label>
               <input
                 type="text"
                 id="name"
@@ -220,7 +220,7 @@ const Contact = () => {
               )}
             </div>
             <div className="relative group">
-              <label htmlFor="email" className="block text-xs uppercase tracking-[0.1em] text-gray-500 mb-2">Email Address</label>
+              <label htmlFor="email" className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Email Address</label>
               <input
                 type="email"
                 id="email"
@@ -241,7 +241,7 @@ const Contact = () => {
           </div>
 
           <div className="relative group" ref={dropdownRef}>
-            <label className="block text-xs uppercase tracking-[0.1em] text-gray-500 mb-2">Inquiry Type</label>
+            <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Inquiry Type</label>
             <input type="hidden" name="inquiry_type" value={selectedInquiry} />
 
             <div
@@ -267,7 +267,7 @@ const Contact = () => {
           </div>
 
           <div className="relative group">
-            <label className="block text-xs uppercase tracking-[0.1em] text-gray-500 mb-2">Message</label>
+            <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Message</label>
             <textarea
               name="message"
               value={formData.message}

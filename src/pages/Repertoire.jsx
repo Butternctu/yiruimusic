@@ -276,8 +276,8 @@ const Repertoire = () => {
                     </div>
                 </section>
 
-                <section className="bg-dark-900 pb-24 text-center relative z-10">
-                    <p className="text-gray-500 font-light text-sm italic max-w-2xl mx-auto px-6 mb-10">
+                <section className="bg-dark-900 pb-12 text-center relative z-10">
+                    <p className="text-gray-500 font-light text-sm italic max-w-2xl mx-auto px-6 mb-24">
                         * Comprehensive repertoire lists across all domains are available upon request.
                     </p>
                     <a href="/#contact" className="inline-flex items-center justify-center border border-gold text-gold hover:bg-gold hover:text-dark-900 px-10 py-4 tracking-[0.2em] uppercase text-xs transition-all duration-500 min-w-[300px]">

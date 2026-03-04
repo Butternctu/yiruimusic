@@ -171,7 +171,7 @@ const Portfolio = () => {
       </section>
 
       {/* Visual Archival / Gallery Section */}
-      <section id="gallery" className="py-20 bg-dark-800 relative border-t border-white/5 scroll-mt-20">
+      <section id="gallery" className="pt-20 pb-36 bg-dark-800 relative border-t border-white/5 scroll-mt-20">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <div className="text-center fade-in-section mb-6">
             <div className="flex items-center justify-center mb-6">
