@@ -9,23 +9,44 @@ import imgOrchestral from '../assets/orchestral-001.jpeg';
 import imgTeaching from '../assets/teaching-001.jpeg';
 import imgRecitals from '../assets/recitals-001.jpeg';
 import imgGig from '../assets/gig-001.jpeg';
-import imgS1 from '../assets/S__102162443_0.jpg';
-import imgS2 from '../assets/S__102162464_0.jpg';
-import imgS3 from '../assets/S__102162466_0.jpg';
-import imgS4 from '../assets/S__102162467_0.jpg';
-import imgS5 from '../assets/S__102162468_0.jpg';
-import imgS6 from '../assets/S__102162469_0.jpg';
 import PhotoGallery from '../components/PhotoGallery';
 
-const galleryImages = [imgS1, imgS2, imgS3, imgS4, imgS5, imgS6];
+// Import new gallery images
+import g1 from '../assets/gallery/DSCF4015.jpeg';
+import g2 from '../assets/gallery/DSCF4023.jpeg';
+import g3 from '../assets/gallery/DSC_9064_HeadshotsEugeneb.jpeg';
+import g4 from '../assets/gallery/IMG_1658.jpeg';
+import g5 from '../assets/gallery/IMG_1667.jpeg';
+import g7 from '../assets/gallery/IMG_2361.jpeg';
+import g9 from '../assets/gallery/IMG_5195.jpeg';
+import g10 from '../assets/gallery/IMG_6180.jpeg';
+import g12 from '../assets/gallery/IMG_6189.jpeg';
+import g13 from '../assets/gallery/IMG_6190.jpeg';
+import g14 from '../assets/gallery/IMG_6191.jpeg';
+import g15 from '../assets/gallery/IMG_7432.jpeg';
+import g16 from '../assets/gallery/IMG_7649.jpeg';
+import g17 from '../assets/gallery/IMG_7663.jpeg';
+import g18 from '../assets/gallery/IMG_8323.jpeg';
+import g19 from '../assets/gallery/IMG_7105.JPG';
+import g20 from '../assets/gallery/IMG_7431.JPG';
+import g25 from '../assets/gallery/IMG_2868.jpg';
+import g27 from '../assets/gallery/IMG_5722.jpg';
+import g29 from '../assets/gallery/S__102162464_0.jpg';
+import g30 from '../assets/gallery/S__102162469_0.jpg';
+
+const galleryImages = [
+  g3, g4, g1, g2, g5, g7, g9,
+  g10, g12, g13, g14, g15, g16, g17, g18,
+  g19, g20, g25, g27, g29, g30
+];
 
 const Portfolio = () => {
   useIntersectionObserver();
 
   return (
     <div className="font-sans text-gray-300 bg-dark-900 antialiased selection:bg-gold selection:text-dark-900">
-      <SEO 
-        title="Performance Portfolio" 
+      <SEO
+        title="Performance Portfolio"
         description="A comprehensive archive of Dr. Yirui Li's global performances, highlighting her versatility across orchestral masterworks, solo recitals, and academic mentorship."
         url="/portfolio"
       />
@@ -152,20 +173,20 @@ const Portfolio = () => {
       {/* Visual Archival / Gallery Section */}
       <section id="gallery" className="py-20 bg-dark-800 relative border-t border-white/5 scroll-mt-20">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
-            <div className="text-center fade-in-section mb-6">
-                <div className="flex items-center justify-center mb-6">
-                    <div className="w-12 h-px bg-gold mr-4"></div>
-                    <h3 className="text-gold uppercase tracking-[0.2em] text-xs">Behind the Scenes</h3>
-                    <div className="w-12 h-px bg-gold ml-4"></div>
-                </div>
-                <h2 className="font-serif text-4xl text-white tracking-wide mb-6">Visual Archival</h2>
-                <p className="text-gray-400 font-light leading-relaxed max-w-2xl mx-auto">
-                    A collection of moments from private engagements, masterclasses, and the stage.
-                </p>
+          <div className="text-center fade-in-section mb-6">
+            <div className="flex items-center justify-center mb-6">
+              <div className="w-12 h-px bg-gold mr-4"></div>
+              <h3 className="text-gold uppercase tracking-[0.2em] text-xs">Behind the Scenes</h3>
+              <div className="w-12 h-px bg-gold ml-4"></div>
             </div>
-            <div className="fade-in-section">
-                <PhotoGallery images={galleryImages} />
-            </div>
+            <h2 className="font-serif text-4xl text-white tracking-wide mb-6">Visual Archival</h2>
+            <p className="text-gray-400 font-light leading-relaxed max-w-2xl mx-auto">
+              A collection of moments from private engagements, masterclasses, and the stage.
+            </p>
+          </div>
+          <div className="fade-in-section">
+            <PhotoGallery images={galleryImages} />
+          </div>
         </div>
       </section>
 
