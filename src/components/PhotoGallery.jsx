@@ -103,6 +103,9 @@ const PhotoGallery = ({ images }) => {
                         const scale = Math.max(0.65, 1 - absOffset * 0.15);
                         const opacityVal = dragOffset ? Math.max(0, 1 - absOffset * 0.6) : (idx === currentIndex ? 1 : Math.max(0, 1 - absOffset * 0.6));
 
+                        // Darker side images on desktop to emphasize the center image
+                        const maxOverlayOpacity = windowWidth > 768 ? 0.85 : 0.65;
+
                         return (
                             <div
                                 key={idx}
@@ -117,7 +120,7 @@ const PhotoGallery = ({ images }) => {
                                 }}
                             >
                                 <div className={`group w-full h-full rounded-sm overflow-hidden border border-white/10 shadow-2xl relative bg-dark-900 flex items-center justify-center transition-all duration-700 hover:shadow-[0_0_30px_rgba(201,165,116,0.15)] hover:border-gold/30 ${idx === currentIndex ? 'shadow-[0_0_20px_rgba(201,165,116,0.1)] border-gold/20' : ''}`}>
-                                    <div className="absolute inset-0 bg-black z-10 pointer-events-none transition-opacity duration-500" style={{ opacity: dragOffset ? Math.min(0.65, absOffset * 0.65) : (idx === currentIndex ? 0 : 0.65) }}></div>
+                                    <div className="absolute inset-0 bg-black z-10 pointer-events-none transition-opacity duration-500" style={{ opacity: dragOffset ? Math.min(maxOverlayOpacity, absOffset * maxOverlayOpacity) : (idx === currentIndex ? 0 : maxOverlayOpacity) }}></div>
                                     <img
                                         src={imgSrc}
                                         alt={`Gallery Image ${idx + 1}`}
