@@ -7,11 +7,13 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  const location = useLocation();
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -23,33 +25,46 @@ const Navbar = () => {
     }
   }, [isMobileMenuOpen]);
 
+  // Automatically close mobile menu on route change
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [location.pathname]);
+
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
-  const handleMobileLinkClick = (e, targetPath) => {
-    const isHomepage = window.location.pathname === '/' || window.location.pathname === '';
-    const isHashLink = targetPath.startsWith('/#');
+  const handleHashLinkClick = (e, targetPath) => {
+    const isHashLink = targetPath.includes('#');
 
-    // If we are already on the homepage and clicking a hash link, do smooth scroll
-    if (isHomepage && isHashLink) {
-      e.preventDefault();
-      setIsMobileMenuOpen(false);
-      const targetId = targetPath.substring(1); // Convert '/#about' to '#about'
+    if (isHashLink) {
+      const [path, hash] = targetPath.split('#');
+      const normalizedPath = path || '/';
+      const isSamePage = location.pathname === normalizedPath || (location.pathname === '/' && normalizedPath === '/');
 
-      setTimeout(() => {
-        if (targetId === '#') {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        } else {
-          const targetElement = document.querySelector(targetId);
-          if (targetElement) {
-            targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (isSamePage) {
+        e.preventDefault();
+        setIsMobileMenuOpen(false);
+        const targetId = hash ? `#${hash}` : '#';
+
+        // Use a small delay to ensure any layout shifts or menu closures complete
+        setTimeout(() => {
+          if (targetId === '#') {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          } else {
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+              const navbarHeight = 80;
+              const elementPosition = targetElement.getBoundingClientRect().top;
+              const offsetPosition = elementPosition + window.scrollY - navbarHeight;
+
+              window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+              });
+            }
           }
-        }
-      }, 300);
-    } else {
-      // If we are on another page (like /repertoire), let the browser navigate normally
-      // We just close the menu so it's not open when they hit the back button later
-      setIsMobileMenuOpen(false);
+        }, 100);
+      }
     }
   };
 
@@ -84,11 +99,11 @@ const Navbar = () => {
 
           {/* Desktop Menu */}
           <nav className="hidden md:flex items-center space-x-10 text-xs uppercase tracking-[0.2em] text-gray-300">
-            <Link to="/#about" className="hover:text-gold transition-colors duration-300">About</Link>
-            <Link to="/#teaching" className="hover:text-gold transition-colors duration-300">Academic</Link>
-            <Link to="/#performance" className="hover:text-gold transition-colors duration-300">Performance</Link>
+            <Link to="/#about" onClick={(e) => handleHashLinkClick(e, '/#about')} className="hover:text-gold transition-colors duration-300">About</Link>
+            <Link to="/#teaching" onClick={(e) => handleHashLinkClick(e, '/#teaching')} className="hover:text-gold transition-colors duration-300">Academic</Link>
+            <Link to="/#performance" onClick={(e) => handleHashLinkClick(e, '/#performance')} className="hover:text-gold transition-colors duration-300">Performance</Link>
             <Link to="/repertoire" className="hover:text-gold transition-colors duration-300">Programs</Link>
-            <Link to="/#contact" className="text-gold border border-gold/50 px-4 py-2 hover:bg-gold hover:text-dark-900 transition-all duration-300 rounded-sm">Contact</Link>
+            <Link to="/#contact" onClick={(e) => handleHashLinkClick(e, '/#contact')} className="text-gold border border-gold/50 px-4 py-2 hover:bg-gold hover:text-dark-900 transition-all duration-300 rounded-sm">Contact</Link>
           </nav>
 
           <button
@@ -111,16 +126,16 @@ const Navbar = () => {
             closeMobileMenu();
           }
         }}
-        className={`fixed inset-0 bg-dark-900/40 backdrop-blur-xl z-100 flex flex-col items-center justify-center transition-opacity duration-500 will-change-opacity ${isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        className={`fixed inset-0 bg-dark-900/40 backdrop-blur-xl z-100 flex flex-col items-center justify-center transition-all duration-500 will-change-opacity ${isMobileMenuOpen ? 'opacity-100 pointer-events-auto visible' : 'opacity-0 pointer-events-none invisible'
           }`}
       >
         <div id="mobile-menu-inner" className="relative z-10 w-full h-full flex flex-col items-center justify-center">
           <nav className="flex flex-col items-center space-y-8 text-sm uppercase tracking-[0.3em] text-gray-300">
-            <Link to="/#about" onClick={(e) => handleMobileLinkClick(e, '/#about')} className="hover:text-gold transition-colors duration-300">About</Link>
-            <Link to="/#teaching" onClick={(e) => handleMobileLinkClick(e, '/#teaching')} className="hover:text-gold transition-colors duration-300">Academic</Link>
-            <Link to="/#performance" onClick={(e) => handleMobileLinkClick(e, '/#performance')} className="hover:text-gold transition-colors duration-300">Performance</Link>
-            <Link to="/repertoire" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-gold transition-colors duration-300">Programs</Link>
-            <Link to="/#contact" onClick={(e) => handleMobileLinkClick(e, '/#contact')} className="text-gold border border-gold/50 px-6 py-3 hover:bg-gold hover:text-dark-900 transition-all duration-300 rounded-sm">Contact</Link>
+            <Link to="/#about" onClick={(e) => handleHashLinkClick(e, '/#about')} className="hover:text-gold transition-colors duration-300 px-8 py-2">About</Link>
+            <Link to="/#teaching" onClick={(e) => handleHashLinkClick(e, '/#teaching')} className="hover:text-gold transition-colors duration-300 px-8 py-2">Academic</Link>
+            <Link to="/#performance" onClick={(e) => handleHashLinkClick(e, '/#performance')} className="hover:text-gold transition-colors duration-300 px-8 py-2">Performance</Link>
+            <Link to="/repertoire" className="hover:text-gold transition-colors duration-300 px-8 py-2">Programs</Link>
+            <Link to="/#contact" onClick={(e) => handleHashLinkClick(e, '/#contact')} className="text-gold border border-gold/50 px-8 py-3 hover:bg-gold hover:text-dark-900 transition-all duration-300 rounded-sm mt-4">Contact</Link>
           </nav>
         </div>
       </div>

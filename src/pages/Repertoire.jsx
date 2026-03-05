@@ -5,6 +5,7 @@ import Footer from '../components/Footer';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 import { useSwipeable } from 'react-swipeable';
 import { repertoireData } from '../data/repertoire';
+import { Link } from 'react-router-dom';
 
 const Repertoire = () => {
     useIntersectionObserver();
@@ -277,12 +278,17 @@ const Repertoire = () => {
                 </section>
 
                 <section className="bg-dark-900 pb-12 text-center relative z-10">
-                    <p className="text-gray-500 font-light text-sm italic max-w-2xl mx-auto px-6 mb-24">
+                    <p className="text-gray-500 font-light text-sm italic max-w-2xl mx-auto px-6 mb-12">
                         * Comprehensive repertoire lists across all domains are available upon request.
                     </p>
-                    <a href="/#contact" className="inline-flex items-center justify-center border border-gold text-gold hover:bg-gold hover:text-dark-900 px-10 py-4 tracking-[0.2em] uppercase text-xs transition-all duration-500 min-w-[300px]">
-                        Inquire for Booking
-                    </a>
+                    <div className="flex flex-col md:flex-row items-center justify-center gap-6 px-6">
+                        <Link to="/portfolio" className="inline-flex items-center justify-center border border-white/20 text-white hover:border-gold hover:text-gold px-10 py-4 tracking-[0.2em] uppercase text-xs transition-all duration-300 w-full max-w-[320px] active:scale-[0.98]">
+                            Explore Portfolio
+                        </Link>
+                        <Link to="/#contact" className="inline-flex items-center justify-center border border-gold text-gold hover:bg-gold hover:text-dark-900 px-10 py-4 tracking-[0.2em] uppercase text-xs transition-all duration-300 w-full max-w-[320px] active:scale-[0.98]">
+                            Inquire for Booking
+                        </Link>
+                    </div>
                 </section>
 
             </main>

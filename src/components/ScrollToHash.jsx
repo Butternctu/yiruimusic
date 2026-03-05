@@ -6,14 +6,16 @@ const ScrollToHash = () => {
 
   useEffect(() => {
     if (hash) {
+      const targetId = hash.replace('#', '');
       setTimeout(() => {
-        const element = document.getElementById(hash.replace('#', ''));
+        const element = document.getElementById(targetId);
         if (element) {
           element.scrollIntoView({ behavior: 'smooth' });
         }
-      }, 100); // Slight delay ensures DOM is fully painted
+      }, 200); // Increased delay for slower mobile rendering
     } else {
-        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' }); // Scroll to top on normal route change
+      // Use instant scroll for primary route changes to avoid conflict with browser's own scroll restoration
+      window.scrollTo(0, 0);
     }
   }, [hash, pathname]);
 

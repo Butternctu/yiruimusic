@@ -43,6 +43,21 @@ const galleryImages = [
 const Portfolio = () => {
   useIntersectionObserver();
 
+  const handleScrollClick = (e, targetId) => {
+    e.preventDefault();
+    const element = document.querySelector(targetId);
+    if (element) {
+      const navbarHeight = 120; // accounting for both main nav and sticky subnav
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.scrollY - navbarHeight;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   return (
     <div className="font-sans text-gray-300 bg-dark-900 antialiased selection:bg-gold selection:text-dark-900">
       <SEO
@@ -69,11 +84,11 @@ const Portfolio = () => {
       <div className="bg-dark-900 border-b border-white/5 sticky top-[65px] md:top-[81px] z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 py-3 md:py-4">
           <nav className="flex justify-between md:justify-center w-full md:space-x-10 text-[9px] sm:text-[10px] uppercase tracking-widest md:tracking-[0.2em] text-gray-400 overflow-x-auto whitespace-nowrap scrollbar-hide items-center relative z-0">
-            <a href="#orchestral" className="hover:text-gold transition-colors duration-300 shrink-0">Symphonic</a>
-            <a href="#teaching" className="hover:text-gold transition-colors duration-300 shrink-0">Mentorship</a>
-            <a href="#recitals" className="hover:text-gold transition-colors duration-300 shrink-0">Recitals</a>
-            <a href="#engagements" className="hover:text-gold transition-colors duration-300 shrink-0">Private</a>
-            <a href="#gallery" className="text-gold font-medium hover:text-white transition-colors duration-300 shrink-0">Gallery</a>
+            <a href="#orchestral" onClick={(e) => handleScrollClick(e, '#orchestral')} className="hover:text-gold transition-colors duration-300 shrink-0">Symphonic</a>
+            <a href="#teaching" onClick={(e) => handleScrollClick(e, '#teaching')} className="hover:text-gold transition-colors duration-300 shrink-0">Mentorship</a>
+            <a href="#recitals" onClick={(e) => handleScrollClick(e, '#recitals')} className="hover:text-gold transition-colors duration-300 shrink-0">Recitals</a>
+            <a href="#engagements" onClick={(e) => handleScrollClick(e, '#engagements')} className="hover:text-gold transition-colors duration-300 shrink-0">Private</a>
+            <a href="#gallery" onClick={(e) => handleScrollClick(e, '#gallery')} className="text-gold font-medium hover:text-white transition-colors duration-300 shrink-0">Gallery</a>
           </nav>
         </div>
       </div>
@@ -98,7 +113,7 @@ const Portfolio = () => {
               <p className="text-gray-400 font-light leading-relaxed mb-6">
                 Dr. Li’s expansive orchestral repertoire spans canonical masterworks and technically demanding modern scores, ranging from Berlioz’s Symphonie Fantastique and Holst’s The Planets to the intricate textures of Stravinsky’s Firebird Suite and Zhou Tian’s Petals of Fire. She has held principal and guest harpist positions with esteemed ensembles, including Orchestra Next, the Eugene Ballet, Vancouver Symphony Orchestra, and the West Texas Symphony, where she served as Principal Harp. Her versatile collaborative career also includes performances with the Skagit Symphony Orchestra, SFA Symphony Orchestra, and the Co-Cathedral of the Sacred Heart in Houston.
               </p>
-              <Link to="/repertoire" className="inline-flex items-center justify-center border border-gold text-gold hover:bg-gold hover:text-dark-900 px-10 py-4 tracking-[0.2em] uppercase text-xs transition-all duration-500 min-w-[300px] mt-2 mb-4">
+              <Link to="/repertoire" className="inline-flex items-center justify-center border border-gold text-gold hover:bg-gold hover:text-dark-900 px-10 py-4 tracking-[0.2em] uppercase text-xs transition-all duration-300 w-full max-w-[320px] mt-2 mb-4 active:scale-[0.98]">
                 View Programs
               </Link>
               <p className="text-gray-500 font-light text-sm italic">
@@ -161,7 +176,7 @@ const Portfolio = () => {
               <p className="text-gray-400 font-light leading-relaxed mb-6">
                 Beyond the concert hall, Dr. Li curates elegant musical atmospheres for exclusive private events, corporate galas, and luxury weddings across the Houston metropolitan area. Each engagement is tailored with a bespoke repertoire, ranging from classical elegance to contemporary sophistication, designed to elevate the aesthetic and emotional resonance of the occasion. Her professional approach ensures that every performance provides a sophisticated and unforgettable experience for distinguished guests.
               </p>
-              <Link to="/#contact" className="inline-flex items-center justify-center border border-gold text-gold hover:bg-gold hover:text-dark-900 px-10 py-4 tracking-[0.2em] uppercase text-xs transition-all duration-500 min-w-[300px] mt-4">
+               <Link to="/#contact" className="inline-flex items-center justify-center border border-gold text-gold hover:bg-gold hover:text-dark-900 px-10 py-4 tracking-[0.2em] uppercase text-xs transition-all duration-300 w-full max-w-[320px] mt-4 active:scale-[0.98]">
                 Inquire for Booking
               </Link>
             </div>

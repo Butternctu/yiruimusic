@@ -12,7 +12,7 @@ const Academic = () => {
     const options = {
       root: null,
       rootMargin: '0px',
-      threshold: 0.8 // Add hover effect when 80% visible (cancels if 20% leaves)
+      threshold: 0.9 // Add hover effect when 80% visible (cancels if 20% leaves)
     };
 
     const observer = new IntersectionObserver((entries) => {

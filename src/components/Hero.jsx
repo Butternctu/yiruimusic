@@ -23,6 +23,21 @@ const Hero = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  const handleScrollClick = (e, targetId) => {
+    e.preventDefault();
+    const element = document.querySelector(targetId);
+    if (element) {
+      const navbarHeight = 80;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.scrollY - navbarHeight;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   return (
     <section 
       className="relative hero-section flex items-center justify-center bg-parallax"
@@ -43,6 +58,7 @@ const Hero = () => {
         </p>
         <a 
           href="#contact" 
+          onClick={(e) => handleScrollClick(e, '#contact')}
           className="inline-block border border-gold text-gold hover:bg-gold hover:text-dark-900 px-10 py-4 tracking-[0.2em] uppercase text-xs transition-all duration-500 scroll-link"
         >
           Book a Performance
