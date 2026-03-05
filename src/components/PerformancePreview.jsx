@@ -56,27 +56,27 @@ const PerformancePreview = () => {
             <Link
               to="/portfolio"
               ref={explorePortfolioRef}
-              className="mobile-explore-target flex items-center justify-between bg-transparent text-white border border-white/20 px-3 sm:px-6 py-3 sm:py-4 w-40 sm:w-56 hover:border-[#C69C5C] hover:text-[#C69C5C] transition-all duration-1000 group rounded-[2px]"
+              className="mobile-explore-target flex items-center justify-between bg-transparent text-white border border-white/20 px-3 sm:px-6 py-3 sm:py-4 w-40 sm:w-56 hover:border-[#C69C5C] hover:text-[#C69C5C] transition-all duration-1000 md:duration-500 group rounded-[2px]"
             >
               <div className="flex flex-col items-start leading-tight tracking-[0.15em] font-medium text-[0.6rem] sm:text-xs">
                 <span>EXPLORE</span>
                 <span>PORTFOLIO</span>
               </div>
-              <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:translate-x-1 max-lg:group-[.mobile-hover-active]:translate-x-1 transition-transform duration-1000" strokeWidth={1.5} />
+              <ArrowRight className="animate-pulse w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:translate-x-1 max-lg:group-[.mobile-hover-active]:translate-x-1 transition-transform duration-1000 md:duration-500" strokeWidth={1.5} />
             </Link>
 
             <Link
               to="/repertoire"
               ref={viewProgramsRef}
-              className="relative overflow-hidden flex items-center justify-between text-gold border border-gold px-3 sm:px-6 py-3 sm:py-4 w-40 sm:w-56 transition-all duration-1000 group rounded-[2px]"
+              className="relative overflow-hidden flex items-center justify-between text-gold border border-gold px-3 sm:px-6 py-3 sm:py-4 w-40 sm:w-56 transition-all duration-1000 md:duration-500 group rounded-[2px]"
             >
-              <div className="absolute inset-0 bg-gold origin-left scale-x-0 group-hover:scale-x-100 max-lg:group-[.mobile-hover-active]:scale-x-100 transition-transform duration-1000 ease-out z-0"></div>
+              <div className="absolute inset-0 bg-gold origin-left scale-x-0 group-hover:scale-x-100 max-lg:group-[.mobile-hover-active]:scale-x-100 transition-transform duration-1000 md:duration-500 ease-out z-0"></div>
 
-              <div className="flex flex-col items-start leading-tight tracking-[0.15em] font-medium text-[0.6rem] sm:text-xs relative z-10 group-hover:text-dark-900 max-lg:group-[.mobile-hover-active]:text-dark-900 transition-colors duration-1000">
+              <div className="flex flex-col items-start leading-tight tracking-[0.15em] font-medium text-[0.6rem] sm:text-xs relative z-10 group-hover:text-dark-900 max-lg:group-[.mobile-hover-active]:text-dark-900 transition-colors duration-1000 md:duration-500">
                 <span>VIEW</span>
                 <span>PROGRAMS</span>
               </div>
-              <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 relative z-10 group-hover:text-dark-900 max-lg:group-[.mobile-hover-active]:text-dark-900 group-hover:translate-x-1 max-lg:group-[.mobile-hover-active]:translate-x-1 transition-all duration-1000" strokeWidth={1.5} />
+              <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 relative z-10 group-hover:text-dark-900 max-lg:group-[.mobile-hover-active]:text-dark-900 group-hover:translate-x-1 max-lg:group-[.mobile-hover-active]:translate-x-1 transition-all duration-1000 md:duration-500" strokeWidth={1.5} />
             </Link>
           </div>
         </div>
@@ -91,7 +91,7 @@ const PerformancePreview = () => {
             />
             <div className="absolute inset-0 bg-linear-to-t from-dark-900 via-transparent to-transparent opacity-80 pointer-events-none"></div>
             <div className="absolute bottom-0 left-0 p-4 sm:p-6 w-full transform translate-y-0 md:translate-y-4 md:group-hover:translate-y-0 transition-transform duration-500 pointer-events-none">
-              <div className="w-6 sm:w-8 h-px bg-gold mb-2 sm:mb-3 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity delay-300"></div>
+              <div className="w-6 sm:w-8 h-px bg-gold mb-2 sm:mb-3 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity md:delay-300"></div>
               <span className="block font-serif text-base sm:text-xl text-white tracking-wide">Orchestral</span>
             </div>
           </div>
@@ -105,7 +105,7 @@ const PerformancePreview = () => {
             />
             <div className="absolute inset-0 bg-linear-to-t from-dark-900 via-transparent to-transparent opacity-80 pointer-events-none"></div>
             <div className="absolute bottom-0 left-0 p-4 sm:p-6 w-full transform translate-y-0 md:translate-y-4 md:group-hover:translate-y-0 transition-transform duration-500 pointer-events-none">
-              <div className="w-6 sm:w-8 h-px bg-gold mb-2 sm:mb-3 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity delay-300"></div>
+              <div className="w-6 sm:w-8 h-px bg-gold mb-2 sm:mb-3 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity md:delay-300"></div>
               <span className="block font-serif text-base sm:text-xl text-white tracking-wide">Mentorship</span>
             </div>
           </div>
@@ -119,7 +119,7 @@ const PerformancePreview = () => {
             />
             <div className="absolute inset-0 bg-linear-to-t from-dark-900 via-transparent to-transparent opacity-80 pointer-events-none"></div>
             <div className="absolute bottom-0 left-0 p-4 sm:p-6 w-full transform translate-y-0 md:translate-y-4 md:group-hover:translate-y-0 transition-transform duration-500 pointer-events-none">
-              <div className="w-6 sm:w-8 h-px bg-gold mb-2 sm:mb-3 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity delay-300"></div>
+              <div className="w-6 sm:w-8 h-px bg-gold mb-2 sm:mb-3 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity md:delay-300"></div>
               <span className="block font-serif text-base sm:text-xl text-white tracking-wide">Solo Recitals</span>
             </div>
           </div>
@@ -133,7 +133,7 @@ const PerformancePreview = () => {
             />
             <div className="absolute inset-0 bg-linear-to-t from-dark-900 via-transparent to-transparent opacity-80 pointer-events-none"></div>
             <div className="absolute bottom-0 left-0 p-4 sm:p-6 w-full transform translate-y-0 md:translate-y-4 md:group-hover:translate-y-0 transition-transform duration-500 pointer-events-none">
-              <div className="w-6 sm:w-8 h-px bg-gold mb-2 sm:mb-3 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity delay-300"></div>
+              <div className="w-6 sm:w-8 h-px bg-gold mb-2 sm:mb-3 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity md:delay-300"></div>
               <span className="block font-serif text-base sm:text-xl text-white tracking-wide">Private Engagements</span>
             </div>
           </div>
