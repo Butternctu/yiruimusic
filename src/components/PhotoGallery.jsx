@@ -13,20 +13,45 @@ const PhotoGallery = ({ images }) => {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
+    const SWIPE_THRESHOLD = 20;
+
+    const handleSwipeLeft = (e) => {
+        if (Math.abs(e.deltaX) < SWIPE_THRESHOLD || Math.abs(e.deltaX) < Math.abs(e.deltaY)) {
+            setDragOffset(0);
+            return;
+        }
+        setCurrentIndex((prev) => (prev + 1) % images.length);
+        setDragOffset(0);
+    };
+
+    const handleSwipeRight = (e) => {
+        if (Math.abs(e.deltaX) < SWIPE_THRESHOLD || Math.abs(e.deltaX) < Math.abs(e.deltaY)) {
+            setDragOffset(0);
+            return;
+        }
+        setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+        setDragOffset(0);
+    };
+
     const handlers = useSwipeable({
-        onSwiping: (eventData) => {
-            setDragOffset(eventData.deltaX);
+        onSwiping: (e) => {
+            // Only visually drag if horizontal movement is strictly greater than vertical
+            if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+                setDragOffset(e.deltaX);
+            } else if (dragOffset !== 0) {
+                setDragOffset(0);
+            }
         },
-        onSwipedLeft: () => {
+        onSwipedLeft: handleSwipeLeft,
+        onSwipedRight: handleSwipeRight,
+        onSwiped: () => {
             setDragOffset(0);
-            setCurrentIndex((prev) => (prev + 1) % images.length);
         },
-        onSwipedRight: () => {
+        onTouchEndOrOnMouseUp: () => {
             setDragOffset(0);
-            setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
         },
         trackMouse: true,
-        preventDefaultTouchmoveEvent: true
+        preventDefaultTouchmoveEvent: false // Allow vertical page scrolling
     });
 
     const handleDotClick = (index) => {
@@ -93,9 +118,9 @@ const PhotoGallery = ({ images }) => {
                             >
                                 <div className={`group w-full h-full rounded-sm overflow-hidden border border-white/10 shadow-2xl relative bg-dark-900 flex items-center justify-center transition-all duration-700 hover:shadow-[0_0_30px_rgba(201,165,116,0.15)] hover:border-gold/30 ${idx === currentIndex ? 'shadow-[0_0_20px_rgba(201,165,116,0.1)] border-gold/20' : ''}`}>
                                     <div className="absolute inset-0 bg-black z-10 pointer-events-none transition-opacity duration-500" style={{ opacity: dragOffset ? Math.min(0.65, absOffset * 0.65) : (idx === currentIndex ? 0 : 0.65) }}></div>
-                                    <img 
-                                        src={imgSrc} 
-                                        alt={`Gallery Image ${idx + 1}`} 
+                                    <img
+                                        src={imgSrc}
+                                        alt={`Gallery Image ${idx + 1}`}
                                         className={`w-full h-full object-cover object-center transition-all duration-1000 ${idx === currentIndex ? 'opacity-100 scale-[1.03]' : 'opacity-85'}`}
                                         draggable="false"
                                     />
@@ -106,7 +131,7 @@ const PhotoGallery = ({ images }) => {
                         );
                     })}
                 </div>
-                
+
                 {/* Navigation Buttons */}
                 <button onClick={prevImage} className="absolute left-4 top-1/2 -translate-y-1/2 z-30 p-2 text-gray-500 hover:text-gold transition-colors hidden md:block outline-none">
                     <ChevronLeft className="w-8 h-8" strokeWidth={1.5} />
@@ -122,9 +147,8 @@ const PhotoGallery = ({ images }) => {
                     <button
                         key={idx}
                         onClick={() => handleDotClick(idx)}
-                        className={`transition-all duration-300 rounded-full h-1.5 focus:outline-none ${
-                            idx === currentIndex ? 'w-8 bg-gold' : 'w-2 bg-gray-600 hover:bg-gray-400'
-                        }`}
+                        className={`transition-all duration-300 rounded-full h-1.5 focus:outline-none ${idx === currentIndex ? 'w-8 bg-gold' : 'w-2 bg-gray-600 hover:bg-gray-400'
+                            }`}
                         aria-label={`Go to slide ${idx + 1}`}
                     />
                 ))}
