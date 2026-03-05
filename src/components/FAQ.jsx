@@ -8,10 +8,10 @@ const FAQItem = ({ faq, isOpen, onClick }) => {
   return (
     <div className="border-b border-dark-700">
       <button
-        className="w-full py-6 flex justify-between items-center text-left focus:outline-none group"
+        className="w-full py-6 px-4 md:px-6 flex justify-between items-center text-left focus:outline-none group"
         onClick={onClick}
       >
-        <span className={`text-base md:text-[17px] font-normal tracking-wide transition-colors duration-300 group-hover:text-gold-light ${isOpen ? "text-gold-light" : "text-gray-100"}`}>
+        <span className={`text-base md:text-[17px] font-normal tracking-wide transition-colors duration-300 group-hover:text-gold ${isOpen ? "text-gold" : "text-gray-100"}`}>
           {faq.question}
         </span>
         <ChevronDown
@@ -23,7 +23,7 @@ const FAQItem = ({ faq, isOpen, onClick }) => {
           }`}
       >
         <div className="overflow-hidden">
-          <p className="text-gray-400 font-light leading-relaxed pb-6">
+          <p className="text-gray-400 font-light leading-relaxed pb-6 px-4 md:px-6">
             {faq.answer}
           </p>
         </div>
