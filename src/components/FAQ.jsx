@@ -37,7 +37,10 @@ const FAQ = () => {
   useIntersectionObserver();
 
   return (
-    <section id="faq" className="py-32 bg-dark-800 relative">
+    <section id="faq" className="py-32 bg-dark-800 relative overflow-hidden">
+      {/* Subtle vertical pinstripes reminiscent of harp strings */}
+      <div className="absolute inset-0 luxury-lines opacity-20 z-0"></div>
+
       <div className="max-w-4xl mx-auto px-8 md:px-12 relative z-10">
 
         <div className="fade-in-section text-center mb-16">

@@ -53,30 +53,30 @@ const PerformancePreview = () => {
             </p>
           </div>
           <div className="mt-8 md:mt-0 flex flex-row gap-3 sm:gap-6 items-center">
-            <Link 
-              to="/portfolio" 
+            <Link
+              to="/portfolio"
               ref={explorePortfolioRef}
-              className="mobile-explore-target flex items-center justify-between bg-transparent text-white border border-white/20 px-3 sm:px-6 py-3 sm:py-4 w-40 sm:w-56 hover:border-[#C69C5C] hover:text-[#C69C5C] transition-all duration-500 group rounded-[2px]"
+              className="mobile-explore-target flex items-center justify-between bg-transparent text-white border border-white/20 px-3 sm:px-6 py-3 sm:py-4 w-40 sm:w-56 hover:border-[#C69C5C] hover:text-[#C69C5C] transition-all duration-1000 group rounded-[2px]"
             >
               <div className="flex flex-col items-start leading-tight tracking-[0.15em] font-medium text-[0.6rem] sm:text-xs">
                 <span>EXPLORE</span>
                 <span>PORTFOLIO</span>
               </div>
-              <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:translate-x-1 max-lg:group-[.mobile-hover-active]:translate-x-1 transition-transform duration-500" strokeWidth={1.5} />
+              <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:translate-x-1 max-lg:group-[.mobile-hover-active]:translate-x-1 transition-transform duration-1000" strokeWidth={1.5} />
             </Link>
 
-            <Link 
-              to="/repertoire" 
+            <Link
+              to="/repertoire"
               ref={viewProgramsRef}
-              className="relative overflow-hidden flex items-center justify-between text-gold border border-gold px-3 sm:px-6 py-3 sm:py-4 w-40 sm:w-56 transition-all duration-500 group rounded-[2px]"
+              className="relative overflow-hidden flex items-center justify-between text-gold border border-gold px-3 sm:px-6 py-3 sm:py-4 w-40 sm:w-56 transition-all duration-1000 group rounded-[2px]"
             >
-              <div className="absolute inset-0 bg-gold origin-left scale-x-0 group-hover:scale-x-100 max-lg:group-[.mobile-hover-active]:scale-x-100 transition-transform duration-500 ease-out z-0"></div>
-              
-              <div className="flex flex-col items-start leading-tight tracking-[0.15em] font-medium text-[0.6rem] sm:text-xs relative z-10 group-hover:text-dark-900 max-lg:group-[.mobile-hover-active]:text-dark-900 transition-colors duration-500">
+              <div className="absolute inset-0 bg-gold origin-left scale-x-0 group-hover:scale-x-100 max-lg:group-[.mobile-hover-active]:scale-x-100 transition-transform duration-1000 ease-out z-0"></div>
+
+              <div className="flex flex-col items-start leading-tight tracking-[0.15em] font-medium text-[0.6rem] sm:text-xs relative z-10 group-hover:text-dark-900 max-lg:group-[.mobile-hover-active]:text-dark-900 transition-colors duration-1000">
                 <span>VIEW</span>
                 <span>PROGRAMS</span>
               </div>
-              <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 relative z-10 group-hover:text-dark-900 max-lg:group-[.mobile-hover-active]:text-dark-900 group-hover:translate-x-1 max-lg:group-[.mobile-hover-active]:translate-x-1 transition-all duration-500" strokeWidth={1.5} />
+              <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 relative z-10 group-hover:text-dark-900 max-lg:group-[.mobile-hover-active]:text-dark-900 group-hover:translate-x-1 max-lg:group-[.mobile-hover-active]:translate-x-1 transition-all duration-1000" strokeWidth={1.5} />
             </Link>
           </div>
         </div>
@@ -140,8 +140,8 @@ const PerformancePreview = () => {
         </div>
 
         <div className="mt-16 text-center flex justify-center w-full">
-          <Link 
-            to="/portfolio#gallery" 
+          <Link
+            to="/portfolio#gallery"
             ref={galleryLinkRef}
             className="inline-flex items-center text-xs sm:text-sm text-gray-400 hover:text-white uppercase tracking-[0.2em] transition-colors duration-300 group"
           >

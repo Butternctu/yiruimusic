@@ -119,7 +119,7 @@ a {
     border-color: var(--color-gold) !important;
     color: var(--color-gold) !important;
   }
-  
+
   .mobile-hover-active.mobile-explore-target svg {
     color: var(--color-gold) !important;
   }
@@ -182,7 +182,7 @@ a {
   }
 }
 
-/* Robust Autofill CSS - Matches Contact Section Background (#141414) */
+/* Robust Autofill CSS - Matches Contact Section Background (#0a0a0a) */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
@@ -191,9 +191,9 @@ textarea:-webkit-autofill,
 textarea:-webkit-autofill:hover,
 textarea:-webkit-autofill:focus,
 textarea:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0px 1000px #141414 inset !important;
-  box-shadow: 0 0 0px 1000px #141414 inset !important;
-  background-color: #141414 !important;
+  -webkit-box-shadow: 0 0 0px 1000px #0a0a0a inset !important;
+  box-shadow: 0 0 0px 1000px #0a0a0a inset !important;
+  background-color: #0a0a0a !important;
   -webkit-text-fill-color: #c5a059 !important;
   color: #c5a059 !important;
   caret-color: #c5a059 !important;

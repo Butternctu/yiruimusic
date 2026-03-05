@@ -174,7 +174,11 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="py-32 bg-dark-800 relative border-t border-white/5">
+    <section id="contact" className="py-32 relative border-t border-white/5 overflow-hidden">
+      <div className="absolute inset-0 bg-dark-900 z-0"></div>
+      {/* Premium ambient gold spotlight effect for the contact form */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[150%] max-w-[100rem] h-[600px] bg-[radial-gradient(ellipse_at_top,_rgba(197,160,89,0.02)_0%,_transparent_70%)] z-0 pointer-events-none"></div>
+
       <div className="max-w-4xl mx-auto px-6 md:px-12 fade-in-section relative z-10">
         <div className="text-center mb-16">
           <h3 className="text-gold uppercase tracking-[0.2em] text-xs mb-4">Connect</h3>

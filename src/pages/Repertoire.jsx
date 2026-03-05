@@ -172,7 +172,7 @@ const Repertoire = () => {
 
     return (
         <div className="font-sans text-gray-300 bg-dark-900 antialiased selection:bg-gold selection:text-dark-900 min-h-screen flex flex-col justify-between">
-            <SEO 
+            <SEO
                 title="Programs &amp; Repertoire"
                 description="A curated selection spanning from canonical orchestral masterworks and intimate chamber music, to elegant selections for church services and bespoke private engagements."
                 url="/repertoire"
@@ -239,7 +239,7 @@ const Repertoire = () => {
                             const translateX = sign * (fraction * centerSpacing + overshoot * stackSpacing);
 
                             const scale = Math.max(0.65, 1 - absOffset * 0.15);
-                            const opacityVal = Math.max(0, 1 - absOffset * 0.5);
+                            const opacityVal = dragOffset ? Math.max(0, 1 - absOffset * 0.6) : (idx === currentIndex ? 1 : Math.max(0, 1 - absOffset * 0.6));
 
                             return (
                                 <div
@@ -266,8 +266,8 @@ const Repertoire = () => {
 
                                         {/* Overlay to darken side items visually */}
                                         <div
-                                            className="absolute inset-0 bg-black/50 rounded-lg transition-opacity duration-300 pointer-events-none"
-                                            style={{ opacity: Math.min(1, absOffset * 0.8) }}
+                                            className="absolute inset-0 bg-black/90 rounded-lg transition-opacity duration-500 pointer-events-none z-30"
+                                            style={{ opacity: dragOffset ? Math.min(1, absOffset * 1.2) : (idx === currentIndex ? 0 : 1) }}
                                         ></div>
                                     </div>
                                 </div>
