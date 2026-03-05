@@ -248,29 +248,29 @@ const Repertoire = () => {
                                     className={`col-start-1 row-start-1 transition-all duration-300 ${absOffset > 0.5 ? 'pointer-events-none' : ''}`}
                                     style={{
                                         width: `${itemWidth}px`,
-                                        zIndex: Math.round(zIndex),
-                                        opacity: dragOffset ? opacityVal : (idx === currentIndex ? 1 : Math.max(0, 1 - absOffset * 0.5)),
-                                        transform: `translateX(${translateX}px) translateZ(${translateZ}px) rotateY(${rotateY}deg) scale(${scale})`,
-                                        transition: dragOffset ? 'none' : 'transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1)'
-                                    }}
-                                >
-                                    <div
-                                        className="bg-dark-800/90 p-8 md:p-16 border border-white/10 rounded-lg relative h-full w-full shadow-2xl backdrop-blur-sm"
-                                        style={{ boxShadow: idx === currentIndex ? '0 25px 50px -12px rgba(0, 0, 0, 0.8)' : '0 10px 30px rgba(0,0,0,0.5)' }}
+                                            zIndex: Math.round(zIndex),
+                                            opacity: dragOffset ? opacityVal : (idx === currentIndex ? 1 : Math.max(0, 1 - absOffset * 0.4)),
+                                            transform: `translateX(${translateX}px) translateZ(${translateZ}px) rotateY(${rotateY}deg) scale(${scale})`,
+                                            transition: dragOffset ? 'none' : 'transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1)'
+                                        }}
                                     >
-                                        <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-transparent via-gold to-transparent opacity-30"></div>
-                                        <h2 className={`font-serif text-3xl mb-6 tracking-wide text-center transition-colors duration-500 ${idx === currentIndex ? 'text-white' : 'text-gray-400'}`}>
-                                            {tab.title}
-                                        </h2>
-                                        <div className="h-px w-24 bg-gold mx-auto opacity-50 mb-6"></div>
-                                        {getListContent(tab.id)}
-
-                                        {/* Overlay to darken side items visually */}
                                         <div
-                                            className="absolute inset-0 bg-black/90 rounded-lg transition-opacity duration-500 pointer-events-none z-30"
-                                            style={{ opacity: dragOffset ? Math.min(1, absOffset * 1.2) : (idx === currentIndex ? 0 : 1) }}
-                                        ></div>
-                                    </div>
+                                            className="bg-dark-800/90 p-8 md:p-16 border border-white/10 rounded-lg relative h-full w-full shadow-2xl backdrop-blur-sm"
+                                            style={{ boxShadow: idx === currentIndex ? '0 25px 50px -12px rgba(0, 0, 0, 0.8)' : '0 10px 30px rgba(0,0,0,0.5)' }}
+                                        >
+                                            <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-transparent via-gold to-transparent opacity-30"></div>
+                                            <h2 className={`font-serif text-3xl mb-6 tracking-wide text-center transition-colors duration-500 ${idx === currentIndex ? 'text-white' : 'text-gray-400'}`}>
+                                                {tab.title}
+                                            </h2>
+                                            <div className="h-px w-24 bg-gold mx-auto opacity-50 mb-6"></div>
+                                            {getListContent(tab.id)}
+    
+                                            {/* Overlay to darken side items visually */}
+                                            <div
+                                                className="absolute inset-0 bg-black/75 rounded-lg transition-opacity duration-500 pointer-events-none z-30"
+                                                style={{ opacity: dragOffset ? Math.min(1, absOffset * 1.0) : (idx === currentIndex ? 0 : 1) }}
+                                            ></div>
+                                        </div>
                                 </div>
                             );
                         })}
