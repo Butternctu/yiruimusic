@@ -55,8 +55,8 @@ const Academic = () => {
           </div>
 
           {/* Research */}
-          <div ref={card2Ref} className="bg-dark-900 p-12 border border-white/5 hover:border-gold/30 max-md:[&.mobile-hover-active]:border-gold/30 transition-colors duration-1000 fade-in-section group relative overflow-hidden" style={{ transitionDelay: '200ms' }}>
-            <div className="absolute top-0 left-0 w-full h-1 bg-gold transform -translate-x-full group-hover:translate-x-0 max-md:group-[.mobile-hover-active]:translate-x-0 transition-transform duration-1000 delay-500 md:delay-0"></div>
+          <div ref={card2Ref} className="bg-dark-900 p-12 border border-white/5 hover:border-gold/30 max-md:[&.mobile-hover-active]:border-gold/30 transition-colors duration-1000 fade-in-section group relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-1 bg-gold transform -translate-x-full group-hover:translate-x-0 max-md:group-[.mobile-hover-active]:translate-x-0 transition-transform duration-1000 delay-300 md:delay-0"></div>
             <BrainCircuit className="w-8 h-8 text-gold mb-8 stroke-[1.5]" />
             <h4 className="font-serif text-2xl text-white mb-2 tracking-wide">Performance Anxiety</h4>
             <p className="text-gray-500 text-xs uppercase tracking-widest mb-6">Doctoral Dissertation</p>
