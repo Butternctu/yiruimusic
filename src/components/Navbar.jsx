@@ -53,11 +53,19 @@ const Navbar = () => {
     }
   };
 
+  const handleLogoClick = (e) => {
+    const isHomepage = window.location.pathname === '/' || window.location.pathname === '';
+    if (isHomepage) {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
   return (
     <>
       <header id="main-nav" className={`fixed w-full z-110 transition-all duration-300 py-2 border-b ${isScrolled ? 'bg-dark-900/95 backdrop-blur-md border-white/10' : 'bg-transparent border-white/5'}`}>
         <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
-          <Link to="/" className="flex items-center scroll-link">
+          <Link to="/" onClick={handleLogoClick} className="flex items-center scroll-link">
             <div
               className={`bg-gold transition-all duration-300 ${isScrolled ? 'h-12 md:h-16 w-32 md:w-40' : 'h-20 md:h-24 w-48 md:w-56'}`}
               style={{
