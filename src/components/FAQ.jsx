@@ -11,7 +11,7 @@ const FAQItem = ({ faq, isOpen, onClick }) => {
         className="w-full py-6 flex justify-between items-center text-left focus:outline-none group"
         onClick={onClick}
       >
-        <span className={`text-lg font-serif transition-colors duration-300 group-hover:text-gold-light ${isOpen ? "text-gold-light" : "text-gray-100"}`}>
+        <span className={`text-base md:text-[17px] font-normal tracking-wide transition-colors duration-300 group-hover:text-gold-light ${isOpen ? "text-gold-light" : "text-gray-100"}`}>
           {faq.question}
         </span>
         <ChevronDown
