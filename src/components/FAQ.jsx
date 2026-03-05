@@ -15,7 +15,7 @@ const FAQItem = ({ faq, isOpen, onClick }) => {
           {faq.question}
         </span>
         <ChevronDown
-          className={`w-5 h-5 text-gold transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
+          className={`w-5 h-5 shrink-0 ml-4 text-gold transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
         />
       </button>
       <div
@@ -38,7 +38,7 @@ const FAQ = () => {
 
   return (
     <section id="faq" className="py-32 bg-dark-800 relative">
-      <div className="max-w-4xl mx-auto px-6 md:px-12 relative z-10">
+      <div className="max-w-4xl mx-auto px-8 md:px-12 relative z-10">
 
         <div className="fade-in-section text-center mb-16">
           <div className="flex items-center justify-center mb-6">
