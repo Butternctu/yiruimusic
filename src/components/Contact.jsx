@@ -200,7 +200,7 @@ const Contact = () => {
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-12 relative z-10">
+        <form onSubmit={handleSubmit} className="space-y-12 relative z-10 pb-12">
           {/* Honeypot field for bot protection */}
           <input type="text" name="_honey" style={{ display: 'none' }} tabIndex="-1" autoComplete="off" />
 
