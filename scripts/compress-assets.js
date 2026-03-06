@@ -48,7 +48,7 @@ async function compressImage(filePath) {
   totalOriginalSize += originalSize;
 
   try {
-    const image = sharp(filePath);
+    const image = sharp(filePath).rotate(); // auto-correct EXIF orientation
     const metadata = await image.metadata();
 
     let pipeline = image;
