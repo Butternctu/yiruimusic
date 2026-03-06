@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async';
 
 const SEO = ({ title, description, url, image }) => {
   const siteTitle = 'Dr. Yirui Li, Harpist & Educator | Houston, Texas';
-  const defaultDescription = 'Official portfolio of Dr. Yirui Li — professional harpist and educator in Houston, Texas. Explore biography, performances, masterclasses, and booking contact.';
+  const defaultDescription = 'Houston harpist for weddings, corporate events & concerts. Dr. Yirui Li — award-winning performer, educator & Adjunct Professor at SHSU. Book harp performances or lessons across Houston, Texas.';
   const siteUrl = 'https://yiruimusic.com';
   const defaultImage = `${siteUrl}/yirui_cover.jpg`;
 

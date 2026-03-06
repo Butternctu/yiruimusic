@@ -60,7 +60,7 @@ const Portfolio = () => {
     <>
       <SEO
         title="Performance Portfolio"
-        description="A comprehensive archive of Dr. Yirui Li's global performances, highlighting her versatility across orchestral masterworks, solo recitals, and academic mentorship."
+        description="Houston harpist Dr. Yirui Li — orchestral performer, recitalist & private event specialist. Principal harp with leading Texas orchestras. Available for hire across Houston and Greater Texas."
         url="/portfolio"
       />
 
