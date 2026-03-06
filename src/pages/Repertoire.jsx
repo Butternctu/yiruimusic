@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import SEO from '../components/SEO';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 import { useSwipeable } from 'react-swipeable';
 import { repertoireData } from '../data/repertoire';
@@ -172,13 +170,12 @@ const Repertoire = () => {
     };
 
     return (
-        <div className="font-sans text-gray-300 bg-dark-900 antialiased selection:bg-gold selection:text-dark-900 min-h-screen flex flex-col justify-between">
+    <>
             <SEO
                 title="Programs &amp; Repertoire"
                 description="A curated selection spanning from canonical orchestral masterworks and intimate chamber music, to elegant selections for church services and bespoke private engagements."
                 url="/repertoire"
             />
-            <Navbar />
 
             <main className="grow pb-32 overflow-hidden">
                 {/* Page Header */}
@@ -293,8 +290,7 @@ const Repertoire = () => {
 
             </main>
 
-            <Footer />
-        </div>
+    </>
     );
 };
 
