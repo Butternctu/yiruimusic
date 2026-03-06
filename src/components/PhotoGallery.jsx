@@ -122,7 +122,9 @@ const PhotoGallery = ({ images }) => {
                                 <div className={`group w-full h-full rounded-sm overflow-hidden border border-white/10 shadow-2xl relative bg-dark-900 flex items-center justify-center transition-all duration-700 hover:shadow-[0_0_30px_rgba(201,165,116,0.15)] hover:border-gold/30 ${idx === currentIndex ? 'shadow-[0_0_20px_rgba(201,165,116,0.1)] border-gold/20' : ''}`}>
                                     <div className="absolute inset-0 bg-black z-10 pointer-events-none transition-opacity duration-500" style={{ opacity: dragOffset ? Math.min(maxOverlayOpacity, absOffset * maxOverlayOpacity) : (idx === currentIndex ? 0 : maxOverlayOpacity) }}></div>
                                     <img
-                                        src={imgSrc}
+                                        src={typeof imgSrc === 'string' ? imgSrc : imgSrc.src}
+                                        srcSet={typeof imgSrc === 'object' ? imgSrc.srcSet : undefined}
+                                        sizes="(max-width: 768px) 85vw, 600px"
                                         alt={`Gallery Image ${idx + 1}`}
                                         className={`w-full h-full object-cover object-center transition-all duration-1000 ${idx === currentIndex ? 'opacity-100 scale-[1.03]' : 'opacity-85'}`}
                                         draggable="false"

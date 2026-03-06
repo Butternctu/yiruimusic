@@ -3,9 +3,13 @@ import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 import imgOrchestral from '../assets/orchestral-001.webp';
+import imgOrchestralSm from '../assets/orchestral-001-sm.webp';
 import imgTeaching from '../assets/teaching-001.webp';
+import imgTeachingSm from '../assets/teaching-001-sm.webp';
 import imgRecitals from '../assets/recitals-001.webp';
+import imgRecitalsSm from '../assets/recitals-001-sm.webp';
 import imgGig from '../assets/gig-001.webp';
+import imgGigSm from '../assets/gig-001-sm.webp';
 
 const PerformancePreview = () => {
   useIntersectionObserver();
@@ -85,6 +89,8 @@ const PerformancePreview = () => {
           <div className="aspect-4/5 bg-dark-800 relative overflow-hidden group fade-in-gentle">
             <img
               src={imgOrchestral}
+              srcSet={`${imgOrchestralSm} 600w, ${imgOrchestral} 1200w`}
+              sizes="(max-width: 768px) 50vw, 25vw"
               decoding="async"
               className="absolute inset-0 w-full h-full object-cover object-left opacity-100 md:opacity-75 md:group-hover:opacity-100 md:group-hover:scale-105 origin-left transition-all duration-1000"
               alt="Dr. Yirui Li Orchestral Engagements"
@@ -99,6 +105,8 @@ const PerformancePreview = () => {
           <div className="aspect-4/5 bg-dark-800 relative overflow-hidden group fade-in-gentle">
             <img
               src={imgTeaching}
+              srcSet={`${imgTeachingSm} 600w, ${imgTeaching} 1200w`}
+              sizes="(max-width: 768px) 50vw, 25vw"
               decoding="async"
               className="absolute inset-0 w-full h-full object-cover object-[center_25%] opacity-100 md:opacity-75 md:group-hover:opacity-100 md:group-hover:scale-105 transition-all duration-1000"
               alt="Dr. Yirui Li Masterclasses"
@@ -113,6 +121,8 @@ const PerformancePreview = () => {
           <div className="aspect-4/5 bg-dark-800 relative overflow-hidden group fade-in-gentle">
             <img
               src={imgRecitals}
+              srcSet={`${imgRecitalsSm} 600w, ${imgRecitals} 1200w`}
+              sizes="(max-width: 768px) 50vw, 25vw"
               decoding="async"
               className="absolute inset-0 w-full h-full object-cover object-[center_20%] scale-125 opacity-100 md:opacity-75 md:group-hover:opacity-100 md:group-hover:scale-[1.3] transition-all duration-1000"
               alt="Dr. Yirui Li Solo Recitals"
@@ -127,6 +137,8 @@ const PerformancePreview = () => {
           <div className="aspect-4/5 bg-dark-800 relative overflow-hidden group fade-in-gentle">
             <img
               src={imgGig}
+              srcSet={`${imgGigSm} 600w, ${imgGig} 1200w`}
+              sizes="(max-width: 768px) 50vw, 25vw"
               decoding="async"
               className="absolute inset-0 w-full h-full object-cover object-[center_25%] opacity-100 md:opacity-75 md:group-hover:opacity-100 md:group-hover:scale-105 transition-all duration-1000"
               alt="Dr. Yirui Li Private Engagements"

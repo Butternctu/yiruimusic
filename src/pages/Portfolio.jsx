@@ -9,33 +9,61 @@ import imgRecitals from '../assets/recitals-001.webp';
 import imgGig from '../assets/gig-001.webp';
 import PhotoGallery from '../components/PhotoGallery';
 
-// Import new gallery images
+// Import gallery images (900px) + sm variants (450px for mobile)
 import g1 from '../assets/gallery/DSCF4015.webp';
+import g1sm from '../assets/gallery/DSCF4015-sm.webp';
 import g2 from '../assets/gallery/DSCF4023.webp';
+import g2sm from '../assets/gallery/DSCF4023-sm.webp';
 import g3 from '../assets/gallery/DSC_9064_HeadshotsEugeneb.webp';
+import g3sm from '../assets/gallery/DSC_9064_HeadshotsEugeneb-sm.webp';
 import img0001 from '../assets/gallery/IMG_0001.webp';
+import img0001sm from '../assets/gallery/IMG_0001-sm.webp';
 import img0002 from '../assets/gallery/IMG_0002.webp';
+import img0002sm from '../assets/gallery/IMG_0002-sm.webp';
 import img0003 from '../assets/gallery/IMG_0003.webp';
+import img0003sm from '../assets/gallery/IMG_0003-sm.webp';
 import g7 from '../assets/gallery/IMG_2361.webp';
+import g7sm from '../assets/gallery/IMG_2361-sm.webp';
 import g9 from '../assets/gallery/IMG_5195.webp';
+import g9sm from '../assets/gallery/IMG_5195-sm.webp';
 import g10 from '../assets/gallery/IMG_6180.webp';
+import g10sm from '../assets/gallery/IMG_6180-sm.webp';
 import g12 from '../assets/gallery/IMG_6189.webp';
+import g12sm from '../assets/gallery/IMG_6189-sm.webp';
 import g13 from '../assets/gallery/IMG_6190.webp';
+import g13sm from '../assets/gallery/IMG_6190-sm.webp';
 import g14 from '../assets/gallery/IMG_6191.webp';
+import g14sm from '../assets/gallery/IMG_6191-sm.webp';
 import g15 from '../assets/gallery/IMG_7432.webp';
+import g15sm from '../assets/gallery/IMG_7432-sm.webp';
 import g16 from '../assets/gallery/IMG_7649.webp';
+import g16sm from '../assets/gallery/IMG_7649-sm.webp';
 import g17 from '../assets/gallery/IMG_7663.webp';
+import g17sm from '../assets/gallery/IMG_7663-sm.webp';
 import g18 from '../assets/gallery/IMG_8323.webp';
+import g18sm from '../assets/gallery/IMG_8323-sm.webp';
 import g19 from '../assets/gallery/IMG_7105.webp';
+import g19sm from '../assets/gallery/IMG_7105-sm.webp';
 import g20 from '../assets/gallery/IMG_7431.webp';
+import g20sm from '../assets/gallery/IMG_7431-sm.webp';
 import g25 from '../assets/gallery/IMG_2868.webp';
+import g25sm from '../assets/gallery/IMG_2868-sm.webp';
 import g27 from '../assets/gallery/IMG_5722.webp';
+import g27sm from '../assets/gallery/IMG_5722-sm.webp';
 import g30 from '../assets/gallery/S__102162469_0.webp';
+import g30sm from '../assets/gallery/S__102162469_0-sm.webp';
+
+// Each entry: { src: full size, srcSet: "sm 450w, full 900w" }
+const makeImg = (full, sm) => ({ src: full, srcSet: `${sm} 450w, ${full} 900w` });
 
 const galleryImages = [
-  img0001, img0002, img0003, g1, g2, g3, g7, g9,
-  g10, g12, g13, g14, g15, g16, g17, g18,
-  g19, g20, g25, g27, g30
+  makeImg(img0001, img0001sm), makeImg(img0002, img0002sm), makeImg(img0003, img0003sm),
+  makeImg(g1, g1sm), makeImg(g2, g2sm), makeImg(g3, g3sm),
+  makeImg(g7, g7sm), makeImg(g9, g9sm), makeImg(g10, g10sm),
+  makeImg(g12, g12sm), makeImg(g13, g13sm), makeImg(g14, g14sm),
+  makeImg(g15, g15sm), makeImg(g16, g16sm), makeImg(g17, g17sm),
+  makeImg(g18, g18sm), makeImg(g19, g19sm), makeImg(g20, g20sm),
+  makeImg(g25, g25sm), makeImg(g27, g27sm), makeImg(g30, g30sm),
 ];
 
 const Portfolio = () => {
