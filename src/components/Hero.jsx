@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import yiruiCover from '../assets/yirui_cover.jpg';
+import yiruiCover from '../assets/yirui_cover.webp';
 
 const Hero = () => {
   useEffect(() => {

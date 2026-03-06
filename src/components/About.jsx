@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
-import yiruiSmile from '../assets/yirui_smile.jpg';
+import yiruiSmile from '../assets/yirui_smile.webp';
 
 const About = () => {
   const [showFullBio, setShowFullBio] = useState(false);

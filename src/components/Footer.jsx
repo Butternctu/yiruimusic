@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Youtube, Instagram, Linkedin, MessageSquare, Facebook } from 'lucide-react';
-import yiruiLogo from '../assets/yirui_logo.png';
+import yiruiLogo from '../assets/yirui_logo.webp';
 
 const Footer = () => {
   const [copyStatus, setCopyStatus] = useState('harpist11');

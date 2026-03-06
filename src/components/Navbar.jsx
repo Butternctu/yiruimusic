@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
-import yiruiLogo from '../assets/yirui_logo.png';
+import yiruiLogo from '../assets/yirui_logo.webp';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);

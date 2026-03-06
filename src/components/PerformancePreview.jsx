@@ -2,10 +2,10 @@ import React, { useRef, useEffect } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
-import imgOrchestral from '../assets/orchestral-001.jpeg';
-import imgTeaching from '../assets/teaching-001.jpeg';
-import imgRecitals from '../assets/recitals-001.jpeg';
-import imgGig from '../assets/gig-001.jpeg';
+import imgOrchestral from '../assets/orchestral-001.webp';
+import imgTeaching from '../assets/teaching-001.webp';
+import imgRecitals from '../assets/recitals-001.webp';
+import imgGig from '../assets/gig-001.webp';
 
 const PerformancePreview = () => {
   useIntersectionObserver();
