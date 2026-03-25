@@ -25,11 +25,6 @@ const Navbar = () => {
     }
   }, [isMobileMenuOpen]);
 
-  // Automatically close mobile menu on route change
-  useEffect(() => {
-    setIsMobileMenuOpen(false);
-  }, [location.pathname]);
-
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
@@ -41,9 +36,10 @@ const Navbar = () => {
       const normalizedPath = path || '/';
       const isSamePage = location.pathname === normalizedPath || (location.pathname === '/' && normalizedPath === '/');
 
+      setIsMobileMenuOpen(false);
+      
       if (isSamePage) {
         e.preventDefault();
-        setIsMobileMenuOpen(false);
         const targetId = hash ? `#${hash}` : '#';
 
         // Use a small delay to ensure any layout shifts or menu closures complete
@@ -69,6 +65,7 @@ const Navbar = () => {
   };
 
   const handleLogoClick = (e) => {
+    setIsMobileMenuOpen(false);
     const isHomepage = window.location.pathname === '/' || window.location.pathname === '';
     if (isHomepage) {
       e.preventDefault();
@@ -102,7 +99,7 @@ const Navbar = () => {
             <Link to="/#about" onClick={(e) => handleHashLinkClick(e, '/#about')} className="hover:text-gold transition-colors duration-300">About</Link>
             <Link to="/#teaching" onClick={(e) => handleHashLinkClick(e, '/#teaching')} className="hover:text-gold transition-colors duration-300">Academic</Link>
             <Link to="/#performance" onClick={(e) => handleHashLinkClick(e, '/#performance')} className="hover:text-gold transition-colors duration-300">Performance</Link>
-            <Link to="/repertoire" className="hover:text-gold transition-colors duration-300">Programs</Link>
+            <Link to="/repertoire" onClick={closeMobileMenu} className="hover:text-gold transition-colors duration-300">Programs</Link>
             <Link to="/#contact" onClick={(e) => handleHashLinkClick(e, '/#contact')} className="text-gold border border-gold/50 px-4 py-2 hover:bg-gold hover:text-dark-900 transition-all duration-300 rounded-sm">Contact</Link>
           </nav>
 
@@ -134,7 +131,7 @@ const Navbar = () => {
             <Link to="/#about" onClick={(e) => handleHashLinkClick(e, '/#about')} className="hover:text-gold transition-colors duration-300 px-8 py-2">About</Link>
             <Link to="/#teaching" onClick={(e) => handleHashLinkClick(e, '/#teaching')} className="hover:text-gold transition-colors duration-300 px-8 py-2">Academic</Link>
             <Link to="/#performance" onClick={(e) => handleHashLinkClick(e, '/#performance')} className="hover:text-gold transition-colors duration-300 px-8 py-2">Performance</Link>
-            <Link to="/repertoire" className="hover:text-gold transition-colors duration-300 px-8 py-2">Programs</Link>
+            <Link to="/repertoire" onClick={closeMobileMenu} className="hover:text-gold transition-colors duration-300 px-8 py-2">Programs</Link>
             <Link to="/#contact" onClick={(e) => handleHashLinkClick(e, '/#contact')} className="text-gold border border-gold/50 px-8 py-3 hover:bg-gold hover:text-dark-900 transition-all duration-300 rounded-sm mt-4">Contact</Link>
           </nav>
         </div>

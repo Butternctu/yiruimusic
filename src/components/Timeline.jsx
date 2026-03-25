@@ -3,22 +3,22 @@ import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 
 const timelineEvents = [
   {
+    year: '2024',
+    title: 'Doctor of Musical Arts',
+    description: 'Completed Doctor of Musical Arts degree from the University of Oregon with a focus on harp performance and pedagogy.'
+  },
+  {
     year: '2023',
     title: 'First Prize Winner',
     description: 'Awarded First Prize at the prestigious American International Music Competition, recognizing outstanding artistic achievement.'
   },
   {
-    year: '2020',
-    title: 'Doctor of Musical Arts',
-    description: 'Completed Doctor of Musical Arts degree from the University of Oregon with a focus on harp performance and pedagogy.'
-  },
-  {
-    year: '2016',
+    year: '2021',
     title: 'Master of Music',
     description: 'Earned Master of Music degree from SUNY Fredonia, advancing scholarly and technical mastery of the instrument.'
   },
   {
-    year: '2012',
+    year: '2018',
     title: 'Early Education',
     description: 'Commenced formal music education at the esteemed Tianjin Conservatory of Music.'
   }
