@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { useIntersectionObserver } from "../hooks/useIntersectionObserver";
@@ -8,6 +8,29 @@ const About = () => {
   const [showFullBio, setShowFullBio] = useState(false);
   const toggleBio = () => setShowFullBio(!showFullBio);
   useIntersectionObserver();
+
+  const journeyBtnRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('mobile-hover-active');
+          } else {
+            entry.target.classList.remove('mobile-hover-active');
+          }
+        });
+      },
+      {
+        threshold: 0.8,
+      }
+    );
+
+    if (journeyBtnRef.current) observer.observe(journeyBtnRef.current);
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <section id="about" className="py-32 bg-dark-900 relative">
@@ -75,15 +98,16 @@ const About = () => {
             </button>
             <Link
               to="/journey"
-              className="relative overflow-hidden flex items-center justify-between gap-6 text-gold border border-gold px-6 sm:px-8 py-3.5 sm:py-4 w-full sm:w-auto transition-all duration-1000 md:duration-500 group rounded-[2px] active:scale-[0.98] mt-6"
+              ref={journeyBtnRef}
+              className="fade-in-section relative overflow-hidden flex items-center justify-between gap-6 text-gold border border-gold px-6 sm:px-8 py-3.5 sm:py-4 w-fit transition-all duration-1000 md:duration-500 group rounded-[2px] active:scale-[0.98] mt-6"
             >
-              <div className="absolute inset-0 bg-gold origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-1000 md:duration-500 ease-out z-0"></div>
+              <div className="absolute inset-0 bg-gold origin-left scale-x-0 group-hover:scale-x-100 max-lg:group-[.mobile-hover-active]:scale-x-100 transition-transform duration-1000 md:duration-500 ease-out z-0"></div>
 
-              <div className="flex items-center leading-tight tracking-[0.15em] font-medium text-[0.65rem] sm:text-xs relative z-10 group-hover:text-dark-900 transition-colors duration-1000 md:duration-500 whitespace-nowrap">
+              <div className="flex items-center leading-tight tracking-[0.15em] font-medium text-[0.65rem] sm:text-xs relative z-10 group-hover:text-dark-900 max-lg:group-[.mobile-hover-active]:text-dark-900 transition-colors duration-1000 md:duration-500 whitespace-nowrap">
                 <span>VIEW MUSICAL JOURNEY</span>
               </div>
               <ArrowRight
-                className="w-4 h-4 relative z-10 group-hover:text-dark-900 group-hover:translate-x-1 transition-all duration-1000 md:duration-500"
+                className="w-4 h-4 relative z-10 group-hover:text-dark-900 max-lg:group-[.mobile-hover-active]:text-dark-900 group-hover:translate-x-1 max-lg:group-[.mobile-hover-active]:translate-x-1 transition-all duration-1000 md:duration-500"
                 strokeWidth={1.5}
               />
             </Link>
