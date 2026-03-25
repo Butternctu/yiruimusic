@@ -16,15 +16,15 @@ const About = () => {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add('mobile-hover-active');
+            entry.target.classList.add("mobile-hover-active");
           } else {
-            entry.target.classList.remove('mobile-hover-active');
+            entry.target.classList.remove("mobile-hover-active");
           }
         });
       },
       {
         threshold: 0.8,
-      }
+      },
     );
 
     if (journeyBtnRef.current) observer.observe(journeyBtnRef.current);
@@ -99,18 +99,13 @@ const About = () => {
             <Link
               to="/journey"
               ref={journeyBtnRef}
-              className="self-end fade-in-section relative overflow-hidden flex items-center justify-between gap-6 text-gold border border-gold px-6 sm:px-8 py-3.5 sm:py-4 w-fit transition-all duration-1000 md:duration-500 group rounded-[2px] active:scale-[0.98] mt-6"
+              className="self-center fade-in-section inline-flex items-center text-xs sm:text-sm text-gray-400 hover:text-white uppercase tracking-[0.2em] transition-colors duration-300 group mt-12"
             >
-              <div className="absolute inset-0 bg-gold origin-left scale-x-0 group-hover:scale-x-100 max-lg:group-[.mobile-hover-active]:scale-x-100 transition-transform duration-1000 md:duration-500 ease-out z-0"></div>
-
-              <div className="flex flex-col items-start leading-tight tracking-[0.15em] font-medium text-[0.65rem] sm:text-xs relative z-10 group-hover:text-dark-900 max-lg:group-[.mobile-hover-active]:text-dark-900 transition-colors duration-1000 md:duration-500">
-                <span>VIEW</span>
-                <span>MUSICAL JOURNEY</span>
-              </div>
-              <ArrowRight
-                className="w-4 h-4 relative z-10 group-hover:text-dark-900 max-lg:group-[.mobile-hover-active]:text-dark-900 group-hover:translate-x-1 max-lg:group-[.mobile-hover-active]:translate-x-1 transition-all duration-1000 md:duration-500"
-                strokeWidth={1.5}
-              />
+              <span className="relative">
+                VIEW MUSICAL JOURNEY
+                <span className="absolute -bottom-2 left-0 w-0 h-px bg-gold transition-all duration-1000 group-hover:w-full max-lg:group-[.mobile-hover-active]:w-full"></span>
+              </span>
+              <ArrowRight className="w-4 h-4 ml-3 group-hover:translate-x-1 group-hover:text-gold max-lg:group-[.mobile-hover-active]:translate-x-1 max-lg:group-[.mobile-hover-active]:text-gold transition-all duration-300" strokeWidth={1.5} />
             </Link>
           </div>
         </div>
