@@ -103,8 +103,9 @@ const About = () => {
             >
               <div className="absolute inset-0 bg-gold origin-left scale-x-0 group-hover:scale-x-100 max-lg:group-[.mobile-hover-active]:scale-x-100 transition-transform duration-1000 md:duration-500 ease-out z-0"></div>
 
-              <div className="flex items-center leading-tight tracking-[0.15em] font-medium text-[0.65rem] sm:text-xs relative z-10 group-hover:text-dark-900 max-lg:group-[.mobile-hover-active]:text-dark-900 transition-colors duration-1000 md:duration-500 whitespace-nowrap">
-                <span>VIEW MUSICAL JOURNEY</span>
+              <div className="flex flex-col items-start leading-tight tracking-[0.15em] font-medium text-[0.65rem] sm:text-xs relative z-10 group-hover:text-dark-900 max-lg:group-[.mobile-hover-active]:text-dark-900 transition-colors duration-1000 md:duration-500">
+                <span>VIEW</span>
+                <span>MUSICAL JOURNEY</span>
               </div>
               <ArrowRight
                 className="w-4 h-4 relative z-10 group-hover:text-dark-900 max-lg:group-[.mobile-hover-active]:text-dark-900 group-hover:translate-x-1 max-lg:group-[.mobile-hover-active]:translate-x-1 transition-all duration-1000 md:duration-500"
