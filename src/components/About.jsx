@@ -99,7 +99,7 @@ const About = () => {
             <Link
               to="/journey"
               ref={journeyBtnRef}
-              className="fade-in-section relative overflow-hidden flex items-center justify-between gap-6 text-gold border border-gold px-6 sm:px-8 py-3.5 sm:py-4 w-fit transition-all duration-1000 md:duration-500 group rounded-[2px] active:scale-[0.98] mt-6"
+              className="self-end fade-in-section relative overflow-hidden flex items-center justify-between gap-6 text-gold border border-gold px-6 sm:px-8 py-3.5 sm:py-4 w-fit transition-all duration-1000 md:duration-500 group rounded-[2px] active:scale-[0.98] mt-6"
             >
               <div className="absolute inset-0 bg-gold origin-left scale-x-0 group-hover:scale-x-100 max-lg:group-[.mobile-hover-active]:scale-x-100 transition-transform duration-1000 md:duration-500 ease-out z-0"></div>
 
