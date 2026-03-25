@@ -3,6 +3,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import Home from './pages/Home';
 import Portfolio from './pages/Portfolio';
 import Repertoire from './pages/Repertoire';
+import Journey from './pages/Journey';
 import ScrollToHash from './components/ScrollToHash';
 import Layout from './components/Layout';
 
@@ -16,6 +17,7 @@ function App() {
             <Route index element={<Home />} />
             <Route path="portfolio" element={<Portfolio />} />
             <Route path="repertoire" element={<Repertoire />} />
+            <Route path="journey" element={<Journey />} />
           </Route>
         </Routes>
       </Router>
