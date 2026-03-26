@@ -99,7 +99,7 @@ const About = () => {
             <Link
               to="/journey"
               ref={journeyBtnRef}
-              className="self-center md:self-end fade-in-section inline-flex items-center text-xs sm:text-sm text-gray-400 hover:text-white uppercase tracking-[0.2em] transition-colors duration-300 group mt-12 md:mt-24"
+              className={`self-center md:self-end fade-in-section inline-flex items-center text-xs sm:text-sm text-gray-400 hover:text-white uppercase tracking-[0.2em] transition-all duration-700 group mt-12 ${!showFullBio ? 'md:mt-24' : ''}`}
             >
               <span className="relative">
                 VIEW MUSICAL JOURNEY
