@@ -4,7 +4,7 @@ import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 const timelineEvents = [
   {
     year: '2025.06',
-    title: 'President, American Harp Society',
+    title: 'President, Great Houston Chapter of AHS',
     description: 'Elected as President of the Great Houston Chapter of the American Harp Society.'
   },
   {
