@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 
 const timelineEvents = [
@@ -61,6 +61,32 @@ const timelineEvents = [
 
 const Timeline = () => {
   useIntersectionObserver();
+  const itemRefs = useRef([]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('mobile-hover-active');
+          } else {
+            entry.target.classList.remove('mobile-hover-active');
+          }
+        });
+      },
+      {
+        // Trigger when item is in the middle 40% of the viewport height
+        rootMargin: '-30% 0px -30% 0px',
+        threshold: 0,
+      }
+    );
+
+    itemRefs.current.forEach((ref) => {
+      if (ref) observer.observe(ref);
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <section id="timeline" className="py-24 bg-black relative">
@@ -77,18 +103,21 @@ const Timeline = () => {
 
         <div className="relative border-l border-gold/30 pl-8 md:pl-0 md:border-l-0 md:flex md:flex-col md:items-center">
           {/* Central Line for Desktop */}
-          <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-gold/30 -translate-x-1/2"></div>
+          <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-gold/30 -translate-x-1/2 z-0"></div>
 
           {timelineEvents.map((event, index) => (
-            <div key={index} className={`fade-in-section relative mb-12 last:mb-0 md:w-full md:flex ${index % 2 === 0 ? 'md:justify-start' : 'md:justify-end'}`}>
-
+            <div
+              key={index}
+              ref={el => itemRefs.current[index] = el}
+              className={`fade-in-section group relative mb-12 last:mb-0 md:w-full md:flex ${index % 2 === 0 ? 'md:justify-start' : 'md:justify-end'}`}
+            >
               {/* Timeline dot */}
-              <div className="absolute -left-[37px] md:left-1/2 top-1 w-4 h-4 bg-black border-2 border-gold rounded-full md:-translate-x-1/2 z-10 shadow-[0_0_10px_rgba(212,175,55,0.5)]"></div>
+              <div className="absolute -left-[37px] md:left-1/2 top-1 md:top-2 w-4 h-4 bg-black border-2 border-gold/50 rounded-full md:-translate-x-1/2 z-10 transition-all duration-500 ease-out group-hover:scale-150 group-hover:border-gold group-hover:shadow-[0_0_15px_rgba(212,175,55,1)] group-hover:bg-gold/20 max-md:group-[.mobile-hover-active]:scale-150 max-md:group-[.mobile-hover-active]:border-gold max-md:group-[.mobile-hover-active]:shadow-[0_0_15px_rgba(212,175,55,1)] max-md:group-[.mobile-hover-active]:bg-gold/20"></div>
 
-              <div className={`md:w-5/12 ${index % 2 === 0 ? 'md:pr-12 md:text-right' : 'md:pl-12 md:text-left'}`}>
-                <div className="text-gold font-serif text-2xl mb-2">{event.year}</div>
-                <h4 className="text-white text-lg tracking-wider mb-3">{event.title}</h4>
-                <p className="text-gray-400 font-light leading-relaxed text-sm">
+              <div className={`md:w-5/12 transition-all duration-500 ease-out opacity-60 group-hover:opacity-100 max-md:group-[.mobile-hover-active]:opacity-100 ${index % 2 === 0 ? 'md:pr-12 md:text-right md:group-hover:-translate-x-2' : 'md:pl-12 md:text-left md:group-hover:translate-x-2'} max-md:group-[.mobile-hover-active]:translate-x-2`}>
+                <div className="font-serif text-2xl mb-2 text-gold/70 group-hover:text-gold max-md:group-[.mobile-hover-active]:text-gold transition-colors duration-500">{event.year}</div>
+                <h4 className="text-lg tracking-wider mb-3 text-white/70 group-hover:text-white max-md:group-[.mobile-hover-active]:text-white transition-colors duration-500">{event.title}</h4>
+                <p className="font-light leading-relaxed text-sm text-gray-500 group-hover:text-gray-300 max-md:group-[.mobile-hover-active]:text-gray-300 transition-colors duration-500">
                   {event.description}
                 </p>
               </div>
