@@ -66,6 +66,9 @@ const Footer = () => {
           </span>
         </div>
         
+        <p className="text-[10px] font-light text-gray-600 tracking-[0.15em] mb-4">
+          Professional Harpist &middot; Educator &middot; Houston, Texas
+        </p>
         <div className="text-[10px] font-light text-gray-600 tracking-[0.2em] uppercase">
           &copy; {new Date().getFullYear()} Dr. Yirui Li. All rights reserved.
         </div>

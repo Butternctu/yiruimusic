@@ -184,6 +184,9 @@ const Contact = () => {
           <h3 className="text-gold uppercase tracking-[0.2em] text-xs mb-4">Connect</h3>
           <h2 className="font-serif text-4xl text-white tracking-wide">Inquiries & Booking</h2>
           <div className="h-px w-24 bg-gold mx-auto mt-8 mb-6 opacity-50"></div>
+          <p className="text-gray-500 font-light text-sm max-w-xl mx-auto">
+            Book a professional harpist in Houston, Texas for your wedding, corporate event, recital, or private engagement. Harp lessons also available.
+          </p>
 
           <div className="inline-flex items-center space-x-3 px-5 py-2 mt-2 rounded-full border border-white/10 bg-dark-900 shadow-lg">
             <MessageSquare className="w-4 h-4 text-gold opacity-80" />

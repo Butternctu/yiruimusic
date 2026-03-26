@@ -54,17 +54,19 @@ const About = () => {
             </h3>
           </div>
           <h2 className="font-serif text-4xl text-white mb-8 tracking-wide">
-            A Legacy of Excellence
+            Houston's Distinguished Harpist
           </h2>
           <div className="text-gray-400 font-light leading-relaxed text-base">
             <p>
               Dr. Yirui Li is a distinguished harpist and pedagogue based in
               Houston, Texas, celebrated for her refined artistry, scholarly
-              insight, and dynamic contributions to the global harp community. A
-              native of China, she commenced her formal education at the Tianjin
-              Conservatory of Music, later earning her Master of Music from SUNY
-              Fredonia and her Doctor of Musical Arts from the University of
-              Oregon.
+              insight, and dynamic contributions to the global harp community.
+              As a professional harpist serving Houston and Greater Texas,
+              she offers performances for weddings, corporate events, recitals,
+              and private engagements, alongside expert harp lessons for students
+              of all levels. A native of China, she earned her Doctor of Musical Arts
+              from the University of Oregon and her Master of Music from SUNY
+              Fredonia.
             </p>
 
             <div

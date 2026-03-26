@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import yiruiCover from '../assets/yirui_cover.webp';
 
 const Hero = () => {
@@ -48,13 +48,13 @@ const Hero = () => {
 
       <div className="relative z-10 text-center px-6 max-w-4xl mx-auto fade-in-section is-visible w-full">
         <h2 className="text-gold text-xs md:text-sm uppercase tracking-[0.4em] mb-6">
-          Harpist &bull; Educator &bull; Innovator
+          Houston Harpist &bull; Educator &bull; Innovator
         </h2>
         <h1 className="font-serif text-5xl md:text-7xl text-white mb-8 leading-tight tracking-wide">
           Bridging Tradition <br /><span className="italic font-light text-gray-400">&amp;</span> Innovation
         </h1>
         <p className="text-gray-400 text-lg font-light leading-relaxed max-w-2xl mx-auto mb-12">
-          Cultivating cross-cultural dialogue and empowering the next generation of classical musicians through the resonant artistry of the harp.
+          Houston's premier harpist, cultivating cross-cultural dialogue and empowering the next generation of classical musicians through the resonant artistry of the harp.
         </p>
         <a 
           href="#contact" 
