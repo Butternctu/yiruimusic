@@ -70,9 +70,8 @@ const Timeline = () => {
         });
       },
       {
-        // Trigger when item is in the middle 40% of the viewport height
-        rootMargin: '-30% 0px -30% 0px',
-        threshold: 0,
+        rootMargin: '0px',
+        threshold: 1.0,
       }
     );
 
