@@ -56,9 +56,7 @@ const Hero = () => {
           Innovation
         </h1>
         <p className="text-gray-400 text-base md:text-lg font-light leading-relaxed max-w-2xl mx-auto mb-12">
-          Houston's premier harpist, cultivating cross-cultural dialogue and
-          empowering the next generation of classical musicians through the
-          resonant artistry of the harp.
+          Houston's premier harpist, bridging cross-cultural artistry and nurturing the next generation of classical musicians.
         </p>
         <a
           href="#contact"
