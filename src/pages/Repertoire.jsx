@@ -172,7 +172,7 @@ const Repertoire = () => {
     return (
     <>
             <SEO
-                title="Programs &amp; Repertoire"
+                title="Programs & Repertoire"
                 description="Harp repertoire by Dr. Yirui Li — orchestral works, chamber music, church selections & elegant Houston wedding music. Request a custom program for your event in Texas."
                 url="/repertoire"
             />
