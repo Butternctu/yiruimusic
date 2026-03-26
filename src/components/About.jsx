@@ -96,17 +96,19 @@ const About = () => {
               <span>{showFullBio ? "Show Less" : "Read Full Biography"}</span>
               <span className="ml-4 w-8 h-px bg-white group-hover:bg-gold transition-colors"></span>
             </button>
-            <Link
-              to="/journey"
-              ref={journeyBtnRef}
-              className={`self-center md:self-end fade-in-section inline-flex items-center text-xs sm:text-sm text-gray-400 hover:text-white uppercase tracking-[0.2em] transition-all duration-700 group mt-12 ${!showFullBio ? 'md:mt-24' : ''}`}
-            >
-              <span className="relative">
-                VIEW MUSICAL JOURNEY
-                <span className="absolute -bottom-2 left-0 w-0 h-px bg-gold transition-all duration-1000 group-hover:w-full group-[.mobile-hover-active]:w-full"></span>
-              </span>
-              <ArrowRight className="w-4 h-4 ml-3 group-hover:translate-x-1 group-hover:text-gold group-[.mobile-hover-active]:translate-x-1 group-[.mobile-hover-active]:text-gold transition-all duration-300" strokeWidth={1.5} />
-            </Link>
+            <div className={`self-center md:self-end transition-all duration-700 mt-12 ${!showFullBio ? 'md:mt-24' : ''}`}>
+              <Link
+                to="/journey"
+                ref={journeyBtnRef}
+                className="fade-in-section inline-flex items-center text-xs sm:text-sm text-gray-400 hover:text-white uppercase tracking-[0.2em] transition-colors duration-300 group"
+              >
+                <span className="relative">
+                  VIEW MUSICAL JOURNEY
+                  <span className="absolute -bottom-2 left-0 w-0 h-px bg-gold transition-all duration-1000 group-hover:w-full group-[.mobile-hover-active]:w-full"></span>
+                </span>
+                <ArrowRight className="w-4 h-4 ml-3 group-hover:translate-x-1 group-hover:text-gold group-[.mobile-hover-active]:translate-x-1 group-[.mobile-hover-active]:text-gold transition-all duration-300" strokeWidth={1.5} />
+              </Link>
+            </div>
           </div>
         </div>
       </div>
