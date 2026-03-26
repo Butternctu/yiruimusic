@@ -8,9 +8,14 @@ const timelineEvents = [
     description: 'Elected as President of the Great Houston Chapter of the American Harp Society.'
   },
   {
-    year: '2025',
+    year: '2025.04',
     title: 'Competition Judge',
     description: 'Served as a judge for the Milligan Competition in Houston, TX.'
+  },
+  {
+    year: '2024.10',
+    title: 'Concerto Competition Judge',
+    description: 'Judge for the Sam Houston State University Concerto Competition.'
   },
   {
     year: '2024.09',
@@ -24,18 +29,8 @@ const timelineEvents = [
   },
   {
     year: '2024',
-    title: 'Concerto Competition Judge',
-    description: 'Judge for the Sam Houston State University Concerto Competition.'
-  },
-  {
-    year: '2024',
     title: 'International Music Prizes',
     description: '1st Prize at American International Music Competition and Gold Prize at Van Bach International Music Competition.'
-  },
-  {
-    year: '2023',
-    title: 'First Prize Winner',
-    description: 'Awarded First Prize at the American International Music Competition, recognizing outstanding artistic achievement.'
   },
   {
     year: '2023',
@@ -48,7 +43,7 @@ const timelineEvents = [
     description: 'Earned Master of Music degree from SUNY Fredonia, specializing in harp performance and pedagogy.'
   },
   {
-    year: '2021',
+    year: '2021.09',
     title: 'Full DMA Scholarship',
     description: 'Awarded Full Scholarship for Doctor of Musical Arts at the University of Oregon.'
   },
