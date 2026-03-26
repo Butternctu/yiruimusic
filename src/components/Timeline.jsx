@@ -62,7 +62,7 @@ const Timeline = () => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
+          if (entry.intersectionRatio >= 0.99) {
             entry.target.classList.add('scroll-hover-active');
           } else {
             entry.target.classList.remove('scroll-hover-active');
@@ -71,7 +71,7 @@ const Timeline = () => {
       },
       {
         rootMargin: '0px',
-        threshold: 1.0,
+        threshold: [0.98, 0.99, 1.0],
       }
     );
 
