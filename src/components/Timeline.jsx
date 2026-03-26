@@ -114,10 +114,10 @@ const Timeline = () => {
               {/* Timeline dot */}
               <div className="absolute -left-[40.5px] md:left-1/2 top-2.5 w-4 h-4 bg-black border-2 border-gold/50 rounded-full md:-translate-x-1/2 z-10 transition-all duration-1000 ease-out group-[.scroll-hover-active]:scale-150 group-[.scroll-hover-active]:border-gold group-[.scroll-hover-active]:shadow-[0_0_15px_rgba(212,175,55,1)] group-[.scroll-hover-active]:bg-gold/20 group-hover:scale-150 group-hover:border-gold group-hover:shadow-[0_0_15px_rgba(212,175,55,1)] group-hover:bg-gold/20"></div>
 
-              <div className={`md:w-5/12 transition-all duration-500 ease-out opacity-60 group-[.scroll-hover-active]:opacity-100 group-[.scroll-hover-active]:translate-x-2 group-hover:opacity-100 ${index % 2 === 0 ? 'md:pr-12 md:text-right md:group-hover:-translate-x-2 md:group-[.scroll-hover-active]:-translate-x-2' : 'md:pl-12 md:text-left md:group-hover:translate-x-2'}`}>
-                <div className="font-serif text-2xl mb-2 text-gold/70 group-[.scroll-hover-active]:text-gold group-hover:text-gold transition-colors duration-500">{event.year}</div>
-                <h4 className="text-lg tracking-wider mb-3 text-white/70 group-[.scroll-hover-active]:text-white group-hover:text-white transition-colors duration-500">{event.title}</h4>
-                <p className="font-light leading-relaxed text-sm text-gray-500 group-[.scroll-hover-active]:text-gray-300 group-hover:text-gray-300 transition-colors duration-500">
+              <div className={`md:w-5/12 transition-all duration-1000 ease-out opacity-60 group-[.scroll-hover-active]:opacity-100 group-[.scroll-hover-active]:translate-x-2 group-hover:opacity-100 ${index % 2 === 0 ? 'md:pr-12 md:text-right md:group-hover:-translate-x-2 md:group-[.scroll-hover-active]:-translate-x-2' : 'md:pl-12 md:text-left md:group-hover:translate-x-2'}`}>
+                <div className="font-serif text-2xl mb-2 text-gold/70 group-[.scroll-hover-active]:text-gold group-hover:text-gold transition-colors duration-1000">{event.year}</div>
+                <h4 className="text-lg tracking-wider mb-3 text-white/70 group-[.scroll-hover-active]:text-white group-hover:text-white transition-colors duration-1000">{event.title}</h4>
+                <p className="font-light leading-relaxed text-sm text-gray-500 group-[.scroll-hover-active]:text-gray-300 group-hover:text-gray-300 transition-colors duration-1000">
                   {event.description}
                 </p>
               </div>
