@@ -59,6 +59,10 @@ const Timeline = () => {
   const itemRefs = useRef([]);
 
   useEffect(() => {
+    // Dynamically get the actual navbar height to set as rootMargin top offset
+    const navbar = document.getElementById('main-nav');
+    const getNavbarHeight = () => navbar ? navbar.offsetHeight : 80;
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -70,7 +74,9 @@ const Timeline = () => {
         });
       },
       {
-        rootMargin: '0px',
+        // Use a negative margin equal to the navbar height so it cancels 
+        // as soon as it goes behind the header
+        rootMargin: `-${getNavbarHeight()}px 0px 0px 0px`,
         threshold: [0.98, 0.99, 1.0],
       }
     );
