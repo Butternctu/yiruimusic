@@ -96,7 +96,7 @@ const About = () => {
               <span>{showFullBio ? "Show Less" : "Read Full Biography"}</span>
               <span className="ml-4 w-8 h-px bg-white group-hover:bg-gold transition-colors"></span>
             </button>
-            <div className={`self-center md:self-end transition-all duration-700 mt-6 ${!showFullBio ? 'md:mt-12' : ''}`}>
+            <div className={`self-center md:self-end transition-all duration-700 mt-12 ${!showFullBio ? 'md:mt-12' : 'md:mt-6'}`}>
               <Link
                 to="/journey"
                 ref={journeyBtnRef}
