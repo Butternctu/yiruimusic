@@ -103,9 +103,9 @@ const About = () => {
             >
               <span className="relative">
                 VIEW MUSICAL JOURNEY
-                <span className="absolute -bottom-2 left-0 w-0 h-px bg-gold transition-all duration-1000 group-hover:w-full max-lg:group-[.mobile-hover-active]:w-full"></span>
+                <span className="absolute -bottom-2 left-0 w-0 h-px bg-gold transition-all duration-1000 group-hover:w-full group-[.mobile-hover-active]:w-full"></span>
               </span>
-              <ArrowRight className="w-4 h-4 ml-3 group-hover:translate-x-1 group-hover:text-gold max-lg:group-[.mobile-hover-active]:translate-x-1 max-lg:group-[.mobile-hover-active]:text-gold transition-all duration-300" strokeWidth={1.5} />
+              <ArrowRight className="w-4 h-4 ml-3 group-hover:translate-x-1 group-hover:text-gold group-[.mobile-hover-active]:translate-x-1 group-[.mobile-hover-active]:text-gold transition-all duration-300" strokeWidth={1.5} />
             </Link>
           </div>
         </div>
