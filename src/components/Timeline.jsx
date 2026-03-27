@@ -5,53 +5,53 @@ const timelineEvents = [
   {
     year: '2025.06',
     title: 'President, Great Houston Chapter of AHS',
-    description: 'Elected as President of the Great Houston Chapter of the American Harp Society.'
+    description: 'Elected as President of the Great Houston Chapter of the American Harp Society.',
   },
   {
     year: '2025.04',
     title: 'Competition Judge',
-    description: 'Served as a judge for the Milligan Competition in Houston, TX.'
+    description: 'Served as a judge for the Milligan Competition in Houston, TX.',
   },
   {
     year: '2024.10',
     title: 'Concerto Competition Judge',
-    description: 'Judge for the Sam Houston State University Concerto Competition.'
+    description: 'Judge for the Sam Houston State University Concerto Competition.',
   },
   {
     year: '2024.09',
     title: 'SHSU Harp Professor',
-    description: 'Appointed as Harp Professor at Sam Houston State University.'
+    description: 'Appointed as Harp Professor at Sam Houston State University.',
   },
   {
     year: '2024.06',
     title: 'Doctor of Musical Arts',
-    description: 'Earned Doctor of Musical Arts from the University of Oregon.'
+    description: 'Earned Doctor of Musical Arts from the University of Oregon.',
   },
   {
     year: '2024',
     title: 'International Music Prizes',
-    description: '1st Prize at American International Music Competition and Gold Prize at Van Bach International Music Competition.'
+    description: '1st Prize at American International Music Competition and Gold Prize at Van Bach International Music Competition.',
   },
   {
     year: '2023',
     title: 'International Competition Success',
-    description: '2nd Prize at MAP International Music Competition and 3rd Prize at Poppy Harp Festival Competition.'
+    description: '2nd Prize at MAP International Music Competition and 3rd Prize at Poppy Harp Festival Competition.',
   },
   {
     year: '2021.05',
     title: 'Master of Music',
-    description: 'Earned Master of Music degree from SUNY Fredonia, specializing in harp performance and pedagogy.'
+    description: 'Earned Master of Music degree from SUNY Fredonia, specializing in harp performance and pedagogy.',
   },
   {
     year: '2021.09',
     title: 'Full DMA Scholarship',
-    description: 'Awarded Full Scholarship for Doctor of Musical Arts at the University of Oregon.'
+    description: 'Awarded Full Scholarship for Doctor of Musical Arts at the University of Oregon.',
   },
   {
     year: '2018.06',
     title: 'Early Education',
-    description: 'Completed foundational musical studies at Tianjin Conservatory of Music.'
-  }
+    description: 'Completed foundational musical studies at Tianjin Conservatory of Music.',
+  },
 ];
 
 const Timeline = () => {
@@ -61,11 +61,11 @@ const Timeline = () => {
   useEffect(() => {
     // Dynamically get the actual navbar height to set as rootMargin top offset
     const navbar = document.getElementById('main-nav');
-    const getNavbarHeight = () => navbar ? navbar.offsetHeight : 80;
+    const getNavbarHeight = () => (navbar ? navbar.offsetHeight : 80);
 
     const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
+      entries => {
+        entries.forEach(entry => {
           if (entry.intersectionRatio >= 0.99) {
             entry.target.classList.add('scroll-hover-active');
           } else {
@@ -74,14 +74,14 @@ const Timeline = () => {
         });
       },
       {
-        // Use a negative margin equal to the navbar height so it cancels 
+        // Use a negative margin equal to the navbar height so it cancels
         // as soon as it goes behind the header
         rootMargin: `-${getNavbarHeight()}px 0px 0px 0px`,
         threshold: [0.98, 0.99, 1.0],
-      }
+      },
     );
 
-    itemRefs.current.forEach((ref) => {
+    itemRefs.current.forEach(ref => {
       if (ref) observer.observe(ref);
     });
 
@@ -90,8 +90,7 @@ const Timeline = () => {
 
   return (
     <section id="timeline" className="py-24 bg-black relative">
-      <div className="max-w-4xl mx-auto px-6 md:px-12 relative z-10">
-
+      <div className="max-w-4xl mx-auto pl-9 pr-12 md:px-12 relative z-10">
         <div className="fade-in-section text-center mb-16">
           <div className="flex items-center justify-center mb-4">
             <div className="w-12 h-px bg-gold mr-4"></div>
@@ -108,15 +107,20 @@ const Timeline = () => {
           {timelineEvents.map((event, index) => (
             <div
               key={index}
-              ref={el => itemRefs.current[index] = el}
+              ref={el => (itemRefs.current[index] = el)}
               className={`fade-in-section group relative mb-12 last:mb-0 md:w-full md:flex ${index % 2 === 0 ? 'md:justify-start' : 'md:justify-end'}`}
             >
               {/* Timeline dot */}
-              <div className="absolute -left-[40.5px] md:left-1/2 top-2.5 w-4 h-4 bg-black border-2 border-gold/50 rounded-full md:-translate-x-1/2 z-10 transition-all duration-1000 ease-out group-[.scroll-hover-active]:scale-150 group-[.scroll-hover-active]:border-gold group-[.scroll-hover-active]:shadow-[0_0_15px_rgba(212,175,55,1)] group-[.scroll-hover-active]:bg-gold/20 group-hover:scale-150 group-hover:border-gold group-hover:shadow-[0_0_15px_rgba(212,175,55,1)] group-hover:bg-gold/20"></div>
-
-              <div className={`md:w-5/12 transition-all duration-1000 ease-out opacity-60 group-[.scroll-hover-active]:opacity-100 group-[.scroll-hover-active]:translate-x-2 group-hover:opacity-100 ${index % 2 === 0 ? 'md:pr-12 md:text-right md:group-hover:-translate-x-2 md:group-[.scroll-hover-active]:-translate-x-2' : 'md:pl-12 md:text-left md:group-hover:translate-x-2'}`}>
-                <div className="font-serif text-2xl mb-2 text-gold/70 group-[.scroll-hover-active]:text-gold group-hover:text-gold transition-colors duration-1000">{event.year}</div>
-                <h4 className="text-lg tracking-wider mb-3 text-white/70 group-[.scroll-hover-active]:text-white group-hover:text-white transition-colors duration-1000">{event.title}</h4>
+              <div className="absolute -left-[38.5px] md:left-1/2 top-3 w-3 h-3 md:top-3 md:w-3.5 md:h-3.5 bg-black border-2 border-gold/50 rounded-full md:-translate-x-1/2 z-10 transition-all duration-1000 ease-out group-[.scroll-hover-active]:scale-150 group-[.scroll-hover-active]:border-gold group-[.scroll-hover-active]:shadow-[0_0_15px_rgba(212,175,55,1)] group-[.scroll-hover-active]:bg-gold/20 group-hover:scale-150 group-hover:border-gold group-hover:shadow-[0_0_15px_rgba(212,175,55,1)] group-hover:bg-gold/20"></div>
+              <div
+                className={`md:w-5/12 transition-all duration-1000 ease-out opacity-60 group-[.scroll-hover-active]:opacity-100 group-[.scroll-hover-active]:translate-x-2 group-hover:opacity-100 ${index % 2 === 0 ? 'md:pr-12 md:text-right md:group-hover:-translate-x-2 md:group-[.scroll-hover-active]:-translate-x-2' : 'md:pl-12 md:text-left md:group-hover:translate-x-2'}`}
+              >
+                <div className="font-serif text-2xl mb-2 text-gold/70 group-[.scroll-hover-active]:text-gold group-hover:text-gold transition-colors duration-1000">
+                  {event.year}
+                </div>
+                <h4 className="text-lg tracking-wider mb-3 text-white/70 group-[.scroll-hover-active]:text-white group-hover:text-white transition-colors duration-1000">
+                  {event.title}
+                </h4>
                 <p className="font-light leading-relaxed text-sm text-gray-500 group-[.scroll-hover-active]:text-gray-300 group-hover:text-gray-300 transition-colors duration-1000">
                   {event.description}
                 </p>
