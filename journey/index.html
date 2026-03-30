@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Google Fonts: loaded async to prevent render-blocking -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style"
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+      onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+      <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+    </noscript>
+    
+
+    <!-- Default SEO tags (overridden by react-helmet-async on client) -->
+    <title>Journey | Dr. Yirui Li</title>
+    <meta name="description" content="Houston harpist for weddings, corporate events & concerts. Dr. Yirui Li — award-winning performer, educator & Adjunct Professor at SHSU. Book harp performances or lessons across Houston, Texas.">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="author" content="Dr. Yirui Li">
+    <meta name="theme-color"   content="#0a0a0a">
+
+
+    <!-- SPA Redirect Recovery Script -->
+    <script type="text/javascript">
+      (function(l) {
+        if (l.search[1] === 'p') {
+          var decoded = l.search.slice(1).split('&').map(function(s) { 
+            return s.replace(/~and~/g, '&') 
+          }).reduce(function(obj, p) {
+            var kv = p.split('=');
+            obj[kv[0]] = kv[1];
+            return obj;
+          }, {});
+          if (decoded.p !== undefined) {
+            window.history.replaceState(null, null,
+              l.pathname.slice(0, -1) + (decoded.p || '') +
+              (decoded.q ? ('?' + decoded.q) : '') +
+              l.hash
+            );
+          }
+        }
+      }(window.location))
+    </script>
+
+    <!-- Structured Data for Google Site Name -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Yirui Music",
+      "alternateName": ["Dr. Yirui Li", "Yirui Li", "Dr. Yirui Li, Harpist"],
+      "url": "https://yiruimusic.com/"
+    }
+    </script>
+
+    <!-- Person Schema: Helps Google understand who Dr. Yirui Li is -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Dr. Yirui Li",
+      "givenName": "Yirui",
+      "familyName": "Li",
+      "honorificPrefix": "Dr.",
+      "jobTitle": "Professional Harpist and Educator",
+      "description": "Dr. Yirui Li is a professional harpist and educator based in Houston, Texas. She serves as Adjunct Harp Professor at Sam Houston State University and has performed with orchestras including the Vancouver Symphony Orchestra and West Texas Symphony.",
+      "url": "https://yiruimusic.com/",
+      "image": "https://yiruimusic.com/yirui_cover.jpg",
+      "sameAs": [
+        "https://www.instagram.com/harpist.yr",
+        "https://youtube.com/@harpist-li",
+        "https://www.linkedin.com/in/yirui-li-14b83b200/",
+        "https://www.facebook.com/share/14a5mkfqpd9/"
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Houston",
+        "addressRegion": "TX",
+        "addressCountry": "US"
+      },
+      "areaServed": [
+        {
+          "@type": "City",
+          "name": "Houston",
+          "sameAs": "https://en.wikipedia.org/wiki/Houston"
+        },
+        {
+          "@type": "State",
+          "name": "Texas"
+        }
+      ],
+      "knowsAbout": ["Harp", "Classical Music", "Music Education", "Orchestral Performance", "Chamber Music"],
+      "hasOccupation": {
+        "@type": "Occupation",
+        "name": "Harpist",
+        "occupationLocation": {
+          "@type": "City",
+          "name": "Houston, Texas"
+        }
+      },
+      "alumniOf": "Sam Houston State University",
+      "award": [
+        "First Prize, American International Music Competition",
+        "Gold Prize, Van Bach International Music Competition"
+      ],
+      "memberOf": "American Harp Society Greater Houston Chapter"
+    }
+    </script>
+
+    <!-- LocalBusiness Schema: Boosts local search visibility for "Houston Harpist" -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Yirui Music — Dr. Yirui Li, Harpist",
+      "description": "Professional harpist available for weddings, corporate events, and private engagements in Houston, Texas. Also offering harp lessons and masterclasses.",
+      "url": "https://yiruimusic.com/",
+      "image": "https://yiruimusic.com/yirui_cover.jpg",
+      "email": "harpist11@gmail.com",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Houston",
+        "addressRegion": "TX",
+        "addressCountry": "US"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "29.7604",
+        "longitude": "-95.3698"
+      },
+      "areaServed": {
+        "@type": "City",
+        "name": "Houston",
+        "sameAs": "https://en.wikipedia.org/wiki/Houston"
+      },
+      "priceRange": "$$",
+      "openingHours": "Mo-Su 09:00-21:00",
+      "sameAs": [
+        "https://www.instagram.com/harpist.yr",
+        "https://youtube.com/@harpist-li",
+        "https://www.linkedin.com/in/yirui-li-14b83b200/"
+      ]
+    }
+    </script>
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Yirui Music">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="Journey | Dr. Yirui Li">
+    <meta property="og:description" content="The musical journey, important events, and milestones of Dr. Yirui Li.">
+    <meta property="og:url" content="https://yiruimusic.com/journey">
+    <meta property="og:image" content="https://yiruimusic.com/yirui_cover.jpg">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Dr. Yirui Li — Harpist & Educator">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Journey | Dr. Yirui Li">
+    <meta name="twitter:description" content="The musical journey, important events, and milestones of Dr. Yirui Li.">
+    <meta name="twitter:image" content="https://yiruimusic.com/yirui_cover.jpg">
+
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico" sizes="48x48">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="/favicon-192.png">
+    <script type="module" crossorigin src="/assets/index-a1RWerg-.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-Boj2nlT9.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
