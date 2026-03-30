@@ -13,6 +13,12 @@ const routes = [
     title: 'Programs & Repertoire | Yirui Li',
     description: 'Harp repertoire by Dr. Yirui Li — orchestral works, chamber music, church selections & elegant Houston wedding music. Request a custom program for your event in Texas.',
     url: 'https://yiruimusic.com/repertoire'
+  },
+  {
+    path: 'journey',
+    title: 'Journey | Dr. Yirui Li',
+    description: 'The musical journey, important events, and milestones of Dr. Yirui Li.',
+    url: 'https://yiruimusic.com/journey'
   }
 ];
 
