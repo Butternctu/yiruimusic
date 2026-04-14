@@ -1,11 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { Menu, X, LogIn, User, LayoutDashboard, Calendar, Settings, LogOut, Shield } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import yiruiLogo from '../assets/yirui_logo.webp';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const userMenuRef = useRef(null);
+  const { isAuthenticated, isAdmin, user, userProfile, logout } = useAuth();
+  const navigate = useNavigate();
 
   const location = useLocation();
 
@@ -24,6 +29,17 @@ const Navbar = () => {
       document.body.style.overflow = '';
     }
   }, [isMobileMenuOpen]);
+
+  // Close user menu on outside click
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(e.target)) {
+        setIsUserMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
@@ -73,6 +89,18 @@ const Navbar = () => {
     }
   };
 
+  const handleLogout = async () => {
+    setIsUserMenuOpen(false);
+    setIsMobileMenuOpen(false);
+    await logout();
+    navigate('/');
+  };
+
+  const getInitials = () => {
+    const name = userProfile?.displayName || user?.displayName || 'U';
+    return name.split(' ').map((n) => n[0]).join('').toUpperCase().slice(0, 2);
+  };
+
   return (
     <>
       <header id="main-nav" className={`fixed w-full z-110 transition-all duration-300 py-2 border-b ${isScrolled ? 'bg-dark-900/95 backdrop-blur-md border-white/10' : 'bg-transparent border-white/5'}`}>
@@ -100,6 +128,65 @@ const Navbar = () => {
             <Link to="/#teaching" onClick={(e) => handleHashLinkClick(e, '/#teaching')} className="hover:text-gold transition-colors duration-300">Academic</Link>
             <Link to="/#performance" onClick={(e) => handleHashLinkClick(e, '/#performance')} className="hover:text-gold transition-colors duration-300">Performance</Link>
             <Link to="/repertoire" onClick={closeMobileMenu} className="hover:text-gold transition-colors duration-300">Programs</Link>
+
+            {/* Auth Section */}
+            {isAuthenticated ? (
+              <div className="relative" ref={userMenuRef}>
+                <button
+                  onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                  className="w-9 h-9 rounded-full bg-gradient-to-br from-gold/20 to-gold/5 border border-gold/30 flex items-center justify-center hover:border-gold/60 transition-all duration-300"
+                >
+                  <span className="text-gold text-[11px] font-medium tracking-normal leading-none">{getInitials()}</span>
+                </button>
+
+                {/* Dropdown */}
+                <div
+                  className={`absolute right-0 top-full mt-3 w-52 bg-dark-800 border border-white/10 shadow-2xl transition-all duration-300 rounded-sm overflow-hidden ${
+                    isUserMenuOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'
+                  }`}
+                >
+                  <div className="px-5 py-3 border-b border-white/[0.06]">
+                    <p className="text-white text-sm truncate">{userProfile?.displayName || user?.displayName}</p>
+                  </div>
+                  <div className="py-1">
+                    <Link to="/dashboard" onClick={() => setIsUserMenuOpen(false)} className="flex items-center space-x-3 px-5 py-2.5 text-gray-300 hover:text-gold hover:bg-white/[0.03] transition-colors text-xs tracking-wider">
+                      <LayoutDashboard className="w-4 h-4" />
+                      <span>Dashboard</span>
+                    </Link>
+                    <Link to="/appointments" onClick={() => setIsUserMenuOpen(false)} className="flex items-center space-x-3 px-5 py-2.5 text-gray-300 hover:text-gold hover:bg-white/[0.03] transition-colors text-xs tracking-wider">
+                      <Calendar className="w-4 h-4" />
+                      <span>My Appointments</span>
+                    </Link>
+                    <Link to="/profile" onClick={() => setIsUserMenuOpen(false)} className="flex items-center space-x-3 px-5 py-2.5 text-gray-300 hover:text-gold hover:bg-white/[0.03] transition-colors text-xs tracking-wider">
+                      <Settings className="w-4 h-4" />
+                      <span>Profile</span>
+                    </Link>
+                    {isAdmin && (
+                      <Link to="/admin" onClick={() => setIsUserMenuOpen(false)} className="flex items-center space-x-3 px-5 py-2.5 text-gold/70 hover:text-gold hover:bg-white/[0.03] transition-colors text-xs tracking-wider">
+                        <Shield className="w-4 h-4" />
+                        <span>Admin Panel</span>
+                      </Link>
+                    )}
+                  </div>
+                  <div className="border-t border-white/[0.06] py-1">
+                    <button onClick={handleLogout} className="flex items-center space-x-3 px-5 py-2.5 text-gray-400 hover:text-[#d9736c] hover:bg-white/[0.03] transition-colors text-xs tracking-wider w-full text-left">
+                      <LogOut className="w-4 h-4" />
+                      <span>Sign Out</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <Link
+                to="/login"
+                className="flex items-center space-x-2 text-gray-400 hover:text-gold transition-colors duration-300"
+              >
+                <LogIn className="w-4 h-4" />
+                <span>Login</span>
+              </Link>
+            )}
+
+            {/* Contact CTA */}
             <Link to="/#contact" onClick={(e) => handleHashLinkClick(e, '/#contact')} className="text-gold border border-gold/50 px-4 py-2 hover:bg-gold hover:text-dark-900 transition-all duration-300 rounded-sm">Contact</Link>
           </nav>
 
@@ -114,7 +201,6 @@ const Navbar = () => {
         </div>
       </header>
 
-      {/* Mobile Menu Overlay */}
       {/* Mobile Menu Overlay */}
       <div
         id="mobile-menu"
@@ -132,7 +218,30 @@ const Navbar = () => {
             <Link to="/#teaching" onClick={(e) => handleHashLinkClick(e, '/#teaching')} className="hover:text-gold transition-colors duration-300 px-8 py-2">Academic</Link>
             <Link to="/#performance" onClick={(e) => handleHashLinkClick(e, '/#performance')} className="hover:text-gold transition-colors duration-300 px-8 py-2">Performance</Link>
             <Link to="/repertoire" onClick={closeMobileMenu} className="hover:text-gold transition-colors duration-300 px-8 py-2">Programs</Link>
-            <Link to="/#contact" onClick={(e) => handleHashLinkClick(e, '/#contact')} className="text-gold border border-gold/50 px-8 py-3 hover:bg-gold hover:text-dark-900 transition-all duration-300 rounded-sm mt-4">Contact</Link>
+
+            {/* Mobile Auth */}
+            <div className="w-full border-t border-white/[0.06] pt-6 mt-4 flex flex-col items-center space-y-6">
+              {isAuthenticated ? (
+                <>
+                  <Link to="/dashboard" onClick={closeMobileMenu} className="hover:text-gold transition-colors duration-300 px-8 py-2">Dashboard</Link>
+                  <Link to="/appointments" onClick={closeMobileMenu} className="hover:text-gold transition-colors duration-300 px-8 py-2">Appointments</Link>
+                  {isAdmin && (
+                    <Link to="/admin" onClick={closeMobileMenu} className="text-gold/70 hover:text-gold transition-colors duration-300 px-8 py-2">Admin</Link>
+                  )}
+                  <button onClick={handleLogout} className="text-gray-400 hover:text-[#d9736c] transition-colors duration-300 px-8 py-2 uppercase tracking-[0.3em] text-sm">
+                    Sign Out
+                  </button>
+                </>
+              ) : (
+                <Link to="/login" onClick={closeMobileMenu} className="flex items-center space-x-2 hover:text-gold transition-colors duration-300 px-8 py-2">
+                  <LogIn className="w-4 h-4" />
+                  <span>Login</span>
+                </Link>
+              )}
+
+              {/* Mobile Contact Button */}
+              <Link to="/#contact" onClick={(e) => handleHashLinkClick(e, '/#contact')} className="text-gold border border-gold/50 px-8 py-3 hover:bg-gold hover:text-dark-900 transition-all duration-300 rounded-sm mt-4 w-4/5 text-center">Contact</Link>
+            </div>
           </nav>
         </div>
       </div>
