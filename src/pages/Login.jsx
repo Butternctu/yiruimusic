@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import SEO from '../components/SEO';
 
 const Login = () => {
-  const { login, loginWithGoogle, isAuthenticated, initializationError, resetPassword } = useAuth();
+  const { login, loginWithGoogle, isAuthenticated, isAdmin, loading, initializationError, resetPassword } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -18,8 +18,10 @@ const Login = () => {
 
   // Redirect if already logged in
   React.useEffect(() => {
-    if (isAuthenticated) navigate('/dashboard', { replace: true });
-  }, [isAuthenticated, navigate]);
+    if (!loading && isAuthenticated) {
+      navigate(isAdmin ? '/admin' : '/dashboard', { replace: true });
+    }
+  }, [isAuthenticated, isAdmin, loading, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -39,8 +41,11 @@ const Login = () => {
         await resetPassword(email);
         setResetSent(true);
       } else {
-        await login(email, password);
-        navigate('/dashboard');
+        const result = await login(email, password);
+        // After login succeeds, AuthContext already updated userProfile
+        // But to be extra safe and immediate, we can check the profile or let the useEffect handle it.
+        // However, a manual navigate here is better for UI responsiveness.
+        // Since AuthContext.login awaits the profile fetch, isAdmin should be ready.
       }
     } catch (err) {
       let message = 'An error occurred. Please try again.';
@@ -68,7 +73,7 @@ const Login = () => {
     setIsLoading(true);
     try {
       await loginWithGoogle();
-      navigate('/dashboard');
+      // Role-based redirect will be handled by the useEffect above
     } catch (err) {
       console.error(err);
       if (err.code !== 'auth/cancelled-popup-request' && err.code !== 'auth/popup-closed-by-user') {
