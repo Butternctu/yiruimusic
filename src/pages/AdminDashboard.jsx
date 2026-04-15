@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Shield, Calendar, Clock, Users, ArrowRight, ChevronRight, Activity, TrendingUp, Settings, AlertCircle } from 'lucide-react';
+import { Shield, Calendar, Clock, Users, ArrowRight, ChevronRight, Activity, TrendingUp, Settings, AlertCircle, MessageSquare } from 'lucide-react';
 import { collection, query, where, getDocs, orderBy, limit } from 'firebase/firestore';
 import { db } from '../firebase';
 import { getLessonTypeById, formatDate, formatTime } from '../data/bookingData';
@@ -156,10 +156,17 @@ const AdminDashboard = () => {
               </Link>
               <Link
                 to="/admin/slots"
-                className="inline-flex items-center space-x-2 border border-gold/30 bg-gold/5 px-5 py-2.5 rounded-sm text-xs uppercase tracking-widest text-gold hover:bg-gold hover:text-dark-900 transition-all duration-300 group"
+                className="inline-flex items-center space-x-2 border border-white/20 bg-dark-800 px-5 py-2.5 rounded-sm text-xs uppercase tracking-widest text-gray-300 hover:border-gold hover:text-gold transition-all duration-300 group"
               >
                 <Settings className="w-3.5 h-3.5" />
                 <span>Manage Slots</span>
+              </Link>
+              <Link
+                to="/admin/messages"
+                className="inline-flex items-center space-x-2 border border-gold/30 bg-gold/5 px-5 py-2.5 rounded-sm text-xs uppercase tracking-widest text-gold hover:bg-gold hover:text-dark-900 transition-all duration-300 group"
+              >
+                <MessageSquare className="w-3.5 h-3.5" />
+                <span>Student Inbox</span>
                 <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform duration-300" />
               </Link>
             </div>
@@ -208,14 +215,21 @@ const AdminDashboard = () => {
             })}
           </div>
 
-          {/* Mobile manage slots button */}
-          <div className="mb-8 md:hidden animate-fadeInUp" style={{ animationDelay: '320ms' }}>
+          {/* Mobile manage buttons */}
+          <div className="mb-8 md:hidden animate-fadeInUp flex flex-col space-y-3" style={{ animationDelay: '320ms' }}>
             <Link
               to="/admin/slots"
-              className="flex items-center justify-center space-x-3 border border-gold text-gold px-8 py-4 text-xs uppercase tracking-widest hover:bg-gold hover:text-dark-900 transition-all duration-300 w-full"
+              className="flex items-center justify-center space-x-3 border border-white/20 text-gray-300 px-8 py-4 text-xs uppercase tracking-widest hover:border-gold hover:text-gold transition-all duration-300 w-full"
             >
               <Calendar className="w-4 h-4" />
               <span>Manage Time Slots</span>
+            </Link>
+            <Link
+              to="/admin/messages"
+              className="flex items-center justify-center space-x-3 border border-gold text-gold px-8 py-4 text-xs uppercase tracking-widest hover:bg-gold hover:text-dark-900 transition-all duration-300 w-full"
+            >
+              <MessageSquare className="w-4 h-4" />
+              <span>Student Inbox</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
