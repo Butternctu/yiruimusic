@@ -64,7 +64,10 @@ const Login = () => {
     } catch (err) {
       console.error(err);
       if (err.code !== 'auth/cancelled-popup-request' && err.code !== 'auth/popup-closed-by-user') {
-        const detail = err.code ? ` (${err.code})` : '';
+        let detail = err.code ? ` (${err.code})` : '';
+        if (err.code === 'auth/unauthorized-domain') {
+          detail += ` for ${window.location.origin}`;
+        }
         setError(`Google sign-in failed${detail}. Please try again.`);
       }
     } finally {
