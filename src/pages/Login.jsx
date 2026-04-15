@@ -41,7 +41,7 @@ const Login = () => {
         await resetPassword(email);
         setResetSent(true);
       } else {
-        const result = await login(email, password);
+        await login(email, password);
         // After login succeeds, AuthContext already updated userProfile
         // But to be extra safe and immediate, we can check the profile or let the useEffect handle it.
         // However, a manual navigate here is better for UI responsiveness.

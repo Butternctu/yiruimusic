@@ -149,10 +149,12 @@ const Navbar = () => {
                     <p className="text-white text-sm truncate">{userProfile?.displayName || user?.displayName}</p>
                   </div>
                   <div className="py-1">
-                    <Link to="/dashboard" onClick={() => setIsUserMenuOpen(false)} className="flex items-center space-x-3 px-5 py-2.5 text-gray-300 hover:text-gold hover:bg-white/[0.03] transition-colors text-xs tracking-wider">
-                      <LayoutDashboard className="w-4 h-4" />
-                      <span>Dashboard</span>
-                    </Link>
+                    {!isAdmin && (
+                      <Link to="/dashboard" onClick={() => setIsUserMenuOpen(false)} className="flex items-center space-x-3 px-5 py-2.5 text-gray-300 hover:text-gold hover:bg-white/[0.03] transition-colors text-xs tracking-wider">
+                        <LayoutDashboard className="w-4 h-4" />
+                        <span>Dashboard</span>
+                      </Link>
+                    )}
                     <Link to="/appointments" onClick={() => setIsUserMenuOpen(false)} className="flex items-center space-x-3 px-5 py-2.5 text-gray-300 hover:text-gold hover:bg-white/[0.03] transition-colors text-xs tracking-wider">
                       <Calendar className="w-4 h-4" />
                       <span>My Appointments</span>
@@ -223,7 +225,9 @@ const Navbar = () => {
             <div className="w-full border-t border-white/[0.06] pt-6 mt-4 flex flex-col items-center space-y-6">
               {isAuthenticated ? (
                 <>
-                  <Link to="/dashboard" onClick={closeMobileMenu} className="hover:text-gold transition-colors duration-300 px-8 py-2">Dashboard</Link>
+                  {!isAdmin && (
+                    <Link to="/dashboard" onClick={closeMobileMenu} className="hover:text-gold transition-colors duration-300 px-8 py-2">Dashboard</Link>
+                  )}
                   <Link to="/appointments" onClick={closeMobileMenu} className="hover:text-gold transition-colors duration-300 px-8 py-2">Appointments</Link>
                   {isAdmin && (
                     <Link to="/admin" onClick={closeMobileMenu} className="text-gold/70 hover:text-gold transition-colors duration-300 px-8 py-2">Admin</Link>
