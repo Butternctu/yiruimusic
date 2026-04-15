@@ -16,7 +16,8 @@ const AdminMessages = () => {
   const [newMessage, setNewMessage] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   
-  const messagesEndRef = useRef(null);
+  const chatContainerRef = useRef(null);
+  const mobileChatContainerRef = useRef(null);
 
   // Fetch all chats
   useEffect(() => {
@@ -71,7 +72,12 @@ const AdminMessages = () => {
 
   // Auto scroll
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+    if (mobileChatContainerRef.current) {
+      mobileChatContainerRef.current.scrollTop = mobileChatContainerRef.current.scrollHeight;
+    }
   }, [messages]);
 
   const handleSendMessage = async (e) => {
@@ -208,7 +214,7 @@ const AdminMessages = () => {
                   </div>
 
                   {/* Messages */}
-                  <div className="flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar flex flex-col">
+                  <div ref={chatContainerRef} className="flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar flex flex-col">
                     {loadingMessages ? (
                       <div className="flex-1 flex justify-center items-center">
                         <div className="w-6 h-6 border-2 border-gold/50 border-t-gold rounded-full animate-spin" />
@@ -234,7 +240,6 @@ const AdminMessages = () => {
                         );
                       })
                     )}
-                    <div ref={messagesEndRef} />
                   </div>
 
                   {/* Input */}
@@ -276,7 +281,7 @@ const AdminMessages = () => {
                   </button>
                   <h2 className="text-white font-medium">{selectedChat.userName}</h2>
                 </div>
-                  <div className="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar flex flex-col bg-dark-900">
+                  <div ref={mobileChatContainerRef} className="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar flex flex-col bg-dark-900">
                     {messages.map((msg, index) => {
                         const isAdminMsg = msg.sender === 'admin';
                         return (
@@ -289,7 +294,6 @@ const AdminMessages = () => {
                           </div>
                         );
                       })}
-                    <div ref={messagesEndRef} />
                   </div>
                   <div className="p-3 border-t border-white/10 bg-dark-900">
                     <form onSubmit={handleSendMessage} className="relative flex items-end space-x-2">

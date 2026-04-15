@@ -11,7 +11,7 @@ const Messages = () => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const [loading, setLoading] = useState(true);
-  const messagesEndRef = useRef(null);
+  const chatContainerRef = useRef(null);
 
   useEffect(() => {
     if (!user) return;
@@ -47,7 +47,9 @@ const Messages = () => {
   }, [user, userProfile]);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
   }, [messages]);
 
   const handleSendMessage = async (e) => {
@@ -108,7 +110,7 @@ const Messages = () => {
           <div className="flex-1 glass-card rounded-sm border border-white/10 flex flex-col overflow-hidden animate-fadeInUp shadow-2xl relative" style={{ animationDelay: '100ms', maxHeight: 'calc(100vh - 250px)' }}>
             
             {/* Messages Area */}
-            <div className="flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar flex flex-col">
+            <div ref={chatContainerRef} className="flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar flex flex-col">
               {loading ? (
                 <div className="flex-1 flex justify-center items-center">
                   <Loader2 className="w-8 h-8 text-gold animate-spin opacity-50" />
@@ -138,7 +140,6 @@ const Messages = () => {
                   );
                 })
               )}
-              <div ref={messagesEndRef} />
             </div>
 
             {/* Input Area */}
