@@ -163,6 +163,12 @@ const Navbar = () => {
                       <Settings className="w-4 h-4" />
                       <span>Profile</span>
                     </Link>
+                    {!isAdmin && (
+                      <Link to="/messages" onClick={() => setIsUserMenuOpen(false)} className="flex items-center space-x-3 px-5 py-2.5 text-gray-300 hover:text-gold hover:bg-white/[0.03] transition-colors text-xs tracking-wider">
+                        <MessageSquare className="w-4 h-4" />
+                        <span>Message Center</span>
+                      </Link>
+                    )}
                     {isAdmin && (
                       <>
                         <Link to="/admin" onClick={() => setIsUserMenuOpen(false)} className="flex items-center space-x-3 px-5 py-2.5 text-gold/70 hover:text-gold hover:bg-white/[0.03] transition-colors text-xs tracking-wider">
@@ -242,6 +248,9 @@ const Navbar = () => {
                       <Link to="/admin" onClick={closeMobileMenu} className="text-gold/70 hover:text-gold transition-colors duration-300 px-8 py-2">Admin</Link>
                       <Link to="/admin/messages" onClick={closeMobileMenu} className="text-gold/70 hover:text-gold transition-colors duration-300 px-8 py-2">Inbox</Link>
                     </>
+                  )}
+                  {!isAdmin && (
+                    <Link to="/messages" onClick={closeMobileMenu} className="hover:text-gold transition-colors duration-300 px-8 py-2">Message Center</Link>
                   )}
                   <button onClick={handleLogout} className="text-gray-400 hover:text-[#d9736c] transition-colors duration-300 px-8 py-2 uppercase tracking-[0.3em] text-sm">
                     Sign Out

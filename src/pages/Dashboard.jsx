@@ -109,13 +109,6 @@ const Dashboard = () => {
 
   const quickActions = [
     {
-      icon: Plus,
-      label: 'Book a Session',
-      desc: 'Browse available time slots and reserve your lesson',
-      to: '/booking',
-      highlight: true,
-    },
-    {
       icon: List,
       label: 'My Appointments',
       desc: 'View upcoming and past session history',
