@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Menu, X, LogIn, User, LayoutDashboard, Calendar, Settings, LogOut, Shield } from 'lucide-react';
+import { Menu, X, LogIn, User, LayoutDashboard, Calendar, Settings, LogOut, Shield, MessageSquare } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import yiruiLogo from '../assets/yirui_logo.webp';
@@ -164,10 +164,16 @@ const Navbar = () => {
                       <span>Profile</span>
                     </Link>
                     {isAdmin && (
-                      <Link to="/admin" onClick={() => setIsUserMenuOpen(false)} className="flex items-center space-x-3 px-5 py-2.5 text-gold/70 hover:text-gold hover:bg-white/[0.03] transition-colors text-xs tracking-wider">
-                        <Shield className="w-4 h-4" />
-                        <span>Admin Panel</span>
-                      </Link>
+                      <>
+                        <Link to="/admin" onClick={() => setIsUserMenuOpen(false)} className="flex items-center space-x-3 px-5 py-2.5 text-gold/70 hover:text-gold hover:bg-white/[0.03] transition-colors text-xs tracking-wider">
+                          <Shield className="w-4 h-4" />
+                          <span>Admin Panel</span>
+                        </Link>
+                        <Link to="/admin/messages" onClick={() => setIsUserMenuOpen(false)} className="flex items-center space-x-3 px-5 py-2.5 text-gold/70 hover:text-gold hover:bg-white/[0.03] transition-colors text-xs tracking-wider">
+                          <MessageSquare className="w-4 h-4" />
+                          <span>Inbox</span>
+                        </Link>
+                      </>
                     )}
                   </div>
                   <div className="border-t border-white/[0.06] py-1">
@@ -189,7 +195,9 @@ const Navbar = () => {
             )}
 
             {/* Contact CTA */}
-            <Link to="/#contact" onClick={(e) => handleHashLinkClick(e, '/#contact')} className="text-gold border border-gold/50 px-4 py-2 hover:bg-gold hover:text-dark-900 transition-all duration-300 rounded-sm">Contact</Link>
+            {!isAuthenticated && (
+              <Link to="/#contact" onClick={(e) => handleHashLinkClick(e, '/#contact')} className="text-gold border border-gold/50 px-4 py-2 hover:bg-gold hover:text-dark-900 transition-all duration-300 rounded-sm">Contact</Link>
+            )}
           </nav>
 
           <button
@@ -230,7 +238,10 @@ const Navbar = () => {
                   )}
                   <Link to="/appointments" onClick={closeMobileMenu} className="hover:text-gold transition-colors duration-300 px-8 py-2">Appointments</Link>
                   {isAdmin && (
-                    <Link to="/admin" onClick={closeMobileMenu} className="text-gold/70 hover:text-gold transition-colors duration-300 px-8 py-2">Admin</Link>
+                    <>
+                      <Link to="/admin" onClick={closeMobileMenu} className="text-gold/70 hover:text-gold transition-colors duration-300 px-8 py-2">Admin</Link>
+                      <Link to="/admin/messages" onClick={closeMobileMenu} className="text-gold/70 hover:text-gold transition-colors duration-300 px-8 py-2">Inbox</Link>
+                    </>
                   )}
                   <button onClick={handleLogout} className="text-gray-400 hover:text-[#d9736c] transition-colors duration-300 px-8 py-2 uppercase tracking-[0.3em] text-sm">
                     Sign Out
@@ -244,7 +255,9 @@ const Navbar = () => {
               )}
 
               {/* Mobile Contact Button */}
-              <Link to="/#contact" onClick={(e) => handleHashLinkClick(e, '/#contact')} className="text-gold border border-gold/50 px-8 py-3 hover:bg-gold hover:text-dark-900 transition-all duration-300 rounded-sm mt-4 w-4/5 text-center">Contact</Link>
+              {!isAuthenticated && (
+                <Link to="/#contact" onClick={(e) => handleHashLinkClick(e, '/#contact')} className="text-gold border border-gold/50 px-8 py-3 hover:bg-gold hover:text-dark-900 transition-all duration-300 rounded-sm mt-4 w-4/5 text-center">Contact</Link>
+              )}
             </div>
           </nav>
         </div>

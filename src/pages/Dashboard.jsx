@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Calendar, Clock, Star, Plus, List, User, Shield, ArrowRight, Music, Sparkles } from 'lucide-react';
+import { Calendar, Clock, Star, Plus, List, User, Shield, ArrowRight, Music, Sparkles, MessageSquare } from 'lucide-react';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
 import { useAuth } from '../context/AuthContext';
@@ -120,6 +120,12 @@ const Dashboard = () => {
       label: 'My Appointments',
       desc: 'View upcoming and past session history',
       to: '/appointments',
+    },
+    {
+      icon: MessageSquare,
+      label: 'Message Teacher',
+      desc: 'Send a direct inquiry or question',
+      to: '/messages',
     },
     {
       icon: User,

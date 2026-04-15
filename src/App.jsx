@@ -14,6 +14,8 @@ import Profile from './pages/Profile';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminSlots from './pages/AdminSlots';
 import AdminMembers from './pages/AdminMembers';
+import AdminMessages from './pages/AdminMessages';
+import Messages from './pages/Messages';
 import ScrollToHash from './components/ScrollToHash';
 import Layout from './components/Layout';
 
@@ -35,9 +37,11 @@ function App() {
               <Route path="booking" element={<RequireAuth><Booking /></RequireAuth>} />
               <Route path="appointments" element={<RequireAuth><Appointments /></RequireAuth>} />
               <Route path="profile" element={<RequireAuth><Profile /></RequireAuth>} />
+              <Route path="messages" element={<RequireAuth><Messages /></RequireAuth>} />
               <Route path="admin" element={<RequireAdmin><AdminDashboard /></RequireAdmin>} />
               <Route path="admin/slots" element={<RequireAdmin><AdminSlots /></RequireAdmin>} />
               <Route path="admin/members" element={<RequireAdmin><AdminMembers /></RequireAdmin>} />
+              <Route path="admin/messages" element={<RequireAdmin><AdminMessages /></RequireAdmin>} />
             </Route>
           </Routes>
         </AuthProvider>

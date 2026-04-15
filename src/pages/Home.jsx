@@ -8,6 +8,7 @@ import PerformancePreview from '../components/PerformancePreview';
 import FAQ from '../components/FAQ';
 import Contact from '../components/Contact';
 import { faqs } from '../data/faqs';
+import { useAuth } from '../context/AuthContext';
 
 const faqSchema = {
   '@context': 'https://schema.org',
@@ -23,6 +24,8 @@ const faqSchema = {
 };
 
 const Home = () => {
+  const { isAuthenticated } = useAuth();
+
   return (
     <>
       <Helmet>
@@ -34,7 +37,7 @@ const Home = () => {
       <Academic />
       <PerformancePreview />
       <FAQ />
-      <Contact />
+      {!isAuthenticated && <Contact />}
     </>
   );
 };
