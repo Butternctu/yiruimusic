@@ -44,6 +44,8 @@ const Login = () => {
         message = 'Too many attempts. Please try again later.';
       } else if (err.code === 'auth/invalid-email') {
         message = 'Please enter a valid email address.';
+      } else if (err.code) {
+        message = `Error: ${err.message} (${err.code})`;
       }
       setError(message);
       setShakeError(true);
