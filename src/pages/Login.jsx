@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import SEO from '../components/SEO';
 
 const Login = () => {
-  const { login, loginWithGoogle, isAuthenticated, initializationError } = useAuth();
+  const { login, loginWithGoogle, isAuthenticated, initializationError, resetPassword } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -13,6 +13,8 @@ const Login = () => {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [shakeError, setShakeError] = useState(false);
+  const [isResetMode, setIsResetMode] = useState(false);
+  const [resetSent, setResetSent] = useState(false);
 
   // Redirect if already logged in
   React.useEffect(() => {
@@ -22,8 +24,9 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setResetSent(false);
 
-    if (!email.trim() || !password.trim()) {
+    if (!email.trim() || (!isResetMode && !password.trim())) {
       setError('Please fill in all fields.');
       setShakeError(true);
       setTimeout(() => setShakeError(false), 500);
@@ -32,8 +35,13 @@ const Login = () => {
 
     setIsLoading(true);
     try {
-      await login(email, password);
-      navigate('/dashboard');
+      if (isResetMode) {
+        await resetPassword(email);
+        setResetSent(true);
+      } else {
+        await login(email, password);
+        navigate('/dashboard');
+      }
     } catch (err) {
       let message = 'An error occurred. Please try again.';
       if (err.message?.includes('not initialized')) {
@@ -77,7 +85,7 @@ const Login = () => {
 
   return (
     <>
-      <SEO title="Login | Dr. Yirui Li" url="/login" />
+      <SEO title={isResetMode ? "Reset Password | Dr. Yirui Li" : "Login | Dr. Yirui Li"} url="/login" />
       <section className="min-h-screen bg-dark-900 flex flex-col relative overflow-hidden px-6 pt-32 pb-12">
         {/* Ambient glow */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-[radial-gradient(ellipse_at_top,rgba(197,160,89,0.04)_0%,transparent_70%)] pointer-events-none" />
@@ -89,12 +97,25 @@ const Login = () => {
             <div className="inline-flex items-center justify-center w-14 h-14 rounded-full border border-gold/30 bg-gold/5 mb-4">
               <LogIn className="w-6 h-6 text-gold" />
             </div>
-            <h1 className="font-serif text-3xl text-white tracking-wide mb-2">Welcome Back</h1>
-            <p className="text-gray-500 text-sm tracking-wider uppercase">Sign in to your account</p>
+            <h1 className="font-serif text-3xl text-white tracking-wide mb-2">
+              {isResetMode ? 'Password Reset' : 'Welcome Back'}
+            </h1>
+            <p className="text-gray-500 text-sm tracking-wider uppercase">
+              {isResetMode ? 'Enter your email to receive a reset link' : 'Sign in to your account'}
+            </p>
           </div>
 
+          {/* Success Alert */}
+          {resetSent && (
+            <div className="mb-8 p-4 bg-gold/10 border border-gold/30 rounded text-center animate-fadeIn">
+              <p className="text-gold text-[11px] uppercase tracking-widest font-medium">
+                Reset link sent! Please check your email inbox.
+              </p>
+            </div>
+          )}
+
           {/* Initialization Error Alert */}
-          {initializationError && (
+          {initializationError && !resetSent && (
             <div className="mb-8 p-4 bg-[#d9736c]/10 border border-[#d9736c]/30 rounded text-center">
               <p className="text-[#d9736c] text-[11px] uppercase tracking-widest leading-loose">
                 {initializationError}
@@ -123,30 +144,56 @@ const Login = () => {
               />
             </div>
 
-            <div className="relative">
-              <label htmlFor="login-password" className="block text-xs uppercase tracking-widest text-gray-500 mb-2">
-                Password
-              </label>
+            {!isResetMode && (
               <div className="relative">
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  id="login-password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  autoComplete="current-password"
-                  className="w-full bg-transparent border-b border-white/20 py-3 text-gold placeholder-gray-600 focus:outline-none focus:border-gold transition-colors pr-12 [&:-webkit-autofill]:[-webkit-text-fill-color:#C5A059] [&:-webkit-autofill]:[box-shadow:0_0_0_1000px_#0a0a0a_inset]"
-                  placeholder="••••••••"
-                />
+                <div className="flex justify-between items-end mb-2">
+                  <label htmlFor="login-password" className="block text-xs uppercase tracking-widest text-gray-500">
+                    Password
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsResetMode(true);
+                      setError('');
+                    }}
+                    className="text-[10px] uppercase tracking-widest text-gold/60 hover:text-gold transition-colors underline underline-offset-4 decoration-gold/20"
+                  >
+                    Forgot Password?
+                  </button>
+                </div>
+                <div className="relative">
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    id="login-password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    autoComplete="current-password"
+                    className="w-full bg-transparent border-b border-white/20 py-3 text-gold placeholder-gray-600 focus:outline-none focus:border-gold transition-colors pr-12 [&:-webkit-autofill]:[-webkit-text-fill-color:#C5A059] [&:-webkit-autofill]:[box-shadow:0_0_0_1000px_#0a0a0a_inset]"
+                    placeholder="••••••••"
+                  />
+                  <button
+                    type="button"
+                    tabIndex={-1}
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-0 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gold transition-colors p-2"
+                  >
+                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {isResetMode && (
+              <div className="text-right">
                 <button
                   type="button"
-                  tabIndex={-1}
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-0 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gold transition-colors p-2"
+                  onClick={() => setIsResetMode(false)}
+                  className="text-[10px] uppercase tracking-widest text-gray-500 hover:text-white transition-colors"
                 >
-                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  Back to Login
                 </button>
               </div>
-            </div>
+            )}
 
             {error && (
               <p className={`text-[11px] text-[#d9736c] tracking-wider uppercase text-center ${shakeError ? 'animate-error-shake' : 'animate-error-pulse'}`}>
@@ -166,11 +213,11 @@ const Login = () => {
               {isLoading ? (
                 <span className="flex items-center space-x-2">
                   <span className="w-4 h-4 border-2 border-dark-900/30 border-t-dark-900 rounded-full animate-spin" />
-                  <span>Signing in...</span>
+                  <span>{isResetMode ? 'Sending...' : 'Signing in...'}</span>
                 </span>
               ) : (
                 <span className="flex items-center space-x-2">
-                  <span>Sign In</span>
+                  <span>{isResetMode ? 'Send Reset Link' : 'Sign In'}</span>
                   <ArrowRight className="w-4 h-4" />
                 </span>
               )}

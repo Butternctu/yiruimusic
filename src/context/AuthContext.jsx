@@ -11,6 +11,7 @@ import {
   reauthenticateWithCredential,
   GoogleAuthProvider,
   signInWithPopup,
+  sendPasswordResetEmail,
 } from 'firebase/auth';
 import { doc, getDoc, setDoc, updateDoc, serverTimestamp } from 'firebase/firestore';
 import { auth, db, initializationError } from '../firebase';
@@ -128,6 +129,11 @@ export function AuthProvider({ children }) {
     setUserProfile(null);
   };
 
+  const resetPassword = async (email) => {
+    if (!auth) throw new Error('Firebase Auth not initialized');
+    return sendPasswordResetEmail(auth, email);
+  };
+
   const updateUserProfile = async (data) => {
     if (!user || !db) throw new Error('Not authenticated or database not initialized');
     await updateDoc(doc(db, 'users', user.uid), data);
@@ -161,6 +167,7 @@ export function AuthProvider({ children }) {
     register,
     loginWithGoogle,
     logout,
+    resetPassword,
     updateUserProfile,
     changePassword,
   };
