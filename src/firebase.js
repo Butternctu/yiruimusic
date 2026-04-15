@@ -16,18 +16,27 @@ const firebaseConfig = {
 let app = null;
 let auth = null;
 let db = null;
+let initializationError = null;
 
 try {
-  if (firebaseConfig.apiKey && firebaseConfig.projectId && firebaseConfig.apiKey !== 'your-api-key') {
+  const missingKeys = [];
+  if (!firebaseConfig.apiKey) missingKeys.push('API Key');
+  if (!firebaseConfig.projectId) missingKeys.push('Project ID');
+  
+  if (missingKeys.length === 0 && firebaseConfig.apiKey !== 'your-api-key') {
     app = initializeApp(firebaseConfig);
     auth = getAuth(app);
     db = getFirestore(app);
   } else {
-    console.warn("Firebase credentials missing or using placeholders. Please set up your .env file.");
+    initializationError = missingKeys.length > 0 
+      ? `Missing Firebase configuration: ${missingKeys.join(', ')}. Check your .env file or GitHub Secrets.`
+      : "Firebase is using placeholder credentials.";
+    console.warn(initializationError);
   }
 } catch (error) {
-  console.error("Firebase initialization failed:", error);
+  initializationError = `Firebase initialization failed: ${error.message}`;
+  console.error(initializationError);
 }
 
-export { auth, db };
+export { auth, db, initializationError };
 export default app;

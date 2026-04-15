@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Calendar, Plus, Trash2, ArrowLeft, Clock, ChevronDown, Check, X, Repeat } from 'lucide-react';
 import { collection, query, where, getDocs, doc, deleteDoc, addDoc, orderBy, Timestamp, limit } from 'firebase/firestore';
 import { db } from '../firebase';
-import { LESSON_TYPES, SLOT_STATUS, formatDate, formatTime, getLessonTypeById, getWeekDates, isSameDay } from '../data/bookingData';
+import { LESSON_TYPES, SLOT_STATUS, formatDate, formatTime, getLessonTypeById } from '../data/bookingData';
 import { DatePicker, TimePicker } from '../components/DateTimePicker';
 import SEO from '../components/SEO';
 
@@ -56,8 +56,7 @@ const AdminSlots = () => {
     };
   }, []);
 
-  // Lesson type dropdown for single creation
-  const [typeDropdown, setTypeDropdown] = useState(false);
+
 
   useEffect(() => {
     fetchSlots(slotFilter);
@@ -198,7 +197,7 @@ const AdminSlots = () => {
 
   const dayLabels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-  const inputClass = 'w-full bg-transparent border-b border-white/20 py-3 text-gold focus:outline-none focus:border-gold transition-colors';
+
 
   return (
     <>

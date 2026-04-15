@@ -3,10 +3,7 @@ import {
   getFirestore, 
   collection, 
   addDoc, 
-  Timestamp, 
-  getDocs, 
-  query, 
-  where 
+  Timestamp 
 } from "firebase/firestore";
 import dotenv from "dotenv";
 

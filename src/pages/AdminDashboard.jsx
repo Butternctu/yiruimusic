@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Shield, Calendar, Clock, Users, ArrowRight, ChevronRight, Activity, TrendingUp, Settings, AlertCircle } from 'lucide-react';
 import { collection, query, where, getDocs, orderBy, limit } from 'firebase/firestore';
-import { db, auth } from '../firebase';
+import { db } from '../firebase';
 import { getLessonTypeById, formatDate, formatTime } from '../data/bookingData';
 import SEO from '../components/SEO';
 
@@ -247,7 +247,7 @@ const AdminDashboard = () => {
                 </div>
               ) : (
                 <div className="space-y-2 flex-1">
-                  {todayAppointments.map((appt, idx) => {
+                  {todayAppointments.map((appt) => {
                     const lt = getLessonTypeById(appt.lessonType);
                     const dateTime = appt.dateTime?.toDate ? appt.dateTime.toDate() : null;
                     return (

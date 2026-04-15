@@ -13,7 +13,7 @@ import {
   signInWithPopup,
 } from 'firebase/auth';
 import { doc, getDoc, setDoc, updateDoc, serverTimestamp } from 'firebase/firestore';
-import { auth, db } from '../firebase';
+import { auth, db, initializationError } from '../firebase';
 
 const AuthContext = createContext(null);
 
@@ -155,6 +155,7 @@ export function AuthProvider({ children }) {
     loading,
     isAuthenticated: !!user,
     isConfigured: !!auth, // New helper to check if Firebase is ready
+    initializationError, // Expose the specific error message
     isAdmin,
     login,
     register,

@@ -148,9 +148,6 @@ const Booking = () => {
     setBookingSuccess(false);
   };
 
-  const availableSlots = slots.filter(s => s.status === SLOT_STATUS.AVAILABLE);
-  const bookedSlots = slots.filter(s => s.status === SLOT_STATUS.BOOKED);
-
   // Filter slots for the bottom detail view
   const selectedDateSlots = slots.filter(s => {
     const d = s.dateTime?.toDate ? s.dateTime.toDate() : new Date(s.dateTime);

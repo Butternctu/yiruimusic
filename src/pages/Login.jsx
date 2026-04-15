@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import SEO from '../components/SEO';
 
 const Login = () => {
-  const { login, loginWithGoogle, isAuthenticated } = useAuth();
+  const { login, loginWithGoogle, isAuthenticated, initializationError } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -36,7 +36,9 @@ const Login = () => {
       navigate('/dashboard');
     } catch (err) {
       let message = 'An error occurred. Please try again.';
-      if (err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
+      if (err.message?.includes('not initialized')) {
+        message = 'Firebase initialization failed. Please check your configuration.';
+      } else if (err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
         message = 'Invalid email or password.';
       } else if (err.code === 'auth/too-many-requests') {
         message = 'Too many attempts. Please try again later.';
@@ -84,6 +86,19 @@ const Login = () => {
             <h1 className="font-serif text-3xl text-white tracking-wide mb-2">Welcome Back</h1>
             <p className="text-gray-500 text-sm tracking-wider uppercase">Sign in to your account</p>
           </div>
+
+          {/* Initialization Error Alert */}
+          {initializationError && (
+            <div className="mb-8 p-4 bg-[#d9736c]/10 border border-[#d9736c]/30 rounded text-center">
+              <p className="text-[#d9736c] text-[11px] uppercase tracking-widest leading-loose">
+                {initializationError}
+                <br />
+                <span className="opacity-70">
+                  Please verify your GitHub Secrets or .env file is correctly set.
+                </span>
+              </p>
+            </div>
+          )}
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-6">

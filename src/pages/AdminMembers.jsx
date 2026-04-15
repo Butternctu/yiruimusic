@@ -201,8 +201,6 @@ const AdminMembers = () => {
 
   const inputClass =
     'w-full bg-transparent border-b border-white/20 py-2.5 text-gold placeholder-gray-600 focus:outline-none focus:border-gold transition-colors tracking-wide [&:-webkit-autofill]:[-webkit-text-fill-color:#C5A059] [&:-webkit-autofill]:[box-shadow:0_0_0_1000px_#141414_inset]';
-  const smallInputClass =
-    'w-full bg-transparent border-b border-white/20 py-1 text-white text-sm focus:outline-none focus:border-gold transition-colors [&:-webkit-autofill]:[-webkit-text-fill-color:#fff] [&:-webkit-autofill]:[box-shadow:0_0_0_1000px_#141414_inset]';
 
   return (
     <>

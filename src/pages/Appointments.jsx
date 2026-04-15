@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Calendar, Clock, X, AlertTriangle, Plus, ArrowLeft } from 'lucide-react';
 import {
-  collection, query, where, getDocs, doc, updateDoc, orderBy, Timestamp,
+  collection, query, where, getDocs, doc, updateDoc, Timestamp,
 } from 'firebase/firestore';
 import { db } from '../firebase';
 import { useAuth } from '../context/AuthContext';
-import { formatDate, formatTime, getLessonTypeById, formatFullDate } from '../data/bookingData';
+import { formatDate, formatTime, getLessonTypeById } from '../data/bookingData';
 import SEO from '../components/SEO';
 
 const Appointments = () => {
