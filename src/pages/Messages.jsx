@@ -31,7 +31,7 @@ const Messages = () => {
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const msgs = snapshot.docs.map(doc => ({
         id: doc.id,
-        ...doc.data()
+        ...doc.data({ serverTimestamps: 'estimate' })
       }));
       setMessages(msgs);
       setLoading(false);

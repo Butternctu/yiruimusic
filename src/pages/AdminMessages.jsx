@@ -28,7 +28,7 @@ const AdminMessages = () => {
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const chatList = snapshot.docs.map(doc => ({
         id: doc.id,
-        ...doc.data()
+        ...doc.data({ serverTimestamps: 'estimate' })
       }));
       setChats(chatList);
       setLoadingChats(false);
@@ -55,7 +55,7 @@ const AdminMessages = () => {
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const msgs = snapshot.docs.map(doc => ({
         id: doc.id,
-        ...doc.data()
+        ...doc.data({ serverTimestamps: 'estimate' })
       }));
       setMessages(msgs);
       setLoadingMessages(false);
