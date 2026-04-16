@@ -133,6 +133,7 @@ const Messages = () => {
               <p className="text-gray-500 text-[10px] tracking-[0.2em] uppercase mt-1">Direct Communication Channel</p>
             </div>
           </div>
+          </div>
 
           {/* Chat Container */}
           <div className="flex-1 min-h-[500px] h-[calc(100dvh-320px)] glass-card rounded-sm border border-white/10 flex flex-col overflow-hidden animate-fadeInUp shadow-2xl relative bg-white/[0.01]" style={{ animationDelay: '100ms' }}>

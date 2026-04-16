@@ -226,6 +226,7 @@ const Appointments = () => {
               </button>
             ))}
           </div>
+          </div>
 
           <div className="flex-1 pb-8 flex flex-col min-h-0">
             {/* Content */}

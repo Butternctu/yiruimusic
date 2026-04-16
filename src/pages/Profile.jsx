@@ -132,6 +132,7 @@ const Profile = () => {
               <p className="text-gray-500 text-[10px] tracking-[0.2em] uppercase mt-1">Manage your personal information and security</p>
             </div>
           </div>
+          </div>
 
           <div className="flex-1 pb-8 flex flex-col">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">

@@ -249,6 +249,7 @@ const AdminMembers = () => {
               <span>Add Member</span>
             </button>
           </div>
+          </div>
 
           {/* Content Area */}
           <div className="flex-1 min-h-0">

@@ -208,6 +208,7 @@ const AdminDashboard = () => {
               </Link>
             </div>
           </div>
+          </div>
 
           {/* Stat Cards - Slightly more compact */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8 shrink-0">

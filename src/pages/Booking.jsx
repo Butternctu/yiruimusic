@@ -400,6 +400,7 @@ const Booking = () => {
           <div className="mt-8 animate-fadeInUp shrink-0" style={{ animationDelay: '400ms' }}>
             <h2 className="font-serif text-lg text-white mb-6">{formatFullDate(selectedDate)}</h2>
           </div>
+          </div>
 
           <div className="flex-1 pb-8 flex flex-col min-h-0">
             {loadingSlots ? (

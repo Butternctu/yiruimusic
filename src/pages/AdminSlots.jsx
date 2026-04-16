@@ -370,6 +370,7 @@ const AdminSlots = () => {
               </button>
             ))}
           </div>
+          </div>
 
           {/* CONTENT AREA */}
           <div className="flex-1 min-h-0">
