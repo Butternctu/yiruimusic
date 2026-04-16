@@ -296,10 +296,10 @@ const Booking = () => {
   return (
     <>
       <SEO title="Book a Session | Dr. Yirui Li" url="/booking" />
-      <section className="min-h-screen bg-dark-900 pt-36 pb-12 px-6 md:px-12 relative overflow-hidden">
+      <section className="min-h-screen bg-dark-900 pt-36 pb-12 relative overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-[radial-gradient(ellipse_at_top,rgba(197,160,89,0.03)_0%,transparent_70%)] pointer-events-none" />
 
-        <div className="max-w-5xl mx-auto relative z-10">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
           {/* Header */}
           <div className="flex items-center space-x-4 mb-10 animate-fadeInUp">
             <Link
