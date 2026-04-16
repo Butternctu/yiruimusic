@@ -4,6 +4,7 @@ import { Calendar, ChevronLeft, ChevronRight, Clock, Music, X, Check, ArrowLeft 
 import { collection, query, where, getDocs, doc, runTransaction, Timestamp, orderBy, limit } from 'firebase/firestore';
 import { db } from '../firebase';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 import {
   LESSON_TYPES,
   SLOT_STATUS,
@@ -21,6 +22,7 @@ import emailjs from '@emailjs/browser';
 
 const Booking = () => {
   const { user, userProfile } = useAuth();
+  const { showToast } = useToast();
   const navigate = useNavigate();
   const [weekStart, setWeekStart] = useState(() => {
     const now = new Date();
@@ -217,7 +219,7 @@ const Booking = () => {
       await fetchSlots(); 
     } catch (err) {
       console.error('Booking error:', err);
-      alert(err.message || 'Failed to book. Please try again.');
+      showToast(err.message || 'Failed to book. Please try again.', 'error');
     } finally {
       setBooking(false);
     }

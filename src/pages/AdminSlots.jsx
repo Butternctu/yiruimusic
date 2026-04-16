@@ -5,10 +5,12 @@ import { collection, query, where, getDocs, doc, deleteDoc, addDoc, orderBy, Tim
 import { db } from '../firebase';
 import { LESSON_TYPES, SLOT_STATUS, formatDate, formatTime, getLessonTypeById } from '../data/bookingData';
 import { DatePicker, TimePicker } from '../components/DateTimePicker';
+import { useToast } from '../context/ToastContext';
 import SEO from '../components/SEO';
 
 const AdminSlots = () => {
   const navigate = useNavigate();
+  const { showToast } = useToast();
   const [slots, setSlots] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeView, setActiveView] = useState('list'); // list | create | bulk
@@ -107,7 +109,7 @@ const AdminSlots = () => {
       await fetchSlots(slotFilter);
     } catch (err) {
       console.error('Cleanup error:', err);
-      alert('Failed to cleanup slots.');
+      showToast('Failed to cleanup slots.', 'error');
     } finally {
       setCleaning(false);
     }
@@ -133,7 +135,7 @@ const AdminSlots = () => {
       await fetchSlots(slotFilter);
     } catch (err) {
       console.error('Error creating slot:', err);
-      alert('Failed to create slot.');
+      showToast('Failed to create slot.', 'error');
     } finally {
       setCreating(false);
     }
@@ -197,7 +199,7 @@ const AdminSlots = () => {
       setDeleteTarget(null);
     } catch (err) {
       console.error('Error deleting slot:', err);
-      alert('Failed to delete.');
+      showToast('Failed to delete.', 'error');
     } finally {
       setDeleting(false);
     }

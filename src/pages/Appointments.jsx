@@ -6,12 +6,14 @@ import {
 } from 'firebase/firestore';
 import { db } from '../firebase';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 import { formatDate, formatTime, getLessonTypeById } from '../data/bookingData';
 import SEO from '../components/SEO';
 import emailjs from '@emailjs/browser';
 
 const Appointments = () => {
   const { user } = useAuth();
+  const { showToast } = useToast();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('upcoming');
   const [appointments, setAppointments] = useState([]);
@@ -117,7 +119,7 @@ const Appointments = () => {
       setCancelTarget(null);
     } catch (err) {
       console.error('Error cancelling appointment:', err);
-      alert('Failed to cancel. Please try again.');
+      showToast('Failed to cancel. Please try again.', 'error');
     } finally {
       setCancelling(false);
     }

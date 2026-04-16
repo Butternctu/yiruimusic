@@ -6,10 +6,12 @@ import { initializeApp } from 'firebase/app';
 import { getAuth, createUserWithEmailAndPassword, signOut } from 'firebase/auth';
 import { db, auth } from '../firebase';
 import { MEMBERSHIP_TIERS, formatDate, formatPhoneNumber } from '../data/bookingData';
+import { useToast } from '../context/ToastContext';
 import SEO from '../components/SEO';
 
 const AdminMembers = () => {
   const navigate = useNavigate();
+  const { showToast } = useToast();
   const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeView, setActiveView] = useState('list'); // list | create
@@ -124,9 +126,10 @@ const AdminMembers = () => {
       await updateDoc(doc(db, 'users', memberId), editForm);
       setMembers(prev => prev.map(m => (m.id === memberId ? { ...m, ...editForm } : m)));
       setEditingId(null);
+      showToast('Member profile updated successfully.', 'success');
     } catch (err) {
       console.error('Error saving member:', err);
-      alert('Failed to save member details.');
+      showToast('Failed to save member details.', 'error');
     } finally {
       setSavingId(null);
     }
@@ -141,12 +144,13 @@ const AdminMembers = () => {
       await deleteDoc(doc(db, 'users', deleteTarget.id));
       setMembers(prev => prev.filter(m => m.id !== deleteTarget.id));
       setDeleteTarget(null);
+      showToast('Member data deleted successfully.', 'success');
 
       // Note: This does NOT delete the Firebase Auth user because only the Admin SDK
       // or the user themselves can do that. Explain this via UI if needed.
     } catch (err) {
       console.error('Error deleting member:', err);
-      alert('Failed to delete member.');
+      showToast('Failed to delete member.', 'error');
     } finally {
       setDeleting(false);
     }
