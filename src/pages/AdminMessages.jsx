@@ -142,7 +142,7 @@ const AdminMessages = () => {
         {/* Decorative background */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-[radial-gradient(ellipse_at_top,rgba(197,160,89,0.03)_0%,transparent_60%)] pointer-events-none" />
 
-        <div className="max-w-5xl mx-auto px-6 md:px-12 w-full flex-1 flex flex-col z-10 min-h-0">
+        <div className="max-w-6xl mx-auto px-6 md:px-12 w-full flex-1 flex flex-col z-10 min-h-0">
           <div className="flex items-center space-x-4 mb-6 shrink-0 animate-fadeInUp">
             <button
               onClick={() => navigate('/admin')}

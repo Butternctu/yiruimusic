@@ -23,18 +23,15 @@ const Dashboard = () => {
         const appointmentsRef = collection(db, 'appointments');
 
         // Single query: get all user's appointments
-        const userAptsQ = query(
-          appointmentsRef,
-          where('userId', '==', user.uid)
-        );
+        const userAptsQ = query(appointmentsRef, where('userId', '==', user.uid));
         const snapshot = await getDocs(userAptsQ);
-        const allApts = snapshot.docs.map((d) => ({ id: d.id, ...d.data() })).filter(a => a.status === 'confirmed');
+        const allApts = snapshot.docs.map(d => ({ id: d.id, ...d.data() })).filter(a => a.status === 'confirmed');
 
         // Client-side filter for upcoming vs past
         const upcoming = allApts
-          .filter((a) => a.dateTime?.toDate?.() >= now || a.dateTime >= now)
+          .filter(a => a.dateTime?.toDate?.() >= now || a.dateTime >= now)
           .sort((a, b) => (a.dateTime?.toDate?.() || a.dateTime) - (b.dateTime?.toDate?.() || b.dateTime));
-        const past = allApts.filter((a) => (a.dateTime?.toDate?.() || a.dateTime) < now);
+        const past = allApts.filter(a => (a.dateTime?.toDate?.() || a.dateTime) < now);
 
         setUpcomingCount(upcoming.length);
         setPastCount(past.length);
@@ -52,15 +49,13 @@ const Dashboard = () => {
     fetchStats();
   }, [user]);
 
-  const memberSince = userProfile?.createdAt?.toDate
-    ? formatDate(userProfile.createdAt.toDate())
-    : 'Today';
+  const memberSince = userProfile?.createdAt?.toDate ? formatDate(userProfile.createdAt.toDate()) : 'Today';
 
   const getInitials = () => {
     const name = userProfile?.displayName || user?.displayName || 'U';
     return name
       .split(' ')
-      .map((n) => n[0])
+      .map(n => n[0])
       .join('')
       .toUpperCase()
       .slice(0, 2);
@@ -112,7 +107,7 @@ const Dashboard = () => {
       label: isAdmin ? 'Inbox' : 'Message Dr. Li',
       desc: isAdmin ? 'View and reply to student messages' : 'Send a direct inquiry or question',
       to: isAdmin ? '/admin/messages' : '/messages',
-      badge: hasUnreadMessages
+      badge: hasUnreadMessages,
     },
     {
       icon: User,
@@ -133,7 +128,7 @@ const Dashboard = () => {
 
         <div className="max-w-6xl mx-auto px-6 md:px-12 relative z-10">
           {/* Welcome Header */}
-          <div className="flex items-center justify-between mb-14 animate-fadeInUp">
+          <div className="flex items-center justify-between mb-12 animate-fadeInUp">
             <div className="flex items-center space-x-5">
               <div className="relative">
                 <div className="w-16 h-16 rounded-full bg-gradient-to-br from-gold/25 to-gold/5 border border-gold/30 flex items-center justify-center flex-shrink-0">
@@ -141,9 +136,7 @@ const Dashboard = () => {
                 </div>
               </div>
               <div className="relative flex flex-col justify-center h-16">
-                <p className="absolute -top-1 left-0 text-gray-500 text-[10px] tracking-widest uppercase whitespace-nowrap">
-                  {greeting()}
-                </p>
+                <p className="absolute -top-1 left-0 text-gray-500 text-[10px] tracking-widest uppercase whitespace-nowrap">{greeting()}</p>
                 <h1 className="font-serif text-2xl md:text-3xl text-white tracking-wide leading-none m-0 p-0">
                   {userProfile?.displayName || user?.displayName || 'Member'}
                 </h1>
@@ -165,9 +158,7 @@ const Dashboard = () => {
           {/* Error banner */}
           {error && (
             <div className="mb-8 p-4 rounded-sm border border-[#d9736c]/20 bg-[#d9736c]/5 animate-fadeInUp">
-              <p className="text-[#d9736c] text-sm">
-                Unable to load some data. Please check your connection and refresh.
-              </p>
+              <p className="text-[#d9736c] text-sm">Unable to load some data. Please check your connection and refresh.</p>
             </div>
           )}
 
@@ -189,9 +180,7 @@ const Dashboard = () => {
                     </div>
                     <span className="text-[10px] uppercase tracking-widest text-gray-600">{stat.label}</span>
                   </div>
-                  <p className="text-2xl font-serif text-white mb-1 tracking-tight">
-                    {stat.value}
-                  </p>
+                  <p className="text-2xl font-serif text-white mb-1 tracking-tight">{stat.value}</p>
                   <p className="text-gray-600 text-xs tracking-wider">{stat.sub}</p>
                 </div>
               </div>
@@ -219,21 +208,15 @@ const Dashboard = () => {
                 ) : nextAppointment ? (
                   <div className="flex items-center justify-between flex-wrap gap-4">
                     <div>
-                      <p className="text-white font-serif text-xl mb-2">
-                        {getLessonTypeById(nextAppointment.lessonType)?.name || nextAppointment.lessonType}
-                      </p>
+                      <p className="text-white font-serif text-xl mb-2">{getLessonTypeById(nextAppointment.lessonType)?.name || nextAppointment.lessonType}</p>
                       <div className="flex items-center space-x-4 text-sm">
                         <span className="flex items-center space-x-1.5 text-gold">
                           <Calendar className="w-3.5 h-3.5" />
-                          <span>
-                            {nextAppointment.dateTime?.toDate && formatDate(nextAppointment.dateTime.toDate())}
-                          </span>
+                          <span>{nextAppointment.dateTime?.toDate && formatDate(nextAppointment.dateTime.toDate())}</span>
                         </span>
                         <span className="flex items-center space-x-1.5 text-gray-400">
                           <Clock className="w-3.5 h-3.5" />
-                          <span>
-                            {nextAppointment.dateTime?.toDate && formatTime(nextAppointment.dateTime.toDate())}
-                          </span>
+                          <span>{nextAppointment.dateTime?.toDate && formatTime(nextAppointment.dateTime.toDate())}</span>
                         </span>
                       </div>
                     </div>
@@ -273,12 +256,8 @@ const Dashboard = () => {
                 <div className="w-14 h-14 rounded-full bg-gold/10 border border-gold/20 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 group-hover:border-gold/40 transition-all duration-500">
                   <Sparkles className="w-6 h-6 text-gold" />
                 </div>
-                <h3 className="text-white font-serif text-lg mb-2 group-hover:text-gold transition-colors duration-300">
-                  Book a Lesson
-                </h3>
-                <p className="text-gray-500 text-xs tracking-wider">
-                  Find your perfect time slot
-                </p>
+                <h3 className="text-white font-serif text-lg mb-2 group-hover:text-gold transition-colors duration-300">Book a Lesson</h3>
+                <p className="text-gray-500 text-xs tracking-wider">Find your perfect time slot</p>
               </div>
             </Link>
           </div>
@@ -295,10 +274,9 @@ const Dashboard = () => {
                 <Link
                   key={idx}
                   to={action.to}
-                  className={`group glass-card rounded-sm border transition-all duration-500 animate-fadeInUp ${action.highlight
-                      ? 'border-gold/15 hover:border-gold/30'
-                      : 'border-white/[0.06] hover:border-gold/20'
-                    }`}
+                  className={`group glass-card rounded-sm border transition-all duration-500 animate-fadeInUp ${
+                    action.highlight ? 'border-gold/15 hover:border-gold/30' : 'border-white/[0.06] hover:border-gold/20'
+                  }`}
                   style={{ animationDelay: `${580 + idx * 70}ms` }}
                 >
                   <div className="p-5 flex items-center space-x-4">
@@ -310,9 +288,7 @@ const Dashboard = () => {
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center space-x-2">
-                        <h3 className="text-white text-sm font-medium group-hover:text-gold transition-colors duration-300">
-                          {action.label}
-                        </h3>
+                        <h3 className="text-white text-sm font-medium group-hover:text-gold transition-colors duration-300">{action.label}</h3>
                       </div>
                       <p className="text-gray-600 text-xs mt-0.5 truncate">{action.desc}</p>
                     </div>

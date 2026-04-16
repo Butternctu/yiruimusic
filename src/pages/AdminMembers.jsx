@@ -36,7 +36,8 @@ const AdminMembers = () => {
     role: 'member',
   });
   const [creating, setCreating] = useState(false);
-  const [createResult, setCreateResult] = useState('');
+  const [createResult, setCreateResult] = useState({ type: '', message: '' });
+  const [shakeError, setShakeError] = useState(false);
 
   // Dropdown State
   const [openDropdown, setOpenDropdown] = useState(null);
@@ -183,6 +184,8 @@ const AdminMembers = () => {
       if (err.code === 'auth/email-already-in-use') message = 'Email is already in use.';
       if (err.code === 'auth/weak-password') message = 'Password must be at least 6 characters.';
       setCreateResult({ type: 'error', message });
+      setShakeError(true);
+      setTimeout(() => setShakeError(false), 500);
     } finally {
       setCreating(false);
     }
@@ -198,11 +201,11 @@ const AdminMembers = () => {
         {/* Decorative background gradients */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-[radial-gradient(ellipse_at_top,rgba(197,160,89,0.03)_0%,transparent_70%)] pointer-events-none" />
 
-        <div className="max-w-5xl mx-auto px-6 md:px-12 w-full flex-1 flex flex-col z-10 min-h-0">
+        <div className="max-w-6xl mx-auto px-6 md:px-12 w-full flex-1 flex flex-col z-10 min-h-0">
           {/* Header */}
           <div className="flex items-center space-x-4 mb-6 animate-fadeInUp shrink-0">
-            <button 
-              onClick={() => navigate('/admin')} 
+            <button
+              onClick={() => navigate('/admin')}
               className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5 hover:border-gold/30 transition-all duration-300"
             >
               <ArrowLeft className="w-4 h-4 text-gray-400" />
@@ -313,13 +316,23 @@ const AdminMembers = () => {
                                             className={`w-full bg-transparent border-b py-2 cursor-pointer flex justify-between items-center z-10 ${openDropdown === 'edit-role-' + member.id ? 'border-gold' : 'border-white/20 hover:border-white/50'}`}
                                             onClick={() => setOpenDropdown(openDropdown === 'edit-role-' + member.id ? null : 'edit-role-' + member.id)}
                                           >
-                                            <span className="text-white text-sm capitalize">{editForm.role}</span>
-                                            <ChevronDown className={`w-4 h-4 text-gold transition-transform duration-300 ${openDropdown === 'edit-role-' + member.id ? 'rotate-180' : ''}`} />
+                                            <span className="text-gold text-sm capitalize font-medium">{editForm.role}</span>
+                                            <ChevronDown
+                                              className={`w-4 h-4 text-gold transition-transform duration-300 ${openDropdown === 'edit-role-' + member.id ? 'rotate-180' : ''}`}
+                                            />
                                           </div>
-                                          <div className={`absolute left-0 top-[calc(100%+4px)] w-full bg-dark-800 border border-white/10 shadow-2xl transition-all duration-300 z-50 ${openDropdown === 'edit-role-' + member.id ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'}`}>
+                                          <div
+                                            className={`absolute left-0 top-[calc(100%+4px)] w-full bg-dark-800 border border-white/10 shadow-2xl transition-all duration-300 z-50 ${openDropdown === 'edit-role-' + member.id ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'}`}
+                                          >
                                             {['member', 'admin'].map(opt => (
-                                              <div key={opt} className={`px-4 py-2.5 text-sm cursor-pointer transition-colors border-b border-white/5 last:border-0 flex justify-between items-center ${editForm.role === opt ? 'bg-white/[0.04] text-gold' : 'text-gray-400 hover:bg-white/[0.02] hover:text-white'}`}
-                                                onClick={() => { setEditForm(p => ({ ...p, role: opt })); setOpenDropdown(null); }}>
+                                              <div
+                                                key={opt}
+                                                className={`px-4 py-2.5 text-sm cursor-pointer transition-colors border-b border-white/5 last:border-0 flex justify-between items-center ${editForm.role === opt ? 'bg-white/[0.04] text-gold' : 'text-gray-400 hover:bg-white/[0.02] hover:text-white'}`}
+                                                onClick={() => {
+                                                  setEditForm(p => ({ ...p, role: opt }));
+                                                  setOpenDropdown(null);
+                                                }}
+                                              >
                                                 <span className="capitalize">{opt}</span>
                                                 {editForm.role === opt && <Check className="w-4 h-4 text-gold" />}
                                               </div>
@@ -335,12 +348,22 @@ const AdminMembers = () => {
                                             onClick={() => setOpenDropdown(openDropdown === 'edit-tier-' + member.id ? null : 'edit-tier-' + member.id)}
                                           >
                                             <span className="text-gold text-sm uppercase tracking-wider">{getTierDetails(editForm.membershipTier).name}</span>
-                                            <ChevronDown className={`w-4 h-4 text-gold transition-transform duration-300 ${openDropdown === 'edit-tier-' + member.id ? 'rotate-180' : ''}`} />
+                                            <ChevronDown
+                                              className={`w-4 h-4 text-gold transition-transform duration-300 ${openDropdown === 'edit-tier-' + member.id ? 'rotate-180' : ''}`}
+                                            />
                                           </div>
-                                          <div className={`absolute left-0 top-[calc(100%+4px)] w-full bg-dark-800 border border-white/10 shadow-2xl transition-all duration-300 z-50 ${openDropdown === 'edit-tier-' + member.id ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'}`}>
+                                          <div
+                                            className={`absolute left-0 top-[calc(100%+4px)] w-full bg-dark-800 border border-white/10 shadow-2xl transition-all duration-300 z-50 ${openDropdown === 'edit-tier-' + member.id ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'}`}
+                                          >
                                             {MEMBERSHIP_TIERS.map(t => (
-                                              <div key={t.id} className={`px-4 py-2.5 text-sm cursor-pointer transition-colors border-b border-white/5 last:border-0 flex justify-between items-center uppercase tracking-wider ${editForm.membershipTier === t.id ? 'bg-white/[0.04] text-gold' : 'text-gray-400 hover:bg-white/[0.02] hover:text-white'}`}
-                                                onClick={() => { setEditForm(p => ({ ...p, membershipTier: t.id })); setOpenDropdown(null); }}>
+                                              <div
+                                                key={t.id}
+                                                className={`px-4 py-2.5 text-sm cursor-pointer transition-colors border-b border-white/5 last:border-0 flex justify-between items-center uppercase tracking-wider ${editForm.membershipTier === t.id ? 'bg-white/[0.04] text-gold' : 'text-gray-400 hover:bg-white/[0.02] hover:text-white'}`}
+                                                onClick={() => {
+                                                  setEditForm(p => ({ ...p, membershipTier: t.id }));
+                                                  setOpenDropdown(null);
+                                                }}
+                                              >
                                                 <span>{t.name}</span>
                                                 {editForm.membershipTier === t.id && <Check className="w-4 h-4 text-gold" />}
                                               </div>
@@ -351,9 +374,22 @@ const AdminMembers = () => {
                                     </div>
 
                                     <div className="flex justify-end space-x-3 mt-8 pt-4 border-t border-white/[0.06]">
-                                      <button onClick={cancelEdit} className="px-6 py-2 text-xs uppercase tracking-widest text-gray-400 hover:text-white transition-colors">Cancel</button>
-                                      <button onClick={() => saveEdit(member.id)} disabled={savingId === member.id} className="px-6 py-2 border border-gold/50 text-xs uppercase tracking-widest bg-gold/10 text-gold hover:bg-gold hover:text-dark-900 transition-all duration-300 disabled:opacity-50 flex items-center space-x-2">
-                                        {savingId === member.id ? <div className="w-3 h-3 border-2 border-current border-t-transparent rounded-full animate-spin" /> : <Check className="w-3 h-3" />}
+                                      <button
+                                        onClick={cancelEdit}
+                                        className="px-6 py-2 text-xs uppercase tracking-widest text-gray-400 hover:text-white transition-colors"
+                                      >
+                                        Cancel
+                                      </button>
+                                      <button
+                                        onClick={() => saveEdit(member.id)}
+                                        disabled={savingId === member.id}
+                                        className="px-6 py-2 border border-gold/50 text-xs uppercase tracking-widest bg-gold/10 text-gold hover:bg-gold hover:text-dark-900 transition-all duration-300 disabled:opacity-50 flex items-center space-x-2"
+                                      >
+                                        {savingId === member.id ? (
+                                          <div className="w-3 h-3 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                                        ) : (
+                                          <Check className="w-3 h-3" />
+                                        )}
                                         <span>{savingId === member.id ? 'Saving...' : 'Save Changes'}</span>
                                       </button>
                                     </div>
@@ -370,7 +406,9 @@ const AdminMembers = () => {
                             <tr key={member.id} className="group hover:bg-white/[0.01] transition-colors">
                               <td className="py-5 align-middle pr-4">
                                 <div className="flex items-center space-x-4">
-                                  <div className={`w-10 h-10 rounded-full border ${tier.borderColor} ${tier.bgColor} flex items-center justify-center shrink-0`}>
+                                  <div
+                                    className={`w-10 h-10 rounded-full border ${tier.borderColor} ${tier.bgColor} flex items-center justify-center shrink-0`}
+                                  >
                                     <span className={`text-xs font-serif ${tier.textColor}`}>{getInitials(member.displayName)}</span>
                                   </div>
                                   <div className="min-w-0">
@@ -397,7 +435,9 @@ const AdminMembers = () => {
                                 </div>
                               </td>
                               <td className="py-5 align-middle pr-4">
-                                <span className={`inline-block px-2 py-0.5 text-[9px] uppercase tracking-widest rounded-sm border ${tier.borderColor} ${tier.textColor} ${tier.bgColor}`}>
+                                <span
+                                  className={`inline-block px-2 py-0.5 text-[9px] uppercase tracking-widest rounded-sm border ${tier.borderColor} ${tier.textColor} ${tier.bgColor}`}
+                                >
                                   {tier.name}
                                 </span>
                               </td>
@@ -409,11 +449,19 @@ const AdminMembers = () => {
                               </td>
                               <td className="py-5 align-middle text-right">
                                 <div className="flex items-center justify-end space-x-1">
-                                  <button onClick={() => startEdit(member)} className="p-2 text-gray-600 hover:text-gold transition-colors" title="Edit Profile">
+                                  <button
+                                    onClick={() => startEdit(member)}
+                                    className="p-2 text-gray-600 hover:text-gold transition-colors"
+                                    title="Edit Profile"
+                                  >
                                     <Edit2 className="w-4 h-4" />
                                   </button>
                                   {auth.currentUser?.uid !== member.id && (
-                                    <button onClick={() => setDeleteTarget(member)} className="p-2 text-gray-600 hover:text-[#d9736c] transition-colors" title="Delete Member">
+                                    <button
+                                      onClick={() => setDeleteTarget(member)}
+                                      className="p-2 text-gray-600 hover:text-[#d9736c] transition-colors"
+                                      title="Delete Member"
+                                    >
                                       <Trash2 className="w-4 h-4" />
                                     </button>
                                   )}
@@ -430,49 +478,89 @@ const AdminMembers = () => {
             )}
 
             {activeView === 'create' && (
-              <div className="h-full overflow-y-auto custom-scrollbar pr-2 pb-10">
-                <div className="max-w-4xl mx-auto animate-fadeInUp" style={{ animationDelay: '200ms' }}>
-                  <div className="p-8 md:p-10 rounded-sm border border-gold/20 bg-dark-800 shadow-2xl relative overflow-hidden">
+              <div className="animate-fadeInUp" style={{ animationDelay: '200ms' }}>
+                <div className="max-w-4xl mx-auto">
+                  <div className="p-6 md:p-8 rounded-sm border border-gold/20 bg-dark-800 shadow-2xl relative">
                     <div className="absolute top-0 right-0 w-64 h-64 bg-gold/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" />
                     <div className="relative z-10">
                       <div className="flex items-center space-x-3 mb-2">
                         <UserPlus className="w-5 h-5 text-gold" />
                         <h3 className="font-serif text-xl text-white tracking-wide">Create New Member</h3>
                       </div>
-                      <p className="text-gray-400 text-[11px] tracking-wider mb-10 uppercase">
-                        Generate a new authentication account and profile document.
-                      </p>
+                      <p className="text-gray-400 text-[10px] tracking-wider mb-8 uppercase">Generate a new authentication account and profile document.</p>
 
-                      <form onSubmit={handleCreateUser} className="space-y-8" autoComplete="off">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-8">
+                      <form onSubmit={handleCreateUser} className="space-y-6" autoComplete="off">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6">
                           <div>
                             <label className="block text-[10px] uppercase tracking-widest text-gray-500 mb-2">Full Name</label>
-                            <input type="text" value={newUser.name} onChange={e => setNewUser(p => ({ ...p, name: e.target.value }))} className={inputClass} required placeholder="John Doe" />
+                            <input
+                              type="text"
+                              value={newUser.name}
+                              onChange={e => setNewUser(p => ({ ...p, name: e.target.value }))}
+                              className={inputClass}
+                              required
+                              placeholder="Yirui Li"
+                            />
                           </div>
                           <div>
                             <label className="block text-[10px] uppercase tracking-widest text-gray-500 mb-2">Email Address</label>
-                            <input type="email" value={newUser.email} onChange={e => setNewUser(p => ({ ...p, email: e.target.value }))} autoComplete="new-password" className={inputClass} required placeholder="john@example.com" />
+                            <input
+                              type="email"
+                              value={newUser.email}
+                              onChange={e => setNewUser(p => ({ ...p, email: e.target.value }))}
+                              autoComplete="new-password"
+                              className={inputClass}
+                              required
+                              placeholder="yirui@example.com"
+                            />
                           </div>
                           <div>
                             <label className="block text-[10px] uppercase tracking-widest text-gray-500 mb-2">Password</label>
-                            <input type="password" value={newUser.password} onChange={e => setNewUser(p => ({ ...p, password: e.target.value }))} autoComplete="new-password" className={inputClass} minLength={6} required placeholder="Min. 6 chars" />
+                            <input
+                              type="password"
+                              value={newUser.password}
+                              onChange={e => setNewUser(p => ({ ...p, password: e.target.value }))}
+                              autoComplete="new-password"
+                              className={inputClass}
+                              minLength={6}
+                              required
+                              placeholder="Min. 6 chars"
+                            />
                           </div>
                           <div>
                             <label className="block text-[10px] uppercase tracking-widest text-gray-500 mb-2">Phone</label>
-                            <input type="tel" value={newUser.phone} onChange={e => setNewUser(p => ({ ...p, phone: formatPhoneNumber(e.target.value) }))} className={inputClass} placeholder="(555) 000-0000" />
+                            <input
+                              type="tel"
+                              value={newUser.phone}
+                              onChange={e => setNewUser(p => ({ ...p, phone: formatPhoneNumber(e.target.value) }))}
+                              className={inputClass}
+                              placeholder="(555) 000-0000"
+                            />
                           </div>
-                          <div className="col-span-1 md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-8" ref={dropdownRef}>
+                          <div className="col-span-1 md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6" ref={dropdownRef}>
                             <div className="relative">
                               <label className="block text-[10px] uppercase tracking-widest text-gray-500 mb-2">System Role</label>
-                              <div className={`w-full bg-transparent border-b py-3 cursor-pointer flex justify-between items-center z-20 ${openDropdown === 'create-role' ? 'border-gold' : 'border-white/20 hover:border-white/50'}`}
-                                onClick={() => setOpenDropdown(openDropdown === 'create-role' ? null : 'create-role')}>
-                                <span className="text-white capitalize text-sm">{newUser.role}</span>
-                                <ChevronDown className={`w-4 h-4 text-gold transition-transform duration-300 ${openDropdown === 'create-role' ? 'rotate-180' : ''}`} />
+                              <div
+                                className={`w-full bg-transparent border-b py-3 cursor-pointer flex justify-between items-center z-20 ${openDropdown === 'create-role' ? 'border-gold' : 'border-white/20 hover:border-white/50'}`}
+                                onClick={() => setOpenDropdown(openDropdown === 'create-role' ? null : 'create-role')}
+                              >
+                                <span className="text-gold capitalize text-sm font-medium">{newUser.role}</span>
+                                <ChevronDown
+                                  className={`w-4 h-4 text-gold transition-transform duration-300 ${openDropdown === 'create-role' ? 'rotate-180' : ''}`}
+                                />
                               </div>
-                              <div className={`absolute left-0 top-full w-full mt-2 bg-dark-950 border border-white/10 shadow-2xl z-30 transition-all ${openDropdown === 'create-role' ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'}`}>
+                              <div
+                                className={`absolute left-0 top-full w-full mt-1 bg-dark-900 border border-white/10 shadow-2xl z-50 transition-all ${openDropdown === 'create-role' ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'}`}
+                              >
                                 {['member', 'admin'].map(opt => (
-                                  <div key={opt} className={`px-6 py-3 text-sm cursor-pointer hover:bg-gold/5 transition-colors border-b border-white/5 last:border-0 flex justify-between items-center capitalize ${newUser.role === opt ? 'text-gold' : 'text-gray-400'}`}
-                                    onClick={() => { setNewUser(p => ({ ...p, role: opt })); setOpenDropdown(null); }}>
+                                  <div
+                                    key={opt}
+                                    className={`px-4 py-2.5 text-sm cursor-pointer hover:bg-gold/5 transition-colors border-b border-white/5 last:border-0 flex justify-between items-center capitalize ${newUser.role === opt ? 'text-gold' : 'text-gray-400'}`}
+                                    onClick={() => {
+                                      setNewUser(p => ({ ...p, role: opt }));
+                                      setOpenDropdown(null);
+                                    }}
+                                  >
                                     <span>{opt}</span>
                                     {newUser.role === opt && <Check className="w-4 h-4 text-gold" />}
                                   </div>
@@ -481,15 +569,27 @@ const AdminMembers = () => {
                             </div>
                             <div className="relative">
                               <label className="block text-[10px] uppercase tracking-widest text-gray-500 mb-2">Membership Tier</label>
-                              <div className={`w-full bg-transparent border-b py-3 cursor-pointer flex justify-between items-center z-20 ${openDropdown === 'create-tier' ? 'border-gold' : 'border-white/20 hover:border-white/50'}`}
-                                onClick={() => setOpenDropdown(openDropdown === 'create-tier' ? null : 'create-tier')}>
-                                <span className="text-gold text-sm tracking-widest uppercase">{getTierDetails(newUser.tier).name}</span>
-                                <ChevronDown className={`w-4 h-4 text-gold transition-transform duration-300 ${openDropdown === 'create-tier' ? 'rotate-180' : ''}`} />
+                              <div
+                                className={`w-full bg-transparent border-b py-3 cursor-pointer flex justify-between items-center z-20 ${openDropdown === 'create-tier' ? 'border-gold' : 'border-white/20 hover:border-white/50'}`}
+                                onClick={() => setOpenDropdown(openDropdown === 'create-tier' ? null : 'create-tier')}
+                              >
+                                <span className="text-gold text-sm tracking-widest uppercase font-medium">{getTierDetails(newUser.tier).name}</span>
+                                <ChevronDown
+                                  className={`w-4 h-4 text-gold transition-transform duration-300 ${openDropdown === 'create-tier' ? 'rotate-180' : ''}`}
+                                />
                               </div>
-                              <div className={`absolute left-0 top-full w-full mt-2 bg-dark-950 border border-white/10 shadow-2xl z-30 transition-all ${openDropdown === 'create-tier' ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'}`}>
+                              <div
+                                className={`absolute left-0 top-full w-full mt-1 bg-dark-900 border border-white/10 shadow-2xl z-50 transition-all ${openDropdown === 'create-tier' ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'}`}
+                              >
                                 {MEMBERSHIP_TIERS.map(t => (
-                                  <div key={t.id} className={`px-6 py-3 text-sm cursor-pointer hover:bg-gold/5 transition-colors border-b border-white/5 last:border-0 flex justify-between items-center uppercase tracking-widest ${newUser.tier === t.id ? 'text-gold' : 'text-gray-400'}`}
-                                    onClick={() => { setNewUser(p => ({ ...p, tier: t.id })); setOpenDropdown(null); }}>
+                                  <div
+                                    key={t.id}
+                                    className={`px-4 py-2.5 text-sm cursor-pointer hover:bg-gold/5 transition-colors border-b border-white/5 last:border-0 flex justify-between items-center uppercase tracking-widest ${newUser.tier === t.id ? 'text-gold' : 'text-gray-400'}`}
+                                    onClick={() => {
+                                      setNewUser(p => ({ ...p, tier: t.id }));
+                                      setOpenDropdown(null);
+                                    }}
+                                  >
                                     <span>{t.name}</span>
                                     {newUser.tier === t.id && <Check className="w-4 h-4 text-gold" />}
                                   </div>
@@ -499,10 +599,25 @@ const AdminMembers = () => {
                           </div>
                         </div>
 
-                        <div className="pt-8 border-t border-white/[0.06] flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-                          {createResult.message && <p className={`text-[11px] tracking-widest uppercase font-medium ${createResult.type === 'error' ? 'text-[#d9736c]' : 'text-gold'}`}>{createResult.message}</p>}
-                          <button type="submit" disabled={creating} className={`inline-flex items-center justify-center space-x-3 border px-10 py-4 text-xs uppercase tracking-widest transition-all duration-300 md:ml-auto ${creating ? 'border-gold bg-gold/70 text-dark-900' : 'border-gold/50 bg-gold/10 text-gold hover:bg-gold hover:text-dark-900'}`}>
-                            {creating ? <div className="w-4 h-4 border-2 border-dark-900 border-t-transparent rounded-full animate-spin" /> : <UserPlus className="w-4 h-4" />}
+                        {createResult.message && (
+                          <div className={`mt-2 ${createResult.type === 'error' ? (shakeError ? 'animate-error-shake' : 'animate-error-pulse') : 'animate-fadeIn'}`}>
+                            <p className={`text-[11px] tracking-widest uppercase text-center font-medium ${createResult.type === 'error' ? 'text-[#d9736c]' : 'text-gold'}`}>
+                              {createResult.message}
+                            </p>
+                          </div>
+                        )}
+
+                        <div className="pt-6 border-t border-white/[0.06] flex justify-end">
+                          <button
+                            type="submit"
+                            disabled={creating}
+                            className={`w-full md:w-auto inline-flex items-center justify-center space-x-3 border px-10 py-4 text-xs uppercase tracking-widest transition-all duration-300 ${creating ? 'border-gold bg-gold/70 text-dark-900 cursor-wait' : 'border-gold text-gold hover:bg-gold hover:text-dark-900'}`}
+                          >
+                            {creating ? (
+                              <div className="w-4 h-4 border-2 border-dark-900 border-t-transparent rounded-full animate-spin" />
+                            ) : (
+                              <UserPlus className="w-4 h-4" />
+                            )}
                             <span>{creating ? 'Creating...' : 'Create Account'}</span>
                           </button>
                         </div>
@@ -522,11 +637,21 @@ const AdminMembers = () => {
             <div className="relative bg-dark-800 border border-white/10 rounded-sm p-8 max-w-md w-full animate-scaleIn shadow-2xl">
               <h3 className="font-serif text-xl text-white mb-4">Delete Member Profile?</h3>
               <p className="text-gray-400 text-sm mb-6 leading-relaxed">
-                Permanently delete <span className="text-white font-medium">{deleteTarget.displayName}</span>'s data. Note: Auth account remains in Firebase console.
+                Permanently delete <span className="text-white font-medium">{deleteTarget.displayName}</span>'s data. Note: Auth account remains in Firebase
+                console.
               </p>
               <div className="flex space-x-3">
-                <button onClick={() => setDeleteTarget(null)} className="flex-1 border border-white/10 text-gray-400 py-3 text-[10px] uppercase tracking-widest hover:text-white hover:border-white/30 transition-all">Cancel</button>
-                <button onClick={handleDelete} disabled={deleting} className="flex-1 bg-[#d9736c] text-white py-3 text-[10px] uppercase tracking-widest hover:bg-[#c0625b] transition-all disabled:opacity-50">
+                <button
+                  onClick={() => setDeleteTarget(null)}
+                  className="flex-1 border border-white/10 text-gray-400 py-3 text-[10px] uppercase tracking-widest hover:text-white hover:border-white/30 transition-all"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleDelete}
+                  disabled={deleting}
+                  className="flex-1 bg-[#d9736c] text-white py-3 text-[10px] uppercase tracking-widest hover:bg-[#c0625b] transition-all disabled:opacity-50"
+                >
                   {deleting ? 'Deleting...' : 'Confirm Delete'}
                 </button>
               </div>

@@ -45,7 +45,7 @@ const AdminSlots = () => {
   const [deleting, setDeleting] = useState(false);
   const [showCleanupModal, setShowCleanupModal] = useState(false);
 
-  const getSlotId = (date) => {
+  const getSlotId = date => {
     const d = new Date(date);
     const yr = d.getFullYear();
     const mo = String(d.getMonth() + 1).padStart(2, '0');
@@ -55,7 +55,6 @@ const AdminSlots = () => {
     return `slot_${yr}${mo}${dy}_${hr}${mn}`;
   };
 
-
   useEffect(() => {
     fetchSlots(slotFilter);
   }, [slotFilter]);
@@ -64,26 +63,18 @@ const AdminSlots = () => {
     setLoading(true);
     try {
       const now = new Date();
-      const q = mode === 'upcoming'
-        ? query(
-            collection(db, 'timeSlots'),
-            where('dateTime', '>=', Timestamp.fromDate(now)),
-            orderBy('dateTime', 'asc')
-          )
-        : query(
-            collection(db, 'timeSlots'),
-            where('dateTime', '<', Timestamp.fromDate(now)),
-            orderBy('dateTime', 'desc'),
-            limit(100)
-          );
+      const q =
+        mode === 'upcoming'
+          ? query(collection(db, 'timeSlots'), where('dateTime', '>=', Timestamp.fromDate(now)), orderBy('dateTime', 'asc'))
+          : query(collection(db, 'timeSlots'), where('dateTime', '<', Timestamp.fromDate(now)), orderBy('dateTime', 'desc'), limit(100));
       const snap = await getDocs(q);
       let fetchedSlots = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-      
+
       // Client-side filtering for 'past' to avoid mandatory composite index errors
       if (mode === 'past') {
         fetchedSlots = fetchedSlots.filter(s => s.status === SLOT_STATUS.BOOKED);
       }
-      
+
       setSlots(fetchedSlots);
     } catch (err) {
       console.error('Error fetching slots:', err);
@@ -98,7 +89,7 @@ const AdminSlots = () => {
     try {
       const q = query(collection(db, 'timeSlots'), where('status', '==', SLOT_STATUS.AVAILABLE));
       const snap = await getDocs(q);
-      
+
       if (snap.empty) {
         showToast('No available slots to clear.', 'info');
         setShowCleanupModal(false);
@@ -149,10 +140,10 @@ const AdminSlots = () => {
     try {
       const dateTime = new Date(`${newSlot.date}T${newSlot.time}:00`);
       const slotId = getSlotId(dateTime);
-      
+
       const docRef = doc(db, 'timeSlots', slotId);
       const docSnap = await getDoc(docRef);
-      
+
       if (docSnap.exists()) {
         showToast('A slot already exists at this time.', 'info');
         return;
@@ -185,7 +176,7 @@ const AdminSlots = () => {
     setBulkCreating(true);
     setBulkResult('');
     setBulkProgress({ current: 0, total: 0, status: 'Analyzing schedule...' });
-    
+
     try {
       const start = new Date(bulkData.startDate);
       const end = new Date(bulkData.endDate);
@@ -212,7 +203,7 @@ const AdminSlots = () => {
                 bookedBy: null,
                 bookedAt: null,
                 createdAt: Timestamp.now(),
-              }
+              },
             });
           }
         }
@@ -220,14 +211,14 @@ const AdminSlots = () => {
       }
 
       setBulkProgress(p => ({ ...p, total: targetSlots.length, status: 'Checking for duplicates...' }));
-      
+
       // Filter out existing slots
       const finalSlots = [];
       // To prevent massive parallel getDocs, we fetch the range of existing slots first
       const rangeQ = query(
         collection(db, 'timeSlots'),
         where('dateTime', '>=', Timestamp.fromDate(start)),
-        where('dateTime', '<=', Timestamp.fromDate(new Date(end.getTime() + 86400000)))
+        where('dateTime', '<=', Timestamp.fromDate(new Date(end.getTime() + 86400000))),
       );
       const existingSnap = await getDocs(rangeQ);
       const existingIds = new Set(existingSnap.docs.map(d => d.id));
@@ -256,7 +247,7 @@ const AdminSlots = () => {
         batch.set(doc(db, 'timeSlots', slot.id), slot.data);
         count++;
         totalCreated++;
-        
+
         if (count === 500) {
           await batch.commit();
           batch = writeBatch(db);
@@ -307,7 +298,6 @@ const AdminSlots = () => {
 
   const dayLabels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-
   return (
     <>
       <SEO title="Manage Time Slots | Admin" url="/admin/slots" />
@@ -315,12 +305,12 @@ const AdminSlots = () => {
         {/* Decorative elements */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-[radial-gradient(ellipse_at_top,rgba(197,160,89,0.03)_0%,transparent_70%)] pointer-events-none" />
 
-        <div className="max-w-5xl mx-auto px-6 md:px-12 w-full flex-1 flex flex-col z-10 min-h-0">
+        <div className="max-w-6xl mx-auto px-6 md:px-12 w-full flex-1 flex flex-col z-10 min-h-0">
           {/* Header */}
           <div className="flex flex-col md:flex-row md:items-center justify-between space-y-4 md:space-y-0 mb-6 shrink-0 animate-fadeInUp">
             <div className="flex items-center space-x-4">
-              <button 
-                onClick={() => navigate('/admin')} 
+              <button
+                onClick={() => navigate('/admin')}
                 className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5 hover:border-gold/30 transition-all duration-300"
               >
                 <ArrowLeft className="w-4 h-4 text-gray-400" />
@@ -389,9 +379,7 @@ const AdminSlots = () => {
                     <Calendar className="w-10 h-10 text-gray-600 mx-auto mb-4" />
                     <p className="text-gray-400 mb-2">{slotFilter === 'upcoming' ? 'No upcoming time slots' : 'No past bookings'}</p>
                     <p className="text-gray-600 text-sm">
-                      {slotFilter === 'upcoming' 
-                        ? 'Create some slots to get started.' 
-                        : 'Completed or cancelled sessions with no booking are hidden.'}
+                      {slotFilter === 'upcoming' ? 'Create some slots to get started.' : 'Completed or cancelled sessions with no booking are hidden.'}
                     </p>
                   </div>
                 ) : (
@@ -410,11 +398,12 @@ const AdminSlots = () => {
                             <div className="truncate">
                               <div className="flex items-center space-x-2">
                                 <p className="text-white text-sm truncate">
-                                  {lt?.name || (
-                                    slot.lessonType === 'overlap-block' 
-                                      ? 'Extended Session Block' 
-                                      : (slot.status === SLOT_STATUS.AVAILABLE ? 'Open Slot' : 'Private Lesson')
-                                  )}
+                                  {lt?.name ||
+                                    (slot.lessonType === 'overlap-block'
+                                      ? 'Extended Session Block'
+                                      : slot.status === SLOT_STATUS.AVAILABLE
+                                        ? 'Open Slot'
+                                        : 'Private Lesson')}
                                 </p>
                                 <span className="text-gray-600 text-[10px] shrink-0">· {slot.duration} min</span>
                               </div>
@@ -457,17 +446,11 @@ const AdminSlots = () => {
                       <form onSubmit={handleCreateSlot} className="space-y-8">
                         <div>
                           <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Date</label>
-                          <DatePicker
-                            value={newSlot.date}
-                            onChange={val => setNewSlot(p => ({ ...p, date: val }))}
-                          />
+                          <DatePicker value={newSlot.date} onChange={val => setNewSlot(p => ({ ...p, date: val }))} />
                         </div>
                         <div>
                           <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Time</label>
-                          <TimePicker
-                            value={newSlot.time}
-                            onChange={val => setNewSlot(p => ({ ...p, time: val }))}
-                          />
+                          <TimePicker value={newSlot.time} onChange={val => setNewSlot(p => ({ ...p, time: val }))} />
                         </div>
                         <button
                           type="submit"
@@ -482,7 +465,7 @@ const AdminSlots = () => {
                       </form>
                     </div>
                   </div>
-       </div>
+                </div>
               </div>
             )}
 
@@ -497,17 +480,11 @@ const AdminSlots = () => {
                         <div className="grid grid-cols-2 gap-6">
                           <div>
                             <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Start Date</label>
-                            <DatePicker
-                              value={bulkData.startDate}
-                              onChange={val => setBulkData(p => ({ ...p, startDate: val }))}
-                            />
+                            <DatePicker value={bulkData.startDate} onChange={val => setBulkData(p => ({ ...p, startDate: val }))} />
                           </div>
                           <div>
                             <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">End Date</label>
-                            <DatePicker
-                              value={bulkData.endDate}
-                              onChange={val => setBulkData(p => ({ ...p, endDate: val }))}
-                            />
+                            <DatePicker value={bulkData.endDate} onChange={val => setBulkData(p => ({ ...p, endDate: val }))} />
                           </div>
                         </div>
 
@@ -532,17 +509,11 @@ const AdminSlots = () => {
                         <div className="grid grid-cols-2 gap-6">
                           <div>
                             <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Start Time</label>
-                            <TimePicker
-                              value={bulkData.startTime}
-                              onChange={val => setBulkData(p => ({ ...p, startTime: val }))}
-                            />
+                            <TimePicker value={bulkData.startTime} onChange={val => setBulkData(p => ({ ...p, startTime: val }))} />
                           </div>
                           <div>
                             <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">End Time</label>
-                            <TimePicker
-                              value={bulkData.endTime}
-                              onChange={val => setBulkData(p => ({ ...p, endTime: val }))}
-                            />
+                            <TimePicker value={bulkData.endTime} onChange={val => setBulkData(p => ({ ...p, endTime: val }))} />
                           </div>
                         </div>
 
@@ -555,7 +526,7 @@ const AdminSlots = () => {
                               </span>
                             </div>
                             <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
-                              <div 
+                              <div
                                 className="h-full bg-gold transition-all duration-500 ease-out"
                                 style={{ width: `${bulkProgress.total > 0 ? (bulkProgress.current / bulkProgress.total) * 100 : 0}%` }}
                               />
@@ -564,9 +535,11 @@ const AdminSlots = () => {
                         )}
 
                         {bulkResult && (
-                          <p className={`text-xs tracking-widest uppercase font-medium p-4 bg-white/5 border-l-2 animate-fadeIn ${
-                            bulkResult.includes('Error') ? 'text-[#d9736c] border-[#d9736c]' : 'text-gold border-gold'
-                          }`}>
+                          <p
+                            className={`text-xs tracking-widest uppercase font-medium p-4 bg-white/5 border-l-2 animate-fadeIn ${
+                              bulkResult.includes('Error') ? 'text-[#d9736c] border-[#d9736c]' : 'text-gold border-gold'
+                            }`}
+                          >
                             {bulkResult}
                           </p>
                         )}
@@ -579,7 +552,7 @@ const AdminSlots = () => {
                           }`}
                         >
                           {bulkCreating ? (
-                             <div className="w-4 h-4 border-2 border-gold border-t-transparent rounded-full animate-spin" />
+                            <div className="w-4 h-4 border-2 border-gold border-t-transparent rounded-full animate-spin" />
                           ) : (
                             <Repeat className="w-4 h-4" />
                           )}
@@ -634,7 +607,8 @@ const AdminSlots = () => {
                 </div>
                 <h3 className="font-serif text-xl text-white mb-2">Clear All Available Slots?</h3>
                 <p className="text-gray-400 text-sm">
-                  This will permanently delete all <span className="text-white">unbooked</span> time slots currently in the system. Booked lessons will not be affected.
+                  This will permanently delete all <span className="text-white">unbooked</span> time slots currently in the system. Booked lessons will not be
+                  affected.
                 </p>
                 <p className="text-[#d9736c] text-[10px] uppercase tracking-widest mt-4 font-bold">This action cannot be undone.</p>
               </div>
@@ -643,12 +617,10 @@ const AdminSlots = () => {
                 <div className="space-y-4 py-4 animate-fadeIn">
                   <div className="flex justify-between items-center text-[10px] uppercase tracking-widest">
                     <span className="text-[#d9736c] font-medium">{bulkProgress.status}</span>
-                    <span className="text-gray-500">
-                      {bulkProgress.total > 0 ? `${Math.round((bulkProgress.current / bulkProgress.total) * 100)}%` : ''}
-                    </span>
+                    <span className="text-gray-500">{bulkProgress.total > 0 ? `${Math.round((bulkProgress.current / bulkProgress.total) * 100)}%` : ''}</span>
                   </div>
                   <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
-                    <div 
+                    <div
                       className="h-full bg-[#d9736c] transition-all duration-500 ease-out shadow-[0_0_8px_rgba(217,115,108,0.4)]"
                       style={{ width: `${bulkProgress.total > 0 ? (bulkProgress.current / bulkProgress.total) * 100 : 0}%` }}
                     />
