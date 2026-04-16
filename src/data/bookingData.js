@@ -1,32 +1,27 @@
 export const LESSON_TYPES = [
-  {
-    id: 'private-60',
-    name: 'Private Harp Lesson',
-    duration: 60,
-    description: 'One-on-one instruction tailored to your level and goals.',
-    shortLabel: '60 min',
-  },
-  {
-    id: 'private-30',
-    name: 'Private Harp Lesson',
-    duration: 30,
-    description: 'Focused half-hour session for targeted skill development.',
-    shortLabel: '30 min',
-  },
-  {
-    id: 'masterclass',
-    name: 'Masterclass Consultation',
-    duration: 90,
-    description: 'In-depth coaching on performance preparation and artistry.',
-    shortLabel: '90 min',
-  },
-  {
-    id: 'performance-coaching',
-    name: 'Performance Coaching',
-    duration: 60,
-    description: 'Stage presence, performance anxiety management, and interpretation.',
-    shortLabel: '60 min',
-  },
+  // --- In-Person ---
+  { id: 'inperson-harp-30', format: 'In-Person', category: 'Private Harp Lesson', duration: 30, name: 'In-Person: Private Harp Lesson (30m)', shortLabel: '30 min' },
+  { id: 'inperson-harp-60', format: 'In-Person', category: 'Private Harp Lesson', duration: 60, name: 'In-Person: Private Harp Lesson (60m)', shortLabel: '60 min' },
+  { id: 'inperson-masterclass-90', format: 'In-Person', category: 'Masterclass Consultation', duration: 90, name: 'In-Person: Masterclass Consultation (90m)', shortLabel: '90 min' },
+  { id: 'inperson-masterclass-120', format: 'In-Person', category: 'Masterclass Consultation', duration: 120, name: 'In-Person: Masterclass Consultation (120m)', shortLabel: '120 min' },
+  { id: 'inperson-ensemble-60', format: 'In-Person', category: 'Ensemble Coaching', duration: 60, name: 'In-Person: Ensemble Coaching (60m)', shortLabel: '60 min' },
+  { id: 'inperson-theory-30', format: 'In-Person', category: 'Theory Class', duration: 30, name: 'In-Person: Theory Class (30m)', shortLabel: '30 min' },
+  { id: 'inperson-theory-45', format: 'In-Person', category: 'Theory Class', duration: 45, name: 'In-Person: Theory Class (45m)', shortLabel: '45 min' },
+  { id: 'inperson-private-60', format: 'In-Person', category: 'Private Engagements', duration: 60, name: 'In-Person: Private Engagements (60m)', shortLabel: '60 min' },
+  { id: 'inperson-private-120', format: 'In-Person', category: 'Private Engagements', duration: 120, name: 'In-Person: Private Engagements (120m)', shortLabel: '120 min' },
+  { id: 'inperson-private-180', format: 'In-Person', category: 'Private Engagements', duration: 180, name: 'In-Person: Private Engagements (180m)', shortLabel: '180 min' },
+
+  // --- Online ---
+  { id: 'online-harp-30', format: 'Online', category: 'Private Harp Lesson', duration: 30, name: 'Online: Private Harp Lesson (30m)', shortLabel: '30 min' },
+  { id: 'online-harp-60', format: 'Online', category: 'Private Harp Lesson', duration: 60, name: 'Online: Private Harp Lesson (60m)', shortLabel: '60 min' },
+  { id: 'online-theory-30', format: 'Online', category: 'Music Theory Class', duration: 30, name: 'Online: Music Theory Class (30m)', shortLabel: '30 min' },
+  { id: 'online-theory-45', format: 'Online', category: 'Music Theory Class', duration: 45, name: 'Online: Music Theory Class (45m)', shortLabel: '45 min' },
+
+  // --- Legacy Fallbacks (for old DB entries) ---
+  { id: 'private-60', format: 'In-Person', category: 'Private Harp Lesson', duration: 60, name: 'Private Harp Lesson', shortLabel: '60 min', isLegacy: true },
+  { id: 'private-30', format: 'In-Person', category: 'Private Harp Lesson', duration: 30, name: 'Private Harp Lesson', shortLabel: '30 min', isLegacy: true },
+  { id: 'masterclass', format: 'In-Person', category: 'Masterclass Consultation', duration: 90, name: 'Masterclass Consultation', shortLabel: '90 min', isLegacy: true },
+  { id: 'performance-coaching', format: 'In-Person', category: 'Performance Coaching', duration: 60, name: 'Performance Coaching', shortLabel: '60 min', isLegacy: true },
 ];
 
 export const MEMBERSHIP_TIERS = [

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Calendar, Plus, Trash2, ArrowLeft, Clock, ChevronDown, Check, X, Repeat } from 'lucide-react';
-import { collection, query, where, getDocs, doc, getDoc, setDoc, deleteDoc, addDoc, orderBy, Timestamp, limit, writeBatch } from 'firebase/firestore';
+import { Calendar, Plus, Trash2, ArrowLeft, Repeat } from 'lucide-react';
+import { collection, query, where, getDocs, doc, getDoc, setDoc, deleteDoc, orderBy, Timestamp, limit, writeBatch } from 'firebase/firestore';
 import { db } from '../firebase';
 import { LESSON_TYPES, SLOT_STATUS, formatDate, formatTime, getLessonTypeById } from '../data/bookingData';
 import { DatePicker, TimePicker } from '../components/DateTimePicker';
@@ -54,23 +54,6 @@ const AdminSlots = () => {
     const mn = String(d.getMinutes()).padStart(2, '0');
     return `slot_${yr}${mo}${dy}_${hr}${mn}`;
   };
-
-  // Dropdown state
-  const [openDropdown, setOpenDropdown] = useState(null);
-  const dropdownRef = React.useRef(null);
-
-  useEffect(() => {
-    const handleClickOutside = event => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setOpenDropdown(null);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
-
 
 
   useEffect(() => {

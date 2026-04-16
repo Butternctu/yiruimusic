@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Calendar, ChevronLeft, ChevronRight, Clock, Music, X, Check, ArrowLeft } from 'lucide-react';
+import { Calendar, ChevronLeft, ChevronRight, Clock, Music, X, Check, ArrowLeft, AlertTriangle } from 'lucide-react';
 import { collection, query, where, getDocs, doc, runTransaction, Timestamp, orderBy, limit } from 'firebase/firestore';
 import { db } from '../firebase';
 import { useAuth } from '../context/AuthContext';
@@ -38,14 +38,17 @@ const Booking = () => {
     tomorrow.setHours(0, 0, 0, 0);
     return tomorrow;
   });
-  const [selectedType, setSelectedType] = useState('');
   const [slots, setSlots] = useState([]);
   const [loadingSlots, setLoadingSlots] = useState(false);
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [selectedLessonType, setSelectedLessonType] = useState(null);
-  const [nextSlot, setNextSlot] = useState(null);
-  const [checkingNextSlot, setCheckingNextSlot] = useState(false);
+  const [blockedSlots, setBlockedSlots] = useState([]);
+  const [checkingSlots, setCheckingSlots] = useState(false);
+  const [slotsError, setSlotsError] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [bookingStep, setBookingStep] = useState(1);
+  const [selectedFormat, setSelectedFormat] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const [booking, setBooking] = useState(false);
   const [bookingSuccess, setBookingSuccess] = useState(false);
 
@@ -98,42 +101,65 @@ const Booking = () => {
     if (slot.status !== SLOT_STATUS.AVAILABLE) return;
     setSelectedSlot(slot);
     setSelectedLessonType(null);
-    setNextSlot(null);
+    setBlockedSlots([]);
+    setSlotsError(null);
+    setBookingStep(1);
+    setSelectedFormat(null);
+    setSelectedCategory(null);
     setShowModal(true);
   };
 
   const handleLessonTypeSelect = async (type) => {
     setSelectedLessonType(type);
-    if (type.duration > 60) {
-      setCheckingNextSlot(true);
+    setBookingStep(4); // Summary/Confirm step
+    
+    const slotsReq = Math.ceil(type.duration / 60);
+    if (slotsReq > 1) {
+      setCheckingSlots(true);
+      setSlotsError(null);
+      setBlockedSlots([]);
       try {
-        const nextTime = new Date(selectedSlot.dateTime.toDate());
-        nextTime.setHours(nextTime.getHours() + 1, 0, 0, 0);
-        
-        // Find next slot
-        const q = query(
-          collection(db, 'timeSlots'),
-          where('dateTime', '==', Timestamp.fromDate(nextTime)),
-          limit(1)
-        );
-        const snap = await getDocs(q);
-        if (!snap.empty) {
-          const s = { id: snap.docs[0].id, ...snap.docs[0].data() };
-          if (s.status === SLOT_STATUS.AVAILABLE) {
-            setNextSlot(s);
+        const slotsToBlock = [];
+        let hasError = false;
+
+        for (let i = 1; i < slotsReq; i++) {
+          const nextTime = new Date(selectedSlot.dateTime.toDate());
+          nextTime.setHours(nextTime.getHours() + i, 0, 0, 0);
+          
+          const q = query(
+            collection(db, 'timeSlots'),
+            where('dateTime', '==', Timestamp.fromDate(nextTime)),
+            limit(1)
+          );
+          const snap = await getDocs(q);
+          if (!snap.empty) {
+            const s = { id: snap.docs[0].id, ...snap.docs[0].data() };
+            if (s.status === SLOT_STATUS.AVAILABLE) {
+              slotsToBlock.push(s);
+            } else {
+              setSlotsError(`Conflict: The hour at ${formatTime(nextTime)} is already booked.`);
+              hasError = true;
+              break;
+            }
           } else {
-            setNextSlot({ error: 'occupied' });
+            setSlotsError(`The teacher has not opened the slot at ${formatTime(nextTime)}.`);
+            hasError = true;
+            break;
           }
-        } else {
-          setNextSlot({ error: 'missing' });
+        }
+
+        if (!hasError) {
+          setBlockedSlots(slotsToBlock);
         }
       } catch (err) {
-        console.error('Error checking next slot:', err);
+        console.error('Error checking slots:', err);
+        setSlotsError('Error checking slot availability.');
       } finally {
-        setCheckingNextSlot(false);
+        setCheckingSlots(false);
       }
     } else {
-      setNextSlot(null);
+      setBlockedSlots([]);
+      setSlotsError(null);
     }
   };
 
@@ -149,15 +175,19 @@ const Booking = () => {
           throw new Error('This time slot is no longer available');
         }
 
-        // Verify next slot if needed
-        let nextSlotDoc = null;
-        if (selectedLessonType.duration > 60) {
-          if (!nextSlot || nextSlot.error) {
-            throw new Error('The required second hour for this lesson is not available.');
+        // Verify extra slots if needed
+        const slotsReq = Math.ceil(selectedLessonType.duration / 60);
+        const verifiedBlockedDocs = [];
+        if (slotsReq > 1) {
+          if (slotsError || blockedSlots.length !== slotsReq - 1) {
+            throw new Error('The required consecutive hours for this lesson are not available.');
           }
-          nextSlotDoc = await transaction.get(doc(db, 'timeSlots', nextSlot.id));
-          if (!nextSlotDoc.exists() || nextSlotDoc.data().status !== SLOT_STATUS.AVAILABLE) {
-            throw new Error('The required second hour is no longer available.');
+          for (const bSlot of blockedSlots) {
+            const bDoc = await transaction.get(doc(db, 'timeSlots', bSlot.id));
+            if (!bDoc.exists() || bDoc.data().status !== SLOT_STATUS.AVAILABLE) {
+              throw new Error('One of the required consecutive hours is no longer available.');
+            }
+            verifiedBlockedDocs.push(bDoc);
           }
         }
 
@@ -170,9 +200,10 @@ const Booking = () => {
           duration: selectedLessonType.duration,
         });
 
-        // Update next slot if overlap
-        if (nextSlotDoc) {
-          transaction.update(doc(db, 'timeSlots', nextSlot.id), {
+        // Update blocked slots
+        const blockedIds = [];
+        for (const bDoc of verifiedBlockedDocs) {
+          transaction.update(bDoc.ref, {
             status: SLOT_STATUS.BOOKED,
             bookedBy: user.uid,
             bookedAt: Timestamp.now(),
@@ -180,6 +211,7 @@ const Booking = () => {
             duration: 0,
             blockedBy: selectedSlot.id
           });
+          blockedIds.push(bDoc.id);
         }
 
         // Create appointment
@@ -189,7 +221,7 @@ const Booking = () => {
           userName: userProfile?.displayName || user.displayName || '',
           userEmail: user.email || '',
           slotId: selectedSlot.id,
-          nextSlotId: nextSlot?.id || null, // Track the second slot too
+          blockedSlotIds: blockedIds,
           lessonType: selectedLessonType.id,
           duration: selectedLessonType.duration,
           dateTime: selectedSlot.dateTime,
@@ -203,10 +235,9 @@ const Booking = () => {
       const emailParams = {
         from_name: userProfile?.displayName || user.displayName || 'A student',
         from_email: user.email,
-        message: `Booked a new session: ${selectedLessonType.name} on ${formatFullDate(slotTime)} at ${formatTime(slotTime)} (Duration: ${selectedLessonType.duration}m)`,
+        message: `Dear Dr. Li,\n\nThis is an automated notification to inform you that ${userProfile?.displayName || user.displayName || 'a student'} has just booked a new session.\n\nBooking Details:\n- Lesson: ${selectedLessonType.name}\n- Date: ${formatFullDate(slotTime)}\n- Time: ${formatTime(slotTime)}\n- Duration: ${selectedLessonType.duration} minutes\n\nPlease review your updated schedule. Thank you!`,
         to_name: 'Dr. Li'
       };
-
       emailjs.send(
         import.meta.env.VITE_EMAILJS_SERVICE_ID,
         import.meta.env.VITE_EMAILJS_ADMIN_TEMPLATE_ID,
@@ -229,7 +260,20 @@ const Booking = () => {
     setShowModal(false);
     setSelectedSlot(null);
     setBookingSuccess(false);
+    setBookingStep(1);
+    setSelectedFormat(null);
+    setSelectedCategory(null);
+    setSelectedLessonType(null);
   };
+
+  // Group LESSON_TYPES for UI
+  const availableFormats = [...new Set(LESSON_TYPES.filter(lt => !lt.isLegacy).map(lt => lt.format))];
+  const categoriesForFormat = selectedFormat 
+    ? [...new Set(LESSON_TYPES.filter(lt => !lt.isLegacy && lt.format === selectedFormat).map(lt => lt.category))]
+    : [];
+  const durationsForCategory = (selectedFormat && selectedCategory)
+    ? LESSON_TYPES.filter(lt => !lt.isLegacy && lt.format === selectedFormat && lt.category === selectedCategory)
+    : [];
 
   // Filter slots for the bottom detail view
   const selectedDateSlots = slots.filter(s => {
@@ -363,7 +407,7 @@ const Booking = () => {
                           {isAvailable ? 'Available' : 'Booked'}
                         </span>
                       </div>
-                      <p className="text-gray-400 text-sm">{isAvailable ? 'Open Slot' : (slot.lessonType === 'overlap-block' ? 'Private Lesson' : (lt?.name || 'Private Lesson'))}</p>
+                      <p className="text-gray-400 text-sm">{isAvailable ? 'Open Slot' : (slot.lessonType === 'overlap-block' ? 'Extended Session Block' : (lt?.name || 'Private Lesson'))}</p>
                       <p className="text-gray-600 text-xs mt-1">1 hour unit</p>
                     </button>
                   );
@@ -403,87 +447,143 @@ const Booking = () => {
               ) : (
                 <>
                   <div className="flex items-center justify-between mb-6">
-                    <h3 className="font-serif text-xl text-white">Confirm Booking</h3>
+                    <h3 className="font-serif text-xl text-white">
+                      {bookingStep === 1 && 'Select Format'}
+                      {bookingStep === 2 && 'Select Category'}
+                      {bookingStep === 3 && 'Select Duration'}
+                      {bookingStep === 4 && 'Confirm Booking'}
+                    </h3>
                     <button onClick={closeModal} className="text-gray-500 hover:text-white transition-colors">
                       <X className="w-5 h-5" />
                     </button>
                   </div>
 
                   <div className="space-y-4 mb-8">
-                    {/* LESSON TYPE SELECTOR */}
-                    <div>
-                      <label className="block text-[10px] uppercase tracking-[0.2em] text-gray-500 mb-3">Choose Lesson Category</label>
-                      <div className="grid grid-cols-1 gap-2">
-                        {LESSON_TYPES.map(type => (
+                    {/* STEP 1: FORMAT */}
+                    {bookingStep === 1 && (
+                      <div className="grid grid-cols-2 gap-4 animate-fadeIn">
+                        {availableFormats.map(fmt => (
                           <button
-                            key={type.id}
-                            onClick={() => handleLessonTypeSelect(type)}
-                            className={`p-3 text-left border rounded-sm transition-all duration-300 ${
-                              selectedLessonType?.id === type.id 
-                                ? 'border-gold bg-gold/10 text-gold' 
-                                : 'border-white/5 text-gray-400 hover:border-white/20 hover:text-white'
-                            }`}
+                            key={fmt}
+                            onClick={() => { setSelectedFormat(fmt); setBookingStep(2); }}
+                            className="p-6 rounded-sm border border-white/10 glass-card hover:border-gold hover:bg-gold/5 flex flex-col items-center justify-center text-center transition-all duration-300"
                           >
-                            <div className="flex justify-between items-center">
-                              <span className="text-sm font-medium">{type.name}</span>
-                              <span className="text-[10px] opacity-60">{type.duration}m</span>
-                            </div>
+                            <span className="text-white font-serif text-lg mb-2">{fmt}</span>
+                            <span className="text-xs text-gray-500">{fmt === 'In-Person' ? 'Studio / On-Site' : 'Via Zoom'}</span>
                           </button>
                         ))}
                       </div>
-                    </div>
+                    )}
 
-                    {selectedLessonType && (
-                      <div className="animate-fadeIn p-4 bg-white/5 border border-white/10 rounded-sm">
-                        <div className="flex justify-between py-1">
-                          <span className="text-gray-500 text-xs">Date</span>
-                          <span className="text-white text-xs lowercase">{selectedSlot.dateTime?.toDate && formatFullDate(selectedSlot.dateTime.toDate())}</span>
+                    {/* STEP 2: CATEGORY */}
+                    {bookingStep === 2 && (
+                      <div className="grid grid-cols-1 gap-2 animate-fadeInRight">
+                        {categoriesForFormat.map(cat => (
+                          <button
+                            key={cat}
+                            onClick={() => { setSelectedCategory(cat); setBookingStep(3); }}
+                            className="p-4 text-left border border-white/5 rounded-sm hover:border-gold/50 hover:bg-white/5 transition-all duration-300"
+                          >
+                            <span className="text-white text-sm font-medium">{cat}</span>
+                          </button>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* STEP 3: DURATION */}
+                    {bookingStep === 3 && (
+                      <div className="grid grid-cols-1 gap-2 animate-fadeInRight">
+                        {durationsForCategory.map(type => (
+                          <button
+                            key={type.id}
+                            onClick={() => handleLessonTypeSelect(type)}
+                            className="p-4 text-left border border-white/5 rounded-sm hover:border-gold hover:bg-gold/10 transition-all duration-300 flex justify-between items-center"
+                          >
+                            <span className="text-white text-sm font-medium">{type.duration} min</span>
+                            <span className="text-[10px] uppercase tracking-widest text-gold opacity-80">{type.shortLabel}</span>
+                          </button>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* STEP 4: SUMMARY & OVERLAP CHECK */}
+                    {bookingStep === 4 && selectedLessonType && (
+                      <div className="animate-fadeIn p-5 rounded-sm bg-black/40 border border-white/10 shadow-inner">
+                        <div className="mb-4 pb-4 border-b border-white/5">
+                          <h4 className="text-gold font-serif text-lg mb-1">{selectedLessonType.name}</h4>
+                          <div className="flex space-x-3 text-xs text-gray-400">
+                            <span>{selectedLessonType.format}</span>
+                            <span>•</span>
+                            <span>{selectedLessonType.duration} mins</span>
+                          </div>
                         </div>
-                        <div className="flex justify-between py-1">
-                          <span className="text-gray-500 text-xs">Time</span>
-                          <span className="text-white text-xs">{selectedSlot.dateTime?.toDate && formatTime(selectedSlot.dateTime.toDate())}</span>
+
+                        <div className="flex justify-between py-1.5">
+                          <span className="text-gray-500 text-xs uppercase tracking-widest">Date</span>
+                          <span className="text-white text-sm">{selectedSlot.dateTime?.toDate && formatFullDate(selectedSlot.dateTime.toDate())}</span>
+                        </div>
+                        <div className="flex justify-between py-1.5">
+                          <span className="text-gray-500 text-xs uppercase tracking-widest">Time</span>
+                          <span className="text-white text-sm">{selectedSlot.dateTime?.toDate && formatTime(selectedSlot.dateTime.toDate())}</span>
                         </div>
                         
                         {/* Overlap Check UI */}
-                        {selectedLessonType.duration > 60 && (
-                          <div className="mt-2 pt-2 border-t border-white/5">
-                            {checkingNextSlot ? (
-                              <p className="text-[10px] text-gray-500 animate-pulse italic">Checking teacher availability for the second hour...</p>
-                            ) : nextSlot?.error ? (
-                              <p className="text-[10px] text-[#d9736c] flex items-center">
-                                <X className="w-3 h-3 mr-1" />
-                                {nextSlot.error === 'occupied' ? 'Conflict: The next hour is already booked.' : 'The next hour slot has not been opened by the teacher.'}
+                        {Math.ceil(selectedLessonType.duration / 60) > 1 && (
+                          <div className="mt-4 pt-4 border-t border-white/5">
+                            <span className="block text-[10px] text-gray-500 uppercase tracking-widest mb-2">Duration Extends Past 1 Hour</span>
+                            {checkingSlots ? (
+                              <p className="text-[11px] text-gold/70 animate-pulse italic">Checking consecutive availability...</p>
+                            ) : slotsError ? (
+                              <p className="text-[11px] text-[#d9736c] flex items-center bg-[#d9736c]/10 p-2 rounded-sm border border-[#d9736c]/20">
+                                <AlertTriangle className="w-4 h-4 mr-2 flex-shrink-0" />
+                                {slotsError}
                               </p>
-                            ) : nextSlot ? (
-                              <p className="text-[10px] text-gold flex items-center">
-                                <Check className="w-3 h-3 mr-1" />
-                                Confirmed: 2-hour slot is available.
+                            ) : (
+                              <p className="text-[11px] text-gold flex items-center bg-gold/5 p-2 rounded-sm border border-gold/20">
+                                <Check className="w-4 h-4 mr-2 flex-shrink-0" />
+                                Confirmed: All {Math.ceil(selectedLessonType.duration / 60)} hours are available.
                               </p>
-                            ) : null}
+                            )}
                           </div>
                         )}
                       </div>
                     )}
                   </div>
 
-                  <div className="flex space-x-3">
-                    <button
-                      onClick={closeModal}
-                      className="flex-1 border border-white/10 text-gray-300 py-3 text-xs uppercase tracking-widest hover:border-white/30 transition-colors"
-                    >
-                      Back
-                    </button>
-                    <button
-                      onClick={handleConfirmBooking}
-                      disabled={booking || !selectedLessonType || (selectedLessonType.duration > 60 && (!nextSlot || nextSlot.error))}
-                      className={`flex-1 border py-3 text-xs uppercase tracking-widest transition-all duration-300 ${
-                        booking || !selectedLessonType || (selectedLessonType.duration > 60 && (!nextSlot || nextSlot.error))
-                          ? 'border-white/10 bg-white/5 text-gray-600 cursor-not-allowed'
-                          : 'border-gold bg-gold text-dark-900 hover:bg-gold-light'
-                      }`}
-                    >
-                      {booking ? 'Booking...' : 'Confirm Book'}
-                    </button>
+                  <div className="flex space-x-3 mt-8">
+                    {bookingStep > 1 && !booking && (
+                      <button
+                        onClick={() => {
+                          if (bookingStep === 4) setBookingStep(3);
+                          else if (bookingStep === 3) setBookingStep(2);
+                          else if (bookingStep === 2) setBookingStep(1);
+                        }}
+                        className="flex-1 border border-white/10 text-gray-300 py-3 text-xs uppercase tracking-widest hover:bg-white/5 transition-colors"
+                      >
+                        Back
+                      </button>
+                    )}
+                    {bookingStep === 1 && (
+                      <button
+                        onClick={closeModal}
+                        className="flex-1 border border-white/10 text-gray-300 py-3 text-xs uppercase tracking-widest hover:bg-white/5 transition-colors"
+                      >
+                        Cancel
+                      </button>
+                    )}
+                    {bookingStep === 4 && (
+                      <button
+                        onClick={handleConfirmBooking}
+                        disabled={booking || slotsError || checkingSlots}
+                        className={`flex-1 border py-3 text-xs uppercase tracking-widest transition-all duration-300 ${
+                          booking || slotsError || checkingSlots
+                            ? 'border-white/10 bg-white/5 text-gray-600 cursor-not-allowed'
+                            : 'border-gold bg-gold text-dark-900 hover:bg-gold-light'
+                        }`}
+                      >
+                        {booking ? 'Booking...' : 'Confirm Book'}
+                      </button>
+                    )}
                   </div>
                 </>
               )}

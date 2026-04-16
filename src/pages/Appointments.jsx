@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Calendar, Clock, X, AlertTriangle, Plus, ArrowLeft } from 'lucide-react';
 import {
-  collection, query, where, getDocs, doc, updateDoc, Timestamp, writeBatch
+  collection, query, where, getDocs, doc, Timestamp, writeBatch
 } from 'firebase/firestore';
 import { db } from '../firebase';
 import { useAuth } from '../context/AuthContext';
@@ -60,7 +60,6 @@ const Appointments = () => {
     setCancelling(true);
     try {
       // Find all slots with the same dateTime to release them all
-      const slotsRef = collection(db, 'timeSlots');
       const batch = writeBatch(db);
 
       // Update appointment status
@@ -80,7 +79,21 @@ const Appointments = () => {
         });
       }
 
-      // Release the overlap slot if it exists
+      // Release all blocked slots if they exist
+      if (cancelTarget.blockedSlotIds && Array.isArray(cancelTarget.blockedSlotIds)) {
+        cancelTarget.blockedSlotIds.forEach(bId => {
+          batch.update(doc(db, 'timeSlots', bId), {
+            status: 'available',
+            bookedBy: null,
+            bookedAt: null,
+            lessonType: null,
+            duration: 60,
+            blockedBy: null
+          });
+        });
+      }
+
+      // Fallback for legacy nextSlotId
       if (cancelTarget.nextSlotId) {
         batch.update(doc(db, 'timeSlots', cancelTarget.nextSlotId), {
           status: 'available',
@@ -105,10 +118,9 @@ const Appointments = () => {
       const emailParams = {
         from_name: user?.displayName || 'A student',
         from_email: user?.email || '',
-        message: `Cancelled a lesson: ${lesson?.name || cancelTarget.lessonType} on ${formatDate(apptDate)} at ${formatTime(apptDate)}`,
+        message: `Dear Dr. Li,\n\nThis is an automated notification to inform you that ${user?.displayName || 'a student'} has cancelled their upcoming session.\n\nSession Details:\n- Lesson: ${lesson?.name || cancelTarget.lessonType}\n- Date: ${formatDate(apptDate)}\n- Time: ${formatTime(apptDate)}\n\nThe schedule has been updated accordingly. Thank you.`,
         to_name: 'Dr. Li'
       };
-
       emailjs.send(
         import.meta.env.VITE_EMAILJS_SERVICE_ID,
         import.meta.env.VITE_EMAILJS_ADMIN_TEMPLATE_ID,

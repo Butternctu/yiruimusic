@@ -7,7 +7,7 @@ import SEO from '../components/SEO';
 import emailjs from '@emailjs/browser';
 
 const AdminMessages = () => {
-  const { user, isAdmin } = useAuth();
+  const { isAdmin } = useAuth();
   const [chats, setChats] = useState([]);
   const [loadingChats, setLoadingChats] = useState(true);
   
