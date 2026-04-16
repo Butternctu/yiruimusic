@@ -396,11 +396,12 @@ const Booking = () => {
             })}
           </div>
 
-          {/* Selected date + Slots */}
-          <div className="flex-1 overflow-y-auto custom-scrollbar pr-2 pb-8 flex flex-col min-h-0 mt-8">
-            <div className="animate-fadeInUp flex-1 min-h-0" style={{ animationDelay: '400ms' }}>
+          {/* Selected date + Slots Header */}
+          <div className="mt-8 animate-fadeInUp shrink-0" style={{ animationDelay: '400ms' }}>
             <h2 className="font-serif text-lg text-white mb-6">{formatFullDate(selectedDate)}</h2>
+          </div>
 
+          <div className="flex-1 overflow-y-auto custom-scrollbar pr-2 pb-8 flex flex-col min-h-0">
             {loadingSlots ? (
               <div className="flex justify-center py-12">
                 <div className="w-6 h-6 border-2 border-gold border-t-transparent rounded-full animate-spin" />
@@ -445,7 +446,6 @@ const Booking = () => {
                 })}
               </div>
             )}
-          </div>
           </div>
         </div>
 
