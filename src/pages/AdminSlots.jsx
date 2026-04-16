@@ -458,7 +458,7 @@ const AdminSlots = () => {
 
             {/* SINGLE CREATE VIEW */}
             {activeView === 'create' && (
-              <div className="h-full overflow-y-auto custom-scrollbar pr-2 pb-10">
+              <div className="h-full overflow-y-auto custom-scrollbar">
                 <div className="max-w-2xl mx-auto animate-fadeInUp" style={{ animationDelay: '200ms' }}>
                   <div className="p-8 md:p-10 rounded-sm border border-gold/20 bg-dark-800 shadow-2xl relative">
                     <div className="absolute top-0 right-0 w-64 h-64 bg-gold/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" />
@@ -473,8 +473,12 @@ const AdminSlots = () => {
                           <TimePicker value={newSlot.time} onChange={val => setNewSlot(p => ({ ...p, time: val }))} />
                         </div>
                         {singleResult.message && (
-                          <div className={`mt-2 ${singleResult.type === 'error' ? (shakeError ? 'animate-error-shake' : 'animate-error-pulse') : 'animate-fadeIn'}`}>
-                            <p className={`text-[11px] tracking-widest uppercase text-center font-medium ${singleResult.type === 'error' ? 'text-[#d9736c]' : 'text-gold'}`}>
+                          <div
+                            className={`mt-2 ${singleResult.type === 'error' ? (shakeError ? 'animate-error-shake' : 'animate-error-pulse') : 'animate-fadeIn'}`}
+                          >
+                            <p
+                              className={`text-[11px] tracking-widest uppercase text-center font-medium ${singleResult.type === 'error' ? 'text-[#d9736c]' : 'text-gold'}`}
+                            >
                               {singleResult.message}
                             </p>
                           </div>
@@ -504,7 +508,7 @@ const AdminSlots = () => {
             )}
 
             {activeView === 'bulk' && (
-              <div className="h-full overflow-y-auto custom-scrollbar pr-2 pb-10">
+              <div className="h-full overflow-y-auto custom-scrollbar">
                 <div className="max-w-2xl mx-auto animate-fadeInUp" style={{ animationDelay: '200ms' }}>
                   <div className="p-8 md:p-10 rounded-sm border border-gold/20 bg-dark-800 shadow-2xl relative">
                     <div className="absolute top-0 right-0 w-64 h-64 bg-gold/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" />
@@ -569,8 +573,12 @@ const AdminSlots = () => {
                         )}
 
                         {bulkResult.message && (
-                          <div className={`mt-2 ${bulkResult.type === 'error' ? (shakeError ? 'animate-error-shake' : 'animate-error-pulse') : 'animate-fadeIn'}`}>
-                            <p className={`text-[11px] tracking-widest uppercase text-center font-medium ${bulkResult.type === 'error' ? 'text-[#d9736c]' : 'text-gold'}`}>
+                          <div
+                            className={`mt-2 ${bulkResult.type === 'error' ? (shakeError ? 'animate-error-shake' : 'animate-error-pulse') : 'animate-fadeIn'}`}
+                          >
+                            <p
+                              className={`text-[11px] tracking-widest uppercase text-center font-medium ${bulkResult.type === 'error' ? 'text-[#d9736c]' : 'text-gold'}`}
+                            >
                               {bulkResult.message}
                             </p>
                           </div>
