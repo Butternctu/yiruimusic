@@ -321,7 +321,7 @@ const AdminSlots = () => {
   return (
     <>
       <SEO title="Manage Time Slots | Admin" url="/admin/slots" />
-      <section className="flex-1 bg-dark-900 pt-28 pb-8 relative flex flex-col overflow-hidden">
+      <section className="flex-1 bg-dark-900 pt-32 pb-8 relative flex flex-col overflow-hidden">
         {/* Decorative elements */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-[radial-gradient(ellipse_at_top,rgba(197,160,89,0.03)_0%,transparent_70%)] pointer-events-none" />
 
