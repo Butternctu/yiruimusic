@@ -296,12 +296,13 @@ const Booking = () => {
   return (
     <>
       <SEO title="Book a Session | Dr. Yirui Li" url="/booking" />
-      <section className="flex-1 bg-dark-900 pt-28 pb-8 relative flex flex-col overflow-hidden">
+      <section className="min-h-screen bg-dark-900 pt-32 pb-12 relative flex flex-col">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-[radial-gradient(ellipse_at_top,rgba(197,160,89,0.03)_0%,transparent_70%)] pointer-events-none" />
 
-        <div className="max-w-6xl mx-auto px-6 md:px-12 w-full flex-1 flex flex-col z-10 min-h-0">
-          {/* Header */}
-          <div className="flex items-center space-x-4 mb-6 animate-fadeInUp shrink-0">
+        <div className="max-w-6xl mx-auto px-6 md:px-12 w-full z-10 relative">
+          <div className="sticky top-[72px] z-30 bg-dark-900/95 backdrop-blur-md pt-2 pb-6 -mx-6 px-6 md:-mx-12 md:px-12">
+            {/* Header */}
+            <div className="flex items-center space-x-4 mb-6 animate-fadeInUp shrink-0">
             <Link
               to="/dashboard"
               className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5 hover:border-gold/30 transition-all duration-300"
@@ -396,12 +397,11 @@ const Booking = () => {
             })}
           </div>
 
-          {/* Selected date + Slots Header */}
           <div className="mt-8 animate-fadeInUp shrink-0" style={{ animationDelay: '400ms' }}>
             <h2 className="font-serif text-lg text-white mb-6">{formatFullDate(selectedDate)}</h2>
           </div>
 
-          <div className="flex-1 overflow-y-auto custom-scrollbar pr-2 pb-8 flex flex-col min-h-0">
+          <div className="flex-1 pb-8 flex flex-col min-h-0">
             {loadingSlots ? (
               <div className="flex justify-center py-12">
                 <div className="w-6 h-6 border-2 border-gold border-t-transparent rounded-full animate-spin" />

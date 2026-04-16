@@ -189,20 +189,20 @@ const Appointments = () => {
   return (
     <>
       <SEO title="My Appointments | Dr. Yirui Li" url="/appointments" />
-      <section className="flex-1 bg-dark-900 pt-28 pb-8 relative flex flex-col overflow-hidden">
+      <section className="min-h-screen bg-dark-900 pt-32 pb-12 relative flex flex-col">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-[radial-gradient(ellipse_at_top,rgba(197,160,89,0.03)_0%,transparent_70%)] pointer-events-none" />
-
-        <div className="max-w-5xl mx-auto px-6 md:px-12 w-full flex-1 flex flex-col z-10 min-h-0">
-          {/* Header */}
-          <div className="flex items-center space-x-4 mb-6 animate-fadeInUp">
-            <Link to="/dashboard" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5 hover:border-gold/30 transition-all duration-300">
-              <ArrowLeft className="w-4 h-4 text-gray-400" />
-            </Link>
-            <div>
-              <h1 className="font-serif text-2xl md:text-3xl text-white tracking-wide">My Appointments</h1>
-              <p className="text-gray-500 text-[10px] tracking-[0.2em] uppercase mt-1">Schedule overview</p>
+        <div className="max-w-5xl mx-auto px-6 md:px-12 w-full z-10 relative">
+          <div className="sticky top-[72px] z-30 bg-dark-900/95 backdrop-blur-md pt-2 pb-6 -mx-6 px-6 md:-mx-12 md:px-12">
+            {/* Header */}
+            <div className="flex items-center space-x-4 mb-6 animate-fadeInUp shrink-0">
+              <Link to="/dashboard" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5 hover:border-gold/30 transition-all duration-300">
+                <ArrowLeft className="w-4 h-4 text-gray-400" />
+              </Link>
+              <div>
+                <h1 className="font-serif text-2xl md:text-3xl text-white tracking-wide">My Appointments</h1>
+                <p className="text-gray-500 text-[10px] tracking-[0.2em] uppercase mt-1">Schedule overview</p>
+              </div>
             </div>
-          </div>
 
           {/* Tabs */}
           <div className="flex space-x-1 mb-8 border-b border-white/[0.06] animate-fadeInUp shrink-0" style={{ animationDelay: '100ms' }}>
@@ -227,7 +227,7 @@ const Appointments = () => {
             ))}
           </div>
 
-          <div className="flex-1 overflow-y-auto custom-scrollbar pr-2 pb-8 flex flex-col min-h-0">
+          <div className="flex-1 pb-8 flex flex-col min-h-0">
             {/* Content */}
             <div className="animate-fadeInUp flex-1 min-h-0" style={{ animationDelay: '200ms' }}>
             {loading ? (

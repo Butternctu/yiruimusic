@@ -160,14 +160,15 @@ const AdminDashboard = () => {
   return (
     <>
       <SEO title="Admin Dashboard | Dr. Yirui Li" url="/admin" />
-      <section className="flex-1 bg-dark-900 pt-28 pb-10 relative flex flex-col overflow-hidden">
+      <section className="min-h-screen bg-dark-900 pt-32 pb-12 relative flex flex-col">
         {/* Decorative elements */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[600px] bg-[radial-gradient(ellipse_at_top,rgba(197,160,89,0.04)_0%,transparent_60%)] pointer-events-none" />
         <div className="absolute top-60 left-0 w-[300px] h-[300px] bg-[radial-gradient(circle,rgba(197,160,89,0.02)_0%,transparent_70%)] pointer-events-none" />
 
-        <div className="max-w-6xl mx-auto px-6 md:px-12 w-full flex-1 flex flex-col z-10 min-h-0">
-          {/* Header */}
-          <div className="flex items-center justify-between mb-8 animate-fadeInUp shrink-0">
+        <div className="max-w-6xl mx-auto px-6 md:px-12 w-full z-10 relative">
+          <div className="sticky top-[72px] z-30 bg-dark-900/95 backdrop-blur-md pt-2 pb-6 -mx-6 px-6 md:-mx-12 md:px-12">
+            {/* Header */}
+            <div className="flex items-center justify-between animate-fadeInUp shrink-0">
             <div className="flex items-center space-x-4">
               <div className="w-12 h-12 rounded-full bg-gradient-to-br from-gold/20 to-gold/5 border border-gold/30 flex items-center justify-center">
                 <Shield className="w-5 h-5 text-gold" />
@@ -348,13 +349,13 @@ const AdminDashboard = () => {
                     <span className="text-gray-500 text-sm italic">Loading...</span>
                   </div>
                 ) : selectedDateApts.length === 0 ? (
-                  <div className="flex-1 flex flex-col items-center justify-center text-center opacity-40">
+                  <div className="flex flex-col items-center justify-center text-center py-12 opacity-40">
                     <Activity className="w-8 h-8 text-gold/30 mb-3" />
                     <p className="text-white text-xs mb-1">No sessions scheduled</p>
                     <p className="text-[10px] text-gray-500 uppercase tracking-widest">Select another date</p>
                   </div>
                 ) : (
-                  <div className="flex-1 overflow-y-auto custom-scrollbar pr-2 space-y-3">
+                  <div className="flex flex-col space-y-3">
                     {selectedDateApts.map((appt) => {
                       const lt = getLessonTypeById(appt.lessonType);
                       const dateTime = appt.dateTime?.toDate ? appt.dateTime.toDate() : null;

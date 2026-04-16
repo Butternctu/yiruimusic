@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 :root {
   color-scheme: dark;
@@ -13,8 +13,8 @@
   --color-gold-light: #e8d3a2;
   --color-gold-dark: #8c6d31;
 
-  --font-serif: "Playfair Display", serif;
-  --font-sans: "Lato", sans-serif;
+  --font-serif: 'Playfair Display', serif;
+  --font-sans: 'Lato', sans-serif;
 
   --animate-error-pulse: error-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   --animate-error-shake: error-shake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
@@ -26,19 +26,17 @@
   --animate-fadeInRight: fadeInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
 
   @keyframes error-pulse {
-
     0%,
     100% {
       opacity: 1;
     }
 
     50% {
-      opacity: .5;
+      opacity: 0.5;
     }
   }
 
   @keyframes error-shake {
-
     10%,
     90% {
       transform: translate3d(-1px, 0, 0);
@@ -73,8 +71,12 @@
   }
 
   @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
 
   @keyframes scaleIn {
@@ -89,8 +91,16 @@
   }
 
   @keyframes pulse-gold {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.8; transform: scale(1.02); color: var(--color-gold-light); }
+    0%,
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.8;
+      transform: scale(1.02);
+      color: var(--color-gold-light);
+    }
   }
 
   @keyframes slideInRight {
@@ -149,7 +159,9 @@ a {
 .fade-in-section {
   opacity: 0;
   transform: translate3d(0, 30px, 0);
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transition:
+    opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: opacity, transform;
   backface-visibility: hidden;
 }
@@ -209,34 +221,22 @@ a {
 }
 
 .custom-scrollbar::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 4px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.02);
-  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
   background: rgba(197, 160, 89, 0.4);
-  border-radius: 10px;
-  border: 1px solid transparent;
-  background-clip: content-box;
+  /* Gold with opacity */
+  border-radius: 4px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(197, 160, 89, 0.7);
-}
-
-/* On mobile, ensure the scrollbar is a bit more visible if the user wants it */
-@media (max-width: 768px) {
-  .custom-scrollbar::-webkit-scrollbar {
-    width: 6px;
-  }
-  .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: rgba(197, 160, 89, 0.5);
-  }
+  background: rgba(197, 160, 89, 0.8);
 }
 
 .scrollbar-hide::-webkit-scrollbar {
@@ -260,7 +260,6 @@ a {
   }
 }
 
-
 /* Fix Safari bug where autofill text color sticks on the placeholder after form reset */
 input::-webkit-input-placeholder,
 textarea::-webkit-input-placeholder {
@@ -275,64 +274,64 @@ textarea::placeholder {
 }
 
 /* ── Dark-mode Date & Time Picker Styling ── */
-input[type="date"],
-input[type="time"] {
+input[type='date'],
+input[type='time'] {
   color-scheme: dark;
   appearance: none;
   -webkit-appearance: none;
 }
 
 /* Calendar / Clock icon */
-input[type="date"]::-webkit-calendar-picker-indicator,
-input[type="time"]::-webkit-calendar-picker-indicator {
+input[type='date']::-webkit-calendar-picker-indicator,
+input[type='time']::-webkit-calendar-picker-indicator {
   filter: invert(0.6) sepia(1) saturate(2) hue-rotate(5deg);
   cursor: pointer;
   opacity: 0.6;
   transition: opacity 0.3s ease;
 }
 
-input[type="date"]::-webkit-calendar-picker-indicator:hover,
-input[type="time"]::-webkit-calendar-picker-indicator:hover {
+input[type='date']::-webkit-calendar-picker-indicator:hover,
+input[type='time']::-webkit-calendar-picker-indicator:hover {
   opacity: 1;
 }
 
 /* Remove inner spin button (time input) */
-input[type="time"]::-webkit-inner-spin-button {
+input[type='time']::-webkit-inner-spin-button {
   display: none;
 }
 
 /* Date/time text fill */
-input[type="date"]::-webkit-datetime-edit,
-input[type="time"]::-webkit-datetime-edit {
+input[type='date']::-webkit-datetime-edit,
+input[type='time']::-webkit-datetime-edit {
   color: #c5a059;
 }
 
-input[type="date"]::-webkit-datetime-edit-fields-wrapper,
-input[type="time"]::-webkit-datetime-edit-fields-wrapper {
+input[type='date']::-webkit-datetime-edit-fields-wrapper,
+input[type='time']::-webkit-datetime-edit-fields-wrapper {
   color: #c5a059;
 }
 
-input[type="date"]::-webkit-datetime-edit-text,
-input[type="time"]::-webkit-datetime-edit-text {
+input[type='date']::-webkit-datetime-edit-text,
+input[type='time']::-webkit-datetime-edit-text {
   color: rgba(255, 255, 255, 0.2);
   padding: 0 2px;
 }
 
-input[type="date"]::-webkit-datetime-edit-month-field,
-input[type="date"]::-webkit-datetime-edit-day-field,
-input[type="date"]::-webkit-datetime-edit-year-field,
-input[type="time"]::-webkit-datetime-edit-hour-field,
-input[type="time"]::-webkit-datetime-edit-minute-field,
-input[type="time"]::-webkit-datetime-edit-ampm-field {
+input[type='date']::-webkit-datetime-edit-month-field,
+input[type='date']::-webkit-datetime-edit-day-field,
+input[type='date']::-webkit-datetime-edit-year-field,
+input[type='time']::-webkit-datetime-edit-hour-field,
+input[type='time']::-webkit-datetime-edit-minute-field,
+input[type='time']::-webkit-datetime-edit-ampm-field {
   color: #c5a059;
 }
 
-input[type="date"]::-webkit-datetime-edit-month-field:focus,
-input[type="date"]::-webkit-datetime-edit-day-field:focus,
-input[type="date"]::-webkit-datetime-edit-year-field:focus,
-input[type="time"]::-webkit-datetime-edit-hour-field:focus,
-input[type="time"]::-webkit-datetime-edit-minute-field:focus,
-input[type="time"]::-webkit-datetime-edit-ampm-field:focus {
+input[type='date']::-webkit-datetime-edit-month-field:focus,
+input[type='date']::-webkit-datetime-edit-day-field:focus,
+input[type='date']::-webkit-datetime-edit-year-field:focus,
+input[type='time']::-webkit-datetime-edit-hour-field:focus,
+input[type='time']::-webkit-datetime-edit-minute-field:focus,
+input[type='time']::-webkit-datetime-edit-ampm-field:focus {
   background: rgba(197, 160, 89, 0.1);
   color: #c5a059;
   border-radius: 2px;
