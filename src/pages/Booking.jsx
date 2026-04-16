@@ -296,12 +296,12 @@ const Booking = () => {
   return (
     <>
       <SEO title="Book a Session | Dr. Yirui Li" url="/booking" />
-      <section className="min-h-screen bg-dark-900 pt-36 pb-12 relative overflow-hidden">
+      <section className="flex-1 bg-dark-900 pt-36 pb-8 relative flex flex-col overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-[radial-gradient(ellipse_at_top,rgba(197,160,89,0.03)_0%,transparent_70%)] pointer-events-none" />
 
-        <div className="max-w-5xl mx-auto px-6 md:px-12 relative z-10">
+        <div className="max-w-5xl mx-auto px-6 md:px-12 w-full flex-1 flex flex-col z-10 min-h-0">
           {/* Header */}
-          <div className="flex items-center space-x-4 mb-10 animate-fadeInUp">
+          <div className="flex items-center space-x-4 mb-6 animate-fadeInUp shrink-0">
             <Link
               to="/dashboard"
               className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5 hover:border-gold/30 transition-all duration-300"
@@ -314,10 +314,9 @@ const Booking = () => {
             </div>
           </div>
 
-          {/* Removed Lesson Type Filter */}
-
-          {/* Week Navigation */}
-          <div className="flex items-center justify-between mb-6 animate-fadeInUp" style={{ animationDelay: '200ms' }}>
+          <div className="flex-1 overflow-y-auto custom-scrollbar pr-2 pb-8">
+            {/* Week Navigation */}
+            <div className="flex items-center justify-between mb-6 animate-fadeInUp" style={{ animationDelay: '100ms' }}>
             {(() => {
               const now = new Date();
               const day = now.getDay();
@@ -446,6 +445,7 @@ const Booking = () => {
                 })}
               </div>
             )}
+          </div>
           </div>
         </div>
 
