@@ -314,9 +314,8 @@ const Booking = () => {
             </div>
           </div>
 
-          <div className="flex-1 overflow-y-auto custom-scrollbar pr-2 pb-8">
-            {/* Week Navigation */}
-            <div className="flex items-center justify-between mb-6 animate-fadeInUp" style={{ animationDelay: '100ms' }}>
+          {/* Week Navigation */}
+          <div className="flex items-center justify-between mb-6 animate-fadeInUp shrink-0" style={{ animationDelay: '100ms' }}>
             {(() => {
               const now = new Date();
               const day = now.getDay();
@@ -344,7 +343,7 @@ const Booking = () => {
           </div>
 
           {/* Date Grid */}
-          <div className="grid grid-cols-7 gap-2 mb-10 animate-fadeInUp" style={{ animationDelay: '300ms' }}>
+          <div className="grid grid-cols-7 gap-2 mb-2 animate-fadeInUp shrink-0" style={{ animationDelay: '300ms' }}>
             {weekDates.map((date, idx) => {
               const isSelected = isSameDay(date, selectedDate);
               const today = isToday(date);
@@ -398,7 +397,8 @@ const Booking = () => {
           </div>
 
           {/* Selected date + Slots */}
-          <div className="animate-fadeInUp" style={{ animationDelay: '400ms' }}>
+          <div className="flex-1 overflow-y-auto custom-scrollbar pr-2 pb-8 flex flex-col min-h-0 mt-8">
+            <div className="animate-fadeInUp flex-1 min-h-0" style={{ animationDelay: '400ms' }}>
             <h2 className="font-serif text-lg text-white mb-6">{formatFullDate(selectedDate)}</h2>
 
             {loadingSlots ? (
