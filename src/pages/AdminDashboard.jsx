@@ -6,7 +6,10 @@ import { db } from '../firebase';
 import { getLessonTypeById, formatDate, formatTime } from '../data/bookingData';
 import SEO from '../components/SEO';
 
+import { useAuth } from '../context/AuthContext';
+
 const AdminDashboard = () => {
+  const { hasUnreadMessages } = useAuth();
   const [stats, setStats] = useState({ upcomingCount: 0, todayCount: 0, totalMembers: 0 });
   const [todayAppointments, setTodayAppointments] = useState([]);
   const [recentBookings, setRecentBookings] = useState([]);
@@ -163,9 +166,14 @@ const AdminDashboard = () => {
               </Link>
               <Link
                 to="/admin/messages"
-                className="inline-flex items-center space-x-2 border border-gold/30 bg-gold/5 px-5 py-2.5 rounded-sm text-xs uppercase tracking-widest text-gold hover:bg-gold hover:text-dark-900 transition-all duration-300 group"
+                className="inline-flex items-center space-x-2 border border-gold/30 bg-gold/5 px-5 py-2.5 rounded-sm text-xs uppercase tracking-widest text-gold hover:bg-gold hover:text-dark-900 transition-all duration-300 group relative"
               >
-                <MessageSquare className="w-3.5 h-3.5" />
+                <div className="relative">
+                  <MessageSquare className="w-3.5 h-3.5" />
+                  {hasUnreadMessages && (
+                    <span className="absolute -top-1 -right-1 w-2 h-2 bg-[#d9736c] rounded-full animate-pulse" />
+                  )}
+                </div>
                 <span>Student Inbox</span>
                 <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform duration-300" />
               </Link>
@@ -226,9 +234,14 @@ const AdminDashboard = () => {
             </Link>
             <Link
               to="/admin/messages"
-              className="flex items-center justify-center space-x-3 border border-gold text-gold px-8 py-4 text-xs uppercase tracking-widest hover:bg-gold hover:text-dark-900 transition-all duration-300 w-full"
+              className="flex items-center justify-center space-x-3 border border-gold text-gold px-8 py-4 text-xs uppercase tracking-widest hover:bg-gold hover:text-dark-900 transition-all duration-300 w-full relative"
             >
-              <MessageSquare className="w-4 h-4" />
+              <div className="relative">
+                <MessageSquare className="w-4 h-4" />
+                {hasUnreadMessages && (
+                  <span className="absolute -top-1 -right-1 w-2 h-2 bg-[#d9736c] rounded-full animate-pulse" />
+                )}
+              </div>
               <span>Student Inbox</span>
               <ArrowRight className="w-4 h-4" />
             </Link>

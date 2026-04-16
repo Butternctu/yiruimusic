@@ -8,7 +8,7 @@ import { formatDate, formatTime, getLessonTypeById } from '../data/bookingData';
 import SEO from '../components/SEO';
 
 const Dashboard = () => {
-  const { user, userProfile, isAdmin } = useAuth();
+  const { user, userProfile, isAdmin, hasUnreadMessages } = useAuth();
   const [upcomingCount, setUpcomingCount] = useState(0);
   const [pastCount, setPastCount] = useState(0);
   const [nextAppointment, setNextAppointment] = useState(null);
@@ -16,11 +16,14 @@ const Dashboard = () => {
   const [error, setError] = useState(false);
   const navigate = useNavigate();
 
+  // Removed automatic redirect for admins
+  /*
   useEffect(() => {
     if (isAdmin) {
       navigate('/admin', { replace: true });
     }
   }, [isAdmin, navigate]);
+  */
 
   useEffect(() => {
     if (!user) return;
@@ -116,9 +119,10 @@ const Dashboard = () => {
     },
     {
       icon: MessageSquare,
-      label: 'Message Teacher',
-      desc: 'Send a direct inquiry or question',
-      to: '/messages',
+      label: isAdmin ? 'Student Inbox' : 'Message Dr. Li',
+      desc: isAdmin ? 'View and reply to student messages' : 'Send a direct inquiry or question',
+      to: isAdmin ? '/admin/messages' : '/messages',
+      badge: hasUnreadMessages
     },
     {
       icon: User,
@@ -309,13 +313,18 @@ const Dashboard = () => {
                   style={{ animationDelay: `${580 + idx * 70}ms` }}
                 >
                   <div className="p-5 flex items-center space-x-4">
-                    <div className="w-10 h-10 rounded-sm bg-gold/[0.07] flex items-center justify-center flex-shrink-0 group-hover:bg-gold/[0.12] transition-colors duration-300">
+                    <div className="w-10 h-10 rounded-sm bg-gold/[0.07] flex items-center justify-center flex-shrink-0 group-hover:bg-gold/[0.12] transition-colors duration-300 relative">
                       <action.icon className="w-5 h-5 text-gold group-hover:scale-110 transition-transform duration-300" />
+                      {action.badge && (
+                        <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-[#d9736c] border border-dark-900 rounded-full animate-pulse shadow-[0_0_8px_rgba(217,115,108,0.4)]" />
+                      )}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h3 className="text-white text-sm font-medium group-hover:text-gold transition-colors duration-300">
-                        {action.label}
-                      </h3>
+                      <div className="flex items-center space-x-2">
+                        <h3 className="text-white text-sm font-medium group-hover:text-gold transition-colors duration-300">
+                          {action.label}
+                        </h3>
+                      </div>
                       <p className="text-gray-600 text-xs mt-0.5 truncate">{action.desc}</p>
                     </div>
                     <ArrowRight className="w-4 h-4 text-gray-700 group-hover:text-gold group-hover:translate-x-1 transition-all duration-300 flex-shrink-0" />

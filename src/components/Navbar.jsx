@@ -9,7 +9,7 @@ const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const userMenuRef = useRef(null);
-  const { isAuthenticated, isAdmin, user, userProfile, logout } = useAuth();
+  const { isAuthenticated, isAdmin, user, userProfile, logout, hasUnreadMessages } = useAuth();
   const navigate = useNavigate();
 
   const location = useLocation();
@@ -134,9 +134,12 @@ const Navbar = () => {
               <div className="relative" ref={userMenuRef}>
                 <button
                   onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                  className="w-9 h-9 rounded-full bg-gradient-to-br from-gold/20 to-gold/5 border border-gold/30 flex items-center justify-center hover:border-gold/60 transition-all duration-300"
+                  className="w-9 h-9 rounded-full bg-gradient-to-br from-gold/20 to-gold/5 border border-gold/30 flex items-center justify-center hover:border-gold/60 transition-all duration-300 relative"
                 >
                   <span className="text-gold text-[11px] font-medium tracking-normal leading-none">{getInitials()}</span>
+                  {hasUnreadMessages && (
+                    <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-[#d9736c] border border-dark-900 rounded-full animate-pulse" />
+                  )}
                 </button>
 
                 {/* Dropdown */}
@@ -149,12 +152,10 @@ const Navbar = () => {
                     <p className="text-white text-sm truncate">{userProfile?.displayName || user?.displayName}</p>
                   </div>
                   <div className="py-1">
-                    {!isAdmin && (
-                      <Link to="/dashboard" onClick={() => setIsUserMenuOpen(false)} className="flex items-center space-x-3 px-5 py-2.5 text-gray-300 hover:text-gold hover:bg-white/[0.03] transition-colors text-xs tracking-wider">
-                        <LayoutDashboard className="w-4 h-4" />
-                        <span>Dashboard</span>
-                      </Link>
-                    )}
+                    <Link to="/dashboard" onClick={() => setIsUserMenuOpen(false)} className="flex items-center space-x-3 px-5 py-2.5 text-gray-300 hover:text-gold hover:bg-white/[0.03] transition-colors text-xs tracking-wider relative group/item">
+                      <LayoutDashboard className="w-4 h-4" />
+                      <span>Dashboard</span>
+                    </Link>
                     <Link to="/appointments" onClick={() => setIsUserMenuOpen(false)} className="flex items-center space-x-3 px-5 py-2.5 text-gray-300 hover:text-gold hover:bg-white/[0.03] transition-colors text-xs tracking-wider">
                       <Calendar className="w-4 h-4" />
                       <span>My Appointments</span>
@@ -164,9 +165,12 @@ const Navbar = () => {
                       <span>Profile</span>
                     </Link>
                     {!isAdmin && (
-                      <Link to="/messages" onClick={() => setIsUserMenuOpen(false)} className="flex items-center space-x-3 px-5 py-2.5 text-gray-300 hover:text-gold hover:bg-white/[0.03] transition-colors text-xs tracking-wider">
+                      <Link to="/messages" onClick={() => setIsUserMenuOpen(false)} className="flex items-center space-x-3 px-5 py-2.5 text-gray-300 hover:text-gold hover:bg-white/[0.03] transition-colors text-xs tracking-wider relative group/item">
                         <MessageSquare className="w-4 h-4" />
-                        <span>Message Center</span>
+                        <span>Message Dr. Li</span>
+                        {hasUnreadMessages && (
+                          <span className="absolute right-4 w-1.5 h-1.5 bg-gold rounded-full" />
+                        )}
                       </Link>
                     )}
                     {isAdmin && (
@@ -175,9 +179,12 @@ const Navbar = () => {
                           <Shield className="w-4 h-4" />
                           <span>Admin Panel</span>
                         </Link>
-                        <Link to="/admin/messages" onClick={() => setIsUserMenuOpen(false)} className="flex items-center space-x-3 px-5 py-2.5 text-gold/70 hover:text-gold hover:bg-white/[0.03] transition-colors text-xs tracking-wider">
+                        <Link to="/admin/messages" onClick={() => setIsUserMenuOpen(false)} className="flex items-center space-x-3 px-5 py-2.5 text-gold/70 hover:text-gold hover:bg-white/[0.03] transition-colors text-xs tracking-wider relative group/item">
                           <MessageSquare className="w-4 h-4" />
                           <span>Inbox</span>
+                          {hasUnreadMessages && (
+                            <span className="absolute right-4 w-1.5 h-1.5 bg-gold rounded-full" />
+                          )}
                         </Link>
                       </>
                     )}
@@ -239,18 +246,26 @@ const Navbar = () => {
             <div className="w-full border-t border-white/[0.06] pt-6 mt-4 flex flex-col items-center space-y-6">
               {isAuthenticated ? (
                 <>
-                  {!isAdmin && (
-                    <Link to="/dashboard" onClick={closeMobileMenu} className="hover:text-gold transition-colors duration-300 px-8 py-2">Dashboard</Link>
-                  )}
+                  <Link to="/dashboard" onClick={closeMobileMenu} className="hover:text-gold transition-colors duration-300 px-8 py-2">Dashboard</Link>
                   <Link to="/appointments" onClick={closeMobileMenu} className="hover:text-gold transition-colors duration-300 px-8 py-2">Appointments</Link>
                   {isAdmin && (
                     <>
                       <Link to="/admin" onClick={closeMobileMenu} className="text-gold/70 hover:text-gold transition-colors duration-300 px-8 py-2">Admin</Link>
-                      <Link to="/admin/messages" onClick={closeMobileMenu} className="text-gold/70 hover:text-gold transition-colors duration-300 px-8 py-2">Inbox</Link>
+                      <Link to="/admin/messages" onClick={closeMobileMenu} className="text-gold/70 hover:text-gold transition-colors duration-300 px-8 py-2 relative flex items-center">
+                        <span>Inbox</span>
+                        {hasUnreadMessages && (
+                          <span className="ml-2 w-1.5 h-1.5 bg-gold rounded-full" />
+                        )}
+                      </Link>
                     </>
                   )}
                   {!isAdmin && (
-                    <Link to="/messages" onClick={closeMobileMenu} className="hover:text-gold transition-colors duration-300 px-8 py-2">Message Center</Link>
+                    <Link to="/messages" onClick={closeMobileMenu} className="hover:text-gold transition-colors duration-300 px-8 py-2 relative flex items-center">
+                      <span>Message Dr. Li</span>
+                      {hasUnreadMessages && (
+                        <span className="ml-2 w-1.5 h-1.5 bg-gold rounded-full" />
+                      )}
+                    </Link>
                   )}
                   <button onClick={handleLogout} className="text-gray-400 hover:text-[#d9736c] transition-colors duration-300 px-8 py-2 uppercase tracking-[0.3em] text-sm">
                     Sign Out

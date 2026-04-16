@@ -8,6 +8,7 @@ import { db } from '../firebase';
 import { useAuth } from '../context/AuthContext';
 import { formatDate, formatTime, getLessonTypeById } from '../data/bookingData';
 import SEO from '../components/SEO';
+import emailjs from '@emailjs/browser';
 
 const Appointments = () => {
   const { user } = useAuth();
@@ -73,6 +74,24 @@ const Appointments = () => {
       setAppointments((prev) =>
         prev.map((a) => (a.id === cancelTarget.id ? { ...a, status: 'cancelled' } : a))
       );
+      // Send Email Notification to Admin
+      const apptDate = cancelTarget.dateTime?.toDate ? cancelTarget.dateTime.toDate() : new Date(cancelTarget.dateTime);
+      const lesson = getLessonTypeById(cancelTarget.lessonType);
+      
+      const emailParams = {
+        from_name: user?.displayName || 'A student',
+        from_email: user?.email || '',
+        message: `Cancelled a lesson: ${lesson?.name || cancelTarget.lessonType} on ${formatDate(apptDate)} at ${formatTime(apptDate)}`,
+        to_name: 'Dr. Li'
+      };
+
+      emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_ADMIN_TEMPLATE_ID,
+        emailParams,
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+      ).catch(err => console.error('Cancellation email notification failed:', err));
+
       setCancelTarget(null);
     } catch (err) {
       console.error('Error cancelling appointment:', err);

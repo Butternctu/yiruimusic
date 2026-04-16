@@ -17,6 +17,7 @@ import {
   getLessonTypeById,
 } from '../data/bookingData';
 import SEO from '../components/SEO';
+import emailjs from '@emailjs/browser';
 
 const Booking = () => {
   const { user } = useAuth();
@@ -115,12 +116,11 @@ const Booking = () => {
           bookedBy: user.uid,
           bookedAt: Timestamp.now(),
         });
-
         // Create appointment
         const appointmentRef = doc(collection(db, 'appointments'));
         transaction.set(appointmentRef, {
           userId: user.uid,
-          userName: user.displayName || '',
+          userName: userProfile?.displayName || user.displayName || '',
           userEmail: user.email || '',
           slotId: selectedSlot.id,
           lessonType: selectedSlot.lessonType,
@@ -130,6 +130,23 @@ const Booking = () => {
           createdAt: Timestamp.now(),
         });
       });
+
+      // Send Email Notification to Admin
+      const lessonType = getLessonTypeById(selectedSlot.lessonType);
+      const slotTime = selectedSlot.dateTime?.toDate ? selectedSlot.dateTime.toDate() : new Date(selectedSlot.dateTime);
+      const emailParams = {
+        from_name: userProfile?.displayName || user.displayName || 'A student',
+        from_email: user.email,
+        message: `Booked a new session: ${lessonType?.name || selectedSlot.lessonType} on ${formatFullDate(slotTime)} at ${formatTime(slotTime)}`,
+        to_name: 'Dr. Li'
+      };
+
+      emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_ADMIN_TEMPLATE_ID,
+        emailParams,
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+      ).catch(err => console.error('Booking email notification failed:', err));
 
       setBookingSuccess(true);
       // Refresh slots

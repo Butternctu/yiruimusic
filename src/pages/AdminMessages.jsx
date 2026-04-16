@@ -4,6 +4,7 @@ import { db } from '../firebase';
 import { useAuth } from '../context/AuthContext';
 import { Search, Send, User, Circle, MessageSquare } from 'lucide-react';
 import SEO from '../components/SEO';
+import emailjs from '@emailjs/browser';
 
 const AdminMessages = () => {
   const { user, isAdmin } = useAuth();
@@ -102,6 +103,21 @@ const AdminMessages = () => {
         unreadByUser: true
       });
 
+      // Send Email Notification to Student
+      const emailParams = {
+        to_name: selectedChat.userName || 'Student',
+        to_email: selectedChat.userEmail,
+        message: messageText,
+        from_name: 'Dr. Li'
+      };
+
+      emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_STUDENT_TEMPLATE_ID,
+        emailParams,
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+      ).catch(err => console.error('Email notification failed:', err));
+
     } catch (error) {
       console.error('Error sending reply:', error);
     }
@@ -165,8 +181,11 @@ const AdminMessages = () => {
                       onClick={() => setSelectedChat(chat)}
                       className={`p-4 border-b border-white/5 cursor-pointer transition-all duration-300 flex items-start space-x-3 group ${selectedChat?.id === chat.id ? 'bg-white/10 border-l-2 border-l-gold' : 'hover:bg-white/5 border-l-2 border-l-transparent'}`}
                     >
-                      <div className="w-10 h-10 rounded-full bg-gold/10 border border-gold/20 flex items-center justify-center flex-shrink-0">
+                      <div className="w-10 h-10 rounded-full bg-gold/10 border border-gold/20 flex items-center justify-center flex-shrink-0 relative">
                         <span className="text-gold font-serif text-sm">{chat.userName?.charAt(0).toUpperCase() || 'U'}</span>
+                        {chat.unreadByAdmin && (
+                          <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-gold border border-dark-900 rounded-full animate-pulse shadow-[0_0_10px_rgba(197,160,89,0.5)]" />
+                        )}
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between mb-1">
@@ -179,11 +198,6 @@ const AdminMessages = () => {
                           {chat.lastMessage || 'No messages'}
                         </p>
                       </div>
-                      {chat.unreadByAdmin && (
-                        <div className="mt-1">
-                          <Circle className="w-2.5 h-2.5 fill-gold text-gold" />
-                        </div>
-                      )}
                     </div>
                   ))
                 )}

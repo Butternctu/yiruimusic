@@ -5,6 +5,7 @@ import { db } from '../firebase';
 import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
+import emailjs from '@emailjs/browser';
 
 const Messages = () => {
   const { user, userProfile } = useAuth();
@@ -77,6 +78,21 @@ const Messages = () => {
         userEmail: user.email
       }, { merge: true });
 
+      // Send Email Notification to Admin
+      const emailParams = {
+        from_name: userProfile?.displayName || user.displayName || 'A student',
+        from_email: user.email,
+        message: messageText,
+        to_name: 'Dr. Li'
+      };
+
+      emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_ADMIN_TEMPLATE_ID,
+        emailParams,
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+      ).catch(err => console.error('Email notification failed:', err));
+
     } catch (error) {
       console.error('Error sending message:', error);
     }
@@ -101,7 +117,7 @@ const Messages = () => {
               <ArrowLeft className="w-4 h-4 text-gray-400" />
             </Link>
             <div>
-              <h1 className="font-serif text-2xl text-white tracking-wide">Message Teacher</h1>
+              <h1 className="font-serif text-2xl text-white tracking-wide">Message Dr. Li</h1>
               <p className="text-gray-500 text-xs tracking-wider uppercase mt-1">Direct Communication with Dr. Li</p>
             </div>
           </div>

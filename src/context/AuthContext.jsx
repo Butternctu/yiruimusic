@@ -13,7 +13,7 @@ import {
   signInWithPopup,
   sendPasswordResetEmail,
 } from 'firebase/auth';
-import { doc, getDoc, setDoc, updateDoc, serverTimestamp } from 'firebase/firestore';
+import { doc, getDoc, setDoc, updateDoc, serverTimestamp, collection, query, where, onSnapshot, limit } from 'firebase/firestore';
 import { auth, db, initializationError } from '../firebase';
 
 const AuthContext = createContext(null);
@@ -28,6 +28,7 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [userProfile, setUserProfile] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [hasUnreadMessages, setHasUnreadMessages] = useState(false);
 
   useEffect(() => {
     if (!auth) {
@@ -60,6 +61,41 @@ export function AuthProvider({ children }) {
     });
     return () => unsubscribe();
   }, []);
+
+  // Set up listener for unread messages
+  useEffect(() => {
+    if (!user || !db) {
+      setHasUnreadMessages(false);
+      return;
+    }
+
+    let unsubscribe;
+
+    if (userProfile?.role === 'admin') {
+      // Admin: Listen for ANY chat document with unreadByAdmin = true
+      const q = query(
+        collection(db, 'chats'),
+        where('unreadByAdmin', '==', true),
+        limit(1)
+      );
+      unsubscribe = onSnapshot(q, (snapshot) => {
+        setHasUnreadMessages(!snapshot.empty);
+      }, (err) => console.error('Admin unread message listener error:', err));
+    } else {
+      // Member: Listen for their own chat document with unreadByUser = true
+      unsubscribe = onSnapshot(doc(db, 'chats', user.uid), (docSnap) => {
+        if (docSnap.exists()) {
+          setHasUnreadMessages(!!docSnap.data().unreadByUser);
+        } else {
+          setHasUnreadMessages(false);
+        }
+      }, (err) => console.error('Member unread message listener error:', err));
+    }
+
+    return () => {
+      if (unsubscribe) unsubscribe();
+    };
+  }, [user, userProfile?.role]);
 
   const login = async (email, password) => {
     if (!auth) throw new Error('Firebase Auth not initialized. Check your credentials.');
@@ -163,6 +199,7 @@ export function AuthProvider({ children }) {
     isConfigured: !!auth, // New helper to check if Firebase is ready
     initializationError, // Expose the specific error message
     isAdmin,
+    hasUnreadMessages,
     login,
     register,
     loginWithGoogle,
