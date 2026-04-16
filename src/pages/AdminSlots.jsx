@@ -308,25 +308,27 @@ const AdminSlots = () => {
   const dayLabels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 
-
   return (
     <>
       <SEO title="Manage Time Slots | Admin" url="/admin/slots" />
-      <section className="min-h-screen bg-dark-900 pt-36 pb-16 px-6 md:px-12 relative overflow-hidden">
+      <section className="flex-1 bg-dark-900 pt-36 pb-8 px-6 md:px-12 relative flex flex-col overflow-hidden">
+        {/* Decorative elements */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-[radial-gradient(ellipse_at_top,rgba(197,160,89,0.03)_0%,transparent_70%)] pointer-events-none" />
 
-        <div className="max-w-5xl mx-auto relative z-10">
+        <div className="max-w-7xl mx-auto w-full flex-1 flex flex-col z-10 min-h-0">
           {/* Header */}
-          <div className="mb-10 animate-fadeInUp flex flex-col md:flex-row md:items-end md:justify-between space-y-4 md:space-y-0">
-            <div>
-              <button
-                onClick={() => navigate('/admin')}
-                className="inline-flex items-center space-x-2 text-gray-500 hover:text-gold text-xs uppercase tracking-widest transition-colors mb-4"
+          <div className="flex flex-col md:flex-row md:items-center justify-between space-y-4 md:space-y-0 mb-6 shrink-0 animate-fadeInUp">
+            <div className="flex items-center space-x-4">
+              <button 
+                onClick={() => navigate('/admin')} 
+                className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5 hover:border-gold/30 transition-all duration-300"
               >
-                <ArrowLeft className="w-4 h-4" />
-                <span>Admin Panel</span>
+                <ArrowLeft className="w-4 h-4 text-gray-400" />
               </button>
-              <h1 className="font-serif text-2xl md:text-3xl text-white tracking-wide">Manage Time Slots</h1>
+              <div>
+                <h1 className="font-serif text-2xl md:text-3xl text-white tracking-wide">Manage Time Slots</h1>
+                <p className="text-gray-500 text-[10px] tracking-[0.2em] uppercase mt-1">Admin Platform</p>
+              </div>
             </div>
             <button
               onClick={() => setShowCleanupModal(true)}
@@ -339,7 +341,7 @@ const AdminSlots = () => {
           </div>
 
           {/* View Tabs */}
-          <div className="flex space-x-1 mb-8 border-b border-white/[0.06] animate-fadeInUp" style={{ animationDelay: '100ms' }}>
+          <div className="flex space-x-1 mb-8 border-b border-white/[0.06] animate-fadeInUp shrink-0" style={{ animationDelay: '100ms' }}>
             {[
               { id: 'list', label: 'All Slots', icon: Calendar },
               { id: 'create', label: 'Add Single Slot', icon: Plus },
@@ -358,231 +360,238 @@ const AdminSlots = () => {
             ))}
           </div>
 
-          {/* LIST VIEW */}
-          {activeView === 'list' && (
-            <div className="animate-fadeInUp" style={{ animationDelay: '200ms' }}>
-              {/* Upcoming / Past toggle */}
-              <div className="flex items-center space-x-1 mb-6">
-                {['upcoming', 'past'].map(f => (
-                  <button
-                    key={f}
-                    onClick={() => setSlotFilter(f)}
-                    className={`px-4 py-2 text-[10px] uppercase tracking-widest rounded-sm border transition-all duration-300 ${
-                      slotFilter === f ? 'border-gold/40 text-gold bg-gold/5' : 'border-white/10 text-gray-500 hover:text-gray-300 hover:border-white/20'
-                    }`}
-                  >
-                    {f === 'upcoming' ? 'Upcoming' : 'Past'}
-                  </button>
-                ))}
-              </div>
+          {/* CONTENT AREA */}
+          <div className="flex-1 min-h-0">
+            {/* LIST VIEW */}
+            {activeView === 'list' && (
+              <div className="h-full flex flex-col animate-fadeInUp" style={{ animationDelay: '200ms' }}>
+                {/* Upcoming / Past toggle */}
+                <div className="flex items-center space-x-1 mb-6 shrink-0">
+                  {['upcoming', 'past'].map(f => (
+                    <button
+                      key={f}
+                      onClick={() => setSlotFilter(f)}
+                      className={`px-4 py-2 text-[10px] uppercase tracking-widest rounded-sm border transition-all duration-300 ${
+                        slotFilter === f ? 'border-gold/40 text-gold bg-gold/5' : 'border-white/10 text-gray-500 hover:text-gray-300 hover:border-white/20'
+                      }`}
+                    >
+                      {f === 'upcoming' ? 'Upcoming' : 'Past'}
+                    </button>
+                  ))}
+                </div>
 
-              {loading ? (
-                <div className="flex justify-center py-16">
-                  <div className="w-6 h-6 border-2 border-gold border-t-transparent rounded-full animate-spin" />
-                </div>
-              ) : slots.length === 0 ? (
-                <div className="text-center py-16 glass-card rounded-sm border border-white/[0.06]">
-                  <Calendar className="w-10 h-10 text-gray-600 mx-auto mb-4" />
-                  <p className="text-gray-400 mb-2">{slotFilter === 'upcoming' ? 'No upcoming time slots' : 'No past bookings'}</p>
-                  <p className="text-gray-600 text-sm">
-                    {slotFilter === 'upcoming' 
-                      ? 'Create some slots to get started.' 
-                      : 'Completed or cancelled sessions with no booking are hidden.'}
-                  </p>
-                </div>
-              ) : (
-                <div className="space-y-3">
-                  {slots.map(slot => {
-                    const lt = getLessonTypeById(slot.lessonType);
-                    const dateTime = slot.dateTime?.toDate ? slot.dateTime.toDate() : null;
-                    const isBooked = slot.status === SLOT_STATUS.BOOKED;
-                    return (
-                      <div
-                        key={slot.id}
-                        className={`glass-card p-5 rounded-sm border flex items-center justify-between ${isBooked ? 'border-gold/10' : 'border-white/[0.06]'}`}
-                      >
-                        <div className="flex items-center space-x-4 flex-1">
-                          <span className="text-gold font-serif text-lg min-w-[80px]">{dateTime ? formatTime(dateTime) : '—'}</span>
-                          <div>
-                            <div className="flex items-center space-x-2">
-                              <p className="text-white text-sm">
-                                {lt?.name || (
-                                  slot.lessonType === 'overlap-block' 
-                                    ? 'Extended Session Block' 
-                                    : (slot.status === SLOT_STATUS.AVAILABLE ? 'Open Slot' : 'Private Lesson')
-                                )}
-                              </p>
-                              <span className="text-gray-600 text-xs">· {slot.duration} min</span>
+                {loading ? (
+                  <div className="flex-1 flex justify-center items-center">
+                    <div className="w-6 h-6 border-2 border-gold border-t-transparent rounded-full animate-spin" />
+                  </div>
+                ) : slots.length === 0 ? (
+                  <div className="text-center py-16 glass-card rounded-sm border border-white/[0.06]">
+                    <Calendar className="w-10 h-10 text-gray-600 mx-auto mb-4" />
+                    <p className="text-gray-400 mb-2">{slotFilter === 'upcoming' ? 'No upcoming time slots' : 'No past bookings'}</p>
+                    <p className="text-gray-600 text-sm">
+                      {slotFilter === 'upcoming' 
+                        ? 'Create some slots to get started.' 
+                        : 'Completed or cancelled sessions with no booking are hidden.'}
+                    </p>
+                  </div>
+                ) : (
+                  <div className="flex-1 overflow-y-auto custom-scrollbar pr-2 space-y-3 pb-8">
+                    {slots.map(slot => {
+                      const lt = getLessonTypeById(slot.lessonType);
+                      const dateTime = slot.dateTime?.toDate ? slot.dateTime.toDate() : null;
+                      const isBooked = slot.status === SLOT_STATUS.BOOKED;
+                      return (
+                        <div
+                          key={slot.id}
+                          className={`glass-card p-5 rounded-sm border flex items-center justify-between transition-colors ${isBooked ? 'border-gold/10' : 'border-white/[0.04] hover:border-white/[0.08]'}`}
+                        >
+                          <div className="flex items-center space-x-4 flex-1 min-w-0">
+                            <span className="text-gold font-serif text-lg min-w-[90px]">{dateTime ? formatTime(dateTime) : '—'}</span>
+                            <div className="truncate">
+                              <div className="flex items-center space-x-2">
+                                <p className="text-white text-sm truncate">
+                                  {lt?.name || (
+                                    slot.lessonType === 'overlap-block' 
+                                      ? 'Extended Session Block' 
+                                      : (slot.status === SLOT_STATUS.AVAILABLE ? 'Open Slot' : 'Private Lesson')
+                                  )}
+                                </p>
+                                <span className="text-gray-600 text-[10px] shrink-0">· {slot.duration} min</span>
+                              </div>
+                              <p className="text-gray-500 text-[11px] mt-0.5">{dateTime ? formatDate(dateTime) : '—'}</p>
                             </div>
-                            <p className="text-gray-500 text-xs mt-0.5">{dateTime ? formatDate(dateTime) : '—'}</p>
+                          </div>
+                          <div className="flex items-center space-x-3 shrink-0">
+                            <span
+                              className={`text-[9px] uppercase tracking-[0.15em] px-2.5 py-1 rounded-sm border ${
+                                isBooked ? 'text-gray-500 border-white/10 bg-white/5' : 'text-gold border-gold/30 bg-gold/5 font-semibold'
+                              }`}
+                            >
+                              {isBooked ? 'Booked' : 'Available'}
+                            </span>
+                            {!isBooked && (
+                              <button
+                                onClick={() => setDeleteTarget(slot)}
+                                className="text-gray-600 hover:text-[#d9736c] transition-colors p-1"
+                                title="Delete slot"
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </button>
+                            )}
                           </div>
                         </div>
-                        <div className="flex items-center space-x-3">
-                          <span
-                            className={`text-[10px] uppercase tracking-[0.15em] px-2.5 py-1 rounded-sm border ${
-                              isBooked ? 'text-gray-500 border-white/10 bg-white/5' : 'text-gold border-gold/30 bg-gold/5'
-                            }`}
-                          >
-                            {isBooked ? 'Booked' : 'Available'}
-                          </span>
-                          {!isBooked && (
-                            <button
-                              onClick={() => setDeleteTarget(slot)}
-                              className="text-gray-500 hover:text-[#d9736c] transition-colors p-1"
-                              title="Delete slot"
-                            >
-                              <Trash2 className="w-4 h-4" />
-                            </button>
-                          )}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* SINGLE CREATE VIEW */}
-          {activeView === 'create' && (
-            <div className="max-w-2xl mx-auto animate-fadeInUp" style={{ animationDelay: '200ms' }}>
-              <div className="p-8 md:p-10 rounded-sm border border-gold/20 bg-dark-800 shadow-2xl relative">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-gold/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" />
-                <div className="relative z-10">
-                  <form onSubmit={handleCreateSlot} className="space-y-8">
-                    <div>
-                      <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Date</label>
-                      <DatePicker
-                        value={newSlot.date}
-                        onChange={val => setNewSlot(p => ({ ...p, date: val }))}
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Time</label>
-                      <TimePicker
-                        value={newSlot.time}
-                        onChange={val => setNewSlot(p => ({ ...p, time: val }))}
-                      />
-                    </div>
-                    <button
-                      type="submit"
-                      disabled={creating}
-                      className={`inline-flex items-center space-x-2 border px-8 py-3 text-xs uppercase tracking-widest transition-all duration-300 ${
-                        creating ? 'border-gold bg-gold/70 text-dark-900 cursor-wait' : 'border-gold text-gold hover:bg-gold hover:text-dark-900'
-                      }`}
-                    >
-                      <Plus className="w-4 h-4" />
-                      <span>{creating ? 'Creating...' : 'Create Slot'}</span>
-                    </button>
-                  </form>
-                </div>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
-            </div>
-          )}
+            )}
 
-          {activeView === 'bulk' && (
-            <div className="max-w-2xl mx-auto animate-fadeInUp" style={{ animationDelay: '200ms' }}>
-              <div className="p-8 md:p-10 rounded-sm border border-gold/20 bg-dark-800 shadow-2xl relative">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-gold/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" />
-                <div className="relative z-10">
-                  <p className="text-gray-400 text-sm mb-8">Generate recurring time slots across a date range.</p>
-                  <form onSubmit={handleBulkCreate} className="space-y-8">
-                    <div className="grid grid-cols-2 gap-6">
-                      <div>
-                        <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Start Date</label>
-                        <DatePicker
-                          value={bulkData.startDate}
-                          onChange={val => setBulkData(p => ({ ...p, startDate: val }))}
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">End Date</label>
-                        <DatePicker
-                          value={bulkData.endDate}
-                          onChange={val => setBulkData(p => ({ ...p, endDate: val }))}
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-xs uppercase tracking-widest text-gray-500 mb-3">Days of Week</label>
-                      <div className="flex flex-wrap gap-2">
-                        {dayLabels.map((label, idx) => (
-                          <button
-                            key={idx}
-                            type="button"
-                            onClick={() => toggleDay(idx)}
-                            className={`px-4 py-2 text-xs uppercase tracking-wider border rounded-sm transition-all duration-300 ${
-                              bulkData.days.includes(idx) ? 'border-gold bg-gold/10 text-gold' : 'border-white/10 text-gray-500 hover:border-white/30'
-                            }`}
-                          >
-                            {label}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-6">
-                      <div>
-                        <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Start Time</label>
-                        <TimePicker
-                          value={bulkData.startTime}
-                          onChange={val => setBulkData(p => ({ ...p, startTime: val }))}
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">End Time</label>
-                        <TimePicker
-                          value={bulkData.endTime}
-                          onChange={val => setBulkData(p => ({ ...p, endTime: val }))}
-                        />
-                      </div>
-                    </div>
-
-                    {bulkCreating && (
-                      <div className="space-y-3 animate-fadeIn">
-                        <div className="flex justify-between items-center text-[10px] uppercase tracking-widest">
-                          <span className="text-gold font-medium">{bulkProgress.status}</span>
-                          <span className="text-gray-500">
-                            {bulkProgress.total > 0 ? `${Math.round((bulkProgress.current / bulkProgress.total) * 100)}%` : ''}
-                          </span>
-                        </div>
-                        <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
-                          <div 
-                            className="h-full bg-gold transition-all duration-500 ease-out"
-                            style={{ width: `${bulkProgress.total > 0 ? (bulkProgress.current / bulkProgress.total) * 100 : 0}%` }}
+            {/* SINGLE CREATE VIEW */}
+            {activeView === 'create' && (
+              <div className="h-full overflow-y-auto custom-scrollbar pr-2 pb-10">
+                <div className="max-w-2xl mx-auto animate-fadeInUp" style={{ animationDelay: '200ms' }}>
+                  <div className="p-8 md:p-10 rounded-sm border border-gold/20 bg-dark-800 shadow-2xl relative">
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-gold/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" />
+                    <div className="relative z-10">
+                      <form onSubmit={handleCreateSlot} className="space-y-8">
+                        <div>
+                          <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Date</label>
+                          <DatePicker
+                            value={newSlot.date}
+                            onChange={val => setNewSlot(p => ({ ...p, date: val }))}
                           />
                         </div>
-                      </div>
-                    )}
+                        <div>
+                          <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Time</label>
+                          <TimePicker
+                            value={newSlot.time}
+                            onChange={val => setNewSlot(p => ({ ...p, time: val }))}
+                          />
+                        </div>
+                        <button
+                          type="submit"
+                          disabled={creating}
+                          className={`inline-flex items-center space-x-2 border px-8 py-3 text-xs uppercase tracking-widest transition-all duration-300 ${
+                            creating ? 'border-gold bg-gold/70 text-dark-900 cursor-wait' : 'border-gold text-gold hover:bg-gold hover:text-dark-900'
+                          }`}
+                        >
+                          <Plus className="w-4 h-4" />
+                          <span>{creating ? 'Creating...' : 'Create Slot'}</span>
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+       </div>
+              </div>
+            )}
 
-                    {bulkResult && (
-                      <p className={`text-xs tracking-widest uppercase font-medium p-4 bg-white/5 border-l-2 animate-fadeIn ${
-                        bulkResult.includes('Error') ? 'text-[#d9736c] border-[#d9736c]' : 'text-gold border-gold'
-                      }`}>
-                        {bulkResult}
-                      </p>
-                    )}
+            {activeView === 'bulk' && (
+              <div className="h-full overflow-y-auto custom-scrollbar pr-2 pb-10">
+                <div className="max-w-2xl mx-auto animate-fadeInUp" style={{ animationDelay: '200ms' }}>
+                  <div className="p-8 md:p-10 rounded-sm border border-gold/20 bg-dark-800 shadow-2xl relative">
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-gold/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" />
+                    <div className="relative z-10">
+                      <p className="text-gray-400 text-sm mb-8">Generate recurring time slots across a date range.</p>
+                      <form onSubmit={handleBulkCreate} className="space-y-8">
+                        <div className="grid grid-cols-2 gap-6">
+                          <div>
+                            <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Start Date</label>
+                            <DatePicker
+                              value={bulkData.startDate}
+                              onChange={val => setBulkData(p => ({ ...p, startDate: val }))}
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">End Date</label>
+                            <DatePicker
+                              value={bulkData.endDate}
+                              onChange={val => setBulkData(p => ({ ...p, endDate: val }))}
+                            />
+                          </div>
+                        </div>
 
-                    <button
-                      type="submit"
-                      disabled={bulkCreating}
-                      className={`inline-flex items-center space-x-2 border px-10 py-4 text-xs uppercase tracking-widest transition-all duration-500 w-full justify-center ${
-                        bulkCreating ? 'border-gold bg-gold/10 text-gold cursor-wait' : 'border-gold text-gold hover:bg-gold hover:text-dark-900'
-                      }`}
-                    >
-                      {bulkCreating ? (
-                         <div className="w-4 h-4 border-2 border-gold border-t-transparent rounded-full animate-spin" />
-                      ) : (
-                        <Repeat className="w-4 h-4" />
-                      )}
-                      <span>{bulkCreating ? 'Processing...' : 'Generate Slots'}</span>
-                    </button>
-                  </form>
+                        <div>
+                          <label className="block text-xs uppercase tracking-widest text-gray-500 mb-3">Days of Week</label>
+                          <div className="flex flex-wrap gap-2">
+                            {dayLabels.map((label, idx) => (
+                              <button
+                                key={idx}
+                                type="button"
+                                onClick={() => toggleDay(idx)}
+                                className={`px-4 py-2 text-xs uppercase tracking-wider border rounded-sm transition-all duration-300 ${
+                                  bulkData.days.includes(idx) ? 'border-gold bg-gold/10 text-gold' : 'border-white/10 text-gray-500 hover:border-white/30'
+                                }`}
+                              >
+                                {label}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-6">
+                          <div>
+                            <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Start Time</label>
+                            <TimePicker
+                              value={bulkData.startTime}
+                              onChange={val => setBulkData(p => ({ ...p, startTime: val }))}
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">End Time</label>
+                            <TimePicker
+                              value={bulkData.endTime}
+                              onChange={val => setBulkData(p => ({ ...p, endTime: val }))}
+                            />
+                          </div>
+                        </div>
+
+                        {bulkCreating && (
+                          <div className="space-y-3 animate-fadeIn">
+                            <div className="flex justify-between items-center text-[10px] uppercase tracking-widest">
+                              <span className="text-gold font-medium">{bulkProgress.status}</span>
+                              <span className="text-gray-500">
+                                {bulkProgress.total > 0 ? `${Math.round((bulkProgress.current / bulkProgress.total) * 100)}%` : ''}
+                              </span>
+                            </div>
+                            <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+                              <div 
+                                className="h-full bg-gold transition-all duration-500 ease-out"
+                                style={{ width: `${bulkProgress.total > 0 ? (bulkProgress.current / bulkProgress.total) * 100 : 0}%` }}
+                              />
+                            </div>
+                          </div>
+                        )}
+
+                        {bulkResult && (
+                          <p className={`text-xs tracking-widest uppercase font-medium p-4 bg-white/5 border-l-2 animate-fadeIn ${
+                            bulkResult.includes('Error') ? 'text-[#d9736c] border-[#d9736c]' : 'text-gold border-gold'
+                          }`}>
+                            {bulkResult}
+                          </p>
+                        )}
+
+                        <button
+                          type="submit"
+                          disabled={bulkCreating}
+                          className={`inline-flex items-center space-x-2 border px-10 py-4 text-xs uppercase tracking-widest transition-all duration-500 w-full justify-center ${
+                            bulkCreating ? 'border-gold bg-gold/10 text-gold cursor-wait' : 'border-gold text-gold hover:bg-gold hover:text-dark-900'
+                          }`}
+                        >
+                          {bulkCreating ? (
+                             <div className="w-4 h-4 border-2 border-gold border-t-transparent rounded-full animate-spin" />
+                          ) : (
+                            <Repeat className="w-4 h-4" />
+                          )}
+                          <span>{bulkCreating ? 'Processing...' : 'Generate Slots'}</span>
+                        </button>
+                      </form>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
 
         {/* Delete Confirmation Modal */}

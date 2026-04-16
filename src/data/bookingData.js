@@ -79,14 +79,14 @@ export function getDayName(date) {
 export function getWeekDates(baseDate) {
   const d = new Date(baseDate);
   const day = d.getDay();
-  const monday = new Date(d);
-  monday.setDate(d.getDate() - day + (day === 0 ? -6 : 1));
-  monday.setHours(0, 0, 0, 0);
+  const sunday = new Date(d);
+  sunday.setDate(d.getDate() - day);
+  sunday.setHours(0, 0, 0, 0);
 
   const dates = [];
   for (let i = 0; i < 7; i++) {
-    const date = new Date(monday);
-    date.setDate(monday.getDate() + i);
+    const date = new Date(sunday);
+    date.setDate(sunday.getDate() + i);
     dates.push(date);
   }
   return dates;

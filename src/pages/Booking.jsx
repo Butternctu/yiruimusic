@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { Calendar, ChevronLeft, ChevronRight, Clock, Music, X, Check, ArrowLeft, AlertTriangle } from 'lucide-react';
 import { collection, query, where, getDocs, doc, runTransaction, Timestamp, orderBy, limit } from 'firebase/firestore';
 import { db } from '../firebase';
@@ -27,10 +27,10 @@ const Booking = () => {
   const [weekStart, setWeekStart] = useState(() => {
     const now = new Date();
     const day = now.getDay();
-    const monday = new Date(now);
-    monday.setDate(now.getDate() - day + (day === 0 ? -6 : 1));
-    monday.setHours(0, 0, 0, 0);
-    return monday;
+    const sunday = new Date(now);
+    sunday.setDate(now.getDate() - day);
+    sunday.setHours(0, 0, 0, 0);
+    return sunday;
   });
   const [selectedDate, setSelectedDate] = useState(() => {
     const tomorrow = new Date();
@@ -91,10 +91,30 @@ const Booking = () => {
     newWeek.setDate(newWeek.getDate() + direction * 7);
     setWeekStart(newWeek);
 
-    // Auto-select the middle date of the new week (index 3 / Thursday)
+    // Auto-select a valid date in the new week
+    const now = new Date();
+    const tomorrow = new Date(now);
+    tomorrow.setDate(now.getDate() + 1);
+    tomorrow.setHours(0, 0, 0, 0);
+
     const middleDate = new Date(newWeek);
     middleDate.setDate(newWeek.getDate() + 3);
-    setSelectedDate(middleDate);
+    middleDate.setHours(0, 0, 0, 0);
+
+    // If middle date of new week is today or past, default to tomorrow
+    if (middleDate <= now) {
+      // Only select tomorrow if it's actually within the new week range
+      // Otherwise, we'll just stick to the middle date (which will be disabled)
+      const weekEnd = new Date(newWeek);
+      weekEnd.setDate(newWeek.getDate() + 7);
+      if (tomorrow >= newWeek && tomorrow < weekEnd) {
+        setSelectedDate(tomorrow);
+      } else {
+        setSelectedDate(middleDate);
+      }
+    } else {
+      setSelectedDate(middleDate);
+    }
   };
 
   const handleSlotClick = slot => {
@@ -109,10 +129,10 @@ const Booking = () => {
     setShowModal(true);
   };
 
-  const handleLessonTypeSelect = async (type) => {
+  const handleLessonTypeSelect = async type => {
     setSelectedLessonType(type);
     setBookingStep(4); // Summary/Confirm step
-    
+
     const slotsReq = Math.ceil(type.duration / 60);
     if (slotsReq > 1) {
       setCheckingSlots(true);
@@ -125,12 +145,8 @@ const Booking = () => {
         for (let i = 1; i < slotsReq; i++) {
           const nextTime = new Date(selectedSlot.dateTime.toDate());
           nextTime.setHours(nextTime.getHours() + i, 0, 0, 0);
-          
-          const q = query(
-            collection(db, 'timeSlots'),
-            where('dateTime', '==', Timestamp.fromDate(nextTime)),
-            limit(1)
-          );
+
+          const q = query(collection(db, 'timeSlots'), where('dateTime', '==', Timestamp.fromDate(nextTime)), limit(1));
           const snap = await getDocs(q);
           if (!snap.empty) {
             const s = { id: snap.docs[0].id, ...snap.docs[0].data() };
@@ -209,7 +225,7 @@ const Booking = () => {
             bookedAt: Timestamp.now(),
             lessonType: 'overlap-block',
             duration: 0,
-            blockedBy: selectedSlot.id
+            blockedBy: selectedSlot.id,
           });
           blockedIds.push(bDoc.id);
         }
@@ -236,18 +252,15 @@ const Booking = () => {
         from_name: userProfile?.displayName || user.displayName || 'A student',
         from_email: user.email,
         message: `Dear Dr. Li,\n\nThis is an automated notification to inform you that ${userProfile?.displayName || user.displayName || 'a student'} has just booked a new session.\n\nBooking Details:\n- Lesson: ${selectedLessonType.name}\n- Date: ${formatFullDate(slotTime)}\n- Time: ${formatTime(slotTime)}\n- Duration: ${selectedLessonType.duration} minutes\n\nPlease review your updated schedule. Thank you!`,
-        to_name: 'Dr. Li'
+        to_name: 'Dr. Li',
       };
-      emailjs.send(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_ADMIN_TEMPLATE_ID,
-        emailParams,
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-      ).catch(err => console.error('Booking email notification failed:', err));
+      emailjs
+        .send(import.meta.env.VITE_EMAILJS_SERVICE_ID, import.meta.env.VITE_EMAILJS_ADMIN_TEMPLATE_ID, emailParams, import.meta.env.VITE_EMAILJS_PUBLIC_KEY)
+        .catch(err => console.error('Booking email notification failed:', err));
 
       setBookingSuccess(true);
       // Refresh local slots
-      await fetchSlots(); 
+      await fetchSlots();
     } catch (err) {
       console.error('Booking error:', err);
       showToast(err.message || 'Failed to book. Please try again.', 'error');
@@ -268,12 +281,11 @@ const Booking = () => {
 
   // Group LESSON_TYPES for UI
   const availableFormats = [...new Set(LESSON_TYPES.filter(lt => !lt.isLegacy).map(lt => lt.format))];
-  const categoriesForFormat = selectedFormat 
+  const categoriesForFormat = selectedFormat
     ? [...new Set(LESSON_TYPES.filter(lt => !lt.isLegacy && lt.format === selectedFormat).map(lt => lt.category))]
     : [];
-  const durationsForCategory = (selectedFormat && selectedCategory)
-    ? LESSON_TYPES.filter(lt => !lt.isLegacy && lt.format === selectedFormat && lt.category === selectedCategory)
-    : [];
+  const durationsForCategory =
+    selectedFormat && selectedCategory ? LESSON_TYPES.filter(lt => !lt.isLegacy && lt.format === selectedFormat && lt.category === selectedCategory) : [];
 
   // Filter slots for the bottom detail view
   const selectedDateSlots = slots.filter(s => {
@@ -284,33 +296,46 @@ const Booking = () => {
   return (
     <>
       <SEO title="Book a Session | Dr. Yirui Li" url="/booking" />
-      <section className="min-h-screen bg-dark-900 pt-36 pb-16 px-6 md:px-12 relative overflow-hidden">
+      <section className="min-h-screen bg-dark-900 pt-36 pb-12 px-6 md:px-12 relative overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-[radial-gradient(ellipse_at_top,rgba(197,160,89,0.03)_0%,transparent_70%)] pointer-events-none" />
 
-        <div className="max-w-5xl mx-auto relative z-10">
+        <div className="max-w-7xl mx-auto relative z-10">
           {/* Header */}
-          <div className="flex items-center justify-between mb-10 animate-fadeInUp">
+          <div className="flex items-center space-x-4 mb-10 animate-fadeInUp">
+            <Link
+              to="/dashboard"
+              className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5 hover:border-gold/30 transition-all duration-300"
+            >
+              <ArrowLeft className="w-4 h-4 text-gray-400" />
+            </Link>
             <div>
-              <button
-                onClick={() => navigate('/dashboard')}
-                className="inline-flex items-center space-x-2 text-gray-500 hover:text-gold text-xs uppercase tracking-widest transition-colors mb-4"
-              >
-                <ArrowLeft className="w-4 h-4" />
-                <span>Dashboard</span>
-              </button>
               <h1 className="font-serif text-2xl md:text-3xl text-white tracking-wide">Book a Session</h1>
-              <p className="text-gray-500 text-sm mt-2">Select a date and time to schedule your lesson.</p>
+              <p className="text-gray-500 text-[10px] tracking-[0.2em] uppercase mt-1">Schedule your lesson</p>
             </div>
-            <Calendar className="w-8 h-8 text-gold/30 hidden md:block" />
           </div>
 
           {/* Removed Lesson Type Filter */}
 
           {/* Week Navigation */}
           <div className="flex items-center justify-between mb-6 animate-fadeInUp" style={{ animationDelay: '200ms' }}>
-            <button onClick={() => navigateWeek(-1)} className="p-2 text-gray-400 hover:text-gold transition-colors">
-              <ChevronLeft className="w-5 h-5" />
-            </button>
+            {(() => {
+              const now = new Date();
+              const day = now.getDay();
+              const currentSunday = new Date(now);
+              currentSunday.setDate(now.getDate() - day);
+              currentSunday.setHours(0, 0, 0, 0);
+              const isFirstWeek = weekStart.getTime() <= currentSunday.getTime();
+
+              return (
+                <button
+                  onClick={() => !isFirstWeek && navigateWeek(-1)}
+                  disabled={isFirstWeek}
+                  className={`p-2 transition-colors ${isFirstWeek ? 'text-gray-800 cursor-not-allowed opacity-30' : 'text-gray-400 hover:text-gold'}`}
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
+              );
+            })()}
             <span className="text-gray-300 text-sm tracking-wider">
               {formatDate(weekDates[0])} — {formatDate(weekDates[6])}
             </span>
@@ -326,10 +351,13 @@ const Booking = () => {
               const today = isToday(date);
               const isDisabled = isPast(date) || today;
 
-              const dayAvailableCount = slots.filter(s => {
+              const daySlots = slots.filter(s => {
                 const d = s.dateTime?.toDate ? s.dateTime.toDate() : new Date(s.dateTime);
-                return s.status === SLOT_STATUS.AVAILABLE && isSameDay(d, date);
-              }).length;
+                return isSameDay(d, date);
+              });
+
+              const dayAvailableCount = daySlots.filter(s => s.status === SLOT_STATUS.AVAILABLE).length;
+              const hasSlots = daySlots.length > 0;
 
               return (
                 <button
@@ -351,12 +379,14 @@ const Booking = () => {
 
                   {!isDisabled ? (
                     dayAvailableCount > 0 ? (
-                      <div className={`mt-1.5 text-[9px] font-medium uppercase tracking-widest ${isSelected ? 'text-gold' : 'text-gold/60 group-hover:text-gold'}`}>
-                        <span className="mr-1.5">{dayAvailableCount}</span>
-                        {dayAvailableCount === 1 ? 'Slot' : 'Slots'}
+                      <div
+                        className={`mt-1.5 text-[9px] font-bold uppercase tracking-tighter leading-tight text-center whitespace-nowrap ${isSelected ? 'text-gold' : 'text-gold/80'}`}
+                      >
+                        {dayAvailableCount}
+                        <span className="ml-[3px]">{dayAvailableCount === 1 ? 'Slot' : 'Slots'}</span>
                       </div>
                     ) : !loadingSlots ? (
-                      <div className="mt-1.5 text-[9px] text-gray-700 uppercase tracking-widest">Full</div>
+                      <div className="mt-1.5 text-[9px] text-gray-700 uppercase tracking-wider leading-tight text-center">{hasSlots ? 'Full' : 'Off'}</div>
                     ) : (
                       <div className="h-[13px] mt-1.5" />
                     )
@@ -386,8 +416,8 @@ const Booking = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {selectedDateSlots.map(slot => {
                   const lt = getLessonTypeById(slot.lessonType);
-                  const isAvailable = slot.status === SLOT_STATUS.AVAILABLE;
                   const slotTime = slot.dateTime?.toDate ? slot.dateTime.toDate() : new Date(slot.dateTime);
+                  const isAvailable = slot.status === SLOT_STATUS.AVAILABLE && !isPast(slotTime);
                   return (
                     <button
                       key={slot.id}
@@ -407,7 +437,9 @@ const Booking = () => {
                           {isAvailable ? 'Available' : 'Booked'}
                         </span>
                       </div>
-                      <p className="text-gray-400 text-sm">{isAvailable ? 'Open Slot' : (slot.lessonType === 'overlap-block' ? 'Extended Session Block' : (lt?.name || 'Private Lesson'))}</p>
+                      <p className="text-gray-400 text-sm">
+                        {isAvailable ? 'Open Slot' : slot.lessonType === 'overlap-block' ? 'Extended Session Block' : lt?.name || 'Private Lesson'}
+                      </p>
                       <p className="text-gray-600 text-xs mt-1">1 hour unit</p>
                     </button>
                   );
@@ -465,7 +497,10 @@ const Booking = () => {
                         {availableFormats.map(fmt => (
                           <button
                             key={fmt}
-                            onClick={() => { setSelectedFormat(fmt); setBookingStep(2); }}
+                            onClick={() => {
+                              setSelectedFormat(fmt);
+                              setBookingStep(2);
+                            }}
                             className="p-6 rounded-sm border border-white/10 glass-card hover:border-gold hover:bg-gold/5 flex flex-col items-center justify-center text-center transition-all duration-300"
                           >
                             <span className="text-white font-serif text-lg mb-2">{fmt}</span>
@@ -481,7 +516,10 @@ const Booking = () => {
                         {categoriesForFormat.map(cat => (
                           <button
                             key={cat}
-                            onClick={() => { setSelectedCategory(cat); setBookingStep(3); }}
+                            onClick={() => {
+                              setSelectedCategory(cat);
+                              setBookingStep(3);
+                            }}
                             className="p-4 text-left border border-white/5 rounded-sm hover:border-gold/50 hover:bg-white/5 transition-all duration-300"
                           >
                             <span className="text-white text-sm font-medium">{cat}</span>
@@ -526,7 +564,7 @@ const Booking = () => {
                           <span className="text-gray-500 text-xs uppercase tracking-widest">Time</span>
                           <span className="text-white text-sm">{selectedSlot.dateTime?.toDate && formatTime(selectedSlot.dateTime.toDate())}</span>
                         </div>
-                        
+
                         {/* Overlap Check UI */}
                         {Math.ceil(selectedLessonType.duration / 60) > 1 && (
                           <div className="mt-4 pt-4 border-t border-white/5">

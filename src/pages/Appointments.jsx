@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Calendar, Clock, X, AlertTriangle, Plus, ArrowLeft } from 'lucide-react';
 import {
   collection, query, where, getDocs, doc, Timestamp, writeBatch
@@ -14,7 +14,6 @@ import emailjs from '@emailjs/browser';
 const Appointments = () => {
   const { user } = useAuth();
   const { showToast } = useToast();
-  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('upcoming');
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -190,20 +189,19 @@ const Appointments = () => {
   return (
     <>
       <SEO title="My Appointments | Dr. Yirui Li" url="/appointments" />
-      <section className="min-h-screen bg-dark-900 pt-36 pb-16 px-6 md:px-12 relative overflow-hidden">
+      <section className="min-h-screen bg-dark-900 pt-36 pb-12 px-6 md:px-12 relative overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-[radial-gradient(ellipse_at_top,rgba(197,160,89,0.03)_0%,transparent_70%)] pointer-events-none" />
 
-        <div className="max-w-4xl mx-auto relative z-10">
+        <div className="max-w-7xl mx-auto relative z-10">
           {/* Header */}
-          <div className="mb-10 animate-fadeInUp">
-            <button
-              onClick={() => navigate('/dashboard')}
-              className="inline-flex items-center space-x-2 text-gray-500 hover:text-gold text-xs uppercase tracking-widest transition-colors mb-4"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              <span>Dashboard</span>
-            </button>
-            <h1 className="font-serif text-2xl md:text-3xl text-white tracking-wide">My Appointments</h1>
+          <div className="flex items-center space-x-4 mb-6 animate-fadeInUp">
+            <Link to="/dashboard" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5 hover:border-gold/30 transition-all duration-300">
+              <ArrowLeft className="w-4 h-4 text-gray-400" />
+            </Link>
+            <div>
+              <h1 className="font-serif text-2xl md:text-3xl text-white tracking-wide">My Appointments</h1>
+              <p className="text-gray-500 text-[10px] tracking-[0.2em] uppercase mt-1">Schedule overview</p>
+            </div>
           </div>
 
           {/* Tabs */}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Shield, Calendar, Clock, Users, ArrowRight, ChevronRight, ChevronLeft, Activity, TrendingUp, Settings, AlertCircle, MessageSquare } from 'lucide-react';
-import { collection, query, where, getDocs, orderBy, limit } from 'firebase/firestore';
+import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
 import { getLessonTypeById, formatDate, formatTime } from '../data/bookingData';
 import SEO from '../components/SEO';
@@ -12,7 +12,6 @@ const AdminDashboard = () => {
   const { hasUnreadMessages } = useAuth();
   const [stats, setStats] = useState({ upcomingCount: 0, todayCount: 0, totalMembers: 0 });
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
 
   // Calendar State
   const [selectedDate, setSelectedDate] = useState(() => {
@@ -66,7 +65,7 @@ const AdminDashboard = () => {
         });
       } catch (err) {
         console.error('Error fetching admin data:', err);
-        setError(err.message || String(err));
+        // No error state used currently
       } finally {
         setLoading(false);
       }
@@ -161,21 +160,21 @@ const AdminDashboard = () => {
   return (
     <>
       <SEO title="Admin Dashboard | Dr. Yirui Li" url="/admin" />
-      <section className="min-h-screen bg-dark-900 pt-36 pb-20 px-6 md:px-12 relative overflow-hidden">
+      <section className="flex-1 bg-dark-900 pt-36 pb-10 px-6 md:px-12 relative flex flex-col overflow-hidden">
         {/* Decorative elements */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[600px] bg-[radial-gradient(ellipse_at_top,rgba(197,160,89,0.04)_0%,transparent_60%)] pointer-events-none" />
         <div className="absolute top-60 left-0 w-[300px] h-[300px] bg-[radial-gradient(circle,rgba(197,160,89,0.02)_0%,transparent_70%)] pointer-events-none" />
 
-        <div className="max-w-6xl mx-auto relative z-10">
+        <div className="max-w-7xl mx-auto w-full flex-1 flex flex-col z-10 min-h-0">
           {/* Header */}
-          <div className="flex items-center justify-between mb-12 animate-fadeInUp">
+          <div className="flex items-center justify-between mb-8 animate-fadeInUp shrink-0">
             <div className="flex items-center space-x-4">
               <div className="w-12 h-12 rounded-full bg-gradient-to-br from-gold/20 to-gold/5 border border-gold/30 flex items-center justify-center">
                 <Shield className="w-5 h-5 text-gold" />
               </div>
               <div>
-                <h1 className="font-serif text-2xl md:text-3xl text-white tracking-wide">Admin Panel</h1>
-                <p className="text-gray-600 text-xs tracking-wider mt-0.5">{formattedToday}</p>
+                <h1 className="font-serif text-2xl md:text-3xl text-white tracking-wide">Admin Platform</h1>
+                <p className="text-gray-500 text-[10px] tracking-[0.2em] uppercase mt-1">{formattedToday}</p>
               </div>
             </div>
             <div className="hidden md:flex items-center space-x-3">
@@ -209,31 +208,23 @@ const AdminDashboard = () => {
             </div>
           </div>
 
-          {/* Error banner */}
-          {error && (
-            <div className="mb-8 p-4 rounded-sm border border-[#d9736c]/20 bg-[#d9736c]/5 flex items-center space-x-3 animate-fadeInUp">
-              <AlertCircle className="w-4 h-4 text-[#d9736c] flex-shrink-0" />
-              <p className="text-[#d9736c] text-sm">Unable to load data: {error}</p>
-            </div>
-          )}
-
-          {/* Stat Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-10">
+          {/* Stat Cards - Slightly more compact */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8 shrink-0">
             {statCards.map((stat, idx) => {
               const CardContent = (
                 <div
                   className={`group relative glass-card rounded-sm border border-white/[0.06] transition-all duration-500 overflow-hidden ${stat.link ? 'cursor-pointer hover:border-gold/30 hover:-translate-y-1' : 'hover:border-gold/15'}`}
                 >
                   <div className={`absolute inset-0 bg-gradient-to-br ${stat.bgGlow} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-                  <div className="relative p-6">
-                    <div className="flex items-center justify-between mb-5">
-                      <div className={`w-10 h-10 rounded-sm ${stat.iconBg} flex items-center justify-center`}>
-                        <stat.icon className={`w-5 h-5 ${stat.color}`} />
+                  <div className="relative p-5">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className={`w-8 h-8 rounded-sm ${stat.iconBg} flex items-center justify-center`}>
+                        <stat.icon className={`w-4 h-4 ${stat.color}`} />
                       </div>
-                      <span className="text-[10px] uppercase tracking-widest text-gray-600">{stat.label}</span>
+                      <span className="text-[9px] uppercase tracking-widest text-gray-600">{stat.label}</span>
                     </div>
-                    <p className="text-2xl font-serif text-white mb-1 tracking-tight">{stat.value}</p>
-                    <p className="text-gray-600 text-xs tracking-wider">{stat.sub}</p>
+                    <p className="text-xl font-serif text-white mb-0.5 tracking-tight">{stat.value}</p>
+                    <p className="text-gray-600 text-[10px] tracking-wider">{stat.sub}</p>
                   </div>
                 </div>
               );
@@ -252,61 +243,37 @@ const AdminDashboard = () => {
             })}
           </div>
 
-          {/* Mobile manage buttons */}
-          <div className="mb-8 md:hidden animate-fadeInUp flex flex-col space-y-3" style={{ animationDelay: '320ms' }}>
-            <Link
-              to="/admin/slots"
-              className="flex items-center justify-center space-x-3 border border-white/20 text-gray-300 px-8 py-4 text-xs uppercase tracking-widest hover:border-gold hover:text-gold transition-all duration-300 w-full"
-            >
-              <Calendar className="w-4 h-4" />
-              <span>Manage Time Slots</span>
-            </Link>
-            <Link
-              to="/admin/messages"
-              className="flex items-center justify-center space-x-3 border border-gold text-gold px-8 py-4 text-xs uppercase tracking-widest hover:bg-gold hover:text-dark-900 transition-all duration-300 w-full relative"
-            >
-              <div className="relative">
-                <MessageSquare className="w-4 h-4" />
-                {hasUnreadMessages && (
-                  <span className="absolute -top-1 -right-1 w-2 h-2 bg-[#d9736c] rounded-full animate-pulse" />
-                )}
-              </div>
-              <span>Inbox</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-
           {/* Main Content Grid: Calendar + Schedule */}
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-5">
+          <div className="flex-1 flex gap-6 min-h-0 mb-4 animate-fadeInUp" style={{ animationDelay: '350ms' }}>
             
-            {/* Calendar Widget - Left 3 cols */}
-            <div className="lg:col-span-3 animate-fadeInUp flex flex-col h-full" style={{ animationDelay: '350ms' }}>
-              <div className="flex items-center space-x-3 mb-5 shrink-0">
+            {/* Calendar Widget - Flexible width box */}
+            <div className="flex-[3] flex flex-col min-h-0">
+              <div className="flex items-center space-x-3 mb-4 shrink-0">
                 <div className="w-8 h-px bg-gradient-to-r from-gold/40 to-transparent" />
                 <h2 className="font-serif text-lg text-white">Monthly Schedule</h2>
               </div>
-              <div className="glass-card rounded-sm border border-white/[0.06] p-6 lg:p-8 flex-1 flex flex-col">
-                <div className="flex items-center justify-between mb-8">
-                  <h2 className="font-serif text-xl text-white">
+              <div className="glass-card rounded-sm border border-white/[0.06] p-6 flex-1 flex flex-col min-h-0">
+                <div className="flex items-center justify-between mb-6 shrink-0">
+                  <h2 className="font-serif text-lg text-white">
                     {currentMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
                   </h2>
                   <div className="flex space-x-2">
                     <button 
                       onClick={handlePrevMonth}
-                      className="p-2 border border-white/10 rounded-sm text-gray-400 hover:text-gold hover:border-gold/30 transition-all bg-white/5"
+                      className="p-1.5 border border-white/10 rounded-sm text-gray-400 hover:text-gold hover:border-gold/30 transition-all bg-white/5"
                     >
                       <ChevronLeft className="w-4 h-4" />
                     </button>
                     <button 
                       onClick={handleNextMonth}
-                      className="p-2 border border-white/10 rounded-sm text-gray-400 hover:text-gold hover:border-gold/30 transition-all bg-white/5"
+                      className="p-1.5 border border-white/10 rounded-sm text-gray-400 hover:text-gold hover:border-gold/30 transition-all bg-white/5"
                     >
                       <ChevronRight className="w-4 h-4" />
                     </button>
                   </div>
                 </div>
 
-                <div className="grid grid-cols-7 gap-2 mb-4">
+                <div className="grid grid-cols-7 gap-2 mb-3 shrink-0">
                   {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
                     <div key={day} className="text-center text-[10px] uppercase tracking-widest text-gray-500 font-medium">
                       {day}
@@ -314,14 +281,14 @@ const AdminDashboard = () => {
                   ))}
                 </div>
 
-                <div className="grid grid-cols-7 gap-2 lg:gap-3 flex-1">
+                <div className="grid grid-cols-7 gap-2 flex-1">
                   {loading ? (
                      <div className="col-span-7 flex justify-center items-center py-16">
                        <div className="w-6 h-6 border-2 border-gold border-t-transparent rounded-full animate-spin" />
                      </div>
                   ) : (
                     getDaysInMonth(currentMonth).map((date, idx) => {
-                      if (!date) return <div key={`empty-${idx}`} className="p-2 h-12 lg:h-16" />;
+                      if (!date) return <div key={`empty-${idx}`} className="p-2 h-full min-h-[40px]" />;
                       
                       const isSelected = selectedDate.getDate() === date.getDate() && selectedDate.getMonth() === date.getMonth();
                       const isToday = today.getDate() === date.getDate() && today.getMonth() === date.getMonth() && today.getFullYear() === date.getFullYear();
@@ -335,7 +302,7 @@ const AdminDashboard = () => {
                             newSelected.setHours(0,0,0,0);
                             setSelectedDate(newSelected);
                           }}
-                          className={`relative h-12 lg:h-16 rounded-sm border transition-all duration-300 flex flex-col items-center py-2 ${
+                          className={`relative w-full h-full min-h-[40px] rounded-sm border transition-all duration-300 flex flex-col items-center justify-center ${
                             isSelected 
                               ? 'border-gold bg-gold/10 text-gold' 
                               : isToday 
@@ -343,14 +310,13 @@ const AdminDashboard = () => {
                                 : 'border-transparent text-gray-400 hover:bg-white/5 hover:text-gray-200'
                           }`}
                         >
-                          <span className={`text-sm lg:text-base font-serif ${isToday && !isSelected ? 'font-bold' : ''}`}>
+                          <span className={`text-sm font-serif ${isToday && !isSelected ? 'font-bold underline underline-offset-4 decoration-gold' : ''}`}>
                             {date.getDate()}
                           </span>
                           
-                          {/* Dot Indicator */}
                           {hasApts && (
-                            <div className="absolute bottom-2 flex space-x-1">
-                              <span className={`w-1.5 h-1.5 rounded-full ${isSelected ? 'bg-gold shadow-[0_0_8px_rgba(197,160,89,0.5)]' : 'bg-gold/50'}`} />
+                            <div className="absolute bottom-1.5 flex space-x-1">
+                              <span className={`w-1 h-1 rounded-full ${isSelected ? 'bg-gold shadow-[0_0_8px_rgba(197,160,89,0.5)]' : 'bg-gold/50'}`} />
                             </div>
                           )}
                         </button>
@@ -362,68 +328,69 @@ const AdminDashboard = () => {
             </div>
 
             {/* Schedule List - right 2 cols */}
-            <div className="lg:col-span-2 animate-fadeInUp flex flex-col h-full" style={{ animationDelay: '420ms' }}>
-              <div className="flex items-center space-x-3 mb-5 shrink-0">
+            <div className="flex-[2] flex flex-col min-h-0 animate-fadeInUp" style={{ animationDelay: '420ms' }}>
+              <div className="flex items-center space-x-3 mb-4 shrink-0">
                 <div className="w-8 h-px bg-gradient-to-r from-gold/40 to-transparent" />
                 <h2 className="font-serif text-lg text-white">
                   {selectedDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                 </h2>
                 {!loading && selectedDateApts.length > 0 && (
-                  <span className="text-[10px] uppercase tracking-widest text-gold bg-gold/10 px-2.5 py-0.5 rounded-sm">
+                  <span className="text-[10px] uppercase tracking-widest text-gold bg-gold/10 px-2.5 py-0.5 rounded-sm ml-auto">
                     {selectedDateApts.length} Sessions
                   </span>
                 )}
               </div>
 
-              {loading ? (
-                <div className="glass-card rounded-sm border border-white/[0.06] py-14 flex-1 flex items-center justify-center text-center">
-                   <div className="w-5 h-5 border-2 border-gold border-t-transparent rounded-full animate-spin mr-3" />
-                   <span className="text-gray-500 text-sm">Loading...</span>
-                </div>
-              ) : selectedDateApts.length === 0 ? (
-                <div className="glass-card rounded-sm border border-white/[0.06] py-14 flex-1 flex flex-col items-center justify-center text-center">
-                  <Activity className="w-8 h-8 text-gray-700 mx-auto mb-3" />
-                  <p className="text-gray-500 text-sm mb-1">Select a date with bookings</p>
-                  <p className="text-gray-700 text-xs">No sessions scheduled</p>
-                </div>
-              ) : (
-                <div className="space-y-2.5 flex-1 overflow-y-auto custom-scrollbar pr-1 max-h-[600px]">
-                  {selectedDateApts.map((appt) => {
-                    const lt = getLessonTypeById(appt.lessonType);
-                    const dateTime = appt.dateTime?.toDate ? appt.dateTime.toDate() : null;
-                    const userName = appt.userName || 'Unknown';
-                    const initials = userName !== 'Unknown'
-                      ? userName.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
-                      : 'U';
-                      
-                    return (
-                      <div key={appt.id} className="glass-card rounded-sm border border-white/[0.06] p-4 hover:border-gold/20 transition-all duration-300">
-                        <div className="flex items-start gap-4">
-                          <div className="flex flex-col items-center pt-1">
-                            <span className="text-gold font-serif text-lg leading-none">
-                              {dateTime ? formatTime(dateTime) : '—'}
-                            </span>
-                            <span className="text-gray-600 text-[10px] mt-1">{appt.duration} min</span>
-                          </div>
-                          
-                          <div className="h-full w-px bg-white/5 mx-1" />
-                          
-                          <div className="flex-1 min-w-0">
-                            <p className="text-white text-sm font-medium mb-1 truncate">{lt?.name || appt.lessonType}</p>
-                            <div className="flex items-center gap-2">
-                               <div className="w-5 h-5 rounded-full bg-gold/10 border border-gold/20 flex items-center justify-center shrink-0">
-                                 <span className="text-gold text-[8px] font-semibold">{initials}</span>
-                               </div>
-                               <p className="text-gray-400 text-xs truncate">{userName}</p>
+              <div className="glass-card rounded-sm border border-white/[0.06] p-5 flex-1 flex flex-col min-h-0 bg-white/[0.01]">
+                {loading ? (
+                  <div className="flex-1 flex items-center justify-center">
+                    <div className="w-5 h-5 border-2 border-gold border-t-transparent rounded-full animate-spin mr-3" />
+                    <span className="text-gray-500 text-sm italic">Loading...</span>
+                  </div>
+                ) : selectedDateApts.length === 0 ? (
+                  <div className="flex-1 flex flex-col items-center justify-center text-center opacity-40">
+                    <Activity className="w-8 h-8 text-gold/30 mb-3" />
+                    <p className="text-white text-xs mb-1">No sessions scheduled</p>
+                    <p className="text-[10px] text-gray-500 uppercase tracking-widest">Select another date</p>
+                  </div>
+                ) : (
+                  <div className="flex-1 overflow-y-auto custom-scrollbar pr-2 space-y-3">
+                    {selectedDateApts.map((appt) => {
+                      const lt = getLessonTypeById(appt.lessonType);
+                      const dateTime = appt.dateTime?.toDate ? appt.dateTime.toDate() : null;
+                      const userName = appt.userName || 'Unknown';
+                      const initials = userName !== 'Unknown'
+                        ? userName.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
+                        : 'U';
+                        
+                      return (
+                        <div key={appt.id} className="glass-card rounded-sm border border-white/[0.03] p-4 hover:border-gold/20 transition-all duration-300">
+                          <div className="flex items-start gap-4">
+                            <div className="flex flex-col items-center">
+                              <span className="text-gold font-serif text-base leading-none">
+                                {dateTime ? formatTime(dateTime) : '—'}
+                              </span>
+                              <span className="text-gray-600 text-[10px] mt-1.5">{appt.duration}m</span>
                             </div>
-                            {appt.userEmail && <p className="text-gray-600 text-[10px] truncate ml-7 mt-0.5">{appt.userEmail}</p>}
+                            
+                            <div className="h-10 w-px bg-white/5" />
+                            
+                            <div className="flex-1 min-w-0">
+                              <p className="text-white text-sm font-medium mb-1 truncate">{lt?.name || appt.lessonType}</p>
+                              <div className="flex items-center gap-2">
+                                <div className="w-5 h-5 rounded-full bg-gold/10 border border-gold/20 flex items-center justify-center shrink-0">
+                                  <span className="text-gold text-[8px] font-semibold">{initials}</span>
+                                </div>
+                                <p className="text-gray-400 text-[11px] truncate">{userName}</p>
+                              </div>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
