@@ -312,7 +312,13 @@ const AdminSlots = () => {
                           <span className="text-gold font-serif text-lg min-w-[80px]">{dateTime ? formatTime(dateTime) : '—'}</span>
                           <div>
                             <div className="flex items-center space-x-2">
-                              <p className="text-white text-sm">{lt?.name || (slot.status === SLOT_STATUS.AVAILABLE ? 'Open Slot' : 'Private Lesson')}</p>
+                              <p className="text-white text-sm">
+                                {lt?.name || (
+                                  slot.lessonType === 'overlap-block' 
+                                    ? 'Extended Session Block' 
+                                    : (slot.status === SLOT_STATUS.AVAILABLE ? 'Open Slot' : 'Private Lesson')
+                                )}
+                              </p>
                               <span className="text-gray-600 text-xs">· {slot.duration} min</span>
                             </div>
                             <p className="text-gray-500 text-xs mt-0.5">{dateTime ? formatDate(dateTime) : '—'}</p>
