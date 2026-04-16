@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Calendar, Plus, Trash2, ArrowLeft, Clock, ChevronDown, Check, X, Repeat } from 'lucide-react';
-import { collection, query, where, getDocs, doc, deleteDoc, addDoc, orderBy, Timestamp, limit } from 'firebase/firestore';
+import { collection, query, where, getDocs, doc, getDoc, setDoc, deleteDoc, addDoc, orderBy, Timestamp, limit, writeBatch } from 'firebase/firestore';
 import { db } from '../firebase';
 import { LESSON_TYPES, SLOT_STATUS, formatDate, formatTime, getLessonTypeById } from '../data/bookingData';
 import { DatePicker, TimePicker } from '../components/DateTimePicker';
@@ -37,12 +37,23 @@ const AdminSlots = () => {
   });
   const [bulkCreating, setBulkCreating] = useState(false);
   const [bulkResult, setBulkResult] = useState('');
+  const [bulkProgress, setBulkProgress] = useState({ current: 0, total: 0, status: '' });
   const [cleaning, setCleaning] = useState(false);
 
   // Delete confirmation
   const [deleteTarget, setDeleteTarget] = useState(null);
   const [deleting, setDeleting] = useState(false);
   const [showCleanupModal, setShowCleanupModal] = useState(false);
+
+  const getSlotId = (date) => {
+    const d = new Date(date);
+    const yr = d.getFullYear();
+    const mo = String(d.getMonth() + 1).padStart(2, '0');
+    const dy = String(d.getDate()).padStart(2, '0');
+    const hr = String(d.getHours()).padStart(2, '0');
+    const mn = String(d.getMinutes()).padStart(2, '0');
+    return `slot_${yr}${mo}${dy}_${hr}${mn}`;
+  };
 
   // Dropdown state
   const [openDropdown, setOpenDropdown] = useState(null);
@@ -99,19 +110,51 @@ const AdminSlots = () => {
   };
 
   const handleCleanupSlots = async () => {
-    setShowCleanupModal(false);
     setCleaning(true);
+    setBulkProgress({ current: 0, total: 0, status: 'Identifying available slots...' });
     try {
       const q = query(collection(db, 'timeSlots'), where('status', '==', SLOT_STATUS.AVAILABLE));
       const snap = await getDocs(q);
-      const deletions = snap.docs.map(d => deleteDoc(doc(db, 'timeSlots', d.id)));
-      await Promise.all(deletions);
+      
+      if (snap.empty) {
+        showToast('No available slots to clear.', 'info');
+        setShowCleanupModal(false);
+        return;
+      }
+
+      setBulkProgress({ current: 0, total: snap.size, status: `Deleting ${snap.size} slots...` });
+
+      let batch = writeBatch(db);
+      let count = 0;
+      let totalDeleted = 0;
+
+      for (const docSnap of snap.docs) {
+        batch.delete(docSnap.ref);
+        count++;
+        totalDeleted++;
+
+        if (count === 500) {
+          await batch.commit();
+          batch = writeBatch(db);
+          count = 0;
+          setBulkProgress(p => ({ ...p, current: totalDeleted }));
+        }
+      }
+
+      if (count > 0) {
+        await batch.commit();
+        setBulkProgress(p => ({ ...p, current: totalDeleted }));
+      }
+
+      showToast(`Successfully cleared ${totalDeleted} slots.`, 'success');
       await fetchSlots(slotFilter);
     } catch (err) {
       console.error('Cleanup error:', err);
       showToast('Failed to cleanup slots.', 'error');
     } finally {
       setCleaning(false);
+      setBulkProgress({ current: 0, total: 0, status: '' });
+      setShowCleanupModal(false);
     }
   };
 
@@ -122,7 +165,17 @@ const AdminSlots = () => {
     setCreating(true);
     try {
       const dateTime = new Date(`${newSlot.date}T${newSlot.time}:00`);
-      await addDoc(collection(db, 'timeSlots'), {
+      const slotId = getSlotId(dateTime);
+      
+      const docRef = doc(db, 'timeSlots', slotId);
+      const docSnap = await getDoc(docRef);
+      
+      if (docSnap.exists()) {
+        showToast('A slot already exists at this time.', 'info');
+        return;
+      }
+
+      await setDoc(docRef, {
         dateTime: Timestamp.fromDate(dateTime),
         duration: 60,
         lessonType: null,
@@ -132,6 +185,7 @@ const AdminSlots = () => {
         createdAt: Timestamp.now(),
       });
       setNewSlot({ date: '', time: '' });
+      showToast('Time slot created.', 'success');
       await fetchSlots(slotFilter);
     } catch (err) {
       console.error('Error creating slot:', err);
@@ -147,10 +201,12 @@ const AdminSlots = () => {
     if (!bulkData.startDate || !bulkData.endDate) return;
     setBulkCreating(true);
     setBulkResult('');
+    setBulkProgress({ current: 0, total: 0, status: 'Analyzing schedule...' });
+    
     try {
       const start = new Date(bulkData.startDate);
       const end = new Date(bulkData.endDate);
-      let count = 0;
+      const targetSlots = [];
 
       const current = new Date(start);
       while (current <= end) {
@@ -163,29 +219,83 @@ const AdminSlots = () => {
           for (let minuteOfDay = dayStart; minuteOfDay + 60 <= dayEnd; minuteOfDay += 60) {
             const slotDate = new Date(current);
             slotDate.setHours(Math.floor(minuteOfDay / 60), minuteOfDay % 60, 0, 0);
-
-            await addDoc(collection(db, 'timeSlots'), {
-              dateTime: Timestamp.fromDate(slotDate),
-              duration: 60,
-              lessonType: null,
-              status: SLOT_STATUS.AVAILABLE,
-              bookedBy: null,
-              bookedAt: null,
-              createdAt: Timestamp.now(),
+            targetSlots.push({
+              id: getSlotId(slotDate),
+              data: {
+                dateTime: Timestamp.fromDate(slotDate),
+                duration: 60,
+                lessonType: null,
+                status: SLOT_STATUS.AVAILABLE,
+                bookedBy: null,
+                bookedAt: null,
+                createdAt: Timestamp.now(),
+              }
             });
-            count++;
           }
         }
         current.setDate(current.getDate() + 1);
       }
 
-      setBulkResult(`Successfully created ${count} time slots.`);
+      setBulkProgress(p => ({ ...p, total: targetSlots.length, status: 'Checking for duplicates...' }));
+      
+      // Filter out existing slots
+      const finalSlots = [];
+      // To prevent massive parallel getDocs, we fetch the range of existing slots first
+      const rangeQ = query(
+        collection(db, 'timeSlots'),
+        where('dateTime', '>=', Timestamp.fromDate(start)),
+        where('dateTime', '<=', Timestamp.fromDate(new Date(end.getTime() + 86400000)))
+      );
+      const existingSnap = await getDocs(rangeQ);
+      const existingIds = new Set(existingSnap.docs.map(d => d.id));
+
+      for (const slot of targetSlots) {
+        if (!existingIds.has(slot.id)) {
+          finalSlots.push(slot);
+        }
+      }
+
+      const skipped = targetSlots.length - finalSlots.length;
+      if (finalSlots.length === 0) {
+        setBulkResult(`No new slots to create. ${skipped} slots already existed.`);
+        setBulkCreating(false);
+        return;
+      }
+
+      setBulkProgress(p => ({ ...p, total: finalSlots.length, current: 0, status: `Creating ${finalSlots.length} new slots...` }));
+
+      // Batch write in chunks of 500
+      let batch = writeBatch(db);
+      let count = 0;
+      let totalCreated = 0;
+
+      for (const slot of finalSlots) {
+        batch.set(doc(db, 'timeSlots', slot.id), slot.data);
+        count++;
+        totalCreated++;
+        
+        if (count === 500) {
+          await batch.commit();
+          batch = writeBatch(db);
+          count = 0;
+          setBulkProgress(p => ({ ...p, current: totalCreated }));
+        }
+      }
+
+      if (count > 0) {
+        await batch.commit();
+        setBulkProgress(p => ({ ...p, current: totalCreated }));
+      }
+
+      setBulkResult(`Successfully created ${totalCreated} slots. Skipped ${skipped} existing.`);
+      showToast(`Created ${totalCreated} slots.`, 'success');
       await fetchSlots(slotFilter);
     } catch (err) {
       console.error('Error bulk creating:', err);
       setBulkResult('Error creating slots. Please try again.');
     } finally {
       setBulkCreating(false);
+      setBulkProgress({ current: 0, total: 0, status: '' });
     }
   };
 
@@ -446,8 +556,27 @@ const AdminSlots = () => {
                       </div>
                     </div>
 
+                    {bulkCreating && (
+                      <div className="space-y-3 animate-fadeIn">
+                        <div className="flex justify-between items-center text-[10px] uppercase tracking-widest">
+                          <span className="text-gold font-medium">{bulkProgress.status}</span>
+                          <span className="text-gray-500">
+                            {bulkProgress.total > 0 ? `${Math.round((bulkProgress.current / bulkProgress.total) * 100)}%` : ''}
+                          </span>
+                        </div>
+                        <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+                          <div 
+                            className="h-full bg-gold transition-all duration-500 ease-out"
+                            style={{ width: `${bulkProgress.total > 0 ? (bulkProgress.current / bulkProgress.total) * 100 : 0}%` }}
+                          />
+                        </div>
+                      </div>
+                    )}
+
                     {bulkResult && (
-                      <p className={`text-sm tracking-widest uppercase font-medium ${bulkResult.includes('Error') ? 'text-[#d9736c]' : 'text-gold'}`}>
+                      <p className={`text-xs tracking-widest uppercase font-medium p-4 bg-white/5 border-l-2 animate-fadeIn ${
+                        bulkResult.includes('Error') ? 'text-[#d9736c] border-[#d9736c]' : 'text-gold border-gold'
+                      }`}>
                         {bulkResult}
                       </p>
                     )}
@@ -455,12 +584,16 @@ const AdminSlots = () => {
                     <button
                       type="submit"
                       disabled={bulkCreating}
-                      className={`inline-flex items-center space-x-2 border px-8 py-3 text-xs uppercase tracking-widest transition-all duration-300 ${
-                        bulkCreating ? 'border-gold bg-gold/70 text-dark-900 cursor-wait' : 'border-gold text-gold hover:bg-gold hover:text-dark-900'
+                      className={`inline-flex items-center space-x-2 border px-10 py-4 text-xs uppercase tracking-widest transition-all duration-500 w-full justify-center ${
+                        bulkCreating ? 'border-gold bg-gold/10 text-gold cursor-wait' : 'border-gold text-gold hover:bg-gold hover:text-dark-900'
                       }`}
                     >
-                      <Repeat className="w-4 h-4" />
-                      <span>{bulkCreating ? 'Creating...' : 'Generate Slots'}</span>
+                      {bulkCreating ? (
+                         <div className="w-4 h-4 border-2 border-gold border-t-transparent rounded-full animate-spin" />
+                      ) : (
+                        <Repeat className="w-4 h-4" />
+                      )}
+                      <span>{bulkCreating ? 'Processing...' : 'Generate Slots'}</span>
                     </button>
                   </form>
                 </div>
@@ -513,20 +646,38 @@ const AdminSlots = () => {
                 </p>
                 <p className="text-[#d9736c] text-[10px] uppercase tracking-widest mt-4 font-bold">This action cannot be undone.</p>
               </div>
-              <div className="flex space-x-3">
-                <button
-                  onClick={() => setShowCleanupModal(false)}
-                  className="flex-1 border border-white/10 text-gray-300 py-3 text-xs uppercase tracking-widest hover:border-white/30 transition-colors"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={handleCleanupSlots}
-                  className="flex-1 border border-[#d9736c] bg-[#d9736c] text-white py-3 text-xs uppercase tracking-widest hover:bg-[#c0625b] transition-colors"
-                >
-                  Confirm Delete
-                </button>
-              </div>
+
+              {cleaning ? (
+                <div className="space-y-4 py-4 animate-fadeIn">
+                  <div className="flex justify-between items-center text-[10px] uppercase tracking-widest">
+                    <span className="text-[#d9736c] font-medium">{bulkProgress.status}</span>
+                    <span className="text-gray-500">
+                      {bulkProgress.total > 0 ? `${Math.round((bulkProgress.current / bulkProgress.total) * 100)}%` : ''}
+                    </span>
+                  </div>
+                  <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+                    <div 
+                      className="h-full bg-[#d9736c] transition-all duration-500 ease-out shadow-[0_0_8px_rgba(217,115,108,0.4)]"
+                      style={{ width: `${bulkProgress.total > 0 ? (bulkProgress.current / bulkProgress.total) * 100 : 0}%` }}
+                    />
+                  </div>
+                </div>
+              ) : (
+                <div className="flex space-x-3">
+                  <button
+                    onClick={() => setShowCleanupModal(false)}
+                    className="flex-1 border border-white/10 text-gray-300 py-3 text-xs uppercase tracking-widest hover:border-white/30 transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleCleanupSlots}
+                    className="flex-1 border border-[#d9736c] bg-[#d9736c] text-white py-3 text-xs uppercase tracking-widest hover:bg-[#c0625b] transition-colors"
+                  >
+                    Confirm Delete
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         )}
