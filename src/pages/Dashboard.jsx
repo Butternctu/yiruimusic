@@ -120,7 +120,7 @@ const Dashboard = () => {
   return (
     <>
       <SEO title="Dashboard | Dr. Yirui Li" url="/dashboard" />
-      <section className="min-h-screen bg-dark-900 pt-32 pb-12 relative overflow-hidden">
+      <section className="min-h-screen bg-dark-900 pt-28 pb-12 relative overflow-hidden">
         {/* Decorative background elements */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[600px] bg-[radial-gradient(ellipse_at_top,rgba(197,160,89,0.04)_0%,transparent_60%)] pointer-events-none" />
         <div className="absolute top-40 right-0 w-[400px] h-[400px] bg-[radial-gradient(circle,rgba(197,160,89,0.02)_0%,transparent_70%)] pointer-events-none" />
@@ -136,10 +136,10 @@ const Dashboard = () => {
                 </div>
               </div>
               <div className="flex flex-col justify-center">
-                <p className="text-gold/80 text-[10px] tracking-[0.2em] uppercase mb-1.5">{greeting()}</p>
-                <h1 className="font-serif text-2xl md:text-3xl text-white tracking-wide leading-tight m-0 p-0">
+                <h1 className="font-serif text-2xl md:text-3xl text-white tracking-wide">
                   {userProfile?.displayName || user?.displayName || 'Member'}
                 </h1>
+                <p className="text-gray-500 text-[10px] tracking-[0.2em] uppercase mt-1">{greeting()}</p>
               </div>
             </div>
 
