@@ -40,6 +40,7 @@ const AdminSlots = () => {
   // Delete confirmation
   const [deleteTarget, setDeleteTarget] = useState(null);
   const [deleting, setDeleting] = useState(false);
+  const [showCleanupModal, setShowCleanupModal] = useState(false);
 
   // Dropdown state
   const [openDropdown, setOpenDropdown] = useState(null);
@@ -96,14 +97,13 @@ const AdminSlots = () => {
   };
 
   const handleCleanupSlots = async () => {
-    if (!window.confirm('Are you sure you want to delete ALL available (unbooked) time slots? This cannot be undone.')) return;
+    setShowCleanupModal(false);
     setCleaning(true);
     try {
       const q = query(collection(db, 'timeSlots'), where('status', '==', SLOT_STATUS.AVAILABLE));
       const snap = await getDocs(q);
       const deletions = snap.docs.map(d => deleteDoc(doc(db, 'timeSlots', d.id)));
       await Promise.all(deletions);
-      alert(`Deleted ${snap.size} slots.`);
       await fetchSlots(slotFilter);
     } catch (err) {
       console.error('Cleanup error:', err);
@@ -234,7 +234,7 @@ const AdminSlots = () => {
               <h1 className="font-serif text-2xl md:text-3xl text-white tracking-wide">Manage Time Slots</h1>
             </div>
             <button
-              onClick={handleCleanupSlots}
+              onClick={() => setShowCleanupModal(true)}
               disabled={cleaning}
               className="group flex items-center space-x-2 text-[10px] uppercase tracking-widest text-[#d9736c] hover:text-[#f4847d] transition-all duration-300 border border-[#d9736c]/20 hover:border-[#d9736c]/50 bg-[#d9736c]/5 px-4 py-2.5 rounded-sm"
             >
@@ -485,6 +485,38 @@ const AdminSlots = () => {
                   className="flex-1 border border-[#d9736c] bg-[#d9736c] text-white py-3 text-xs uppercase tracking-widest hover:bg-[#c0625b] transition-colors"
                 >
                   {deleting ? 'Deleting...' : 'Delete'}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+        {/* Bulk Cleanup Modal */}
+        {showCleanupModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center px-6 animate-fadeIn">
+            <div className="absolute inset-0 bg-dark-900/80 backdrop-blur-sm" onClick={() => setShowCleanupModal(false)} />
+            <div className="relative bg-dark-800 border border-white/10 rounded-sm p-8 max-w-md w-full animate-scaleIn shadow-2xl">
+              <div className="text-center mb-6">
+                <div className="w-14 h-14 rounded-full bg-[#d9736c]/10 border border-[#d9736c]/30 flex items-center justify-center mx-auto mb-4">
+                  <Trash2 className="w-7 h-7 text-[#d9736c]" />
+                </div>
+                <h3 className="font-serif text-xl text-white mb-2">Clear All Available Slots?</h3>
+                <p className="text-gray-400 text-sm">
+                  This will permanently delete all <span className="text-white">unbooked</span> time slots currently in the system. Booked lessons will not be affected.
+                </p>
+                <p className="text-[#d9736c] text-[10px] uppercase tracking-widest mt-4 font-bold">This action cannot be undone.</p>
+              </div>
+              <div className="flex space-x-3">
+                <button
+                  onClick={() => setShowCleanupModal(false)}
+                  className="flex-1 border border-white/10 text-gray-300 py-3 text-xs uppercase tracking-widest hover:border-white/30 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleCleanupSlots}
+                  className="flex-1 border border-[#d9736c] bg-[#d9736c] text-white py-3 text-xs uppercase tracking-widest hover:bg-[#c0625b] transition-colors"
+                >
+                  Confirm Delete
                 </button>
               </div>
             </div>
