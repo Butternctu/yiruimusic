@@ -120,7 +120,7 @@ const Dashboard = () => {
   return (
     <>
       <SEO title="Dashboard | Dr. Yirui Li" url="/dashboard" />
-      <section className="min-h-screen bg-dark-900 pt-36 pb-12 relative overflow-hidden">
+      <section className="min-h-screen bg-dark-900 pt-28 pb-12 relative overflow-hidden">
         {/* Decorative background elements */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[600px] bg-[radial-gradient(ellipse_at_top,rgba(197,160,89,0.04)_0%,transparent_60%)] pointer-events-none" />
         <div className="absolute top-40 right-0 w-[400px] h-[400px] bg-[radial-gradient(circle,rgba(197,160,89,0.02)_0%,transparent_70%)] pointer-events-none" />
