@@ -154,7 +154,18 @@ const AdminMembers = () => {
   // ── Create User ──
   const handleCreateUser = async e => {
     e.preventDefault();
-    if (!newUser.email || !newUser.password || !newUser.name) return;
+    if (!newUser.email || !newUser.password || !newUser.name) {
+      setCreateResult({ type: 'error', message: 'Please fill in all required fields.' });
+      setShakeError(true);
+      setTimeout(() => setShakeError(false), 500);
+      return;
+    }
+    if (newUser.password.length < 6) {
+      setCreateResult({ type: 'error', message: 'Password must be at least 6 characters.' });
+      setShakeError(true);
+      setTimeout(() => setShakeError(false), 500);
+      return;
+    }
     setCreating(true);
     setCreateResult({ type: '', message: '' });
 
@@ -489,7 +500,7 @@ const AdminMembers = () => {
                       </div>
                       <p className="text-gray-400 text-[10px] tracking-wider mb-8 uppercase">Generate a new authentication account and profile document.</p>
 
-                      <form onSubmit={handleCreateUser} className="space-y-6" autoComplete="off">
+                      <form onSubmit={handleCreateUser} className="space-y-6" autoComplete="off" noValidate>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6">
                           <div>
                             <label className="block text-[10px] uppercase tracking-widest text-gray-500 mb-2">Full Name</label>
