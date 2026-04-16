@@ -35,6 +35,7 @@ const AdminSlots = () => {
   });
   const [bulkCreating, setBulkCreating] = useState(false);
   const [bulkResult, setBulkResult] = useState('');
+  const [cleaning, setCleaning] = useState(false);
 
   // Delete confirmation
   const [deleteTarget, setDeleteTarget] = useState(null);
@@ -94,6 +95,24 @@ const AdminSlots = () => {
     }
   };
 
+  const handleCleanupSlots = async () => {
+    if (!window.confirm('Are you sure you want to delete ALL available (unbooked) time slots? This cannot be undone.')) return;
+    setCleaning(true);
+    try {
+      const q = query(collection(db, 'timeSlots'), where('status', '==', SLOT_STATUS.AVAILABLE));
+      const snap = await getDocs(q);
+      const deletions = snap.docs.map(d => deleteDoc(doc(db, 'timeSlots', d.id)));
+      await Promise.all(deletions);
+      alert(`Deleted ${snap.size} slots.`);
+      await fetchSlots(slotFilter);
+    } catch (err) {
+      console.error('Cleanup error:', err);
+      alert('Failed to cleanup slots.');
+    } finally {
+      setCleaning(false);
+    }
+  };
+
   // ── Single slot creation ──
   const handleCreateSlot = async e => {
     e.preventDefault();
@@ -101,17 +120,16 @@ const AdminSlots = () => {
     setCreating(true);
     try {
       const dateTime = new Date(`${newSlot.date}T${newSlot.time}:00`);
-      const lt = getLessonTypeById(newSlot.lessonType);
       await addDoc(collection(db, 'timeSlots'), {
         dateTime: Timestamp.fromDate(dateTime),
-        duration: lt?.duration || parseInt(newSlot.duration, 10),
-        lessonType: newSlot.lessonType,
+        duration: 60,
+        lessonType: null,
         status: SLOT_STATUS.AVAILABLE,
         bookedBy: null,
         bookedAt: null,
         createdAt: Timestamp.now(),
       });
-      setNewSlot({ date: '', time: '', lessonType: LESSON_TYPES[0].id, duration: LESSON_TYPES[0].duration });
+      setNewSlot({ date: '', time: '' });
       await fetchSlots(slotFilter);
     } catch (err) {
       console.error('Error creating slot:', err);
@@ -128,8 +146,6 @@ const AdminSlots = () => {
     setBulkCreating(true);
     setBulkResult('');
     try {
-      const lt = getLessonTypeById(bulkData.lessonType);
-      const duration = lt?.duration || bulkData.interval;
       const start = new Date(bulkData.startDate);
       const end = new Date(bulkData.endDate);
       let count = 0;
@@ -137,20 +153,19 @@ const AdminSlots = () => {
       const current = new Date(start);
       while (current <= end) {
         if (bulkData.days.includes(current.getDay())) {
-          // Create slots for this day
           const [startHour, startMin] = bulkData.startTime.split(':').map(Number);
           const [endHour, endMin] = bulkData.endTime.split(':').map(Number);
           const dayStart = startHour * 60 + startMin;
           const dayEnd = endHour * 60 + endMin;
 
-          for (let minuteOfDay = dayStart; minuteOfDay + duration <= dayEnd; minuteOfDay += duration) {
+          for (let minuteOfDay = dayStart; minuteOfDay + 60 <= dayEnd; minuteOfDay += 60) {
             const slotDate = new Date(current);
             slotDate.setHours(Math.floor(minuteOfDay / 60), minuteOfDay % 60, 0, 0);
 
             await addDoc(collection(db, 'timeSlots'), {
               dateTime: Timestamp.fromDate(slotDate),
-              duration,
-              lessonType: bulkData.lessonType,
+              duration: 60,
+              lessonType: null,
               status: SLOT_STATUS.AVAILABLE,
               bookedBy: null,
               bookedAt: null,
@@ -216,6 +231,13 @@ const AdminSlots = () => {
               <span>Admin Panel</span>
             </button>
             <h1 className="font-serif text-2xl md:text-3xl text-white tracking-wide">Manage Time Slots</h1>
+            <button
+              onClick={handleCleanupSlots}
+              disabled={cleaning}
+              className="mt-4 md:mt-0 text-[10px] uppercase tracking-widest text-[#d9736c] hover:text-[#c0625b] transition-colors border border-[#d9736c]/30 px-4 py-2 rounded-sm"
+            >
+              {cleaning ? 'Cleaning...' : 'Clear All Available Slots'}
+            </button>
           </div>
 
           {/* View Tabs */}
@@ -285,7 +307,7 @@ const AdminSlots = () => {
                           <span className="text-gold font-serif text-lg min-w-[80px]">{dateTime ? formatTime(dateTime) : '—'}</span>
                           <div>
                             <div className="flex items-center space-x-2">
-                              <p className="text-white text-sm">{lt?.name || slot.lessonType}</p>
+                              <p className="text-white text-sm">{lt?.name || (slot.status === SLOT_STATUS.AVAILABLE ? 'Open Slot' : 'Private Lesson')}</p>
                               <span className="text-gray-600 text-xs">· {slot.duration} min</span>
                             </div>
                             <p className="text-gray-500 text-xs mt-0.5">{dateTime ? formatDate(dateTime) : '—'}</p>
@@ -338,44 +360,8 @@ const AdminSlots = () => {
                         onChange={val => setNewSlot(p => ({ ...p, time: val }))}
                       />
                     </div>
-                    <div>
-                      <div className="relative group" ref={dropdownRef}>
-                        <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Lesson Type</label>
-                        <input type="hidden" name="lessonType" value={newSlot.lessonType} />
-
-                        <div
-                          className={`w-full bg-transparent border-b py-2 focus:outline-none transition-colors cursor-pointer flex justify-between items-center relative z-20 ${openDropdown === 'single-lesson' ? 'border-gold' : 'border-white/20 hover:border-white/50'}`}
-                          onClick={() => setOpenDropdown(openDropdown === 'single-lesson' ? null : 'single-lesson')}
-                        >
-                          <span className={newSlot.lessonType ? 'text-gold' : 'text-gray-600'}>
-                            {getLessonTypeById(newSlot.lessonType)?.name} ({getLessonTypeById(newSlot.lessonType)?.shortLabel})
-                          </span>
-                          <ChevronDown
-                            className={`w-4 h-4 text-gold transition-transform duration-300 ${openDropdown === 'single-lesson' ? 'rotate-180' : ''}`}
-                          />
-                        </div>
-
-                        <div
-                          className={`absolute left-0 top-full w-full mt-2 bg-dark-900 border border-white/10 shadow-2xl transition-all duration-300 transform z-30 ${openDropdown === 'single-lesson' ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'}`}
-                        >
-                          {LESSON_TYPES.map(lt => (
-                            <div
-                              key={lt.id}
-                              className={`px-6 py-3 text-sm cursor-pointer transition-colors border-b border-white/5 last:border-0 flex justify-between items-center ${newSlot.lessonType === lt.id ? 'bg-[#1a1a1a] text-gold' : 'text-gray-400 hover:bg-[#151515] hover:text-white'}`}
-                              onClick={() => {
-                                setNewSlot(p => ({ ...p, lessonType: lt.id, duration: lt.duration || 60 }));
-                                setOpenDropdown(null);
-                              }}
-                            >
-                              <span className={newSlot.lessonType === lt.id ? 'font-medium' : 'font-light'}>
-                                {lt.name} ({lt.shortLabel})
-                              </span>
-                              {newSlot.lessonType === lt.id && <Check className="w-4 h-4 text-gold" />}
-                            </div>
-                          ))}
-                        </div>
-                      </div>
                     </div>
+                  </form>
 
                     <button
                       type="submit"
@@ -452,44 +438,8 @@ const AdminSlots = () => {
                       </div>
                     </div>
 
-                    <div>
-                      <div className="relative group" ref={dropdownRef}>
-                        <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Lesson Type</label>
-                        <input type="hidden" name="bulkLessonType" value={bulkData.lessonType} />
-
-                        <div
-                          className={`w-full bg-transparent border-b py-2 focus:outline-none transition-colors cursor-pointer flex justify-between items-center relative z-20 ${openDropdown === 'bulk-lesson' ? 'border-gold' : 'border-white/20 hover:border-white/50'}`}
-                          onClick={() => setOpenDropdown(openDropdown === 'bulk-lesson' ? null : 'bulk-lesson')}
-                        >
-                          <span className={bulkData.lessonType ? 'text-gold' : 'text-gray-600'}>
-                            {getLessonTypeById(bulkData.lessonType)?.name} ({getLessonTypeById(bulkData.lessonType)?.shortLabel})
-                          </span>
-                          <ChevronDown
-                            className={`w-4 h-4 text-gold transition-transform duration-300 ${openDropdown === 'bulk-lesson' ? 'rotate-180' : ''}`}
-                          />
-                        </div>
-
-                        <div
-                          className={`absolute left-0 top-full w-full mt-2 bg-dark-900 border border-white/10 shadow-2xl transition-all duration-300 transform z-30 ${openDropdown === 'bulk-lesson' ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'}`}
-                        >
-                          {LESSON_TYPES.map(lt => (
-                            <div
-                              key={lt.id}
-                              className={`px-6 py-3 text-sm cursor-pointer transition-colors border-b border-white/5 last:border-0 flex justify-between items-center ${bulkData.lessonType === lt.id ? 'bg-[#1a1a1a] text-gold' : 'text-gray-400 hover:bg-[#151515] hover:text-white'}`}
-                              onClick={() => {
-                                setBulkData(p => ({ ...p, lessonType: lt.id }));
-                                setOpenDropdown(null);
-                              }}
-                            >
-                              <span className={bulkData.lessonType === lt.id ? 'font-medium' : 'font-light'}>
-                                {lt.name} ({lt.shortLabel})
-                              </span>
-                              {bulkData.lessonType === lt.id && <Check className="w-4 h-4 text-gold" />}
-                            </div>
-                          ))}
-                        </div>
-                      </div>
                     </div>
+                  </form>
 
                     {bulkResult && (
                       <p className={`text-sm tracking-widest uppercase font-medium ${bulkResult.includes('Error') ? 'text-[#d9736c]' : 'text-gold'}`}>

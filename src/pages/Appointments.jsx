@@ -59,9 +59,6 @@ const Appointments = () => {
     try {
       // Find all slots with the same dateTime to release them all
       const slotsRef = collection(db, 'timeSlots');
-      const q = query(slotsRef, where('dateTime', '==', cancelTarget.dateTime));
-      const slotsSnap = await getDocs(q);
-      
       const batch = writeBatch(db);
 
       // Update appointment status
@@ -70,14 +67,28 @@ const Appointments = () => {
         cancelledAt: Timestamp.now(),
       });
 
-      // Re-open ALL time slots at this time
-      slotsSnap.docs.forEach(sDoc => {
-        batch.update(doc(db, 'timeSlots', sDoc.id), {
+      // Release the primary slot
+      if (cancelTarget.slotId) {
+        batch.update(doc(db, 'timeSlots', cancelTarget.slotId), {
           status: 'available',
           bookedBy: null,
           bookedAt: null,
+          lessonType: null,
+          duration: 60
         });
-      });
+      }
+
+      // Release the overlap slot if it exists
+      if (cancelTarget.nextSlotId) {
+        batch.update(doc(db, 'timeSlots', cancelTarget.nextSlotId), {
+          status: 'available',
+          bookedBy: null,
+          bookedAt: null,
+          lessonType: null,
+          duration: 60,
+          blockedBy: null
+        });
+      }
 
       await batch.commit();
 
