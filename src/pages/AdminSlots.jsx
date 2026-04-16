@@ -360,9 +360,6 @@ const AdminSlots = () => {
                         onChange={val => setNewSlot(p => ({ ...p, time: val }))}
                       />
                     </div>
-                    </div>
-                  </form>
-
                     <button
                       type="submit"
                       disabled={creating}
@@ -437,9 +434,6 @@ const AdminSlots = () => {
                         />
                       </div>
                     </div>
-
-                    </div>
-                  </form>
 
                     {bulkResult && (
                       <p className={`text-sm tracking-widest uppercase font-medium ${bulkResult.includes('Error') ? 'text-[#d9736c]' : 'text-gold'}`}>
