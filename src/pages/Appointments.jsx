@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Calendar, Clock, X, AlertTriangle, Plus, ArrowLeft } from 'lucide-react';
 import {
-  collection, query, where, getDocs, doc, updateDoc, Timestamp,
+  collection, query, where, getDocs, doc, updateDoc, Timestamp, writeBatch
 } from 'firebase/firestore';
 import { db } from '../firebase';
 import { useAuth } from '../context/AuthContext';
@@ -57,19 +57,30 @@ const Appointments = () => {
     if (!cancelTarget) return;
     setCancelling(true);
     try {
+      // Find all slots with the same dateTime to release them all
+      const slotsRef = collection(db, 'timeSlots');
+      const q = query(slotsRef, where('dateTime', '==', cancelTarget.dateTime));
+      const slotsSnap = await getDocs(q);
+      
+      const batch = writeBatch(db);
+
       // Update appointment status
-      await updateDoc(doc(db, 'appointments', cancelTarget.id), {
+      batch.update(doc(db, 'appointments', cancelTarget.id), {
         status: 'cancelled',
         cancelledAt: Timestamp.now(),
       });
-      // Re-open the time slot
-      if (cancelTarget.slotId) {
-        await updateDoc(doc(db, 'timeSlots', cancelTarget.slotId), {
+
+      // Re-open ALL time slots at this time
+      slotsSnap.docs.forEach(sDoc => {
+        batch.update(doc(db, 'timeSlots', sDoc.id), {
           status: 'available',
           bookedBy: null,
           bookedAt: null,
         });
-      }
+      });
+
+      await batch.commit();
+
       // Update local state
       setAppointments((prev) =>
         prev.map((a) => (a.id === cancelTarget.id ? { ...a, status: 'cancelled' } : a))

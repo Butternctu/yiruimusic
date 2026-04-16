@@ -103,26 +103,39 @@ const Booking = () => {
     if (!selectedSlot || !user) return;
     setBooking(true);
     try {
+      // Find all slots with the same dateTime to block them all
+      const slotsRef = collection(db, 'timeSlots');
+      const q = query(slotsRef, where('dateTime', '==', selectedSlot.dateTime));
+      const slotsSnap = await getDocs(q);
+      const affectedSlotIds = slotsSnap.docs.map(d => d.id);
+
       // Use transaction to prevent double-booking
       await runTransaction(db, async transaction => {
-        const slotRef = doc(db, 'timeSlots', selectedSlot.id);
-        const slotDoc = await transaction.get(slotRef);
-        if (!slotDoc.exists()) throw new Error('Slot no longer exists');
-        if (slotDoc.data().status !== SLOT_STATUS.AVAILABLE) throw new Error('Slot is no longer available');
+        // Verify all affected slots are still available
+        const slotDocs = await Promise.all(
+          affectedSlotIds.map(id => transaction.get(doc(db, 'timeSlots', id)))
+        );
 
-        // Update slot
-        transaction.update(slotRef, {
-          status: SLOT_STATUS.BOOKED,
-          bookedBy: user.uid,
-          bookedAt: Timestamp.now(),
+        if (slotDocs.some(d => !d.exists() || d.data().status !== SLOT_STATUS.AVAILABLE)) {
+          throw new Error('This time slot is no longer available');
+        }
+
+        // Update ALL slots at this time
+        affectedSlotIds.forEach(id => {
+          transaction.update(doc(db, 'timeSlots', id), {
+            status: SLOT_STATUS.BOOKED,
+            bookedBy: user.uid,
+            bookedAt: Timestamp.now(),
+          });
         });
+
         // Create appointment
         const appointmentRef = doc(collection(db, 'appointments'));
         transaction.set(appointmentRef, {
           userId: user.uid,
           userName: userProfile?.displayName || user.displayName || '',
           userEmail: user.email || '',
-          slotId: selectedSlot.id,
+          slotId: selectedSlot.id, // Reference the primary slot chose
           lessonType: selectedSlot.lessonType,
           duration: selectedSlot.duration,
           dateTime: selectedSlot.dateTime,
@@ -149,8 +162,8 @@ const Booking = () => {
       ).catch(err => console.error('Booking email notification failed:', err));
 
       setBookingSuccess(true);
-      // Refresh slots
-      setSlots(prev => prev.map(s => (s.id === selectedSlot.id ? { ...s, status: SLOT_STATUS.BOOKED, bookedBy: user.uid } : s)));
+      // Refresh local slots
+      setSlots(prev => prev.map(s => (affectedSlotIds.includes(s.id) ? { ...s, status: SLOT_STATUS.BOOKED, bookedBy: user.uid } : s)));
     } catch (err) {
       console.error('Booking error:', err);
       alert(err.message || 'Failed to book. Please try again.');
