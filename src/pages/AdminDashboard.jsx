@@ -177,7 +177,7 @@ const AdminDashboard = () => {
         <div className="absolute top-60 left-0 w-[300px] h-[300px] bg-[radial-gradient(circle,rgba(197,160,89,0.02)_0%,transparent_70%)] pointer-events-none" />
 
         <div className="max-w-6xl mx-auto px-6 md:px-12 w-full z-10 relative">
-          <div className="sticky top-[72px] z-30 bg-dark-900/95 backdrop-blur-md pt-2 pb-12 -mx-6 px-6 md:-mx-12 md:px-12">
+          <div className="sticky top-[72px] z-30 bg-dark-900/95 backdrop-blur-md pt-2 pb-7 -mx-6 px-6 md:-mx-12 md:px-12">
             {/* Header */}
             <div className="flex items-center justify-between animate-fadeInUp shrink-0">
               <div className="flex items-center space-x-4">
@@ -296,7 +296,7 @@ const AdminDashboard = () => {
                     </div>
                   ) : (
                     getDaysInMonth(currentMonth).map((date, idx) => {
-                      if (!date) return <div key={`empty-${idx}`} className="p-2 h-full min-h-[70px]" />;
+                      if (!date) return <div key={`empty-${idx}`} className="p-2 h-full min-h-[52px]" />;
 
                       const isSelected = selectedDate.getDate() === date.getDate() && selectedDate.getMonth() === date.getMonth();
                       const isToday = today.getDate() === date.getDate() && today.getMonth() === date.getMonth() && today.getFullYear() === date.getFullYear();
@@ -310,7 +310,7 @@ const AdminDashboard = () => {
                             newSelected.setHours(0, 0, 0, 0);
                             setSelectedDate(newSelected);
                           }}
-                          className={`relative w-full h-full min-h-[70px] rounded-sm border transition-all duration-300 flex flex-col items-center justify-center ${
+                          className={`relative w-full h-full min-h-[52px] rounded-sm border transition-all duration-300 flex flex-col items-center justify-center ${
                             isSelected
                               ? 'border-gold bg-gold/10 text-gold'
                               : isToday
@@ -323,7 +323,7 @@ const AdminDashboard = () => {
                           </span>
 
                           {hasApts && (
-                            <div className="absolute bottom-1.5 flex space-x-1">
+                            <div className="mt-1 flex space-x-1">
                               <span className={`w-1 h-1 rounded-full ${isSelected ? 'bg-gold shadow-[0_0_8px_rgba(197,160,89,0.5)]' : 'bg-gold/50'}`} />
                             </div>
                           )}
