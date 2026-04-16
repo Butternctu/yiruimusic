@@ -120,7 +120,7 @@ const Profile = () => {
         {/* Decorative elements */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[600px] bg-[radial-gradient(ellipse_at_top,rgba(197,160,89,0.04)_0%,transparent_60%)] pointer-events-none" />
 
-        <div className="max-w-7xl mx-auto relative z-10">
+        <div className="max-w-5xl mx-auto relative z-10">
           {/* Header & Back Button */}
           <div className="flex items-center space-x-4 mb-12 animate-fadeInUp">
             <Link to="/dashboard" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5 hover:border-gold/30 transition-all duration-300">
