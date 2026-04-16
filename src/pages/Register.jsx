@@ -111,7 +111,7 @@ const Register = () => {
   return (
     <>
       <SEO title="Create Account | Dr. Yirui Li" url="/register" />
-      <section className="min-h-screen bg-dark-900 flex flex-col relative overflow-hidden px-6 pt-32 pb-12">
+      <section className="min-h-screen bg-dark-900 flex flex-col relative overflow-hidden px-6 pt-28 pb-12">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-[radial-gradient(ellipse_at_top,rgba(197,160,89,0.04)_0%,transparent_70%)] pointer-events-none" />
 
         <div className="w-full max-w-md relative z-10 animate-fadeInUp m-auto">

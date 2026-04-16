@@ -296,7 +296,7 @@ const Booking = () => {
   return (
     <>
       <SEO title="Book a Session | Dr. Yirui Li" url="/booking" />
-      <section className="min-h-screen bg-dark-900 pt-32 pb-12 relative flex flex-col">
+      <section className="min-h-screen bg-dark-900 pt-28 pb-12 relative flex flex-col">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-[radial-gradient(ellipse_at_top,rgba(197,160,89,0.03)_0%,transparent_70%)] pointer-events-none" />
 
         <div className="max-w-6xl mx-auto px-6 md:px-12 w-full z-10 relative">
