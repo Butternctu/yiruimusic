@@ -248,7 +248,7 @@ a {
   }
 }
 
-/* Robust Autofill CSS - Matches Contact Section Background (#0a0a0a) */
+/* Robust Autofill CSS - Transparent Background Fix */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
@@ -257,9 +257,7 @@ textarea:-webkit-autofill,
 textarea:-webkit-autofill:hover,
 textarea:-webkit-autofill:focus,
 textarea:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0px 1000px #0a0a0a inset !important;
-  box-shadow: 0 0 0px 1000px #0a0a0a inset !important;
-  background-color: #0a0a0a !important;
+  transition: background-color 5000s ease-in-out 0s;
   -webkit-text-fill-color: #c5a059 !important;
   color: #c5a059 !important;
   caret-color: #c5a059 !important;
