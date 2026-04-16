@@ -24,6 +24,8 @@ const AdminSlots = () => {
     duration: LESSON_TYPES[0].duration,
   });
   const [creating, setCreating] = useState(false);
+  const [singleResult, setSingleResult] = useState({ type: '', message: '' });
+  const [shakeError, setShakeError] = useState(false);
 
   // Bulk creation
   const [bulkData, setBulkData] = useState({
@@ -36,7 +38,7 @@ const AdminSlots = () => {
     lessonType: LESSON_TYPES[0].id,
   });
   const [bulkCreating, setBulkCreating] = useState(false);
-  const [bulkResult, setBulkResult] = useState('');
+  const [bulkResult, setBulkResult] = useState({ type: '', message: '' });
   const [bulkProgress, setBulkProgress] = useState({ current: 0, total: 0, status: '' });
   const [cleaning, setCleaning] = useState(false);
 
@@ -135,8 +137,15 @@ const AdminSlots = () => {
   // ── Single slot creation ──
   const handleCreateSlot = async e => {
     e.preventDefault();
-    if (!newSlot.date || !newSlot.time) return;
+    if (!newSlot.date || !newSlot.time) {
+      setSingleResult({ type: 'error', message: 'Please select both date and time.' });
+      setShakeError(true);
+      setTimeout(() => setShakeError(false), 500);
+      return;
+    }
     setCreating(true);
+    setSingleResult({ type: '', message: '' });
+
     try {
       const dateTime = new Date(`${newSlot.date}T${newSlot.time}:00`);
       const slotId = getSlotId(dateTime);
@@ -145,7 +154,9 @@ const AdminSlots = () => {
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
-        showToast('A slot already exists at this time.', 'info');
+        setSingleResult({ type: 'error', message: 'A slot already exists at this time.' });
+        setShakeError(true);
+        setTimeout(() => setShakeError(false), 500);
         return;
       }
 
@@ -159,11 +170,13 @@ const AdminSlots = () => {
         createdAt: Timestamp.now(),
       });
       setNewSlot({ date: '', time: '' });
-      showToast('Time slot created.', 'success');
+      setSingleResult({ type: 'success', message: 'Time slot created successfully!' });
       await fetchSlots(slotFilter);
     } catch (err) {
       console.error('Error creating slot:', err);
-      showToast('Failed to create slot.', 'error');
+      setSingleResult({ type: 'error', message: 'Failed to create slot.' });
+      setShakeError(true);
+      setTimeout(() => setShakeError(false), 500);
     } finally {
       setCreating(false);
     }
@@ -172,9 +185,14 @@ const AdminSlots = () => {
   // ── Bulk slot creation ──
   const handleBulkCreate = async e => {
     e.preventDefault();
-    if (!bulkData.startDate || !bulkData.endDate) return;
+    if (!bulkData.startDate || !bulkData.endDate) {
+      setBulkResult({ type: 'error', message: 'Please select both start and end dates.' });
+      setShakeError(true);
+      setTimeout(() => setShakeError(false), 500);
+      return;
+    }
     setBulkCreating(true);
-    setBulkResult('');
+    setBulkResult({ type: '', message: '' });
     setBulkProgress({ current: 0, total: 0, status: 'Analyzing schedule...' });
 
     try {
@@ -231,8 +249,9 @@ const AdminSlots = () => {
 
       const skipped = targetSlots.length - finalSlots.length;
       if (finalSlots.length === 0) {
-        setBulkResult(`No new slots to create. ${skipped} slots already existed.`);
-        setBulkCreating(false);
+        setBulkResult({ type: 'error', message: 'No slots match the criteria.' });
+        setShakeError(true);
+        setTimeout(() => setShakeError(false), 500);
         return;
       }
 
@@ -261,12 +280,13 @@ const AdminSlots = () => {
         setBulkProgress(p => ({ ...p, current: totalCreated }));
       }
 
-      setBulkResult(`Successfully created ${totalCreated} slots. Skipped ${skipped} existing.`);
-      showToast(`Created ${totalCreated} slots.`, 'success');
+      setBulkResult({ type: 'success', message: `Successfully created ${totalCreated} time slots.` });
       await fetchSlots(slotFilter);
     } catch (err) {
-      console.error('Error bulk creating:', err);
-      setBulkResult('Error creating slots. Please try again.');
+      console.error('Bulk generation error:', err);
+      setBulkResult({ type: 'error', message: 'An error occurred during bulk generation.' });
+      setShakeError(true);
+      setTimeout(() => setShakeError(false), 500);
     } finally {
       setBulkCreating(false);
       setBulkProgress({ current: 0, total: 0, status: '' });
@@ -443,7 +463,7 @@ const AdminSlots = () => {
                   <div className="p-8 md:p-10 rounded-sm border border-gold/20 bg-dark-800 shadow-2xl relative">
                     <div className="absolute top-0 right-0 w-64 h-64 bg-gold/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" />
                     <div className="relative z-10">
-                      <form onSubmit={handleCreateSlot} className="space-y-8">
+                      <form onSubmit={handleCreateSlot} className="space-y-8" noValidate>
                         <div>
                           <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Date</label>
                           <DatePicker value={newSlot.date} onChange={val => setNewSlot(p => ({ ...p, date: val }))} />
@@ -452,16 +472,30 @@ const AdminSlots = () => {
                           <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Time</label>
                           <TimePicker value={newSlot.time} onChange={val => setNewSlot(p => ({ ...p, time: val }))} />
                         </div>
-                        <button
-                          type="submit"
-                          disabled={creating}
-                          className={`inline-flex items-center space-x-2 border px-8 py-3 text-xs uppercase tracking-widest transition-all duration-300 ${
-                            creating ? 'border-gold bg-gold/70 text-dark-900 cursor-wait' : 'border-gold text-gold hover:bg-gold hover:text-dark-900'
-                          }`}
-                        >
-                          <Plus className="w-4 h-4" />
-                          <span>{creating ? 'Creating...' : 'Create Slot'}</span>
-                        </button>
+                        {singleResult.message && (
+                          <div className={`mt-2 ${singleResult.type === 'error' ? (shakeError ? 'animate-error-shake' : 'animate-error-pulse') : 'animate-fadeIn'}`}>
+                            <p className={`text-[11px] tracking-widest uppercase text-center font-medium ${singleResult.type === 'error' ? 'text-[#d9736c]' : 'text-gold'}`}>
+                              {singleResult.message}
+                            </p>
+                          </div>
+                        )}
+
+                        <div className="pt-2 flex justify-end">
+                          <button
+                            type="submit"
+                            disabled={creating}
+                            className={`w-full md:w-auto inline-flex items-center justify-center space-x-2 border px-8 py-3 text-xs uppercase tracking-widest transition-all duration-300 ${
+                              creating ? 'border-gold bg-gold/70 text-dark-900 cursor-wait' : 'border-gold text-gold hover:bg-gold hover:text-dark-900'
+                            }`}
+                          >
+                            {creating ? (
+                              <div className="w-4 h-4 border-2 border-dark-900 border-t-transparent rounded-full animate-spin" />
+                            ) : (
+                              <Plus className="w-4 h-4" />
+                            )}
+                            <span>{creating ? 'Creating...' : 'Create Slot'}</span>
+                          </button>
+                        </div>
                       </form>
                     </div>
                   </div>
@@ -476,7 +510,7 @@ const AdminSlots = () => {
                     <div className="absolute top-0 right-0 w-64 h-64 bg-gold/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" />
                     <div className="relative z-10">
                       <p className="text-gray-400 text-sm mb-8">Generate recurring time slots across a date range.</p>
-                      <form onSubmit={handleBulkCreate} className="space-y-8">
+                      <form onSubmit={handleBulkCreate} className="space-y-8" noValidate>
                         <div className="grid grid-cols-2 gap-6">
                           <div>
                             <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Start Date</label>
@@ -534,30 +568,30 @@ const AdminSlots = () => {
                           </div>
                         )}
 
-                        {bulkResult && (
-                          <p
-                            className={`text-xs tracking-widest uppercase font-medium p-4 bg-white/5 border-l-2 animate-fadeIn ${
-                              bulkResult.includes('Error') ? 'text-[#d9736c] border-[#d9736c]' : 'text-gold border-gold'
-                            }`}
-                          >
-                            {bulkResult}
-                          </p>
+                        {bulkResult.message && (
+                          <div className={`mt-2 ${bulkResult.type === 'error' ? (shakeError ? 'animate-error-shake' : 'animate-error-pulse') : 'animate-fadeIn'}`}>
+                            <p className={`text-[11px] tracking-widest uppercase text-center font-medium ${bulkResult.type === 'error' ? 'text-[#d9736c]' : 'text-gold'}`}>
+                              {bulkResult.message}
+                            </p>
+                          </div>
                         )}
 
-                        <button
-                          type="submit"
-                          disabled={bulkCreating}
-                          className={`inline-flex items-center space-x-2 border px-10 py-4 text-xs uppercase tracking-widest transition-all duration-500 w-full justify-center ${
-                            bulkCreating ? 'border-gold bg-gold/10 text-gold cursor-wait' : 'border-gold text-gold hover:bg-gold hover:text-dark-900'
-                          }`}
-                        >
-                          {bulkCreating ? (
-                            <div className="w-4 h-4 border-2 border-gold border-t-transparent rounded-full animate-spin" />
-                          ) : (
-                            <Repeat className="w-4 h-4" />
-                          )}
-                          <span>{bulkCreating ? 'Processing...' : 'Generate Slots'}</span>
-                        </button>
+                        <div className="pt-2 flex justify-end">
+                          <button
+                            type="submit"
+                            disabled={bulkCreating}
+                            className={`w-full md:w-auto inline-flex items-center justify-center space-x-2 border px-10 py-4 text-xs uppercase tracking-widest transition-all duration-500 ${
+                              bulkCreating ? 'border-gold bg-gold/10 text-gold cursor-wait' : 'border-gold text-gold hover:bg-gold hover:text-dark-900'
+                            }`}
+                          >
+                            {bulkCreating ? (
+                              <div className="w-4 h-4 border-2 border-gold border-t-transparent rounded-full animate-spin" />
+                            ) : (
+                              <Repeat className="w-4 h-4" />
+                            )}
+                            <span>{bulkCreating ? 'Processing...' : 'Generate Slots'}</span>
+                          </button>
+                        </div>
                       </form>
                     </div>
                   </div>

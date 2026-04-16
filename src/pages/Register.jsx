@@ -123,7 +123,7 @@ const Register = () => {
             <p className="text-gray-500 text-xs tracking-wider uppercase">Join to book sessions</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-5" noValidate>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div className="relative">
                 <label htmlFor="reg-name" className="block text-xs uppercase tracking-widest text-gray-500 mb-2">
