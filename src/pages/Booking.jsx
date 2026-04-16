@@ -49,41 +49,37 @@ const Booking = () => {
 
   const weekDates = getWeekDates(weekStart);
 
+  const fetchSlots = React.useCallback(async () => {
+    setLoadingSlots(true);
+    try {
+      const start = new Date(weekStart);
+      start.setHours(0, 0, 0, 0);
+      const end = new Date(weekStart);
+      end.setDate(end.getDate() + 7);
+      end.setHours(23, 59, 59, 999);
+
+      const q = query(
+        collection(db, 'timeSlots'),
+        where('dateTime', '>=', Timestamp.fromDate(start)),
+        where('dateTime', '<=', Timestamp.fromDate(end)),
+        orderBy('dateTime', 'asc'),
+      );
+
+      const snap = await getDocs(q);
+      let fetchedSlots = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+      setSlots(fetchedSlots);
+    } catch (err) {
+      console.error('Error fetching slots:', err);
+    } finally {
+      setLoadingSlots(false);
+    }
+  }, [weekStart]);
+
   // Fetch slots for the entire week
   useEffect(() => {
-    const fetchSlots = async () => {
-      setLoadingSlots(true);
-      try {
-        const start = new Date(weekStart);
-        start.setHours(0, 0, 0, 0);
-        const end = new Date(weekStart);
-        end.setDate(end.getDate() + 7);
-        end.setHours(23, 59, 59, 999);
-
-        const q = query(
-          collection(db, 'timeSlots'),
-          where('dateTime', '>=', Timestamp.fromDate(start)),
-          where('dateTime', '<=', Timestamp.fromDate(end)),
-          orderBy('dateTime', 'asc'),
-        );
-
-        const snap = await getDocs(q);
-        let fetchedSlots = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-
-        // Client-side filter for lesson type to avoid composite index requirement
-        if (selectedType) {
-          fetchedSlots = fetchedSlots.filter(s => s.lessonType === selectedType);
-        }
-
-        setSlots(fetchedSlots);
-      } catch (err) {
-        console.error('Error fetching slots:', err);
-      } finally {
-        setLoadingSlots(false);
-      }
-    };
     fetchSlots();
-  }, [weekStart]); // Removed selectedType dependency
+  }, [fetchSlots]);
 
   const navigateWeek = direction => {
     const newWeek = new Date(weekStart);
