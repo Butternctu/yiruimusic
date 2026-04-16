@@ -5,7 +5,8 @@ import Footer from './Footer';
 
 const Layout = () => {
   const location = useLocation();
-  const shouldHideFooter = location.pathname.startsWith('/messages') || location.pathname.startsWith('/admin');
+  const authPaths = ['/dashboard', '/booking', '/appointments', '/profile', '/messages', '/admin'];
+  const shouldHideFooter = authPaths.some(path => location.pathname.startsWith(path));
 
   return (
     <div className="font-sans text-gray-300 bg-dark-900 antialiased selection:bg-gold selection:text-dark-900 min-h-screen flex flex-col">

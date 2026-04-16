@@ -315,7 +315,7 @@ const AdminSlots = () => {
         {/* Decorative elements */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-[radial-gradient(ellipse_at_top,rgba(197,160,89,0.03)_0%,transparent_70%)] pointer-events-none" />
 
-        <div className="max-w-7xl mx-auto px-6 md:px-12 w-full flex-1 flex flex-col z-10 min-h-0">
+        <div className="max-w-5xl mx-auto px-6 md:px-12 w-full flex-1 flex flex-col z-10 min-h-0">
           {/* Header */}
           <div className="flex flex-col md:flex-row md:items-center justify-between space-y-4 md:space-y-0 mb-6 shrink-0 animate-fadeInUp">
             <div className="flex items-center space-x-4">

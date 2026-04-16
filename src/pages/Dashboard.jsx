@@ -131,7 +131,7 @@ const Dashboard = () => {
         <div className="absolute top-40 right-0 w-[400px] h-[400px] bg-[radial-gradient(circle,rgba(197,160,89,0.02)_0%,transparent_70%)] pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-[radial-gradient(circle,rgba(197,160,89,0.015)_0%,transparent_70%)] pointer-events-none" />
 
-        <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+        <div className="max-w-6xl mx-auto px-6 md:px-12 relative z-10">
           {/* Welcome Header */}
           <div className="flex items-center justify-between mb-14 animate-fadeInUp">
             <div className="flex items-center space-x-5">
