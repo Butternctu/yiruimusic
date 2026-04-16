@@ -222,21 +222,24 @@ const AdminSlots = () => {
 
         <div className="max-w-5xl mx-auto relative z-10">
           {/* Header */}
-          <div className="mb-10 animate-fadeInUp">
-            <button
-              onClick={() => navigate('/admin')}
-              className="inline-flex items-center space-x-2 text-gray-500 hover:text-gold text-xs uppercase tracking-widest transition-colors mb-4"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              <span>Admin Panel</span>
-            </button>
-            <h1 className="font-serif text-2xl md:text-3xl text-white tracking-wide">Manage Time Slots</h1>
+          <div className="mb-10 animate-fadeInUp flex flex-col md:flex-row md:items-end md:justify-between space-y-4 md:space-y-0">
+            <div>
+              <button
+                onClick={() => navigate('/admin')}
+                className="inline-flex items-center space-x-2 text-gray-500 hover:text-gold text-xs uppercase tracking-widest transition-colors mb-4"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                <span>Admin Panel</span>
+              </button>
+              <h1 className="font-serif text-2xl md:text-3xl text-white tracking-wide">Manage Time Slots</h1>
+            </div>
             <button
               onClick={handleCleanupSlots}
               disabled={cleaning}
-              className="mt-4 md:mt-0 text-[10px] uppercase tracking-widest text-[#d9736c] hover:text-[#c0625b] transition-colors border border-[#d9736c]/30 px-4 py-2 rounded-sm"
+              className="group flex items-center space-x-2 text-[10px] uppercase tracking-widest text-[#d9736c] hover:text-[#f4847d] transition-all duration-300 border border-[#d9736c]/20 hover:border-[#d9736c]/50 bg-[#d9736c]/5 px-4 py-2.5 rounded-sm"
             >
-              {cleaning ? 'Cleaning...' : 'Clear All Available Slots'}
+              <Trash2 className="w-3.5 h-3.5" />
+              <span>{cleaning ? 'Cleaning...' : 'Clear All Available Slots'}</span>
             </button>
           </div>
 
