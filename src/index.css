@@ -248,20 +248,6 @@ a {
   }
 }
 
-/* Robust Autofill CSS - Transparent Background Fix */
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active,
-textarea:-webkit-autofill,
-textarea:-webkit-autofill:hover,
-textarea:-webkit-autofill:focus,
-textarea:-webkit-autofill:active {
-  transition: background-color 5000s ease-in-out 0s;
-  -webkit-text-fill-color: #c5a059 !important;
-  color: #c5a059 !important;
-  caret-color: #c5a059 !important;
-}
 
 /* Fix Safari bug where autofill text color sticks on the placeholder after form reset */
 input::-webkit-input-placeholder,
