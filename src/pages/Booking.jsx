@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Calendar, ChevronLeft, ChevronRight, Clock, Music, X, Check, ArrowLeft } from 'lucide-react';
-import { collection, query, where, getDocs, doc, runTransaction, Timestamp, orderBy } from 'firebase/firestore';
+import { collection, query, where, getDocs, doc, runTransaction, Timestamp, orderBy, limit } from 'firebase/firestore';
 import { db } from '../firebase';
 import { useAuth } from '../context/AuthContext';
 import {
@@ -106,7 +106,7 @@ const Booking = () => {
       setCheckingNextSlot(true);
       try {
         const nextTime = new Date(selectedSlot.dateTime.toDate());
-        nextTime.setHours(nextTime.getHours() + 1);
+        nextTime.setHours(nextTime.getHours() + 1, 0, 0, 0);
         
         // Find next slot
         const q = query(
