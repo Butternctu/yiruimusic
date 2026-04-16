@@ -148,7 +148,7 @@ const AdminMessages = () => {
         <div className="max-w-7xl mx-auto w-full flex-1 flex flex-col z-10 animate-fadeInUp">
           
           <div className="mb-6">
-            <h1 className="font-serif text-3xl text-white tracking-wide">Student Inbox</h1>
+            <h1 className="font-serif text-3xl text-white tracking-wide">Inbox</h1>
             <p className="text-gray-500 text-sm tracking-wider uppercase mt-2">Manage student conversations</p>
           </div>
 

@@ -53,7 +53,7 @@ const Navbar = () => {
       const isSamePage = location.pathname === normalizedPath || (location.pathname === '/' && normalizedPath === '/');
 
       setIsMobileMenuOpen(false);
-      
+
       if (isSamePage) {
         e.preventDefault();
         const targetId = hash ? `#${hash}` : '#';
@@ -144,9 +144,8 @@ const Navbar = () => {
 
                 {/* Dropdown */}
                 <div
-                  className={`absolute right-0 top-full mt-3 w-52 bg-dark-800 border border-white/10 shadow-2xl transition-all duration-300 rounded-sm overflow-hidden ${
-                    isUserMenuOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'
-                  }`}
+                  className={`absolute right-0 top-full mt-3 w-52 bg-dark-800 border border-white/10 shadow-2xl transition-all duration-300 rounded-sm overflow-hidden ${isUserMenuOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'
+                    }`}
                 >
                   <div className="px-5 py-3 border-b border-white/[0.06]">
                     <p className="text-white text-sm truncate">{userProfile?.displayName || user?.displayName}</p>

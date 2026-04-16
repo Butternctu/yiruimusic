@@ -119,7 +119,7 @@ const Dashboard = () => {
     },
     {
       icon: MessageSquare,
-      label: isAdmin ? 'Student Inbox' : 'Message Dr. Li',
+      label: isAdmin ? 'Inbox' : 'Message Dr. Li',
       desc: isAdmin ? 'View and reply to student messages' : 'Send a direct inquiry or question',
       to: isAdmin ? '/admin/messages' : '/messages',
       badge: hasUnreadMessages
@@ -305,11 +305,10 @@ const Dashboard = () => {
                 <Link
                   key={idx}
                   to={action.to}
-                  className={`group glass-card rounded-sm border transition-all duration-500 animate-fadeInUp ${
-                    action.highlight
+                  className={`group glass-card rounded-sm border transition-all duration-500 animate-fadeInUp ${action.highlight
                       ? 'border-gold/15 hover:border-gold/30'
                       : 'border-white/[0.06] hover:border-gold/20'
-                  }`}
+                    }`}
                   style={{ animationDelay: `${580 + idx * 70}ms` }}
                 >
                   <div className="p-5 flex items-center space-x-4">

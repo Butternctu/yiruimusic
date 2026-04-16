@@ -174,7 +174,7 @@ const AdminDashboard = () => {
                     <span className="absolute -top-1 -right-1 w-2 h-2 bg-[#d9736c] rounded-full animate-pulse" />
                   )}
                 </div>
-                <span>Student Inbox</span>
+                <span>Inbox</span>
                 <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform duration-300" />
               </Link>
             </div>
@@ -242,7 +242,7 @@ const AdminDashboard = () => {
                   <span className="absolute -top-1 -right-1 w-2 h-2 bg-[#d9736c] rounded-full animate-pulse" />
                 )}
               </div>
-              <span>Student Inbox</span>
+              <span>Inbox</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
