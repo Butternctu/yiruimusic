@@ -20,7 +20,7 @@ import SEO from '../components/SEO';
 import emailjs from '@emailjs/browser';
 
 const Booking = () => {
-  const { user } = useAuth();
+  const { user, userProfile } = useAuth();
   const navigate = useNavigate();
   const [weekStart, setWeekStart] = useState(() => {
     const now = new Date();
