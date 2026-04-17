@@ -255,7 +255,7 @@ const AdminDashboard = () => {
           </div>
 
           {/* Main Content Grid: Calendar + Schedule */}
-          <div className="flex-1 flex gap-6 min-h-0 mb-4 animate-fadeInUp" style={{ animationDelay: '350ms' }}>
+          <div className="flex-1 flex flex-col lg:flex-row gap-6 min-h-0 mb-4 animate-fadeInUp" style={{ animationDelay: '350ms' }}>
             {/* Calendar Widget - Flexible width box */}
             <div className="flex-[3] flex flex-col min-h-0">
               <div className="flex items-center space-x-3 mb-4 shrink-0">
