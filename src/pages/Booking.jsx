@@ -254,9 +254,11 @@ const Booking = () => {
         message: `Dear Dr. Li,\n\nThis is an automated notification to inform you that ${userProfile?.displayName || user.displayName || 'a student'} has just booked a new session.\n\nBooking Details:\n- Lesson: ${selectedLessonType.name}\n- Date: ${formatFullDate(slotTime)}\n- Time: ${formatTime(slotTime)}\n- Duration: ${selectedLessonType.duration} minutes\n\nPlease review your updated schedule. Thank you!`,
         to_name: 'Dr. Li',
       };
-      emailjs
-        .send(import.meta.env.VITE_EMAILJS_SERVICE_ID, import.meta.env.VITE_EMAILJS_ADMIN_TEMPLATE_ID, emailParams, import.meta.env.VITE_EMAILJS_PUBLIC_KEY)
-        .catch(err => console.error('Booking email notification failed:', err));
+      try {
+        await emailjs.send(import.meta.env.VITE_EMAILJS_SERVICE_ID, import.meta.env.VITE_EMAILJS_ADMIN_TEMPLATE_ID, emailParams, import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
+      } catch (err) {
+        console.error('Booking email notification failed:', err);
+      }
 
       setBookingSuccess(true);
       // Refresh local slots
