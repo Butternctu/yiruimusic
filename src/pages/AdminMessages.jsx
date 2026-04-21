@@ -162,12 +162,12 @@ const AdminMessages = () => {
           </div>
 
           <div
-            className="flex-1 glass-card rounded-sm border border-white/10 flex overflow-hidden shadow-2xl relative bg-white/[0.01] animate-fadeInUp"
+            className="flex-1 glass-card rounded-sm border border-white/10 flex overflow-hidden shadow-2xl relative bg-white/1 animate-fadeInUp"
             style={{ animationDelay: '100ms' }}
           >
             {/* Sidebar: Chat List */}
-            <div className="w-full md:w-80 lg:w-96 border-r border-white/[0.06] flex flex-col bg-black/20 shrink-0">
-              <div className="p-4 border-b border-white/[0.06] shrink-0">
+            <div className="w-full md:w-80 lg:w-96 border-r border-white/6 flex flex-col bg-black/20 shrink-0">
+              <div className="p-4 border-b border-white/6 shrink-0">
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-600" />
                   <input
@@ -175,7 +175,7 @@ const AdminMessages = () => {
                     placeholder="Search students..."
                     value={searchTerm}
                     onChange={e => setSearchTerm(e.target.value)}
-                    className="w-full bg-white/[0.03] border border-white/10 rounded-sm py-2.5 pl-9 pr-4 text-xs text-white placeholder-gray-600 focus:outline-none focus:border-gold/30 transition-colors"
+                    className="w-full bg-white/3 border border-white/10 rounded-sm py-2.5 pl-9 pr-4 text-xs text-white placeholder-gray-600 focus:outline-none focus:border-gold/30 transition-colors"
                   />
                 </div>
               </div>
@@ -199,7 +199,7 @@ const AdminMessages = () => {
                           setSelectedChat(chat);
                         }
                       }}
-                      className={`p-5 border-b border-white/[0.03] cursor-pointer transition-all duration-300 flex items-start space-x-4 group relative ${selectedChat?.id === chat.id ? 'bg-white/[0.04]' : 'hover:bg-white/[0.02]'}`}
+                      className={`p-5 border-b border-white/3 cursor-pointer transition-all duration-300 flex items-start space-x-4 group relative ${selectedChat?.id === chat.id ? 'bg-white/4' : 'hover:bg-white/2'}`}
                     >
                       {selectedChat?.id === chat.id && <div className="absolute left-0 top-0 bottom-0 w-1 bg-gold shadow-[0_0_10px_rgba(197,160,89,0.5)]" />}
                       <div className="w-10 h-10 rounded-full bg-gold/5 border border-gold/10 flex items-center justify-center shrink-0 relative">
@@ -226,7 +226,7 @@ const AdminMessages = () => {
             </div>
 
             {/* Main Area: Chat UI */}
-            <div className="hidden md:flex flex-col flex-1 bg-white/[0.01] min-w-0">
+            <div className="hidden md:flex flex-col flex-1 bg-white/1 min-w-0">
               {!selectedChat ? (
                 <div className="flex-1 flex flex-col items-center justify-center text-center opacity-30 p-12">
                   <div className="w-20 h-20 rounded-full border border-gold/20 flex items-center justify-center mb-6">
@@ -238,7 +238,7 @@ const AdminMessages = () => {
               ) : (
                 <>
                   {/* Chat Header */}
-                  <div className="px-5 py-[15px] border-b border-white/[0.06] bg-black/20 flex justify-between items-center shrink-0">
+                  <div className="px-5 py-[15px] border-b border-white/6 bg-black/20 flex justify-between items-center shrink-0">
                     <div className="flex items-center space-x-4">
                       <div className="w-10 h-10 rounded-full bg-gold/5 border border-gold/10 flex items-center justify-center">
                         <User className="w-5 h-5 text-gold" />
@@ -272,11 +272,11 @@ const AdminMessages = () => {
                           <React.Fragment key={msg.id || index}>
                             {showDateDivider && (
                               <div className="flex items-center my-10 animate-fadeIn shrink-0">
-                                <div className="flex-1 h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent"></div>
-                                <div className="mx-4 px-4 py-1.5 rounded-sm border border-white/5 bg-white/[0.01] text-[9px] uppercase tracking-[0.2em] text-gold/60 font-serif">
+                                <div className="flex-1 h-px bg-linear-to-r from-transparent via-white/6 to-transparent"></div>
+                                <div className="mx-4 px-4 py-1.5 rounded-sm border border-white/5 bg-white/1 text-[9px] uppercase tracking-[0.2em] text-gold/60 font-serif">
                                   {formatDate(msgDate)}
                                 </div>
-                                <div className="flex-1 h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent"></div>
+                                <div className="flex-1 h-px bg-linear-to-r from-transparent via-white/6 to-transparent"></div>
                               </div>
                             )}
                             <div
@@ -299,7 +299,7 @@ const AdminMessages = () => {
                   </div>
 
                   {/* Input */}
-                  <div className="p-6 border-t border-white/[0.06] bg-black/20 shrink-0">
+                  <div className="p-6 border-t border-white/6 bg-black/20 shrink-0">
                     <form onSubmit={handleSendMessage} className="relative flex items-end space-x-3 w-full">
                       <div className="flex-1 relative">
                         <textarea
@@ -312,7 +312,7 @@ const AdminMessages = () => {
                             }
                           }}
                           placeholder="Type your reply..."
-                          className="block w-full bg-white/[0.03] border border-white/10 rounded-sm py-4 px-5 text-white placeholder-gray-600 focus:outline-none focus:border-gold/40 transition-all resize-none custom-scrollbar min-h-[56px] max-h-[160px] text-sm leading-relaxed"
+                          className="block w-full bg-white/3 border border-white/10 rounded-sm py-4 px-5 text-white placeholder-gray-600 focus:outline-none focus:border-gold/40 transition-all resize-none custom-scrollbar min-h-[56px] max-h-[160px] text-sm leading-relaxed"
                           rows="1"
                         />
                       </div>
@@ -333,7 +333,7 @@ const AdminMessages = () => {
             {/* Mobile Chat Detail Overlay */}
             {selectedChat && (
               <div className="md:hidden absolute inset-0 bg-dark-950 z-50 flex flex-col">
-                <div className="p-4 border-b border-white/[0.06] bg-dark-900 flex items-center justify-between shrink-0">
+                <div className="p-4 border-b border-white/6 bg-dark-900 flex items-center justify-between shrink-0">
                   <button onClick={() => setSelectedChat(null)} className="flex items-center space-x-2 text-gold py-2 px-1">
                     <ArrowLeft className="w-4 h-4" />
                     <span className="text-[10px] uppercase tracking-widest">Inbox</span>
@@ -359,7 +359,7 @@ const AdminMessages = () => {
                     );
                   })}
                 </div>
-                <div className="p-4 border-t border-white/[0.06] bg-black/40">
+                <div className="p-4 border-t border-white/6 bg-black/40">
                   <form onSubmit={handleSendMessage} className="relative flex items-end space-x-2">
                     <textarea
                       value={newMessage}

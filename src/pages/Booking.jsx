@@ -410,7 +410,7 @@ const Booking = () => {
                 <div className="w-6 h-6 border-2 border-gold border-t-transparent rounded-full animate-spin" />
               </div>
             ) : selectedDateSlots.length === 0 ? (
-              <div className="text-center py-12 glass-card rounded-sm border border-white/[0.06]">
+              <div className="text-center py-12 glass-card rounded-sm border border-white/6">
                 <Clock className="w-8 h-8 text-gray-600 mx-auto mb-4" />
                 <p className="text-gray-500 text-sm">No available time slots for this date.</p>
                 <p className="text-gray-600 text-xs mt-2">Try selecting a different date or lesson type.</p>
@@ -427,7 +427,7 @@ const Booking = () => {
                       onClick={() => handleSlotClick(slot)}
                       disabled={!isAvailable}
                       className={`p-5 rounded-sm border text-left transition-all duration-300 group ${
-                        isAvailable ? 'border-gold/30 hover:border-gold hover:bg-gold/5 cursor-pointer' : 'border-white/[0.06] opacity-40 cursor-not-allowed'
+                        isAvailable ? 'border-gold/30 hover:border-gold hover:bg-gold/5 cursor-pointer' : 'border-white/6 opacity-40 cursor-not-allowed'
                       }`}
                     >
                       <div className="flex items-center justify-between mb-3">

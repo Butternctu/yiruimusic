@@ -146,16 +146,16 @@ const Profile = () => {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
               {/* Left Sidebar: Profile Overview */}
               <div className="lg:col-span-4 space-y-6 animate-fadeInUp" style={{ animationDelay: '100ms' }}>
-                <div className="glass-card rounded-sm border border-white/[0.06] p-8 text-center relative overflow-hidden group">
-                  <div className="absolute inset-0 bg-gradient-to-br from-gold/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="glass-card rounded-sm border border-white/6 p-8 text-center relative overflow-hidden group">
+                  <div className="absolute inset-0 bg-linear-to-br from-gold/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   <div className="relative">
-                    <div className="w-24 h-24 rounded-full bg-gradient-to-br from-gold/20 to-gold/5 border border-gold/30 flex items-center justify-center mx-auto mb-6 shadow-[0_0_30px_rgba(197,160,89,0.1)]">
+                    <div className="w-24 h-24 rounded-full bg-linear-to-br from-gold/20 to-gold/5 border border-gold/30 flex items-center justify-center mx-auto mb-6 shadow-[0_0_30px_rgba(197,160,89,0.1)]">
                       <span className="text-gold font-serif text-3xl">{getInitials()}</span>
                     </div>
                     <h2 className="font-serif text-xl text-white mb-1">{formData.displayName || 'Member'}</h2>
                     <p className="text-gray-500 text-sm mb-6">{user?.email}</p>
 
-                    <div className="space-y-4 pt-6 border-t border-white/[0.06] text-left">
+                    <div className="space-y-4 pt-6 border-t border-white/6 text-left">
                       <div className="flex items-center space-x-3 text-xs">
                         <Mail className="w-3.5 h-3.5 text-gold/60" />
                         <span className="text-gray-400 truncate">{user?.email}</span>
@@ -183,7 +183,7 @@ const Profile = () => {
               {/* Right Side: Forms */}
               <div className="lg:col-span-8 space-y-8 animate-fadeInUp" style={{ animationDelay: '200ms' }}>
                 {/* Personal Info Card */}
-                <div className="glass-card rounded-sm border border-white/[0.06] p-8">
+                <div className="glass-card rounded-sm border border-white/6 p-8">
                   <h3 className="font-serif text-lg text-white mb-8 flex items-center space-x-3">
                     <User className="w-5 h-5 text-gold" />
                     <span>Personal Details</span>
@@ -268,7 +268,7 @@ const Profile = () => {
                 </div>
 
                 {/* Security Card */}
-                <div className="glass-card rounded-sm border border-white/[0.06] p-8">
+                <div className="glass-card rounded-sm border border-white/6 p-8">
                   <h3 className="font-serif text-lg text-white mb-8 flex items-center space-x-3">
                     <Lock className="w-5 h-5 text-gold" />
                     <span>Account Security</span>

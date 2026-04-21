@@ -131,7 +131,7 @@ const Appointments = () => {
       <div
         key={appt.id}
         className={`glass-card p-6 rounded-sm border transition-all duration-300 ${
-          isCancelled ? 'border-white/[0.04] opacity-50' : 'border-white/[0.06] hover:border-gold/20'
+          isCancelled ? 'border-white/4 opacity-50' : 'border-white/6 hover:border-gold/20'
         }`}
       >
         <div className="flex items-start justify-between">
@@ -186,7 +186,7 @@ const Appointments = () => {
             </div>
 
             {/* Tabs */}
-            <div className="flex space-x-1 mb-8 border-b border-white/[0.06] animate-fadeInUp shrink-0" style={{ animationDelay: '100ms' }}>
+            <div className="flex space-x-1 mb-8 border-b border-white/6 animate-fadeInUp shrink-0" style={{ animationDelay: '100ms' }}>
               {[
                 { id: 'upcoming', label: 'Upcoming', count: upcomingAppointments.length },
                 { id: 'past', label: 'Past', count: pastAppointments.length },
@@ -214,7 +214,7 @@ const Appointments = () => {
                 </div>
               ) : activeTab === 'upcoming' ? (
                 upcomingAppointments.length === 0 ? (
-                  <div className="text-center py-16 glass-card rounded-sm border border-white/[0.06]">
+                  <div className="text-center py-16 glass-card rounded-sm border border-white/6">
                     <Calendar className="w-10 h-10 text-gray-600 mx-auto mb-4" />
                     <p className="text-gray-400 mb-2">No upcoming appointments</p>
                     <p className="text-gray-600 text-sm mb-6">Book a session to get started.</p>
@@ -230,7 +230,7 @@ const Appointments = () => {
                   <div className="space-y-4">{upcomingAppointments.map(appt => renderAppointmentCard(appt, true))}</div>
                 )
               ) : pastAppointments.length === 0 ? (
-                <div className="text-center py-16 glass-card rounded-sm border border-white/[0.06]">
+                <div className="text-center py-16 glass-card rounded-sm border border-white/6">
                   <Clock className="w-10 h-10 text-gray-600 mx-auto mb-4" />
                   <p className="text-gray-400">No past appointments yet.</p>
                 </div>

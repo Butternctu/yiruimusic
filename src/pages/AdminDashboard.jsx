@@ -183,7 +183,7 @@ const AdminDashboard = () => {
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-center justify-between space-y-5 md:space-y-0 animate-fadeInUp shrink-0">
               <div className="flex items-center space-x-4">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-gold/20 to-gold/5 border border-gold/30 flex items-center justify-center shrink-0">
+                <div className="w-12 h-12 rounded-full bg-linear-to-br from-gold/20 to-gold/5 border border-gold/30 flex items-center justify-center shrink-0">
                   <Shield className="w-5 h-5 text-gold" />
                 </div>
                 <div className="min-w-0">
@@ -226,9 +226,9 @@ const AdminDashboard = () => {
             {statCards.map((stat, idx) => {
               const CardContent = (
                 <div
-                  className={`group relative glass-card rounded-sm border border-white/[0.06] transition-all duration-500 overflow-hidden ${stat.link ? 'cursor-pointer hover:border-gold/30 hover:-translate-y-1' : 'hover:border-gold/15'}`}
+                  className={`group relative glass-card rounded-sm border border-white/6 transition-all duration-500 overflow-hidden ${stat.link ? 'cursor-pointer hover:border-gold/30 hover:-translate-y-1' : 'hover:border-gold/15'}`}
                 >
-                  <div className={`absolute inset-0 bg-gradient-to-br ${stat.bgGlow} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+                  <div className={`absolute inset-0 bg-linear-to-br ${stat.bgGlow} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
                   <div className="relative p-5">
                     <div className="flex items-center justify-between mb-4">
                       <div className={`w-8 h-8 rounded-sm ${stat.iconBg} flex items-center justify-center`}>
@@ -261,10 +261,10 @@ const AdminDashboard = () => {
             {/* Calendar Widget - Flexible width box */}
             <div className="flex-[3] flex flex-col min-h-0">
               <div className="flex items-center space-x-3 mb-4 shrink-0">
-                <div className="w-8 h-px bg-gradient-to-r from-gold/40 to-transparent" />
+                <div className="w-8 h-px bg-linear-to-r from-gold/40 to-transparent" />
                 <h2 className="font-serif text-lg text-white">Monthly Schedule</h2>
               </div>
-              <div className="glass-card rounded-sm border border-white/[0.06] p-6 flex-1 flex flex-col min-h-0">
+              <div className="glass-card rounded-sm border border-white/6 p-6 flex-1 flex flex-col min-h-0">
                 <div className="flex items-center justify-between mb-6 shrink-0">
                   <h2 className="font-serif text-lg text-white">{currentMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</h2>
                   <div className="flex space-x-2">
@@ -340,7 +340,7 @@ const AdminDashboard = () => {
             {/* Schedule List - right 2 cols */}
             <div className="flex-[2] flex flex-col min-h-0 animate-fadeInUp" style={{ animationDelay: '420ms' }}>
               <div className="flex items-center space-x-3 mb-4 shrink-0">
-                <div className="w-8 h-px bg-gradient-to-r from-gold/40 to-transparent" />
+                <div className="w-8 h-px bg-linear-to-r from-gold/40 to-transparent" />
                 <h2 className="font-serif text-lg text-white">{selectedDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</h2>
                 {!loading && selectedDateApts.length > 0 && (
                   <span className="text-[10px] uppercase tracking-widest text-gold bg-gold/10 px-2.5 py-0.5 rounded-sm ml-auto">
@@ -349,7 +349,7 @@ const AdminDashboard = () => {
                 )}
               </div>
 
-              <div className="glass-card rounded-sm border border-white/[0.06] p-5 flex-1 flex flex-col min-h-0 bg-white/[0.01]">
+              <div className="glass-card rounded-sm border border-white/6 p-5 flex-1 flex flex-col min-h-0 bg-white/1">
                 {loading ? (
                   <div className="flex-1 flex items-center justify-center">
                     <div className="w-5 h-5 border-2 border-gold border-t-transparent rounded-full animate-spin mr-3" />
@@ -378,7 +378,7 @@ const AdminDashboard = () => {
                           : 'U';
 
                       return (
-                        <div key={appt.id} className="glass-card rounded-sm border border-white/[0.03] p-4 hover:border-gold/20 transition-all duration-300">
+                        <div key={appt.id} className="glass-card rounded-sm border border-white/3 p-4 hover:border-gold/20 transition-all duration-300">
                           <div className="flex items-start gap-4">
                             <div className="flex flex-col items-center">
                               <span className="text-gold font-serif text-base leading-none">{dateTime ? formatTime(dateTime) : '—'}</span>

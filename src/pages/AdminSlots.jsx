@@ -354,7 +354,7 @@ const AdminSlots = () => {
           </div>
 
           {/* View Tabs */}
-          <div className="flex space-x-1 mb-8 border-b border-white/[0.06] animate-fadeInUp shrink-0" style={{ animationDelay: '100ms' }}>
+          <div className="flex space-x-1 mb-8 border-b border-white/6 animate-fadeInUp shrink-0" style={{ animationDelay: '100ms' }}>
             {[
               { id: 'list', label: 'All Slots', icon: Calendar },
               { id: 'create', label: 'Add Single Slot', icon: Plus },
@@ -399,7 +399,7 @@ const AdminSlots = () => {
                     <div className="w-6 h-6 border-2 border-gold border-t-transparent rounded-full animate-spin" />
                   </div>
                 ) : slots.length === 0 ? (
-                  <div className="text-center py-16 glass-card rounded-sm border border-white/[0.06]">
+                  <div className="text-center py-16 glass-card rounded-sm border border-white/6">
                     <Calendar className="w-10 h-10 text-gray-600 mx-auto mb-4" />
                     <p className="text-gray-400 mb-2">{slotFilter === 'upcoming' ? 'No upcoming time slots' : 'No past bookings'}</p>
                     <p className="text-gray-600 text-sm">
@@ -415,7 +415,7 @@ const AdminSlots = () => {
                       return (
                         <div
                           key={slot.id}
-                          className={`glass-card p-5 rounded-sm border flex items-center justify-between transition-colors ${isBooked ? 'border-gold/10' : 'border-white/[0.04] hover:border-white/[0.08]'}`}
+                          className={`glass-card p-5 rounded-sm border flex items-center justify-between transition-colors ${isBooked ? 'border-gold/10' : 'border-white/4 hover:border-white/8'}`}
                         >
                           <div className="flex items-center space-x-4 flex-1 min-w-0">
                             <span className="text-gold font-serif text-lg min-w-[90px]">{dateTime ? formatTime(dateTime) : '—'}</span>

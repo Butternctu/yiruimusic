@@ -63,7 +63,7 @@ export function DatePicker({ value, onChange, className = '' }) {
       {open && (
         <div className="absolute top-full left-0 mt-2 w-72 bg-dark-800 border border-white/10 rounded-sm shadow-2xl z-50 animate-fadeIn">
           {/* Header */}
-          <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.06]">
+          <div className="flex items-center justify-between px-4 py-3 border-b border-white/6">
             <button type="button" onClick={prev} className="text-gray-500 hover:text-gold transition-colors p-1">
               <ChevronLeft className="w-4 h-4" />
             </button>

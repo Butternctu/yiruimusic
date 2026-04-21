@@ -147,7 +147,7 @@ const Messages = () => {
 
           {/* Chat Container */}
           <div
-            className="flex-1 glass-card rounded-sm border border-white/10 flex flex-col overflow-hidden animate-fadeInUp shadow-2xl relative bg-white/[0.01]"
+            className="flex-1 glass-card rounded-sm border border-white/10 flex flex-col overflow-hidden animate-fadeInUp shadow-2xl relative bg-white/1"
             style={{ animationDelay: '100ms' }}
           >
             {/* Messages Area */}
@@ -179,11 +179,11 @@ const Messages = () => {
                     <React.Fragment key={msg.id || index}>
                       {showDateDivider && (
                         <div className="flex items-center my-8 animate-fadeIn shrink-0">
-                          <div className="flex-1 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
-                          <div className="mx-4 px-4 py-1.5 rounded-sm border border-white/5 bg-white/[0.02] backdrop-blur-sm text-[9px] uppercase tracking-[0.2em] text-gold/60">
+                          <div className="flex-1 h-px bg-linear-to-r from-transparent via-white/10 to-transparent"></div>
+                          <div className="mx-4 px-4 py-1.5 rounded-sm border border-white/5 bg-white/2 backdrop-blur-sm text-[9px] uppercase tracking-[0.2em] text-gold/60">
                             {formatDate(msgDate)}
                           </div>
-                          <div className="flex-1 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+                          <div className="flex-1 h-px bg-linear-to-r from-transparent via-white/10 to-transparent"></div>
                         </div>
                       )}
                       <div className={`flex ${isUser ? 'justify-end' : 'justify-start'} animate-fadeInUp`} style={{ animationDelay: `${(index % 10) * 50}ms` }}>
@@ -203,7 +203,7 @@ const Messages = () => {
             </div>
 
             {/* Input Area */}
-            <div className="p-4 md:p-6 border-t border-white/[0.06] bg-black/20 shrink-0">
+            <div className="p-4 md:p-6 border-t border-white/6 bg-black/20 shrink-0">
               <form onSubmit={handleSendMessage} className="relative flex items-end space-x-3 w-full">
                 <div className="flex-1 relative">
                   <textarea
@@ -216,7 +216,7 @@ const Messages = () => {
                       }
                     }}
                     placeholder="Type your message to Dr. Li..."
-                    className="block w-full bg-white/[0.03] border border-white/10 rounded-sm py-4 px-5 text-white placeholder-gray-600 focus:outline-none focus:border-gold/40 transition-all resize-none custom-scrollbar min-h-[56px] max-h-[160px] text-sm leading-relaxed"
+                    className="block w-full bg-white/3 border border-white/10 rounded-sm py-4 px-5 text-white placeholder-gray-600 focus:outline-none focus:border-gold/40 transition-all resize-none custom-scrollbar min-h-[56px] max-h-[160px] text-sm leading-relaxed"
                     rows="1"
                   />
                 </div>

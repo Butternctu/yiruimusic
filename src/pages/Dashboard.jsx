@@ -133,7 +133,7 @@ const Dashboard = () => {
           <div className="flex items-center justify-between mb-12 animate-fadeInUp shrink-0">
             <div className="flex items-center space-x-5">
               <div className="relative">
-                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-gold/25 to-gold/5 border border-gold/30 flex items-center justify-center flex-shrink-0">
+                <div className="w-16 h-16 rounded-full bg-linear-to-br from-gold/25 to-gold/5 border border-gold/30 flex items-center justify-center flex-shrink-0">
                   <span className="text-gold font-serif text-xl">{getInitials()}</span>
                 </div>
               </div>
@@ -167,11 +167,11 @@ const Dashboard = () => {
             {statCards.map((stat, idx) => (
               <div
                 key={idx}
-                className="group relative glass-card rounded-sm border border-white/[0.06] hover:border-gold/20 transition-all duration-500 animate-fadeInUp overflow-hidden"
+                className="group relative glass-card rounded-sm border border-white/6 hover:border-gold/20 transition-all duration-500 animate-fadeInUp overflow-hidden"
                 style={{ animationDelay: `${100 + idx * 80}ms` }}
               >
                 {/* Subtle gradient overlay on hover */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${stat.accent} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+                <div className={`absolute inset-0 bg-linear-to-br ${stat.accent} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
 
                 <div className="relative p-6">
                   <div className="flex items-center justify-between mb-5">
@@ -242,7 +242,7 @@ const Dashboard = () => {
                 )}
               </div>
               {/* Accent line at bottom */}
-              <div className="h-px bg-gradient-to-r from-transparent via-gold/20 to-transparent w-full mt-auto" />
+              <div className="h-px bg-linear-to-r from-transparent via-gold/20 to-transparent w-full mt-auto" />
             </div>
 
             {/* Quick Book CTA - spans 2 cols */}
@@ -251,7 +251,7 @@ const Dashboard = () => {
               className="lg:col-span-2 h-full group relative glass-card rounded-sm border border-gold/20 hover:border-gold/40 overflow-hidden transition-all duration-500 animate-fadeInUp flex flex-col justify-center"
               style={{ animationDelay: '420ms' }}
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-gold/[0.06] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute inset-0 bg-linear-to-br from-gold/6 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               <div className="relative p-6 text-center flex flex-col items-center justify-center h-full">
                 <div className="w-14 h-14 rounded-full bg-gold/10 border border-gold/20 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 group-hover:border-gold/40 transition-all duration-500">
                   <Sparkles className="w-6 h-6 text-gold" />
@@ -265,7 +265,7 @@ const Dashboard = () => {
           {/* Quick Actions */}
           <div className="animate-fadeInUp" style={{ animationDelay: '500ms' }}>
             <div className="flex items-center space-x-3 mb-6">
-              <div className="w-8 h-px bg-gradient-to-r from-gold/40 to-transparent" />
+              <div className="w-8 h-px bg-linear-to-r from-gold/40 to-transparent" />
               <h2 className="font-serif text-lg text-white">Quick Actions</h2>
             </div>
 
@@ -275,12 +275,12 @@ const Dashboard = () => {
                   key={idx}
                   to={action.to}
                   className={`group glass-card rounded-sm border transition-all duration-500 animate-fadeInUp ${
-                    action.highlight ? 'border-gold/15 hover:border-gold/30' : 'border-white/[0.06] hover:border-gold/20'
+                    action.highlight ? 'border-gold/15 hover:border-gold/30' : 'border-white/6 hover:border-gold/20'
                   }`}
                   style={{ animationDelay: `${580 + idx * 70}ms` }}
                 >
                   <div className="p-5 flex items-center space-x-4">
-                    <div className="w-10 h-10 rounded-sm bg-gold/[0.07] flex items-center justify-center flex-shrink-0 group-hover:bg-gold/[0.12] transition-colors duration-300 relative">
+                    <div className="w-10 h-10 rounded-sm bg-gold/7 flex items-center justify-center flex-shrink-0 group-hover:bg-gold/12 transition-colors duration-300 relative">
                       <action.icon className="w-5 h-5 text-gold group-hover:scale-110 transition-transform duration-300" />
                       {action.badge && (
                         <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-[#d9736c] border border-dark-900 rounded-full animate-pulse shadow-[0_0_8px_rgba(217,115,108,0.4)]" />

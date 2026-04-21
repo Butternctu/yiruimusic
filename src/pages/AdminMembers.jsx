@@ -231,7 +231,7 @@ const AdminMembers = () => {
             </div>
 
             {/* View Tabs */}
-            <div className="flex space-x-1 mb-8 border-b border-white/[0.06] animate-fadeInUp shrink-0" style={{ animationDelay: '100ms' }}>
+            <div className="flex space-x-1 mb-8 border-b border-white/6 animate-fadeInUp shrink-0" style={{ animationDelay: '100ms' }}>
               <button
                 onClick={() => setActiveView('list')}
                 className={`flex items-center space-x-2 px-6 py-3 text-xs uppercase tracking-widest transition-all duration-300 border-b-2 -mb-px ${
@@ -274,7 +274,7 @@ const AdminMembers = () => {
                     <div className="w-6 h-6 border-2 border-gold border-t-transparent rounded-full animate-spin" />
                   </div>
                 ) : filteredMembers.length === 0 ? (
-                  <div className="text-center py-16 glass-card rounded-sm border border-white/[0.06]">
+                  <div className="text-center py-16 glass-card rounded-sm border border-white/6">
                     <Users className="w-10 h-10 text-gray-600 mx-auto mb-4" />
                     <p className="text-gray-400 mb-2">No members found</p>
                   </div>
@@ -335,7 +335,7 @@ const AdminMembers = () => {
                                       {['member', 'admin'].map(opt => (
                                         <div
                                           key={opt}
-                                          className={`px-4 py-2.5 text-sm cursor-pointer transition-colors border-b border-white/5 last:border-0 flex justify-between items-center ${editForm.role === opt ? 'bg-white/[0.04] text-gold' : 'text-gray-400 hover:bg-white/[0.02] hover:text-white'}`}
+                                          className={`px-4 py-2.5 text-sm cursor-pointer transition-colors border-b border-white/5 last:border-0 flex justify-between items-center ${editForm.role === opt ? 'bg-white/4 text-gold' : 'text-gray-400 hover:bg-white/2 hover:text-white'}`}
                                           onClick={() => {
                                             setEditForm(p => ({ ...p, role: opt }));
                                             setOpenDropdown(null);
@@ -366,7 +366,7 @@ const AdminMembers = () => {
                                       {MEMBERSHIP_TIERS.map(t => (
                                         <div
                                           key={t.id}
-                                          className={`px-4 py-2.5 text-sm cursor-pointer transition-colors border-b border-white/5 last:border-0 flex justify-between items-center uppercase tracking-wider ${editForm.membershipTier === t.id ? 'bg-white/[0.04] text-gold' : 'text-gray-400 hover:bg-white/[0.02] hover:text-white'}`}
+                                          className={`px-4 py-2.5 text-sm cursor-pointer transition-colors border-b border-white/5 last:border-0 flex justify-between items-center uppercase tracking-wider ${editForm.membershipTier === t.id ? 'bg-white/4 text-gold' : 'text-gray-400 hover:bg-white/2 hover:text-white'}`}
                                           onClick={() => {
                                             setEditForm(p => ({ ...p, membershipTier: t.id }));
                                             setOpenDropdown(null);
@@ -381,7 +381,7 @@ const AdminMembers = () => {
                                 </div>
                               </div>
 
-                              <div className="flex flex-col space-y-3 mt-8 pt-6 border-t border-white/[0.06]">
+                              <div className="flex flex-col space-y-3 mt-8 pt-6 border-t border-white/6">
                                 <button
                                   onClick={() => saveEdit(member.id)}
                                   disabled={savingId === member.id}
@@ -406,7 +406,7 @@ const AdminMembers = () => {
                         }
 
                         return (
-                          <div key={member.id} className="glass-card p-5 rounded-sm border border-white/[0.03] space-y-5">
+                          <div key={member.id} className="glass-card p-5 rounded-sm border border-white/3 space-y-5">
                             <div className="flex items-start justify-between">
                               <div className="flex items-center space-x-4">
                                 <div className={`w-12 h-12 rounded-full border ${tier.borderColor} ${tier.bgColor} flex items-center justify-center shrink-0`}>
@@ -430,7 +430,7 @@ const AdminMembers = () => {
                               </div>
                             </div>
 
-                            <div className="grid grid-cols-1 gap-3 py-4 border-y border-white/[0.03]">
+                            <div className="grid grid-cols-1 gap-3 py-4 border-y border-white/3">
                               <div className="flex items-center space-x-3 text-gray-400">
                                 <div className="p-1.5 bg-white/5 rounded-sm">
                                   <Mail className="w-3.5 h-3.5 text-gold/60" />
@@ -482,13 +482,13 @@ const AdminMembers = () => {
                             <th className="pb-4 text-[10px] uppercase tracking-widest text-gray-500 font-medium text-right">Actions</th>
                           </tr>
                         </thead>
-                        <tbody className="divide-y divide-white/[0.03]">
+                        <tbody className="divide-y divide-white/3">
                           {filteredMembers.map(member => {
                             const isEditing = editingId === member.id;
                             if (isEditing) {
                               return (
-                                <tr key={`edit-${member.id}`} className="bg-white/[0.02] relative z-20">
-                                  <td colSpan="5" className="p-0 border-b border-white/[0.03]">
+                                <tr key={`edit-${member.id}`} className="bg-white/2 relative z-20">
+                                  <td colSpan="5" className="p-0 border-b border-white/3">
                                     <div className="p-6 my-2 mx-1 rounded-sm border border-gold/30 bg-dark-800 shadow-2xl relative animate-fadeInUp">
                                       <div className="flex items-center space-x-3 mb-6">
                                         <Edit2 className="w-4 h-4 text-gold" />
@@ -534,7 +534,7 @@ const AdminMembers = () => {
                                               {['member', 'admin'].map(opt => (
                                                 <div
                                                   key={opt}
-                                                  className={`px-4 py-2.5 text-sm cursor-pointer transition-colors border-b border-white/5 last:border-0 flex justify-between items-center ${editForm.role === opt ? 'bg-white/[0.04] text-gold' : 'text-gray-400 hover:bg-white/[0.02] hover:text-white'}`}
+                                                  className={`px-4 py-2.5 text-sm cursor-pointer transition-colors border-b border-white/5 last:border-0 flex justify-between items-center ${editForm.role === opt ? 'bg-white/4 text-gold' : 'text-gray-400 hover:bg-white/2 hover:text-white'}`}
                                                   onClick={() => {
                                                     setEditForm(p => ({ ...p, role: opt }));
                                                     setOpenDropdown(null);
@@ -565,7 +565,7 @@ const AdminMembers = () => {
                                               {MEMBERSHIP_TIERS.map(t => (
                                                 <div
                                                   key={t.id}
-                                                  className={`px-4 py-2.5 text-sm cursor-pointer transition-colors border-b border-white/5 last:border-0 flex justify-between items-center uppercase tracking-wider ${editForm.membershipTier === t.id ? 'bg-white/[0.04] text-gold' : 'text-gray-400 hover:bg-white/[0.02] hover:text-white'}`}
+                                                  className={`px-4 py-2.5 text-sm cursor-pointer transition-colors border-b border-white/5 last:border-0 flex justify-between items-center uppercase tracking-wider ${editForm.membershipTier === t.id ? 'bg-white/4 text-gold' : 'text-gray-400 hover:bg-white/2 hover:text-white'}`}
                                                   onClick={() => {
                                                     setEditForm(p => ({ ...p, membershipTier: t.id }));
                                                     setOpenDropdown(null);
@@ -580,7 +580,7 @@ const AdminMembers = () => {
                                         </div>
                                       </div>
 
-                                      <div className="flex justify-end space-x-3 mt-8 pt-4 border-t border-white/[0.06]">
+                                      <div className="flex justify-end space-x-3 mt-8 pt-4 border-t border-white/6">
                                         <button
                                           onClick={cancelEdit}
                                           className="px-6 py-2 text-xs uppercase tracking-widest text-gray-400 hover:text-white transition-colors"
@@ -610,7 +610,7 @@ const AdminMembers = () => {
                             const joinedDate = member.createdAt?.toDate ? formatDate(member.createdAt.toDate()) : '—';
 
                             return (
-                              <tr key={member.id} className="group hover:bg-white/[0.01] transition-colors">
+                              <tr key={member.id} className="group hover:bg-white/1 transition-colors">
                                 <td className="py-5 align-middle pr-4">
                                   <div className="flex items-center space-x-4">
                                     <div
@@ -819,7 +819,7 @@ const AdminMembers = () => {
                           </div>
                         )}
 
-                        <div className="pt-6 border-t border-white/[0.06] flex justify-end">
+                        <div className="pt-6 border-t border-white/6 flex justify-end">
                           <button
                             type="submit"
                             disabled={creating}
