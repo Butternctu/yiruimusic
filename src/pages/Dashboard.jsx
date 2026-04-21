@@ -194,7 +194,7 @@ const Dashboard = () => {
               className="lg:col-span-3 h-full glass-card rounded-sm border border-gold/15 overflow-hidden animate-fadeInUp flex flex-col"
               style={{ animationDelay: '350ms' }}
             >
-              <div className="p-6 flex-1 flex flex-col justify-center">
+              <div className="p-6 md:p-8 flex-1 flex flex-col justify-center">
                 <div className="flex items-center space-x-2 mb-5">
                   <Music className="w-4 h-4 text-gold/60" />
                   <p className="text-[10px] uppercase tracking-widest text-gold/60">Next Session</p>
@@ -206,23 +206,23 @@ const Dashboard = () => {
                     <span className="text-gray-500 text-sm">Loading...</span>
                   </div>
                 ) : nextAppointment ? (
-                  <div className="flex items-center justify-between flex-wrap gap-4">
-                    <div>
-                      <p className="text-white font-serif text-xl mb-2">{getLessonTypeById(nextAppointment.lessonType)?.name || nextAppointment.lessonType}</p>
-                      <div className="flex items-center space-x-4 text-sm">
+                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 md:gap-4">
+                    <div className="space-y-3">
+                      <p className="text-white font-serif text-xl leading-relaxed">{getLessonTypeById(nextAppointment.lessonType)?.name || nextAppointment.lessonType}</p>
+                      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
                         <span className="flex items-center space-x-1.5 text-gold">
-                          <Calendar className="w-3.5 h-3.5" />
+                          <Calendar className="w-3.5 h-3.5 shrink-0" />
                           <span>{nextAppointment.dateTime?.toDate && formatDate(nextAppointment.dateTime.toDate())}</span>
                         </span>
                         <span className="flex items-center space-x-1.5 text-gray-400">
-                          <Clock className="w-3.5 h-3.5" />
+                          <Clock className="w-3.5 h-3.5 shrink-0" />
                           <span>{nextAppointment.dateTime?.toDate && formatTime(nextAppointment.dateTime.toDate())}</span>
                         </span>
                       </div>
                     </div>
                     <Link
                       to="/appointments"
-                      className="inline-flex items-center space-x-2 text-gold text-xs uppercase tracking-widest hover:text-gold-light transition-colors group"
+                      className="self-end md:self-auto inline-flex items-center space-x-2 text-gold text-xs uppercase tracking-widest hover:text-gold-light transition-colors group shrink-0"
                     >
                       <span>Details</span>
                       <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-300" />
