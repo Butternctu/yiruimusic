@@ -101,7 +101,9 @@ const Navbar = () => {
     return name.split(' ').map((n) => n[0]).join('').toUpperCase().slice(0, 2);
   };
 
-  const applyScrolledStyle = isScrolled || isAuthenticated;
+  const authPaths = ['/dashboard', '/booking', '/appointments', '/profile', '/messages', '/admin'];
+  const isAuthPath = authPaths.some(path => location.pathname.startsWith(path));
+  const applyScrolledStyle = isScrolled || isAuthPath;
 
   return (
     <>
