@@ -105,16 +105,23 @@ const AdminMessages = () => {
       });
 
       // Send Email Notification to Student
-      const emailParams = {
-        to_name: selectedChat.userName || 'Student',
-        to_email: selectedChat.userEmail,
-        message: messageText,
-        from_name: 'Dr. Li',
-      };
+      if (selectedChat.userEmail) {
+        const studentName = selectedChat.userName || 'Student';
+        const emailParams = {
+          to_name: studentName,
+          to_email: selectedChat.userEmail,
+          message: `Dear ${studentName},\n\nDr. Li has replied to your message:\n\n"${messageText}"\n\nPlease log in to your dashboard to view the conversation.`,
+          from_name: 'Dr. Li',
+        };
 
-      emailjs
-        .send(import.meta.env.VITE_EMAILJS_SERVICE_ID, import.meta.env.VITE_EMAILJS_STUDENT_TEMPLATE_ID, emailParams, import.meta.env.VITE_EMAILJS_PUBLIC_KEY)
-        .catch(err => console.error('Email notification failed:', err));
+        try {
+          await emailjs.send(import.meta.env.VITE_EMAILJS_SERVICE_ID, import.meta.env.VITE_EMAILJS_STUDENT_TEMPLATE_ID, emailParams, import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
+        } catch (err) {
+          console.error('Email notification failed:', err);
+        }
+      } else {
+        console.warn('Cannot send email notification: userEmail is missing from this chat document.');
+      }
     } catch (error) {
       console.error('Error sending reply:', error);
     }

@@ -93,16 +93,20 @@ const Messages = () => {
       );
 
       // Send Email Notification to Admin
+      const studentName = userProfile?.displayName || user.displayName || 'A student';
       const emailParams = {
-        from_name: userProfile?.displayName || user.displayName || 'A student',
+        from_name: studentName,
         from_email: user.email,
-        message: messageText,
+        reply_to: user.email,
+        message: `You have received a new message from ${studentName} (${user.email}):\n\n"${messageText}"\n\nPlease log in to the Admin Platform to reply.`,
         to_name: 'Dr. Li',
       };
 
-      emailjs
-        .send(import.meta.env.VITE_EMAILJS_SERVICE_ID, import.meta.env.VITE_EMAILJS_ADMIN_TEMPLATE_ID, emailParams, import.meta.env.VITE_EMAILJS_PUBLIC_KEY)
-        .catch(err => console.error('Email notification failed:', err));
+      try {
+        await emailjs.send(import.meta.env.VITE_EMAILJS_SERVICE_ID, import.meta.env.VITE_EMAILJS_ADMIN_TEMPLATE_ID, emailParams, import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
+      } catch (err) {
+        console.error('Email notification failed:', err);
+      }
     } catch (error) {
       console.error('Error sending message:', error);
     }
