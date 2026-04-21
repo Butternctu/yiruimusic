@@ -120,11 +120,13 @@ const Dashboard = () => {
   return (
     <>
       <SEO title="Dashboard | Dr. Yirui Li" url="/dashboard" />
-      <section className="min-h-screen bg-dark-900 pt-30 pb-12 relative flex flex-col">
+      <section className="min-h-screen bg-dark-900 pt-30 pb-8 relative flex flex-col">
         {/* Decorative background elements */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[600px] bg-[radial-gradient(ellipse_at_top,rgba(197,160,89,0.04)_0%,transparent_60%)] pointer-events-none" />
-        <div className="absolute top-40 right-0 w-[400px] h-[400px] bg-[radial-gradient(circle,rgba(197,160,89,0.02)_0%,transparent_70%)] pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-[radial-gradient(circle,rgba(197,160,89,0.015)_0%,transparent_70%)] pointer-events-none" />
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[600px] bg-[radial-gradient(ellipse_at_top,rgba(197,160,89,0.04)_0%,transparent_60%)]" />
+          <div className="absolute top-40 right-0 w-[400px] h-[400px] bg-[radial-gradient(circle,rgba(197,160,89,0.02)_0%,transparent_70%)]" />
+          <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-[radial-gradient(circle,rgba(197,160,89,0.015)_0%,transparent_70%)]" />
+        </div>
 
         <div className="max-w-6xl mx-auto px-6 md:px-12 relative z-10 w-full">
           {/* Welcome Header */}

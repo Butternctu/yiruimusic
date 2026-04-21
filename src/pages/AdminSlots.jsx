@@ -323,10 +323,12 @@ const AdminSlots = () => {
       <SEO title="Manage Time Slots | Admin" url="/admin/slots" />
       <section className="min-h-screen bg-dark-900 pt-28 pb-12 relative flex flex-col">
         {/* Decorative elements */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-[radial-gradient(ellipse_at_top,rgba(197,160,89,0.03)_0%,transparent_70%)] pointer-events-none" />
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-[radial-gradient(ellipse_at_top,rgba(197,160,89,0.03)_0%,transparent_70%)]" />
+        </div>
 
         <div className="max-w-6xl mx-auto px-6 md:px-12 w-full z-10 relative">
-          <div className="sticky top-[72px] z-30 bg-dark-900/95 backdrop-blur-md pt-2 pb-6 -mx-6 px-6 md:-mx-12 md:px-12">
+          <div className="sticky top-[64px] md:top-[80px] z-30 bg-dark-900/95 backdrop-blur-md pt-6 pb-6 -mx-6 px-6 md:-mx-12 md:px-12">
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-center justify-between space-y-4 md:space-y-0 animate-fadeInUp shrink-0">
             <div className="flex items-center space-x-4">

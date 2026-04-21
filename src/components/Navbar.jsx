@@ -244,7 +244,7 @@ const Navbar = () => {
             <Link to="/repertoire" onClick={closeMobileMenu} className="hover:text-gold transition-colors duration-300 px-8 py-2">Programs</Link>
 
             {/* Mobile Auth */}
-            <div className="w-full border-t border-white/[0.06] pt-6 mt-4 flex flex-col items-center space-y-6">
+            <div className="w-full border-t border-white/[0.06] pt-8 flex flex-col items-center space-y-8">
               {isAuthenticated ? (
                 <>
                   <Link to="/dashboard" onClick={closeMobileMenu} className="hover:text-gold transition-colors duration-300 px-8 py-2">Dashboard</Link>

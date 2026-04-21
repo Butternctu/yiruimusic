@@ -208,12 +208,14 @@ const AdminMembers = () => {
   return (
     <>
       <SEO title="Manage Members | Admin" url="/admin/members" />
-      <section className="min-h-screen bg-dark-900 pt-28 pb-12 relative flex flex-col">
+      <section className="min-h-screen bg-dark-900 pt-28 pb-12 relative flex flex-col overflow-x-clip">
         {/* Decorative background gradients */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-[radial-gradient(ellipse_at_top,rgba(197,160,89,0.03)_0%,transparent_70%)] pointer-events-none" />
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-[radial-gradient(ellipse_at_top,rgba(197,160,89,0.03)_0%,transparent_70%)]" />
+        </div>
 
         <div className="max-w-6xl mx-auto px-6 md:px-12 w-full z-10 relative">
-          <div className="sticky top-[72px] z-30 bg-dark-900/95 backdrop-blur-md pt-2 pb-6 -mx-6 px-6 md:-mx-12 md:px-12">
+          <div className="sticky top-[64px] md:top-[80px] z-30 bg-dark-900/95 backdrop-blur-md pt-6 pb-6 -mx-6 px-6 md:-mx-12 md:px-12">
             {/* Header */}
             <div className="flex items-center space-x-4 mb-6 animate-fadeInUp shrink-0">
             <button
@@ -277,7 +279,186 @@ const AdminMembers = () => {
                     <p className="text-gray-400 mb-2">No members found</p>
                   </div>
                 ) : (
-                  <div className="overflow-x-auto">
+                  <div className="w-full">
+                    {/* Mobile Card Layout */}
+                    <div className="md:hidden space-y-4">
+                      {filteredMembers.map(member => {
+                        const isEditing = editingId === member.id;
+                        const tier = getTierDetails(member.membershipTier || 'bronze');
+                        const joinedDate = member.createdAt?.toDate ? formatDate(member.createdAt.toDate()) : '—';
+
+                        if (isEditing) {
+                          return (
+                            <div key={`edit-mobile-${member.id}`} className="glass-card p-6 rounded-sm border border-gold/30 bg-dark-800 shadow-2xl animate-fadeInUp">
+                              <div className="flex items-center space-x-3 mb-6">
+                                <Edit2 className="w-4 h-4 text-gold" />
+                                <h4 className="text-white font-serif tracking-wide text-lg">Edit Profile</h4>
+                              </div>
+
+                              <div className="space-y-6">
+                                <div>
+                                  <label className="block text-[10px] uppercase tracking-widest text-gray-500 mb-2">Display Name</label>
+                                  <input
+                                    type="text"
+                                    value={editForm.displayName}
+                                    onChange={e => setEditForm(p => ({ ...p, displayName: e.target.value }))}
+                                    className="w-full bg-transparent border-b border-white/20 py-2 text-sm text-white focus:outline-none focus:border-gold transition-colors"
+                                  />
+                                </div>
+                                <div>
+                                  <label className="block text-[10px] uppercase tracking-widest text-gray-500 mb-2">Phone</label>
+                                  <input
+                                    type="tel"
+                                    value={editForm.phone}
+                                    onChange={e => setEditForm(p => ({ ...p, phone: formatPhoneNumber(e.target.value) }))}
+                                    className="w-full bg-transparent border-b border-white/20 py-2 text-sm text-white focus:outline-none focus:border-gold transition-colors"
+                                  />
+                                </div>
+                                <div ref={dropdownRef}>
+                                  <label className="block text-[10px] uppercase tracking-widest text-gray-500 mb-2">System Role</label>
+                                  <div className="relative">
+                                    <div
+                                      className={`w-full bg-transparent border-b py-2 cursor-pointer flex justify-between items-center z-10 ${openDropdown === 'edit-role-' + member.id ? 'border-gold' : 'border-white/20 hover:border-white/50'}`}
+                                      onClick={() => setOpenDropdown(openDropdown === 'edit-role-' + member.id ? null : 'edit-role-' + member.id)}
+                                    >
+                                      <span className="text-gold text-sm capitalize font-medium">{editForm.role}</span>
+                                      <ChevronDown className={`w-4 h-4 text-gold transition-transform duration-300 ${openDropdown === 'edit-role-' + member.id ? 'rotate-180' : ''}`} />
+                                    </div>
+                                    <div className={`absolute left-0 top-[calc(100%+4px)] w-full bg-dark-800 border border-white/10 shadow-2xl transition-all duration-300 z-50 ${openDropdown === 'edit-role-' + member.id ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'}`}>
+                                      {['member', 'admin'].map(opt => (
+                                        <div
+                                          key={opt}
+                                          className={`px-4 py-2.5 text-sm cursor-pointer transition-colors border-b border-white/5 last:border-0 flex justify-between items-center ${editForm.role === opt ? 'bg-white/[0.04] text-gold' : 'text-gray-400 hover:bg-white/[0.02] hover:text-white'}`}
+                                          onClick={() => {
+                                            setEditForm(p => ({ ...p, role: opt }));
+                                            setOpenDropdown(null);
+                                          }}
+                                        >
+                                          <span className="capitalize">{opt}</span>
+                                          {editForm.role === opt && <Check className="w-4 h-4 text-gold" />}
+                                        </div>
+                                      ))}
+                                    </div>
+                                  </div>
+                                </div>
+                                <div ref={dropdownRef}>
+                                  <label className="block text-[10px] uppercase tracking-widest text-gray-500 mb-2">Membership Tier</label>
+                                  <div className="relative">
+                                    <div
+                                      className={`w-full bg-transparent border-b py-2 cursor-pointer flex justify-between items-center z-10 ${openDropdown === 'edit-tier-' + member.id ? 'border-gold' : 'border-white/20 hover:border-white/50'}`}
+                                      onClick={() => setOpenDropdown(openDropdown === 'edit-tier-' + member.id ? null : 'edit-tier-' + member.id)}
+                                    >
+                                      <span className="text-gold text-sm uppercase tracking-wider">{getTierDetails(editForm.membershipTier).name}</span>
+                                      <ChevronDown className={`w-4 h-4 text-gold transition-transform duration-300 ${openDropdown === 'edit-tier-' + member.id ? 'rotate-180' : ''}`} />
+                                    </div>
+                                    <div className={`absolute left-0 top-[calc(100%+4px)] w-full bg-dark-800 border border-white/10 shadow-2xl transition-all duration-300 z-50 ${openDropdown === 'edit-tier-' + member.id ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'}`}>
+                                      {MEMBERSHIP_TIERS.map(t => (
+                                        <div
+                                          key={t.id}
+                                          className={`px-4 py-2.5 text-sm cursor-pointer transition-colors border-b border-white/5 last:border-0 flex justify-between items-center uppercase tracking-wider ${editForm.membershipTier === t.id ? 'bg-white/[0.04] text-gold' : 'text-gray-400 hover:bg-white/[0.02] hover:text-white'}`}
+                                          onClick={() => {
+                                            setEditForm(p => ({ ...p, membershipTier: t.id }));
+                                            setOpenDropdown(null);
+                                          }}
+                                        >
+                                          <span>{t.name}</span>
+                                          {editForm.membershipTier === t.id && <Check className="w-4 h-4 text-gold" />}
+                                        </div>
+                                      ))}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div className="flex flex-col space-y-3 mt-8 pt-6 border-t border-white/[0.06]">
+                                <button
+                                  onClick={() => saveEdit(member.id)}
+                                  disabled={savingId === member.id}
+                                  className="w-full py-3 border border-gold/50 text-xs uppercase tracking-widest bg-gold/10 text-gold hover:bg-gold hover:text-dark-900 transition-all duration-300 disabled:opacity-50 flex items-center justify-center space-x-2"
+                                >
+                                  {savingId === member.id ? (
+                                    <div className="w-3 h-3 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                                  ) : (
+                                    <Check className="w-4 h-4" />
+                                  )}
+                                  <span>{savingId === member.id ? 'Saving...' : 'Save Changes'}</span>
+                                </button>
+                                <button
+                                  onClick={cancelEdit}
+                                  className="w-full py-3 text-xs uppercase tracking-widest text-gray-500 hover:text-white transition-colors"
+                                >
+                                  Cancel
+                                </button>
+                              </div>
+                            </div>
+                          );
+                        }
+
+                        return (
+                          <div key={member.id} className="glass-card p-5 rounded-sm border border-white/[0.03] space-y-5">
+                            <div className="flex items-start justify-between">
+                              <div className="flex items-center space-x-4">
+                                <div className={`w-12 h-12 rounded-full border ${tier.borderColor} ${tier.bgColor} flex items-center justify-center shrink-0`}>
+                                  <span className={`text-sm font-serif ${tier.textColor}`}>{getInitials(member.displayName)}</span>
+                                </div>
+                                <div className="min-w-0">
+                                  <div className="flex items-center space-x-2">
+                                    <span className="text-white text-base font-medium truncate">{member.displayName || 'No Name'}</span>
+                                    {member.role === 'admin' && <Shield className="w-3.5 h-3.5 text-gold" />}
+                                  </div>
+                                  <span className="text-gray-600 text-[10px] font-mono block">UID: {member.id.slice(0, 8)}...</span>
+                                </div>
+                              </div>
+                              <div className="flex flex-col items-end space-y-1">
+                                <span className={`inline-block px-2 py-0.5 text-[8px] uppercase tracking-[0.2em] rounded-sm border ${tier.borderColor} ${tier.textColor} ${tier.bgColor}`}>
+                                  {tier.name}
+                                </span>
+                                <span className="text-gray-600 text-[9px] uppercase tracking-widest">{joinedDate}</span>
+                              </div>
+                            </div>
+
+                            <div className="grid grid-cols-1 gap-3 py-4 border-y border-white/[0.03]">
+                              <div className="flex items-center space-x-3 text-gray-400">
+                                <div className="p-1.5 bg-white/5 rounded-sm">
+                                  <Mail className="w-3.5 h-3.5 text-gold/60" />
+                                </div>
+                                <span className="text-xs truncate">{member.email}</span>
+                              </div>
+                              {member.phone && (
+                                <div className="flex items-center space-x-3 text-gray-400">
+                                  <div className="p-1.5 bg-white/5 rounded-sm">
+                                    <Phone className="w-3.5 h-3.5 text-gold/60" />
+                                  </div>
+                                  <span className="text-xs">{member.phone}</span>
+                                </div>
+                              )}
+                            </div>
+
+                            <div className="flex items-center space-x-3">
+                              <button
+                                onClick={() => startEdit(member)}
+                                className="flex-1 flex items-center justify-center space-x-2 py-2.5 rounded-sm border border-white/10 text-gray-400 hover:text-gold hover:border-gold/30 transition-all"
+                              >
+                                <Edit2 className="w-3.5 h-3.5" />
+                                <span className="text-[10px] uppercase tracking-widest pt-0.5">Edit</span>
+                              </button>
+                              {auth.currentUser?.uid !== member.id && (
+                                <button
+                                  onClick={() => setDeleteTarget(member)}
+                                  className="flex-1 flex items-center justify-center space-x-2 py-2.5 rounded-sm border border-white/10 text-gray-400 hover:text-[#d9736c] hover:border-[#d9736c]/30 transition-all"
+                                >
+                                  <Trash2 className="w-3.5 h-3.5" />
+                                  <span className="text-[10px] uppercase tracking-widest pt-0.5">Delete</span>
+                                </button>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+
+                    {/* Desktop Table Layout */}
+                    <div className="hidden md:block overflow-x-auto w-full">
                     <table className="w-full text-left border-collapse min-w-[800px]">
                       <thead className="bg-dark-900">
                         <tr className="border-b border-white/10">
@@ -485,6 +666,7 @@ const AdminMembers = () => {
                         })}
                       </tbody>
                     </table>
+                    </div>
                   </div>
                 )}
               </div>
@@ -493,7 +675,7 @@ const AdminMembers = () => {
             {activeView === 'create' && (
               <div className="animate-fadeInUp" style={{ animationDelay: '200ms' }}>
                 <div className="max-w-4xl mx-auto">
-                  <div className="p-6 md:p-8 rounded-sm border border-gold/20 bg-dark-800 shadow-2xl relative">
+                  <div className="p-6 md:p-8 rounded-sm border border-gold/20 bg-dark-800 shadow-2xl relative overflow-hidden">
                     <div className="absolute top-0 right-0 w-64 h-64 bg-gold/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" />
                     <div className="relative z-10">
                       <div className="flex items-center space-x-3 mb-2">

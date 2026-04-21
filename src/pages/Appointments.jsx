@@ -190,9 +190,11 @@ const Appointments = () => {
     <>
       <SEO title="My Appointments | Dr. Yirui Li" url="/appointments" />
       <section className="min-h-screen bg-dark-900 pt-28 pb-12 relative flex flex-col">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-[radial-gradient(ellipse_at_top,rgba(197,160,89,0.03)_0%,transparent_70%)] pointer-events-none" />
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-[radial-gradient(ellipse_at_top,rgba(197,160,89,0.03)_0%,transparent_70%)]" />
+        </div>
         <div className="max-w-5xl mx-auto px-6 md:px-12 w-full z-10 relative">
-          <div className="sticky top-[72px] z-30 bg-dark-900/95 backdrop-blur-md pt-2 pb-6 -mx-6 px-6 md:-mx-12 md:px-12">
+          <div className="sticky top-[64px] md:top-[80px] z-30 bg-dark-900/95 backdrop-blur-md pt-6 pb-6 -mx-6 px-6 md:-mx-12 md:px-12">
             {/* Header */}
             <div className="flex items-center space-x-4 mb-6 animate-fadeInUp shrink-0">
               <Link to="/dashboard" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5 hover:border-gold/30 transition-all duration-300">

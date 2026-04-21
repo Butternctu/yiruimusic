@@ -6,7 +6,7 @@ import { formatPhoneNumber } from '../data/bookingData';
 import SEO from '../components/SEO';
 
 const Register = () => {
-  const { register, loginWithGoogle, isAuthenticated } = useAuth();
+  const { register, loginWithGoogle, isAuthenticated, userProfile, isAdmin, loading } = useAuth();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
@@ -22,8 +22,10 @@ const Register = () => {
   const [shakeError, setShakeError] = useState(false);
 
   React.useEffect(() => {
-    if (isAuthenticated) navigate('/dashboard', { replace: true });
-  }, [isAuthenticated, navigate]);
+    if (!loading && isAuthenticated && userProfile) {
+      navigate(isAdmin ? '/admin' : '/dashboard', { replace: true });
+    }
+  }, [isAuthenticated, isAdmin, loading, userProfile, navigate]);
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -61,6 +63,7 @@ const Register = () => {
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
+      setSubmitError(Object.values(newErrors)[0]);
       setShakeError(true);
       setTimeout(() => setShakeError(false), 500);
       return;
@@ -69,7 +72,7 @@ const Register = () => {
     setIsLoading(true);
     try {
       await register(formData.email, formData.password, formData.name, formData.phone);
-      navigate('/dashboard');
+      // Redirect handled by useEffect
     } catch (err) {
       let message = 'An error occurred. Please try again.';
       if (err.code === 'auth/email-already-in-use') {
@@ -92,7 +95,7 @@ const Register = () => {
     setIsLoading(true);
     try {
       await loginWithGoogle();
-      navigate('/dashboard');
+      // Redirect handled by useEffect
     } catch (err) {
       console.error(err);
       if (err.code !== 'auth/cancelled-popup-request' && err.code !== 'auth/popup-closed-by-user') {
@@ -112,7 +115,9 @@ const Register = () => {
     <>
       <SEO title="Create Account | Dr. Yirui Li" url="/register" />
       <section className="min-h-screen bg-dark-900 flex flex-col relative overflow-hidden px-6 pt-28 pb-12">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-[radial-gradient(ellipse_at_top,rgba(197,160,89,0.04)_0%,transparent_70%)] pointer-events-none" />
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-[radial-gradient(ellipse_at_top,rgba(197,160,89,0.04)_0%,transparent_70%)]" />
+        </div>
 
         <div className="w-full max-w-md relative z-10 animate-fadeInUp m-auto">
           <div className="text-center mb-8">
@@ -139,11 +144,6 @@ const Register = () => {
                   className={inputClass('name')}
                   placeholder="Your full name"
                 />
-                {errors.name && (
-                  <p className={`absolute -bottom-5 left-0 text-[10px] text-[#d9736c] tracking-wider uppercase ${shakeError ? 'animate-error-shake' : ''}`}>
-                    {errors.name}
-                  </p>
-                )}
               </div>
 
               <div className="relative">
@@ -177,11 +177,6 @@ const Register = () => {
                 className={inputClass('email')}
                 placeholder="email@example.com"
               />
-              {errors.email && (
-                <p className={`absolute -bottom-5 left-0 text-[10px] text-[#d9736c] tracking-wider uppercase ${shakeError ? 'animate-error-shake' : ''}`}>
-                  {errors.email}
-                </p>
-              )}
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -209,11 +204,6 @@ const Register = () => {
                     {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
                 </div>
-                {errors.password && (
-                  <p className={`absolute -bottom-5 left-0 text-[10px] text-[#d9736c] tracking-wider uppercase ${shakeError ? 'animate-error-shake' : ''}`}>
-                    {errors.password}
-                  </p>
-                )}
               </div>
 
               <div className="relative">
@@ -230,11 +220,6 @@ const Register = () => {
                   className={inputClass('confirmPassword')}
                   placeholder="••••••••"
                 />
-                {errors.confirmPassword && (
-                  <p className={`absolute -bottom-5 left-0 text-[10px] text-[#d9736c] tracking-wider uppercase ${shakeError ? 'animate-error-shake' : ''}`}>
-                    {errors.confirmPassword}
-                  </p>
-                )}
               </div>
             </div>
 

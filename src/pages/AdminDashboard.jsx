@@ -171,42 +171,44 @@ const AdminDashboard = () => {
   return (
     <>
       <SEO title="Admin Dashboard | Dr. Yirui Li" url="/admin" />
-      <section className="min-h-screen bg-dark-900 pt-30 pb-12 relative flex flex-col">
+      <section className="min-h-screen bg-dark-900 pt-30 pb-8 relative flex flex-col">
         {/* Decorative elements */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[600px] bg-[radial-gradient(ellipse_at_top,rgba(197,160,89,0.04)_0%,transparent_60%)] pointer-events-none" />
-        <div className="absolute top-60 left-0 w-[300px] h-[300px] bg-[radial-gradient(circle,rgba(197,160,89,0.02)_0%,transparent_70%)] pointer-events-none" />
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[600px] bg-[radial-gradient(ellipse_at_top,rgba(197,160,89,0.04)_0%,transparent_60%)]" />
+          <div className="absolute top-60 left-0 w-[300px] h-[300px] bg-[radial-gradient(circle,rgba(197,160,89,0.02)_0%,transparent_70%)]" />
+        </div>
 
         <div className="max-w-6xl mx-auto px-6 md:px-12 w-full z-10 relative">
-          <div className="sticky top-[72px] z-30 bg-dark-900/95 backdrop-blur-md pt-2 pb-7 -mx-6 px-6 md:-mx-12 md:px-12">
+          <div className="sticky top-[64px] md:top-[80px] z-30 bg-dark-900/95 backdrop-blur-md pt-6 pb-7 -mx-6 px-6 md:-mx-12 md:px-12">
             {/* Header */}
-            <div className="flex items-center justify-between animate-fadeInUp shrink-0">
+            <div className="flex flex-col md:flex-row md:items-center justify-between space-y-5 md:space-y-0 animate-fadeInUp shrink-0">
               <div className="flex items-center space-x-4">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-gold/20 to-gold/5 border border-gold/30 flex items-center justify-center">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-gold/20 to-gold/5 border border-gold/30 flex items-center justify-center shrink-0">
                   <Shield className="w-5 h-5 text-gold" />
                 </div>
-                <div>
-                  <h1 className="font-serif text-2xl md:text-3xl text-white tracking-wide">Admin Platform</h1>
-                  <p className="text-gray-500 text-[10px] tracking-[0.2em] uppercase mt-1">{formattedToday}</p>
+                <div className="min-w-0">
+                  <h1 className="font-serif text-2xl md:text-3xl text-white tracking-wide truncate">Admin Platform</h1>
+                  <p className="text-gray-500 text-[10px] tracking-[0.2em] uppercase mt-1 truncate">{formattedToday}</p>
                 </div>
               </div>
-              <div className="hidden md:flex items-center space-x-3">
+              <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-3 w-full md:w-auto">
                 <Link
                   to="/admin/members"
-                  className="inline-flex items-center space-x-2 border border-white/20 bg-dark-800 px-5 py-2.5 rounded-sm text-xs uppercase tracking-widest text-gray-300 hover:border-gold hover:text-gold transition-all duration-300 group"
+                  className="hidden md:flex md:w-auto justify-center items-center space-x-2 border border-white/20 bg-dark-800 px-5 py-2.5 rounded-sm text-xs uppercase tracking-widest text-gray-300 hover:border-gold hover:text-gold transition-all duration-300 group"
                 >
                   <Users className="w-3.5 h-3.5" />
                   <span>Manage Members</span>
                 </Link>
                 <Link
                   to="/admin/slots"
-                  className="inline-flex items-center space-x-2 border border-white/20 bg-dark-800 px-5 py-2.5 rounded-sm text-xs uppercase tracking-widest text-gray-300 hover:border-gold hover:text-gold transition-all duration-300 group"
+                  className="hidden md:flex md:w-auto justify-center items-center space-x-2 border border-white/20 bg-dark-800 px-5 py-2.5 rounded-sm text-xs uppercase tracking-widest text-gray-300 hover:border-gold hover:text-gold transition-all duration-300 group"
                 >
                   <Settings className="w-3.5 h-3.5" />
                   <span>Manage Slots</span>
                 </Link>
                 <Link
                   to="/admin/messages"
-                  className="inline-flex items-center space-x-2 border border-gold/30 bg-gold/5 px-5 py-2.5 rounded-sm text-xs uppercase tracking-widest text-gold hover:bg-gold hover:text-dark-900 transition-all duration-300 group relative"
+                  className="w-full md:w-auto flex justify-center items-center space-x-2 border border-gold/30 bg-gold/5 px-5 py-2.5 rounded-sm text-xs uppercase tracking-widest text-gold hover:bg-gold hover:text-dark-900 transition-all duration-300 group relative"
                 >
                   <div className="relative">
                     <MessageSquare className="w-3.5 h-3.5" />
@@ -402,6 +404,24 @@ const AdminDashboard = () => {
                 )}
               </div>
             </div>
+          </div>
+
+          {/* Mobile Admin Navigation (Bottom) */}
+          <div className="md:hidden flex flex-col space-y-3 mt-4 mb-4 animate-fadeInUp" style={{ animationDelay: '500ms' }}>
+            <Link
+              to="/admin/members"
+              className="w-full flex justify-center items-center space-x-2 border border-white/20 bg-dark-800 px-5 py-3.5 rounded-sm text-xs uppercase tracking-widest text-gray-300 hover:border-gold hover:text-gold transition-all duration-300 group"
+            >
+              <Users className="w-4 h-4" />
+              <span>Manage Members</span>
+            </Link>
+            <Link
+              to="/admin/slots"
+              className="w-full flex justify-center items-center space-x-2 border border-white/20 bg-dark-800 px-5 py-3.5 rounded-sm text-xs uppercase tracking-widest text-gray-300 hover:border-gold hover:text-gold transition-all duration-300 group"
+            >
+              <Settings className="w-4 h-4" />
+              <span>Manage Slots</span>
+            </Link>
           </div>
         </div>
       </section>
