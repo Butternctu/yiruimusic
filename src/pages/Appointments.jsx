@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Calendar, Clock, X, AlertTriangle, Plus, ArrowLeft } from 'lucide-react';
-import {
-  collection, query, where, getDocs, doc, Timestamp, writeBatch
-} from 'firebase/firestore';
+import { collection, query, where, getDocs, doc, Timestamp, writeBatch } from 'firebase/firestore';
 import { db } from '../firebase';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
@@ -25,12 +23,9 @@ const Appointments = () => {
     const fetchAppointments = async () => {
       setLoading(true);
       try {
-        const q = query(
-          collection(db, 'appointments'),
-          where('userId', '==', user.uid)
-        );
+        const q = query(collection(db, 'appointments'), where('userId', '==', user.uid));
         const snap = await getDocs(q);
-        const fetched = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+        const fetched = snap.docs.map(d => ({ id: d.id, ...d.data() }));
         fetched.sort((a, b) => {
           const dta = a.dateTime?.toDate ? a.dateTime.toDate() : new Date(0);
           const dtb = b.dateTime?.toDate ? b.dateTime.toDate() : new Date(0);
@@ -47,12 +42,8 @@ const Appointments = () => {
   }, [user]);
 
   const now = new Date();
-  const upcomingAppointments = appointments.filter(
-    (a) => a.status === 'confirmed' && a.dateTime?.toDate && a.dateTime.toDate() >= now
-  );
-  const pastAppointments = appointments.filter(
-    (a) => a.status !== 'confirmed' || (a.dateTime?.toDate && a.dateTime.toDate() < now)
-  );
+  const upcomingAppointments = appointments.filter(a => a.status === 'confirmed' && a.dateTime?.toDate && a.dateTime.toDate() >= now);
+  const pastAppointments = appointments.filter(a => a.status !== 'confirmed' || (a.dateTime?.toDate && a.dateTime.toDate() < now));
 
   const handleCancel = async () => {
     if (!cancelTarget) return;
@@ -74,7 +65,7 @@ const Appointments = () => {
           bookedBy: null,
           bookedAt: null,
           lessonType: null,
-          duration: 60
+          duration: 60,
         });
       }
 
@@ -87,7 +78,7 @@ const Appointments = () => {
             bookedAt: null,
             lessonType: null,
             duration: 60,
-            blockedBy: null
+            blockedBy: null,
           });
         });
       }
@@ -100,32 +91,27 @@ const Appointments = () => {
           bookedAt: null,
           lessonType: null,
           duration: 60,
-          blockedBy: null
+          blockedBy: null,
         });
       }
 
       await batch.commit();
 
       // Update local state
-      setAppointments((prev) =>
-        prev.map((a) => (a.id === cancelTarget.id ? { ...a, status: 'cancelled' } : a))
-      );
+      setAppointments(prev => prev.map(a => (a.id === cancelTarget.id ? { ...a, status: 'cancelled' } : a)));
       // Send Email Notification to Admin
       const apptDate = cancelTarget.dateTime?.toDate ? cancelTarget.dateTime.toDate() : new Date(cancelTarget.dateTime);
       const lesson = getLessonTypeById(cancelTarget.lessonType);
-      
+
       const emailParams = {
         from_name: user?.displayName || 'A student',
         from_email: user?.email || '',
         message: `Dear Dr. Li,\n\nThis is an automated notification to inform you that ${user?.displayName || 'a student'} has cancelled their upcoming session.\n\nSession Details:\n- Lesson: ${lesson?.name || cancelTarget.lessonType}\n- Date: ${formatDate(apptDate)}\n- Time: ${formatTime(apptDate)}\n\nThe schedule has been updated accordingly. Thank you.`,
-        to_name: 'Dr. Li'
+        to_name: 'Dr. Li',
       };
-      emailjs.send(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_ADMIN_TEMPLATE_ID,
-        emailParams,
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-      ).catch(err => console.error('Cancellation email notification failed:', err));
+      emailjs
+        .send(import.meta.env.VITE_EMAILJS_SERVICE_ID, import.meta.env.VITE_EMAILJS_ADMIN_TEMPLATE_ID, emailParams, import.meta.env.VITE_EMAILJS_PUBLIC_KEY)
+        .catch(err => console.error('Cancellation email notification failed:', err));
 
       setCancelTarget(null);
     } catch (err) {
@@ -151,14 +137,8 @@ const Appointments = () => {
         <div className="flex items-start justify-between">
           <div className="flex-1">
             <div className="flex items-center space-x-2 mb-2">
-              <span className="text-white font-serif text-lg">
-                {lt?.name || appt.lessonType}
-              </span>
-              {isCancelled && (
-                <span className="text-[10px] uppercase tracking-widest text-[#d9736c] bg-[#d9736c]/10 px-2 py-0.5 rounded-sm">
-                  Cancelled
-                </span>
-              )}
+              <span className="text-white font-serif text-lg">{lt?.name || appt.lessonType}</span>
+              {isCancelled && <span className="text-[10px] uppercase tracking-widest text-[#d9736c] bg-[#d9736c]/10 px-2 py-0.5 rounded-sm">Cancelled</span>}
             </div>
             <div className="flex items-center space-x-4 text-sm text-gray-400">
               <span className="flex items-center space-x-1">
@@ -173,11 +153,7 @@ const Appointments = () => {
             <p className="text-gray-600 text-xs mt-2">{appt.duration} minutes</p>
           </div>
           {showCancel && !isCancelled && (
-            <button
-              onClick={() => setCancelTarget(appt)}
-              className="text-gray-500 hover:text-[#d9736c] transition-colors p-1"
-              title="Cancel appointment"
-            >
+            <button onClick={() => setCancelTarget(appt)} className="text-gray-500 hover:text-[#d9736c] transition-colors p-1" title="Cancel appointment">
               <X className="w-5 h-5" />
             </button>
           )}
@@ -197,7 +173,10 @@ const Appointments = () => {
           <div className="sticky top-[64px] md:top-[80px] z-30 bg-dark-900/95 backdrop-blur-md pt-6 pb-6 -mx-6 px-6 md:-mx-12 md:px-12">
             {/* Header */}
             <div className="flex items-center space-x-4 mb-6 animate-fadeInUp shrink-0">
-              <Link to="/dashboard" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5 hover:border-gold/30 transition-all duration-300">
+              <Link
+                to="/dashboard"
+                className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5 hover:border-gold/30 transition-all duration-300"
+              >
                 <ArrowLeft className="w-4 h-4 text-gray-400" />
               </Link>
               <div>
@@ -206,66 +185,58 @@ const Appointments = () => {
               </div>
             </div>
 
-          {/* Tabs */}
-          <div className="flex space-x-1 mb-8 border-b border-white/[0.06] animate-fadeInUp shrink-0" style={{ animationDelay: '100ms' }}>
-            {[
-              { id: 'upcoming', label: 'Upcoming', count: upcomingAppointments.length },
-              { id: 'past', label: 'Past', count: pastAppointments.length },
-            ].map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`px-6 py-3 text-xs uppercase tracking-widest transition-all duration-300 border-b-2 -mb-px ${
-                  activeTab === tab.id
-                    ? 'border-gold text-gold'
-                    : 'border-transparent text-gray-500 hover:text-gray-300'
-                }`}
-              >
-                {tab.label}
-                {tab.count > 0 && (
-                  <span className="ml-2 text-[10px] bg-white/5 px-2 py-0.5 rounded-full">{tab.count}</span>
-                )}
-              </button>
-            ))}
-          </div>
+            {/* Tabs */}
+            <div className="flex space-x-1 mb-8 border-b border-white/[0.06] animate-fadeInUp shrink-0" style={{ animationDelay: '100ms' }}>
+              {[
+                { id: 'upcoming', label: 'Upcoming', count: upcomingAppointments.length },
+                { id: 'past', label: 'Past', count: pastAppointments.length },
+              ].map(tab => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`px-6 py-3 text-xs uppercase tracking-widest transition-all duration-300 border-b-2 -mb-px ${
+                    activeTab === tab.id ? 'border-gold text-gold' : 'border-transparent text-gray-500 hover:text-gray-300'
+                  }`}
+                >
+                  {tab.label}
+                  {tab.count > 0 && <span className="ml-2 text-[10px] bg-white/5 px-2 py-0.5 rounded-full">{tab.count}</span>}
+                </button>
+              ))}
+            </div>
           </div>
 
           <div className="flex-1 pb-8 flex flex-col min-h-0">
             {/* Content */}
             <div className="animate-fadeInUp flex-1 min-h-0" style={{ animationDelay: '200ms' }}>
-            {loading ? (
-              <div className="flex justify-center py-16">
-                <div className="w-6 h-6 border-2 border-gold border-t-transparent rounded-full animate-spin" />
-              </div>
-            ) : activeTab === 'upcoming' ? (
-              upcomingAppointments.length === 0 ? (
+              {loading ? (
+                <div className="flex justify-center py-16">
+                  <div className="w-6 h-6 border-2 border-gold border-t-transparent rounded-full animate-spin" />
+                </div>
+              ) : activeTab === 'upcoming' ? (
+                upcomingAppointments.length === 0 ? (
+                  <div className="text-center py-16 glass-card rounded-sm border border-white/[0.06]">
+                    <Calendar className="w-10 h-10 text-gray-600 mx-auto mb-4" />
+                    <p className="text-gray-400 mb-2">No upcoming appointments</p>
+                    <p className="text-gray-600 text-sm mb-6">Book a session to get started.</p>
+                    <Link
+                      to="/booking"
+                      className="inline-flex items-center space-x-2 border border-gold text-gold px-6 py-3 text-xs uppercase tracking-widest hover:bg-gold hover:text-dark-900 transition-all duration-300"
+                    >
+                      <Plus className="w-4 h-4" />
+                      <span>Book a Session</span>
+                    </Link>
+                  </div>
+                ) : (
+                  <div className="space-y-4">{upcomingAppointments.map(appt => renderAppointmentCard(appt, true))}</div>
+                )
+              ) : pastAppointments.length === 0 ? (
                 <div className="text-center py-16 glass-card rounded-sm border border-white/[0.06]">
-                  <Calendar className="w-10 h-10 text-gray-600 mx-auto mb-4" />
-                  <p className="text-gray-400 mb-2">No upcoming appointments</p>
-                  <p className="text-gray-600 text-sm mb-6">Book a session to get started.</p>
-                  <Link
-                    to="/booking"
-                    className="inline-flex items-center space-x-2 border border-gold text-gold px-6 py-3 text-xs uppercase tracking-widest hover:bg-gold hover:text-dark-900 transition-all duration-300"
-                  >
-                    <Plus className="w-4 h-4" />
-                    <span>Book a Session</span>
-                  </Link>
+                  <Clock className="w-10 h-10 text-gray-600 mx-auto mb-4" />
+                  <p className="text-gray-400">No past appointments yet.</p>
                 </div>
               ) : (
-                <div className="space-y-4">
-                  {upcomingAppointments.map((appt) => renderAppointmentCard(appt, true))}
-                </div>
-              )
-            ) : pastAppointments.length === 0 ? (
-              <div className="text-center py-16 glass-card rounded-sm border border-white/[0.06]">
-                <Clock className="w-10 h-10 text-gray-600 mx-auto mb-4" />
-                <p className="text-gray-400">No past appointments yet.</p>
-              </div>
-            ) : (
-              <div className="space-y-4">
-                {pastAppointments.map((appt) => renderAppointmentCard(appt, false))}
-              </div>
-            )}
+                <div className="space-y-4">{pastAppointments.map(appt => renderAppointmentCard(appt, false))}</div>
+              )}
             </div>
           </div>
         </div>
@@ -281,15 +252,8 @@ const Appointments = () => {
                 </div>
                 <h3 className="font-serif text-xl text-white mb-2">Cancel Appointment?</h3>
                 <p className="text-gray-400 text-sm">
-                  This will cancel your{' '}
-                  <span className="text-white">
-                    {getLessonTypeById(cancelTarget.lessonType)?.name || cancelTarget.lessonType}
-                  </span>{' '}
-                  on{' '}
-                  <span className="text-white">
-                    {cancelTarget.dateTime?.toDate && formatDate(cancelTarget.dateTime.toDate())}
-                  </span>
-                  .
+                  This will cancel your <span className="text-white">{getLessonTypeById(cancelTarget.lessonType)?.name || cancelTarget.lessonType}</span> on{' '}
+                  <span className="text-white">{cancelTarget.dateTime?.toDate && formatDate(cancelTarget.dateTime.toDate())}</span>.
                 </p>
               </div>
               <div className="flex space-x-3">

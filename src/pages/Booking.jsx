@@ -305,103 +305,103 @@ const Booking = () => {
           <div className="sticky top-[64px] md:top-[80px] z-30 bg-dark-900/95 backdrop-blur-md pt-6 pb-6 -mx-6 px-6 md:-mx-12 md:px-12">
             {/* Header */}
             <div className="flex items-center space-x-4 mb-6 animate-fadeInUp shrink-0">
-            <Link
-              to="/dashboard"
-              className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5 hover:border-gold/30 transition-all duration-300"
-            >
-              <ArrowLeft className="w-4 h-4 text-gray-400" />
-            </Link>
-            <div>
-              <h1 className="font-serif text-2xl md:text-3xl text-white tracking-wide">Book a Session</h1>
-              <p className="text-gray-500 text-[10px] tracking-[0.2em] uppercase mt-1">Schedule your lesson</p>
+              <Link
+                to="/dashboard"
+                className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5 hover:border-gold/30 transition-all duration-300"
+              >
+                <ArrowLeft className="w-4 h-4 text-gray-400" />
+              </Link>
+              <div>
+                <h1 className="font-serif text-2xl md:text-3xl text-white tracking-wide">Book a Session</h1>
+                <p className="text-gray-500 text-[10px] tracking-[0.2em] uppercase mt-1">Schedule your lesson</p>
+              </div>
             </div>
-          </div>
 
-          {/* Week Navigation */}
-          <div className="flex items-center justify-between mb-6 animate-fadeInUp shrink-0" style={{ animationDelay: '100ms' }}>
-            {(() => {
-              const now = new Date();
-              const day = now.getDay();
-              const currentSunday = new Date(now);
-              currentSunday.setDate(now.getDate() - day);
-              currentSunday.setHours(0, 0, 0, 0);
-              const isFirstWeek = weekStart.getTime() <= currentSunday.getTime();
+            {/* Week Navigation */}
+            <div className="flex items-center justify-between mb-6 animate-fadeInUp shrink-0" style={{ animationDelay: '100ms' }}>
+              {(() => {
+                const now = new Date();
+                const day = now.getDay();
+                const currentSunday = new Date(now);
+                currentSunday.setDate(now.getDate() - day);
+                currentSunday.setHours(0, 0, 0, 0);
+                const isFirstWeek = weekStart.getTime() <= currentSunday.getTime();
 
-              return (
-                <button
-                  onClick={() => !isFirstWeek && navigateWeek(-1)}
-                  disabled={isFirstWeek}
-                  className={`p-2 transition-colors ${isFirstWeek ? 'text-gray-800 cursor-not-allowed opacity-30' : 'text-gray-400 hover:text-gold'}`}
-                >
-                  <ChevronLeft className="w-5 h-5" />
-                </button>
-              );
-            })()}
-            <span className="text-gray-300 text-sm tracking-wider">
-              {formatDate(weekDates[0])} — {formatDate(weekDates[6])}
-            </span>
-            <button onClick={() => navigateWeek(1)} className="p-2 text-gray-400 hover:text-gold transition-colors">
-              <ChevronRight className="w-5 h-5" />
-            </button>
-          </div>
+                return (
+                  <button
+                    onClick={() => !isFirstWeek && navigateWeek(-1)}
+                    disabled={isFirstWeek}
+                    className={`p-2 transition-colors ${isFirstWeek ? 'text-gray-800 cursor-not-allowed opacity-30' : 'text-gray-400 hover:text-gold'}`}
+                  >
+                    <ChevronLeft className="w-5 h-5" />
+                  </button>
+                );
+              })()}
+              <span className="text-gray-300 text-sm tracking-wider">
+                {formatDate(weekDates[0])} — {formatDate(weekDates[6])}
+              </span>
+              <button onClick={() => navigateWeek(1)} className="p-2 text-gray-400 hover:text-gold transition-colors">
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </div>
 
-          {/* Date Grid */}
-          <div className="grid grid-cols-7 gap-2 mb-2 animate-fadeInUp shrink-0" style={{ animationDelay: '300ms' }}>
-            {weekDates.map((date, idx) => {
-              const isSelected = isSameDay(date, selectedDate);
-              const today = isToday(date);
-              const isDisabled = isPast(date) || today;
+            {/* Date Grid */}
+            <div className="grid grid-cols-7 gap-2 mb-2 animate-fadeInUp shrink-0" style={{ animationDelay: '300ms' }}>
+              {weekDates.map((date, idx) => {
+                const isSelected = isSameDay(date, selectedDate);
+                const today = isToday(date);
+                const isDisabled = isPast(date) || today;
 
-              const daySlots = slots.filter(s => {
-                const d = s.dateTime?.toDate ? s.dateTime.toDate() : new Date(s.dateTime);
-                return isSameDay(d, date);
-              });
+                const daySlots = slots.filter(s => {
+                  const d = s.dateTime?.toDate ? s.dateTime.toDate() : new Date(s.dateTime);
+                  return isSameDay(d, date);
+                });
 
-              const dayAvailableCount = daySlots.filter(s => s.status === SLOT_STATUS.AVAILABLE).length;
-              const hasSlots = daySlots.length > 0;
+                const dayAvailableCount = daySlots.filter(s => s.status === SLOT_STATUS.AVAILABLE).length;
+                const hasSlots = daySlots.length > 0;
 
-              return (
-                <button
-                  key={idx}
-                  onClick={() => !isDisabled && setSelectedDate(date)}
-                  disabled={isDisabled}
-                  className={`h-24 px-1 rounded-sm flex flex-col items-center justify-center transition-all duration-300 border relative group ${
-                    isSelected
-                      ? 'border-gold bg-gold/10 text-gold shadow-[0_0_20px_rgba(197,160,89,0.1)]'
-                      : isDisabled
-                        ? 'border-white/5 text-gray-600 cursor-not-allowed'
-                        : 'border-white/10 text-gray-300 hover:border-gold/30 hover:text-white'
-                  }`}
-                >
-                  <div className="text-[10px] uppercase tracking-widest opacity-60 mb-1">
-                    {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][date.getDay()]}
-                  </div>
-                  <div className={`text-lg font-serif transition-transform duration-300 ${isSelected ? 'scale-110' : ''}`}>{date.getDate()}</div>
+                return (
+                  <button
+                    key={idx}
+                    onClick={() => !isDisabled && setSelectedDate(date)}
+                    disabled={isDisabled}
+                    className={`h-24 px-1 rounded-sm flex flex-col items-center justify-center transition-all duration-300 border relative group ${
+                      isSelected
+                        ? 'border-gold bg-gold/10 text-gold shadow-[0_0_20px_rgba(197,160,89,0.1)]'
+                        : isDisabled
+                          ? 'border-white/5 text-gray-600 cursor-not-allowed'
+                          : 'border-white/10 text-gray-300 hover:border-gold/30 hover:text-white'
+                    }`}
+                  >
+                    <div className="text-[10px] uppercase tracking-widest opacity-60 mb-1">
+                      {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][date.getDay()]}
+                    </div>
+                    <div className={`text-lg font-serif transition-transform duration-300 ${isSelected ? 'scale-110' : ''}`}>{date.getDate()}</div>
 
-                  {!isDisabled ? (
-                    dayAvailableCount > 0 ? (
-                      <div
-                        className={`mt-1.5 text-[9px] font-bold uppercase tracking-tighter leading-tight text-center whitespace-nowrap ${isSelected ? 'text-gold' : 'text-gold/80'}`}
-                      >
-                        {dayAvailableCount}
-                        <span className="ml-[3px]">{dayAvailableCount === 1 ? 'Slot' : 'Slots'}</span>
-                      </div>
-                    ) : !loadingSlots ? (
-                      <div className="mt-1.5 text-[9px] text-gray-700 uppercase tracking-wider leading-tight text-center">{hasSlots ? 'Full' : 'Off'}</div>
+                    {!isDisabled ? (
+                      dayAvailableCount > 0 ? (
+                        <div
+                          className={`mt-1.5 text-[9px] font-bold uppercase tracking-tighter leading-tight text-center whitespace-nowrap ${isSelected ? 'text-gold' : 'text-gold/80'}`}
+                        >
+                          {dayAvailableCount}
+                          <span className="ml-[3px]">{dayAvailableCount === 1 ? 'Slot' : 'Slots'}</span>
+                        </div>
+                      ) : !loadingSlots ? (
+                        <div className="mt-1.5 text-[9px] text-gray-700 uppercase tracking-wider leading-tight text-center">{hasSlots ? 'Full' : 'Off'}</div>
+                      ) : (
+                        <div className="h-[13px] mt-1.5" />
+                      )
                     ) : (
                       <div className="h-[13px] mt-1.5" />
-                    )
-                  ) : (
-                    <div className="h-[13px] mt-1.5" />
-                  )}
-                </button>
-              );
-            })}
-          </div>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
 
-          <div className="mt-8 animate-fadeInUp shrink-0" style={{ animationDelay: '400ms' }}>
-            <h2 className="font-serif text-lg text-white mb-6">{formatFullDate(selectedDate)}</h2>
-          </div>
+            <div className="mt-8 animate-fadeInUp shrink-0" style={{ animationDelay: '400ms' }}>
+              <h2 className="font-serif text-lg text-white mb-6">{formatFullDate(selectedDate)}</h2>
+            </div>
           </div>
 
           <div className="flex-1 pb-8 flex flex-col min-h-0">

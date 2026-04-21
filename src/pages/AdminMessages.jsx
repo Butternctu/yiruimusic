@@ -145,21 +145,20 @@ const AdminMessages = () => {
         </div>
 
         <div className="max-w-6xl mx-auto px-6 md:px-12 w-full flex-1 flex flex-col z-10 relative overflow-hidden">
-          <div className="shrink-0 bg-dark-900/95 backdrop-blur-md pt-6 pb-6 -mx-6 px-6 md:-mx-12 md:px-12 z-30">
+          <div className="shrink-0 bg-dark-900/95 backdrop-blur-md pt-2 pb-6 -mx-6 px-6 md:-mx-12 md:px-12 z-30">
             {/* Header */}
             <div className="flex items-center space-x-4 animate-fadeInUp shrink-0">
-            <button
-              onClick={() => navigate('/admin')}
-              className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5 hover:border-gold/30 transition-all duration-300"
-            >
-              <ArrowLeft className="w-4 h-4 text-gray-400" />
-            </button>
-            <div>
-              <h1 className="font-serif text-2xl md:text-3xl text-white tracking-wide">Inbox</h1>
-              <p className="text-gray-500 text-[10px] tracking-[0.2em] uppercase mt-1">Student Conversations</p>
+              <button
+                onClick={() => navigate('/admin')}
+                className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5 hover:border-gold/30 transition-all duration-300"
+              >
+                <ArrowLeft className="w-4 h-4 text-gray-400" />
+              </button>
+              <div>
+                <h1 className="font-serif text-2xl md:text-3xl text-white tracking-wide">Inbox</h1>
+                <p className="text-gray-500 text-[10px] tracking-[0.2em] uppercase mt-1">Student Conversations</p>
+              </div>
             </div>
-          </div>
-
           </div>
 
           <div

@@ -21,30 +21,38 @@ const Messages = () => {
 
     // Check if chat document exists and set unreadByUser to false
     const chatDocRef = doc(db, 'chats', user.uid);
-    setDoc(chatDocRef, {
-      userId: user.uid,
-      userName: userProfile?.displayName || user.displayName || 'Member',
-      userEmail: user.email,
-      unreadByUser: false
-    }, { merge: true });
+    setDoc(
+      chatDocRef,
+      {
+        userId: user.uid,
+        userName: userProfile?.displayName || user.displayName || 'Member',
+        userEmail: user.email,
+        unreadByUser: false,
+      },
+      { merge: true },
+    );
 
     const messagesRef = collection(db, `chats/${user.uid}/messages`);
     const q = query(messagesRef, orderBy('createdAt', 'asc'));
 
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const msgs = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data({ serverTimestamps: 'estimate' })
-      }));
-      setMessages(msgs);
-      setLoading(false);
-      
-      // Clear unread flag if new messages arrive while open
-      updateDoc(chatDocRef, { unreadByUser: false });
-    }, (error) => {
-      console.error("Error fetching messages:", error);
-      setLoading(false);
-    });
+    const unsubscribe = onSnapshot(
+      q,
+      snapshot => {
+        const msgs = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data({ serverTimestamps: 'estimate' }),
+        }));
+        setMessages(msgs);
+        setLoading(false);
+
+        // Clear unread flag if new messages arrive while open
+        updateDoc(chatDocRef, { unreadByUser: false });
+      },
+      error => {
+        console.error('Error fetching messages:', error);
+        setLoading(false);
+      },
+    );
 
     return () => unsubscribe();
   }, [user, userProfile]);
@@ -55,7 +63,7 @@ const Messages = () => {
     }
   }, [messages]);
 
-  const handleSendMessage = async (e) => {
+  const handleSendMessage = async e => {
     e.preventDefault();
     if (!newMessage.trim() || !user) return;
 
@@ -67,44 +75,44 @@ const Messages = () => {
       await addDoc(messagesRef, {
         text: messageText,
         sender: 'user',
-        createdAt: serverTimestamp()
+        createdAt: serverTimestamp(),
       });
 
       const chatDocRef = doc(db, 'chats', user.uid);
-      await setDoc(chatDocRef, {
-        lastMessage: messageText,
-        lastMessageTime: serverTimestamp(),
-        unreadByAdmin: true,
-        userId: user.uid,
-        userName: userProfile?.displayName || user.displayName || 'Member',
-        userEmail: user.email
-      }, { merge: true });
+      await setDoc(
+        chatDocRef,
+        {
+          lastMessage: messageText,
+          lastMessageTime: serverTimestamp(),
+          unreadByAdmin: true,
+          userId: user.uid,
+          userName: userProfile?.displayName || user.displayName || 'Member',
+          userEmail: user.email,
+        },
+        { merge: true },
+      );
 
       // Send Email Notification to Admin
       const emailParams = {
         from_name: userProfile?.displayName || user.displayName || 'A student',
         from_email: user.email,
         message: messageText,
-        to_name: 'Dr. Li'
+        to_name: 'Dr. Li',
       };
 
-      emailjs.send(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_ADMIN_TEMPLATE_ID,
-        emailParams,
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-      ).catch(err => console.error('Email notification failed:', err));
-
+      emailjs
+        .send(import.meta.env.VITE_EMAILJS_SERVICE_ID, import.meta.env.VITE_EMAILJS_ADMIN_TEMPLATE_ID, emailParams, import.meta.env.VITE_EMAILJS_PUBLIC_KEY)
+        .catch(err => console.error('Email notification failed:', err));
     } catch (error) {
       console.error('Error sending message:', error);
     }
   };
 
-  const formatTime = (timestamp) => {
+  const formatTime = timestamp => {
     if (!timestamp) return '';
     const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
     const now = new Date();
-    
+
     if (date.toDateString() === now.toDateString()) {
       return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     }
@@ -119,27 +127,29 @@ const Messages = () => {
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-[radial-gradient(ellipse_at_top,rgba(197,160,89,0.03)_0%,transparent_60%)]" />
         </div>
-        
+
         <div className="max-w-5xl mx-auto px-6 md:px-12 w-full flex-1 flex flex-col z-10 relative overflow-hidden">
-          <div className="shrink-0 bg-dark-900/95 backdrop-blur-md pt-6 pb-6 -mx-6 px-6 md:-mx-12 md:px-12 z-30">
+          <div className="shrink-0 bg-dark-900/95 backdrop-blur-md pt-2 pb-2 -mx-6 px-6 md:-mx-12 md:px-12 z-30">
             {/* Header */}
             <div className="flex items-center space-x-4 mb-6 animate-fadeInUp shrink-0">
-            <button 
-              onClick={() => navigate('/dashboard')} 
-              className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5 hover:border-gold/30 transition-all duration-300"
-            >
-              <ArrowLeft className="w-4 h-4 text-gray-400" />
-            </button>
-            <div>
-              <h1 className="font-serif text-2xl text-white tracking-wide">Message Dr. Li</h1>
-              <p className="text-gray-500 text-[10px] tracking-[0.2em] uppercase mt-1">Direct Communication Channel</p>
+              <button
+                onClick={() => navigate('/dashboard')}
+                className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5 hover:border-gold/30 transition-all duration-300"
+              >
+                <ArrowLeft className="w-4 h-4 text-gray-400" />
+              </button>
+              <div>
+                <h1 className="font-serif text-2xl text-white tracking-wide">Message Dr. Li</h1>
+                <p className="text-gray-500 text-[10px] tracking-[0.2em] uppercase mt-1">Direct Communication Channel</p>
+              </div>
             </div>
-          </div>
           </div>
 
           {/* Chat Container */}
-          <div className="flex-1 glass-card rounded-sm border border-white/10 flex flex-col overflow-hidden animate-fadeInUp shadow-2xl relative bg-white/[0.01]" style={{ animationDelay: '100ms' }}>
-            
+          <div
+            className="flex-1 glass-card rounded-sm border border-white/10 flex flex-col overflow-hidden animate-fadeInUp shadow-2xl relative bg-white/[0.01]"
+            style={{ animationDelay: '100ms' }}
+          >
             {/* Messages Area */}
             <div ref={chatContainerRef} className="flex-1 overflow-y-auto p-6 md:p-8 space-y-6 custom-scrollbar flex flex-col">
               {loading ? (
@@ -152,7 +162,7 @@ const Messages = () => {
               ) : messages.length === 0 ? (
                 <div className="flex-1 flex flex-col justify-center items-center text-center opacity-40">
                   <div className="w-16 h-16 rounded-full border border-gold/20 bg-gold/5 flex items-center justify-center mb-4">
-                     <span className="text-gold font-serif text-xl">Li</span>
+                    <span className="text-gold font-serif text-xl">Li</span>
                   </div>
                   <p className="text-white text-sm mb-1 tracking-wide">No messages yet.</p>
                   <p className="text-xs text-gray-500 uppercase tracking-widest">Start the conversation below</p>
@@ -176,14 +186,14 @@ const Messages = () => {
                           <div className="flex-1 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
                         </div>
                       )}
-                      <div className={`flex ${isUser ? 'justify-end' : 'justify-start'} animate-fadeInUp`} style={{ animationDelay: `${index % 10 * 50}ms` }}>
+                      <div className={`flex ${isUser ? 'justify-end' : 'justify-start'} animate-fadeInUp`} style={{ animationDelay: `${(index % 10) * 50}ms` }}>
                         <div className={`max-w-[85%] md:max-w-[70%] flex flex-col ${isUser ? 'items-end' : 'items-start'}`}>
-                           <div className={`px-5 py-3.5 rounded-sm ${isUser ? 'bg-gold text-dark-900 shadow-[0_4px_20px_rgba(197,160,89,0.15)]' : 'bg-white/5 border border-white/10 text-gray-200'}`}>
-                             <p className="text-sm leading-relaxed whitespace-pre-wrap">{msg.text}</p>
-                           </div>
-                           <span className="text-[10px] text-gray-600 mt-2 px-1 uppercase tracking-wider">
-                             {formatTime(msg.createdAt)}
-                           </span>
+                          <div
+                            className={`px-5 py-3.5 rounded-sm ${isUser ? 'bg-gold text-dark-900 shadow-[0_4px_20px_rgba(197,160,89,0.15)]' : 'bg-white/5 border border-white/10 text-gray-200'}`}
+                          >
+                            <p className="text-sm leading-relaxed whitespace-pre-wrap">{msg.text}</p>
+                          </div>
+                          <span className="text-[10px] text-gray-600 mt-2 px-1 uppercase tracking-wider">{formatTime(msg.createdAt)}</span>
                         </div>
                       </div>
                     </React.Fragment>
@@ -198,8 +208,8 @@ const Messages = () => {
                 <div className="flex-1 relative">
                   <textarea
                     value={newMessage}
-                    onChange={(e) => setNewMessage(e.target.value)}
-                    onKeyDown={(e) => {
+                    onChange={e => setNewMessage(e.target.value)}
+                    onKeyDown={e => {
                       if (e.key === 'Enter' && !e.shiftKey) {
                         e.preventDefault();
                         handleSendMessage(e);
