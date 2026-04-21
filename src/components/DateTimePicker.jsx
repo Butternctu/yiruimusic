@@ -61,7 +61,7 @@ export function DatePicker({ value, onChange, className = '' }) {
       </div>
 
       {open && (
-        <div className="absolute top-full left-0 mt-2 w-72 bg-dark-800 border border-white/10 rounded-sm shadow-2xl z-50 animate-fadeIn">
+        <div className="absolute top-full left-0 md:left-auto md:right-0 mt-2 w-full max-w-[280px] sm:w-72 bg-dark-800 border border-white/10 rounded-sm shadow-2xl z-50 animate-fadeIn">
           {/* Header */}
           <div className="flex items-center justify-between px-4 py-3 border-b border-white/6">
             <button type="button" onClick={prev} className="text-gray-500 hover:text-gold transition-colors p-1">
@@ -164,7 +164,7 @@ export function TimePicker({ value, onChange, className = '' }) {
       </div>
 
       {open && (
-        <div className="absolute top-full left-0 mt-2 w-48 bg-dark-800 border border-white/10 rounded-sm shadow-2xl z-50 animate-fadeIn">
+        <div className="absolute top-full left-0 md:left-auto md:right-0 mt-2 w-full max-w-[200px] sm:w-48 bg-dark-800 border border-white/10 rounded-sm shadow-2xl z-50 animate-fadeIn">
           <div
             ref={listRef}
             className="max-h-56 overflow-y-auto custom-scrollbar py-1"

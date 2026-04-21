@@ -415,7 +415,7 @@ const AdminSlots = () => {
                       return (
                         <div
                           key={slot.id}
-                          className={`glass-card p-5 rounded-sm border flex items-center justify-between transition-colors ${isBooked ? 'border-gold/10' : 'border-white/4 hover:border-white/8'}`}
+                          className={`glass-card p-5 rounded-sm border flex items-center justify-between gap-6 transition-colors ${isBooked ? 'border-gold/10' : 'border-white/[0.04] hover:border-white/[0.08]'}`}
                         >
                           <div className="flex items-center space-x-4 flex-1 min-w-0">
                             <span className="text-gold font-serif text-lg min-w-[90px]">{dateTime ? formatTime(dateTime) : '—'}</span>
@@ -429,9 +429,11 @@ const AdminSlots = () => {
                                         ? 'Open Slot'
                                         : 'Private Lesson')}
                                 </p>
+                              </div>
+                              <div className="flex items-center space-x-2 mt-0.5">
+                                <p className="text-gray-500 text-[11px]">{dateTime ? formatDate(dateTime) : '—'}</p>
                                 <span className="text-gray-600 text-[10px] shrink-0">· {slot.duration} min</span>
                               </div>
-                              <p className="text-gray-500 text-[11px] mt-0.5">{dateTime ? formatDate(dateTime) : '—'}</p>
                             </div>
                           </div>
                           <div className="flex items-center space-x-3 shrink-0">
@@ -462,9 +464,9 @@ const AdminSlots = () => {
 
             {/* SINGLE CREATE VIEW */}
             {activeView === 'create' && (
-              <div className="h-full overflow-y-auto custom-scrollbar">
-                <div className="max-w-2xl mx-auto animate-fadeIn pb-12" style={{ animationDelay: '200ms' }}>
-                  <div className="p-8 md:p-10 rounded-sm border border-gold/20 bg-dark-800 shadow-2xl relative overflow-hidden">
+              <div className="h-full overflow-y-auto custom-scrollbar pr-2 pb-40">
+                <div className="max-w-2xl mx-auto animate-fadeInUp pb-12" style={{ animationDelay: '200ms' }}>
+                  <div className="p-8 md:p-10 rounded-sm border border-gold/20 bg-dark-800 shadow-2xl relative">
                     <div className="absolute top-0 right-0 w-64 h-64 bg-gold/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" />
                     <div className="relative z-10">
                       <form onSubmit={handleCreateSlot} className="space-y-8" noValidate>
@@ -512,14 +514,14 @@ const AdminSlots = () => {
             )}
 
             {activeView === 'bulk' && (
-              <div className="h-full overflow-y-auto custom-scrollbar">
-                <div className="max-w-2xl mx-auto animate-fadeIn pb-12" style={{ animationDelay: '200ms' }}>
-                  <div className="p-8 md:p-10 rounded-sm border border-gold/20 bg-dark-800 shadow-2xl relative overflow-hidden">
+              <div className="h-full overflow-y-auto custom-scrollbar pr-2 pb-40">
+                <div className="max-w-2xl mx-auto animate-fadeInUp pb-12" style={{ animationDelay: '200ms' }}>
+                  <div className="p-8 md:p-10 rounded-sm border border-gold/20 bg-dark-800 shadow-2xl relative">
                     <div className="absolute top-0 right-0 w-64 h-64 bg-gold/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" />
                     <div className="relative z-10">
                       <p className="text-gray-400 text-sm mb-8">Generate recurring time slots across a date range.</p>
                       <form onSubmit={handleBulkCreate} className="space-y-8" noValidate>
-                        <div className="grid grid-cols-2 gap-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                           <div>
                             <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Start Date</label>
                             <DatePicker value={bulkData.startDate} onChange={val => setBulkData(p => ({ ...p, startDate: val }))} />
@@ -548,7 +550,7 @@ const AdminSlots = () => {
                           </div>
                         </div>
 
-                        <div className="grid grid-cols-2 gap-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                           <div>
                             <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Start Time</label>
                             <TimePicker value={bulkData.startTime} onChange={val => setBulkData(p => ({ ...p, startTime: val }))} />
