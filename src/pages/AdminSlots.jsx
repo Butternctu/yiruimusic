@@ -354,7 +354,7 @@ const AdminSlots = () => {
             </div>
 
             {/* View Tabs */}
-            <div className="flex space-x-1 mb-8 border-b border-white/6 animate-fadeInUp shrink-0" style={{ animationDelay: '100ms' }}>
+            <div className="flex space-x-1 mb-4 border-b border-white/6 animate-fadeInUp shrink-0" style={{ animationDelay: '100ms' }}>
               {[
                 { id: 'list', label: 'All Slots', icon: Calendar },
                 { id: 'create', label: 'Add Single Slot', icon: Plus },
@@ -378,7 +378,7 @@ const AdminSlots = () => {
           <div className="flex-1 min-h-0">
             {/* LIST VIEW */}
             {activeView === 'list' && (
-              <div className="h-full flex flex-col animate-fadeInUp" style={{ animationDelay: '200ms' }}>
+              <div className="h-full flex flex-col animate-fadeIn" style={{ animationDelay: '200ms' }}>
                 {/* Upcoming / Past toggle */}
                 <div className="flex items-center space-x-1 mb-6 shrink-0">
                   {['upcoming', 'past'].map(f => (
@@ -463,8 +463,8 @@ const AdminSlots = () => {
             {/* SINGLE CREATE VIEW */}
             {activeView === 'create' && (
               <div className="h-full overflow-y-auto custom-scrollbar">
-                <div className="max-w-2xl mx-auto animate-fadeInUp" style={{ animationDelay: '200ms' }}>
-                  <div className="p-8 md:p-10 rounded-sm border border-gold/20 bg-dark-800 shadow-2xl relative">
+                <div className="max-w-2xl mx-auto animate-fadeIn pb-12" style={{ animationDelay: '200ms' }}>
+                  <div className="p-8 md:p-10 rounded-sm border border-gold/20 bg-dark-800 shadow-2xl relative overflow-hidden">
                     <div className="absolute top-0 right-0 w-64 h-64 bg-gold/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" />
                     <div className="relative z-10">
                       <form onSubmit={handleCreateSlot} className="space-y-8" noValidate>
@@ -513,8 +513,8 @@ const AdminSlots = () => {
 
             {activeView === 'bulk' && (
               <div className="h-full overflow-y-auto custom-scrollbar">
-                <div className="max-w-2xl mx-auto animate-fadeInUp" style={{ animationDelay: '200ms' }}>
-                  <div className="p-8 md:p-10 rounded-sm border border-gold/20 bg-dark-800 shadow-2xl relative">
+                <div className="max-w-2xl mx-auto animate-fadeIn pb-12" style={{ animationDelay: '200ms' }}>
+                  <div className="p-8 md:p-10 rounded-sm border border-gold/20 bg-dark-800 shadow-2xl relative overflow-hidden">
                     <div className="absolute top-0 right-0 w-64 h-64 bg-gold/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" />
                     <div className="relative z-10">
                       <p className="text-gray-400 text-sm mb-8">Generate recurring time slots across a date range.</p>

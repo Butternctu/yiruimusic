@@ -179,7 +179,7 @@ const AdminDashboard = () => {
         </div>
 
         <div className="max-w-6xl mx-auto px-6 md:px-12 w-full z-10 relative">
-          <div className="sticky top-[64px] md:top-[80px] z-30 bg-dark-900/95 backdrop-blur-md pt-6 pb-7 -mx-6 px-6 md:-mx-12 md:px-12">
+          <div className="sticky top-[64px] md:top-[80px] z-30 bg-dark-900/95 backdrop-blur-md pt-5 pb-7 -mx-6 px-6 md:-mx-12 md:px-12">
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-center justify-between space-y-5 gap-2 md:space-y-0 animate-fadeInUp shrink-0">
               <div className="flex items-center space-x-4">

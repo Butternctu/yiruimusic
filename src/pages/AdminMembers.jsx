@@ -231,7 +231,7 @@ const AdminMembers = () => {
             </div>
 
             {/* View Tabs */}
-            <div className="flex space-x-1 mb-8 border-b border-white/6 animate-fadeInUp shrink-0" style={{ animationDelay: '100ms' }}>
+            <div className="flex space-x-1 mb-4 border-b border-white/6 animate-fadeInUp shrink-0" style={{ animationDelay: '100ms' }}>
               <button
                 onClick={() => setActiveView('list')}
                 className={`flex items-center space-x-2 px-6 py-3 text-xs uppercase tracking-widest transition-all duration-300 border-b-2 -mb-px ${
