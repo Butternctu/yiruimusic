@@ -181,7 +181,7 @@ const AdminDashboard = () => {
         <div className="max-w-6xl mx-auto px-6 md:px-12 w-full z-10 relative">
           <div className="sticky top-[64px] md:top-[80px] z-30 bg-dark-900/95 backdrop-blur-md pt-6 pb-7 -mx-6 px-6 md:-mx-12 md:px-12">
             {/* Header */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between space-y-5 md:space-y-0 animate-fadeInUp shrink-0">
+            <div className="flex flex-col md:flex-row md:items-center justify-between space-y-5 gap-2 md:space-y-0 animate-fadeInUp shrink-0">
               <div className="flex items-center space-x-4">
                 <div className="w-12 h-12 rounded-full bg-linear-to-br from-gold/20 to-gold/5 border border-gold/30 flex items-center justify-center shrink-0">
                   <Shield className="w-5 h-5 text-gold" />
@@ -407,7 +407,7 @@ const AdminDashboard = () => {
           </div>
 
           {/* Mobile Admin Navigation (Bottom) */}
-          <div className="md:hidden flex flex-col space-y-3 mt-4 mb-4 animate-fadeInUp" style={{ animationDelay: '500ms' }}>
+          <div className="md:hidden flex flex-col space-y-3 gap-1 mt-6 mb-6 animate-fadeInUp" style={{ animationDelay: '500ms' }}>
             <Link
               to="/admin/members"
               className="w-full flex justify-center items-center space-x-2 border border-white/20 bg-dark-800 px-5 py-3.5 rounded-sm text-xs uppercase tracking-widest text-gray-300 hover:border-gold hover:text-gold transition-all duration-300 group"

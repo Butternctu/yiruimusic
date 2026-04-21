@@ -215,9 +215,9 @@ const AdminMembers = () => {
         </div>
 
         <div className="max-w-6xl mx-auto px-6 md:px-12 w-full z-10 relative">
-          <div className="sticky top-[64px] md:top-[80px] z-30 bg-dark-900/95 backdrop-blur-md pt-6 pb-6 -mx-6 px-6 md:-mx-12 md:px-12">
+          <div className="sticky top-[64px] md:top-[80px] z-30 bg-dark-900/95 backdrop-blur-md pt-6 pb-2 -mx-6 px-6 md:-mx-12 md:px-12">
             {/* Header */}
-            <div className="flex items-center space-x-4 mb-6 animate-fadeInUp shrink-0">
+            <div className="flex items-center space-x-4 mb-4 animate-fadeInUp shrink-0">
               <button
                 onClick={() => navigate('/admin')}
                 className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5 hover:border-gold/30 transition-all duration-300"
