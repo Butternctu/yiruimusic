@@ -101,17 +101,13 @@ const Navbar = () => {
     return name.split(' ').map((n) => n[0]).join('').toUpperCase().slice(0, 2);
   };
 
-  const authPaths = ['/dashboard', '/booking', '/appointments', '/profile', '/messages', '/admin'];
-  const isAuthPath = authPaths.some(path => location.pathname.startsWith(path));
-  const applyScrolledStyle = isScrolled || isAuthPath;
-
   return (
     <>
-      <header id="main-nav" className={`fixed w-full z-110 transition-all duration-300 py-2 border-b ${applyScrolledStyle ? 'bg-dark-900/95 backdrop-blur-md border-white/10' : 'bg-transparent border-white/5'}`}>
+      <header id="main-nav" className={`fixed w-full z-110 transition-all duration-300 py-2 border-b ${isScrolled ? 'bg-dark-900/95 backdrop-blur-md border-white/10' : 'bg-transparent border-white/5'}`}>
         <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
           <Link to="/" onClick={handleLogoClick} className="flex items-center scroll-link">
             <div
-              className={`bg-gold transition-all duration-300 ${applyScrolledStyle ? 'h-12 md:h-16 w-32 md:w-40' : 'h-20 md:h-24 w-48 md:w-56'}`}
+              className={`bg-gold transition-all duration-300 ${isScrolled ? 'h-12 md:h-16 w-32 md:w-40' : 'h-20 md:h-24 w-48 md:w-56'}`}
               style={{
                 WebkitMaskImage: `url(${yiruiLogo})`,
                 maskImage: `url(${yiruiLogo})`,
