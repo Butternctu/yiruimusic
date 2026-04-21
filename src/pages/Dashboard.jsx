@@ -208,7 +208,9 @@ const Dashboard = () => {
                 ) : nextAppointment ? (
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 md:gap-4">
                     <div className="space-y-3">
-                      <p className="text-white font-serif text-xl leading-relaxed">{getLessonTypeById(nextAppointment.lessonType)?.name || nextAppointment.lessonType}</p>
+                      <p className="text-white font-serif text-xl leading-relaxed">
+                        {getLessonTypeById(nextAppointment.lessonType)?.name || nextAppointment.lessonType}
+                      </p>
                       <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
                         <span className="flex items-center space-x-1.5 text-gold">
                           <Calendar className="w-3.5 h-3.5 shrink-0" />
@@ -280,7 +282,7 @@ const Dashboard = () => {
                   style={{ animationDelay: `${580 + idx * 70}ms` }}
                 >
                   <div className="p-5 flex items-center space-x-4">
-                    <div className="w-10 h-10 rounded-sm bg-gold/7 flex items-center justify-center flex-shrink-0 group-hover:bg-gold/12 transition-colors duration-300 relative">
+                    <div className="w-10 h-10 rounded-sm bg-gold/7 flex items-center justify-center shrink-0 group-hover:bg-gold/12 transition-colors duration-300 relative">
                       <action.icon className="w-5 h-5 text-gold group-hover:scale-110 transition-transform duration-300" />
                       {action.badge && (
                         <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-[#d9736c] border border-dark-900 rounded-full animate-pulse shadow-[0_0_8px_rgba(217,115,108,0.4)]" />
@@ -292,7 +294,7 @@ const Dashboard = () => {
                       </div>
                       <p className="text-gray-600 text-xs mt-0.5 truncate">{action.desc}</p>
                     </div>
-                    <ArrowRight className="w-4 h-4 text-gray-700 group-hover:text-gold group-hover:translate-x-1 transition-all duration-300 flex-shrink-0" />
+                    <ArrowRight className="w-4 h-4 text-gray-700 group-hover:text-gold group-hover:translate-x-1 transition-all duration-300 shrink-0" />
                   </div>
                 </Link>
               ))}

@@ -103,7 +103,12 @@ const Messages = () => {
       };
 
       try {
-        await emailjs.send(import.meta.env.VITE_EMAILJS_SERVICE_ID, import.meta.env.VITE_EMAILJS_ADMIN_TEMPLATE_ID, emailParams, import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
+        await emailjs.send(
+          import.meta.env.VITE_EMAILJS_SERVICE_ID,
+          import.meta.env.VITE_EMAILJS_ADMIN_TEMPLATE_ID,
+          emailParams,
+          import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
+        );
       } catch (err) {
         console.error('Email notification failed:', err);
       }
@@ -126,7 +131,7 @@ const Messages = () => {
   return (
     <>
       <SEO title="Messages | Dr. Yirui Li" url="/messages" />
-      <section className="h-[100dvh] bg-dark-900 pt-[88px] md:pt-[104px] pb-6 relative flex flex-col overflow-hidden">
+      <section className="h-dvh bg-dark-900 pt-[88px] md:pt-[104px] pb-6 relative flex flex-col overflow-hidden">
         {/* Ambient background */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-[radial-gradient(ellipse_at_top,rgba(197,160,89,0.03)_0%,transparent_60%)]" />
