@@ -249,7 +249,7 @@ const AdminSlots = () => {
 
       const skipped = targetSlots.length - finalSlots.length;
       if (finalSlots.length === 0) {
-        setBulkResult({ type: 'error', message: 'No slots match the criteria.' });
+        setBulkResult({ type: 'error', message: `No new slots created. ${skipped} slots were skipped (already exist).` });
         setShakeError(true);
         setTimeout(() => setShakeError(false), 500);
         return;
@@ -280,7 +280,7 @@ const AdminSlots = () => {
         setBulkProgress(p => ({ ...p, current: totalCreated }));
       }
 
-      setBulkResult({ type: 'success', message: `Successfully created ${totalCreated} time slots.` });
+      setBulkResult({ type: 'success', message: `Successfully created ${totalCreated} time slots. ${skipped > 0 ? `${skipped} skipped.` : ''}` });
       await fetchSlots(slotFilter);
     } catch (err) {
       console.error('Bulk generation error:', err);
