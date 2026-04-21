@@ -466,16 +466,16 @@ const Booking = () => {
                   </div>
                   <h3 className="font-serif text-xl text-white mb-2">Session Booked!</h3>
                   <p className="text-gray-400 text-sm mb-6">Your appointment has been confirmed.</p>
-                  <div className="flex space-x-3">
+                  <div className="flex flex-col sm:flex-row gap-3">
                     <button
                       onClick={closeModal}
-                      className="flex-1 border border-white/10 text-gray-300 py-3 text-xs uppercase tracking-widest hover:border-white/30 transition-colors"
+                      className="w-full sm:flex-1 border border-white/10 text-gray-300 py-3.5 sm:py-3 text-[11px] sm:text-xs uppercase tracking-widest hover:border-white/30 transition-colors"
                     >
                       Continue Browsing
                     </button>
                     <button
                       onClick={() => navigate('/appointments')}
-                      className="flex-1 border border-gold bg-gold text-dark-900 py-3 text-xs uppercase tracking-widest hover:bg-gold-light transition-colors"
+                      className="w-full sm:flex-1 border border-gold bg-gold text-dark-900 py-3.5 sm:py-3 text-[11px] sm:text-xs uppercase tracking-widest hover:bg-gold-light transition-colors"
                     >
                       View Appointments
                     </button>
@@ -593,7 +593,7 @@ const Booking = () => {
                     )}
                   </div>
 
-                  <div className="flex space-x-3 mt-8">
+                  <div className="flex flex-col-reverse sm:flex-row gap-3 mt-8">
                     {bookingStep > 1 && !booking && (
                       <button
                         onClick={() => {
@@ -601,7 +601,7 @@ const Booking = () => {
                           else if (bookingStep === 3) setBookingStep(2);
                           else if (bookingStep === 2) setBookingStep(1);
                         }}
-                        className="flex-1 border border-white/10 text-gray-300 py-3 text-xs uppercase tracking-widest hover:bg-white/5 transition-colors"
+                        className="w-full sm:flex-1 border border-white/10 text-gray-300 py-3.5 sm:py-3 text-[11px] sm:text-xs uppercase tracking-widest hover:bg-white/5 transition-colors"
                       >
                         Back
                       </button>
@@ -609,7 +609,7 @@ const Booking = () => {
                     {bookingStep === 1 && (
                       <button
                         onClick={closeModal}
-                        className="flex-1 border border-white/10 text-gray-300 py-3 text-xs uppercase tracking-widest hover:bg-white/5 transition-colors"
+                        className="w-full sm:flex-1 border border-white/10 text-gray-300 py-3.5 sm:py-3 text-[11px] sm:text-xs uppercase tracking-widest hover:bg-white/5 transition-colors"
                       >
                         Cancel
                       </button>
@@ -618,7 +618,7 @@ const Booking = () => {
                       <button
                         onClick={handleConfirmBooking}
                         disabled={booking || slotsError || checkingSlots}
-                        className={`flex-1 border py-3 text-xs uppercase tracking-widest transition-all duration-300 ${
+                        className={`w-full sm:flex-1 border py-3.5 sm:py-3 text-[11px] sm:text-xs uppercase tracking-widest transition-all duration-300 ${
                           booking || slotsError || checkingSlots
                             ? 'border-white/10 bg-white/5 text-gray-600 cursor-not-allowed'
                             : 'border-gold bg-gold text-dark-900 hover:bg-gold-light'
