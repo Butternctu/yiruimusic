@@ -216,7 +216,7 @@ const Messages = () => {
                       }
                     }}
                     placeholder="Type your message to Dr. Li..."
-                    className="block w-full bg-white/3 border border-white/10 rounded-sm py-4 px-5 text-white placeholder-gray-600 focus:outline-none focus:border-gold/40 transition-all resize-none custom-scrollbar min-h-[56px] max-h-[160px] text-sm leading-relaxed"
+                    className="block w-full bg-white/3 border border-white/10 rounded-sm py-4 px-5 text-white placeholder-gray-600 focus:outline-none focus:border-gold/40 transition-all resize-none custom-scrollbar min-h-[56px] max-h-[160px] text-base md:text-sm leading-relaxed"
                     rows="1"
                   />
                 </div>

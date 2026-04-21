@@ -312,7 +312,7 @@ const AdminMessages = () => {
                             }
                           }}
                           placeholder="Type your reply..."
-                          className="block w-full bg-white/3 border border-white/10 rounded-sm py-4 px-5 text-white placeholder-gray-600 focus:outline-none focus:border-gold/40 transition-all resize-none custom-scrollbar min-h-[56px] max-h-[160px] text-sm leading-relaxed"
+                          className="block w-full bg-white/3 border border-white/10 rounded-sm py-4 px-5 text-white placeholder-gray-600 focus:outline-none focus:border-gold/40 transition-all resize-none custom-scrollbar min-h-[56px] max-h-[160px] text-base md:text-sm leading-relaxed"
                           rows="1"
                         />
                       </div>
@@ -365,7 +365,7 @@ const AdminMessages = () => {
                       value={newMessage}
                       onChange={e => setNewMessage(e.target.value)}
                       placeholder="Reply..."
-                      className="block flex-1 bg-white/5 border border-white/10 rounded-sm py-3 px-4 text-sm text-white focus:outline-none focus:border-gold/30 resize-none min-h-[48px] max-h-[120px]"
+                      className="block flex-1 bg-white/5 border border-white/10 rounded-sm py-3 px-4 text-base md:text-sm text-white focus:outline-none focus:border-gold/30 resize-none min-h-[48px] max-h-[120px]"
                       rows="1"
                     />
                     <button
