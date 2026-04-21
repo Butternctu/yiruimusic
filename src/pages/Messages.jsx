@@ -138,9 +138,9 @@ const Messages = () => {
         </div>
 
         <div className="max-w-5xl mx-auto px-6 md:px-12 w-full flex-1 flex flex-col z-10 relative overflow-hidden">
-          <div className="shrink-0 bg-dark-900/95 backdrop-blur-md pt-2 pb-2 -mx-6 px-6 md:-mx-12 md:px-12 z-30">
+          <div className="shrink-0 bg-dark-900/95 backdrop-blur-md pt-6 pb-2 -mx-6 px-6 md:-mx-12 md:px-12 z-30">
             {/* Header */}
-            <div className="flex items-center space-x-4 mb-6 animate-fadeInUp shrink-0">
+            <div className="flex items-center space-x-4 mb-4 animate-fadeInUp shrink-0">
               <button
                 onClick={() => navigate('/dashboard')}
                 className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5 hover:border-gold/30 transition-all duration-300"

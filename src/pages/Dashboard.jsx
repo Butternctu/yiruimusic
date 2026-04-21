@@ -120,7 +120,7 @@ const Dashboard = () => {
   return (
     <>
       <SEO title="Dashboard | Dr. Yirui Li" url="/dashboard" />
-      <section className="min-h-screen bg-dark-900 pt-34 md:pt-38 pb-8 relative flex flex-col">
+      <section className="min-h-screen bg-dark-900 pt-34 md:pt-38 pb-24 relative flex flex-col">
         {/* Decorative background elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[600px] bg-[radial-gradient(ellipse_at_top,rgba(197,160,89,0.04)_0%,transparent_60%)]" />

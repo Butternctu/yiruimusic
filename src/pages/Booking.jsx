@@ -406,7 +406,7 @@ const Booking = () => {
             </div>
           </div>
 
-          <div className="pb-8 flex flex-col">
+          <div className="flex-1 pb-8 flex flex-col min-h-0">
             {loadingSlots ? (
               <div className="flex justify-center py-12">
                 <div className="w-6 h-6 border-2 border-gold border-t-transparent rounded-full animate-spin" />

@@ -165,7 +165,7 @@ const Appointments = () => {
   return (
     <>
       <SEO title="My Appointments | Dr. Yirui Li" url="/appointments" />
-      <section className="min-h-screen bg-dark-900 pt-28 pb-12 relative flex flex-col">
+      <section className="min-h-screen bg-dark-900 pt-28 pb-24 relative flex flex-col">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-[radial-gradient(ellipse_at_top,rgba(197,160,89,0.03)_0%,transparent_70%)]" />
         </div>
