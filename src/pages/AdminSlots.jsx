@@ -436,12 +436,7 @@ const AdminSlots = () => {
                           className={`glass-card p-5 rounded-sm border flex items-center justify-between gap-6 transition-colors ${isBooked ? 'border-gold/10' : 'border-white/[0.04] hover:border-white/[0.08]'}`}
                         >
                           <div className="flex items-center space-x-4 flex-1 min-w-0">
-                            <div className="flex flex-col min-w-[100px]">
-                              <span className="text-gold font-serif text-lg leading-none">{dateTime ? formatDate(dateTime) : '—'}</span>
-                              <p className="text-gray-600 text-[10px] uppercase tracking-widest mt-1">
-                                {dateTime ? dateTime.toLocaleDateString('en-US', { weekday: 'short' }) : ''}
-                              </p>
-                            </div>
+                            <span className="text-gold font-serif text-lg min-w-[90px]">{dateTime ? formatTime(dateTime) : '—'}</span>
                             <div className="truncate">
                               <div className="flex items-center space-x-2">
                                 <p className="text-white text-sm truncate">
@@ -454,7 +449,7 @@ const AdminSlots = () => {
                                 </p>
                               </div>
                               <div className="flex items-center space-x-2 mt-0.5">
-                                <p className="text-gray-400 text-[11px] font-medium">{dateTime ? formatTime(dateTime) : '—'}</p>
+                                <p className="text-gray-500 text-[11px]">{dateTime ? formatDate(dateTime) : '—'}</p>
                                 {slot.status !== SLOT_STATUS.AVAILABLE && (
                                   <span className="text-gray-600 text-[10px] shrink-0">· {slot.duration} min</span>
                                 )}
