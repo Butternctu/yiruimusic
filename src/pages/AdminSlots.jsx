@@ -321,7 +321,7 @@ const AdminSlots = () => {
   return (
     <>
       <SEO title="Manage Time Slots | Admin" url="/admin/slots" />
-      <section className="min-h-screen bg-dark-900 pt-28 pb-12 relative flex flex-col overflow-x-hidden">
+      <section className="min-h-screen bg-dark-900 pt-28 pb-12 relative flex flex-col overflow-x-clip">
         {/* Decorative elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-[radial-gradient(ellipse_at_top,rgba(197,160,89,0.03)_0%,transparent_70%)]" />
@@ -450,7 +450,9 @@ const AdminSlots = () => {
                               </div>
                               <div className="flex items-center space-x-2 mt-0.5">
                                 <p className="text-gray-500 text-[11px]">{dateTime ? formatDate(dateTime) : '—'}</p>
-                                <span className="text-gray-600 text-[10px] shrink-0">· {slot.duration} min</span>
+                                {slot.status !== SLOT_STATUS.AVAILABLE && (
+                                  <span className="text-gray-600 text-[10px] shrink-0">· {slot.duration} min</span>
+                                )}
                               </div>
                             </div>
                           </div>
