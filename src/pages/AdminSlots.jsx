@@ -432,8 +432,14 @@ const AdminSlots = () => {
                           key={slot.id}
                           className={`glass-card p-5 rounded-sm border flex items-center justify-between gap-6 transition-colors ${isBooked ? 'border-gold/10' : 'border-white/[0.04] hover:border-white/[0.08]'}`}
                         >
-                          <div className="flex items-center space-x-4 flex-1 min-w-0">
-                            <span className="text-gold font-serif text-lg min-w-[90px]">{dateTime ? formatTime(dateTime) : '—'}</span>
+                          <div className="flex items-center space-x-6 flex-1 min-w-0">
+                            <div className="flex flex-col items-center min-w-[70px]">
+                              <span className="text-gold font-serif text-lg leading-none">{dateTime ? formatTime(dateTime) : '—'}</span>
+                              {slot.status !== SLOT_STATUS.AVAILABLE && (
+                                <span className="text-gray-600 text-[10px] mt-1">{slot.duration}m</span>
+                              )}
+                            </div>
+                            <div className="h-10 w-px bg-white/5" />
                             <div className="truncate">
                               <div className="flex items-center space-x-2">
                                 <p className="text-white text-sm truncate">
@@ -447,9 +453,6 @@ const AdminSlots = () => {
                               </div>
                               <div className="flex items-center space-x-2 mt-0.5">
                                 <p className="text-gray-500 text-[11px]">{dateTime ? formatDate(dateTime) : '—'}</p>
-                                {slot.status !== SLOT_STATUS.AVAILABLE && (
-                                  <span className="text-gray-600 text-[10px] shrink-0">· {slot.duration} min</span>
-                                )}
                               </div>
                             </div>
                           </div>

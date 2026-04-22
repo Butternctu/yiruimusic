@@ -382,6 +382,7 @@ const AdminDashboard = () => {
                           <div className="flex items-start gap-4">
                             <div className="flex flex-col items-center">
                               <span className="text-gold font-serif text-base leading-none">{dateTime ? formatTime(dateTime) : '—'}</span>
+                              <span className="text-gray-600 text-[10px] mt-1.5">{appt.duration}m</span>
                             </div>
 
                             <div className="h-10 w-px bg-white/5" />
