@@ -382,13 +382,14 @@ const AdminDashboard = () => {
                           <div className="flex items-start gap-4">
                             <div className="flex flex-col items-center">
                               <span className="text-gold font-serif text-base leading-none">{dateTime ? formatTime(dateTime) : '—'}</span>
-                              <span className="text-gray-600 text-[10px] mt-1.5">{appt.duration}m</span>
                             </div>
 
                             <div className="h-10 w-px bg-white/5" />
 
                             <div className="flex-1 min-w-0">
-                              <p className="text-white text-sm font-medium mb-1 truncate">{lt?.name || appt.lessonType}</p>
+                              <p className="text-white text-sm font-medium mb-1 truncate">
+                                {lt ? `${lt.format}: ${lt.category}` : (appt.lessonType || 'Private Lesson')}
+                              </p>
                               <div className="flex items-center gap-2">
                                 <div className="w-5 h-5 rounded-full bg-gold/10 border border-gold/20 flex items-center justify-center shrink-0">
                                   <span className="text-gold text-[8px] font-semibold">{initials}</span>
