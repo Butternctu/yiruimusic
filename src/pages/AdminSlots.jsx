@@ -20,8 +20,6 @@ const AdminSlots = () => {
   const [newSlot, setNewSlot] = useState({
     date: '',
     time: '',
-    lessonType: LESSON_TYPES[0].id,
-    duration: LESSON_TYPES[0].duration,
   });
   const [creating, setCreating] = useState(false);
   const [singleResult, setSingleResult] = useState({ type: '', message: '' });
@@ -34,8 +32,6 @@ const AdminSlots = () => {
     days: [1, 2, 3, 4, 5], // Mon-Fri by default
     startTime: '09:00',
     endTime: '17:00',
-    interval: 60,
-    lessonType: LESSON_TYPES[0].id,
   });
   const [bulkCreating, setBulkCreating] = useState(false);
   const [bulkResult, setBulkResult] = useState({ type: '', message: '' });
@@ -162,8 +158,8 @@ const AdminSlots = () => {
 
       await setDoc(docRef, {
         dateTime: Timestamp.fromDate(dateTime),
-        duration: newSlot.duration || 60,
-        lessonType: newSlot.lessonType,
+        duration: 60,
+        lessonType: null,
         status: SLOT_STATUS.AVAILABLE,
         bookedBy: null,
         bookedAt: null,
@@ -208,22 +204,23 @@ const AdminSlots = () => {
           const dayStart = startHour * 60 + startMin;
           const dayEnd = endHour * 60 + endMin;
 
-            for (let minuteOfDay = dayStart; minuteOfDay + bulkData.interval <= dayEnd; minuteOfDay += bulkData.interval) {
-              const slotDate = new Date(current);
-              slotDate.setHours(Math.floor(minuteOfDay / 60), minuteOfDay % 60, 0, 0);
-              targetSlots.push({
-                id: getSlotId(slotDate),
-                data: {
-                  dateTime: Timestamp.fromDate(slotDate),
-                  duration: bulkData.interval,
-                  lessonType: bulkData.lessonType,
-                  status: SLOT_STATUS.AVAILABLE,
-                  bookedBy: null,
-                  bookedAt: null,
-                  createdAt: Timestamp.now(),
-                },
-              });
-            }
+          const interval = 60; // Default generation interval
+          for (let minuteOfDay = dayStart; minuteOfDay + interval <= dayEnd; minuteOfDay += interval) {
+            const slotDate = new Date(current);
+            slotDate.setHours(Math.floor(minuteOfDay / 60), minuteOfDay % 60, 0, 0);
+            targetSlots.push({
+              id: getSlotId(slotDate),
+              data: {
+                dateTime: Timestamp.fromDate(slotDate),
+                duration: 60,
+                lessonType: null,
+                status: SLOT_STATUS.AVAILABLE,
+                bookedBy: null,
+                bookedAt: null,
+                createdAt: Timestamp.now(),
+              },
+            });
+          }
         }
         current.setDate(current.getDate() + 1);
       }
@@ -498,28 +495,6 @@ const AdminSlots = () => {
                           <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Time</label>
                           <TimePicker value={newSlot.time} onChange={val => setNewSlot(p => ({ ...p, time: val }))} />
                         </div>
-                        <div>
-                          <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Lesson Type</label>
-                          <div className="relative">
-                            <select
-                              value={newSlot.lessonType}
-                              onChange={e => {
-                                const lt = getLessonTypeById(e.target.value);
-                                setNewSlot(p => ({ ...p, lessonType: e.target.value, duration: lt?.duration || 60 }));
-                              }}
-                              className="w-full bg-transparent border-b border-white/20 py-3 text-gold focus:outline-none focus:border-gold transition-colors appearance-none cursor-pointer text-sm"
-                            >
-                              {LESSON_TYPES.filter(lt => !lt.isLegacy).map(lt => (
-                                <option key={lt.id} value={lt.id} className="bg-dark-800 text-white">
-                                  {lt.name} ({lt.duration} min)
-                                </option>
-                              ))}
-                            </select>
-                            <div className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none">
-                              <Plus className="w-4 h-4 text-gold/60 rotate-45" />
-                            </div>
-                          </div>
-                        </div>
                         {singleResult.message && (
                           <div
                             className={`mt-2 ${singleResult.type === 'error' ? (shakeError ? 'animate-error-shake' : 'animate-error-pulse') : 'animate-fadeIn'}`}
@@ -600,40 +575,6 @@ const AdminSlots = () => {
                           <div>
                             <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">End Time</label>
                             <TimePicker value={bulkData.endTime} onChange={val => setBulkData(p => ({ ...p, endTime: val }))} />
-                          </div>
-                        </div>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                          <div>
-                            <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Lesson Type</label>
-                            <div className="relative">
-                              <select
-                                value={bulkData.lessonType}
-                                onChange={e => {
-                                  const lt = getLessonTypeById(e.target.value);
-                                  setBulkData(p => ({ ...p, lessonType: e.target.value, interval: lt?.duration || 60 }));
-                                }}
-                                className="w-full bg-transparent border-b border-white/20 py-3 text-gold focus:outline-none focus:border-gold transition-colors appearance-none cursor-pointer text-sm"
-                              >
-                                {LESSON_TYPES.filter(lt => !lt.isLegacy).map(lt => (
-                                  <option key={lt.id} value={lt.id} className="bg-dark-800 text-white">
-                                    {lt.name}
-                                  </option>
-                                ))}
-                              </select>
-                              <div className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none">
-                                <Plus className="w-4 h-4 text-gold/60 rotate-45" />
-                              </div>
-                            </div>
-                          </div>
-                          <div>
-                            <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Interval (min)</label>
-                            <input
-                              type="number"
-                              value={bulkData.interval}
-                              onChange={e => setBulkData(p => ({ ...p, interval: parseInt(e.target.value) || 30 }))}
-                              className="w-full bg-transparent border-b border-white/20 py-3 text-gold focus:outline-none focus:border-gold transition-colors text-sm"
-                            />
                           </div>
                         </div>
 
