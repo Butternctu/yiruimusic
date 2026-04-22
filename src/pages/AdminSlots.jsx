@@ -162,8 +162,8 @@ const AdminSlots = () => {
 
       await setDoc(docRef, {
         dateTime: Timestamp.fromDate(dateTime),
-        duration: 60,
-        lessonType: null,
+        duration: newSlot.duration || 60,
+        lessonType: newSlot.lessonType,
         status: SLOT_STATUS.AVAILABLE,
         bookedBy: null,
         bookedAt: null,
@@ -208,22 +208,22 @@ const AdminSlots = () => {
           const dayStart = startHour * 60 + startMin;
           const dayEnd = endHour * 60 + endMin;
 
-          for (let minuteOfDay = dayStart; minuteOfDay + 60 <= dayEnd; minuteOfDay += 60) {
-            const slotDate = new Date(current);
-            slotDate.setHours(Math.floor(minuteOfDay / 60), minuteOfDay % 60, 0, 0);
-            targetSlots.push({
-              id: getSlotId(slotDate),
-              data: {
-                dateTime: Timestamp.fromDate(slotDate),
-                duration: 60,
-                lessonType: null,
-                status: SLOT_STATUS.AVAILABLE,
-                bookedBy: null,
-                bookedAt: null,
-                createdAt: Timestamp.now(),
-              },
-            });
-          }
+            for (let minuteOfDay = dayStart; minuteOfDay + bulkData.interval <= dayEnd; minuteOfDay += bulkData.interval) {
+              const slotDate = new Date(current);
+              slotDate.setHours(Math.floor(minuteOfDay / 60), minuteOfDay % 60, 0, 0);
+              targetSlots.push({
+                id: getSlotId(slotDate),
+                data: {
+                  dateTime: Timestamp.fromDate(slotDate),
+                  duration: bulkData.interval,
+                  lessonType: bulkData.lessonType,
+                  status: SLOT_STATUS.AVAILABLE,
+                  bookedBy: null,
+                  bookedAt: null,
+                  createdAt: Timestamp.now(),
+                },
+              });
+            }
         }
         current.setDate(current.getDate() + 1);
       }
@@ -321,7 +321,7 @@ const AdminSlots = () => {
   return (
     <>
       <SEO title="Manage Time Slots | Admin" url="/admin/slots" />
-      <section className="min-h-screen bg-dark-900 pt-28 pb-12 relative flex flex-col">
+      <section className="min-h-screen bg-dark-900 pt-28 pb-12 relative flex flex-col overflow-x-hidden">
         {/* Decorative elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-[radial-gradient(ellipse_at_top,rgba(197,160,89,0.03)_0%,transparent_70%)]" />
@@ -330,7 +330,7 @@ const AdminSlots = () => {
         <div className="max-w-6xl mx-auto px-6 md:px-12 w-full z-10 relative">
           <div className="sticky top-[64px] md:top-[80px] z-30 bg-dark-900/95 backdrop-blur-md pt-6 pb-2 -mx-6 px-6 md:-mx-12 md:px-12">
             {/* Header */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between space-y-4 md:space-y-0 animate-fadeInUp shrink-0 mb-4">
+            <div className="flex items-center justify-between animate-fadeInUp shrink-0 mb-4">
               <div className="flex items-center space-x-4">
                 <button
                   onClick={() => navigate('/admin')}
@@ -343,14 +343,32 @@ const AdminSlots = () => {
                   <p className="text-gray-500 text-[10px] tracking-[0.2em] uppercase mt-1">Admin Platform</p>
                 </div>
               </div>
-              <button
-                onClick={() => setShowCleanupModal(true)}
-                disabled={cleaning}
-                className="group flex items-center space-x-2 text-[10px] uppercase tracking-widest text-[#d9736c] hover:text-[#f4847d] transition-all duration-300 border border-[#d9736c]/20 hover:border-[#d9736c]/50 bg-[#d9736c]/5 px-4 py-2.5 rounded-sm"
-              >
-                <Trash2 className="w-3.5 h-3.5" />
-                <span>{cleaning ? 'Cleaning...' : 'Clear All Available Slots'}</span>
-              </button>
+
+              <div className="flex items-center">
+                {/* Mobile-only trash icon: aligned to right on small screens */}
+                <button
+                  onClick={() => setShowCleanupModal(true)}
+                  disabled={cleaning}
+                  className="md:hidden w-10 h-10 rounded-full border border-[#d9736c]/20 flex items-center justify-center text-[#d9736c] hover:bg-[#d9736c]/10 hover:border-[#d9736c]/40 transition-all duration-300"
+                  title="Clear All Available Slots"
+                >
+                  {cleaning ? (
+                    <div className="w-4 h-4 border-2 border-[#d9736c] border-t-transparent rounded-full animate-spin" />
+                  ) : (
+                    <Trash2 className="w-4 h-4" />
+                  )}
+                </button>
+
+                {/* Desktop-only text button */}
+                <button
+                  onClick={() => setShowCleanupModal(true)}
+                  disabled={cleaning}
+                  className="hidden md:flex group items-center space-x-2 text-[10px] uppercase tracking-widest text-[#d9736c] hover:text-[#f4847d] transition-all duration-300 border border-[#d9736c]/20 hover:border-[#d9736c]/50 bg-[#d9736c]/5 px-4 py-2.5 rounded-sm"
+                >
+                  <Trash2 className="w-3.5 h-3.5" />
+                  <span>{cleaning ? 'Cleaning...' : 'Clear All Available Slots'}</span>
+                </button>
+              </div>
             </div>
 
             {/* View Tabs */}
@@ -464,7 +482,7 @@ const AdminSlots = () => {
 
             {/* SINGLE CREATE VIEW */}
             {activeView === 'create' && (
-              <div className="h-full overflow-y-auto custom-scrollbar pr-2 pb-40">
+              <div className="h-full overflow-y-auto overflow-x-hidden custom-scrollbar pb-10">
                 <div className="max-w-2xl mx-auto animate-fadeInUp pb-12" style={{ animationDelay: '200ms' }}>
                   <div className="p-8 md:p-10 rounded-sm border border-gold/20 bg-dark-800 shadow-2xl relative">
                     <div className="absolute top-0 right-0 w-64 h-64 bg-gold/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" />
@@ -477,6 +495,28 @@ const AdminSlots = () => {
                         <div>
                           <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Time</label>
                           <TimePicker value={newSlot.time} onChange={val => setNewSlot(p => ({ ...p, time: val }))} />
+                        </div>
+                        <div>
+                          <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Lesson Type</label>
+                          <div className="relative">
+                            <select
+                              value={newSlot.lessonType}
+                              onChange={e => {
+                                const lt = getLessonTypeById(e.target.value);
+                                setNewSlot(p => ({ ...p, lessonType: e.target.value, duration: lt?.duration || 60 }));
+                              }}
+                              className="w-full bg-transparent border-b border-white/20 py-3 text-gold focus:outline-none focus:border-gold transition-colors appearance-none cursor-pointer text-sm"
+                            >
+                              {LESSON_TYPES.filter(lt => !lt.isLegacy).map(lt => (
+                                <option key={lt.id} value={lt.id} className="bg-dark-800 text-white">
+                                  {lt.name} ({lt.duration} min)
+                                </option>
+                              ))}
+                            </select>
+                            <div className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none">
+                              <Plus className="w-4 h-4 text-gold/60 rotate-45" />
+                            </div>
+                          </div>
                         </div>
                         {singleResult.message && (
                           <div
@@ -514,7 +554,7 @@ const AdminSlots = () => {
             )}
 
             {activeView === 'bulk' && (
-              <div className="h-full overflow-y-auto custom-scrollbar pr-2 pb-40">
+              <div className="h-full overflow-y-auto overflow-x-hidden custom-scrollbar pb-10">
                 <div className="max-w-2xl mx-auto animate-fadeInUp pb-12" style={{ animationDelay: '200ms' }}>
                   <div className="p-8 md:p-10 rounded-sm border border-gold/20 bg-dark-800 shadow-2xl relative">
                     <div className="absolute top-0 right-0 w-64 h-64 bg-gold/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" />
@@ -558,6 +598,40 @@ const AdminSlots = () => {
                           <div>
                             <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">End Time</label>
                             <TimePicker value={bulkData.endTime} onChange={val => setBulkData(p => ({ ...p, endTime: val }))} />
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          <div>
+                            <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Lesson Type</label>
+                            <div className="relative">
+                              <select
+                                value={bulkData.lessonType}
+                                onChange={e => {
+                                  const lt = getLessonTypeById(e.target.value);
+                                  setBulkData(p => ({ ...p, lessonType: e.target.value, interval: lt?.duration || 60 }));
+                                }}
+                                className="w-full bg-transparent border-b border-white/20 py-3 text-gold focus:outline-none focus:border-gold transition-colors appearance-none cursor-pointer text-sm"
+                              >
+                                {LESSON_TYPES.filter(lt => !lt.isLegacy).map(lt => (
+                                  <option key={lt.id} value={lt.id} className="bg-dark-800 text-white">
+                                    {lt.name}
+                                  </option>
+                                ))}
+                              </select>
+                              <div className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none">
+                                <Plus className="w-4 h-4 text-gold/60 rotate-45" />
+                              </div>
+                            </div>
+                          </div>
+                          <div>
+                            <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Interval (min)</label>
+                            <input
+                              type="number"
+                              value={bulkData.interval}
+                              onChange={e => setBulkData(p => ({ ...p, interval: parseInt(e.target.value) || 30 }))}
+                              className="w-full bg-transparent border-b border-white/20 py-3 text-gold focus:outline-none focus:border-gold transition-colors text-sm"
+                            />
                           </div>
                         </div>
 
