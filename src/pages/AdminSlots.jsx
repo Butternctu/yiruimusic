@@ -437,7 +437,7 @@ const AdminSlots = () => {
                             <div className="truncate">
                               <div className="flex items-center space-x-2">
                                 <p className="text-white text-sm truncate">
-                                  {lt?.name ||
+                                  {lt ? `${lt.format}: ${lt.category}` :
                                     (slot.lessonType === 'overlap-block'
                                       ? 'Extended Session Block'
                                       : slot.status === SLOT_STATUS.AVAILABLE
