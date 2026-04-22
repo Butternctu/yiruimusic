@@ -357,17 +357,33 @@ const AdminMessages = () => {
                 <div ref={mobileChatContainerRef} className="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar flex flex-col bg-dark-900">
                   {messages.map((msg, index) => {
                     const isAdminMsg = msg.sender === 'admin';
+                    const msgDate = msg.createdAt?.toDate ? msg.createdAt.toDate() : new Date(msg.createdAt);
+                    const prevMsg = index > 0 ? messages[index - 1] : null;
+                    const prevMsgDate = prevMsg ? (prevMsg.createdAt?.toDate ? prevMsg.createdAt.toDate() : new Date(prevMsg.createdAt)) : null;
+                    const showDateDivider = !prevMsgDate || !isSameDay(msgDate, prevMsgDate);
+
                     return (
-                      <div key={msg.id || index} className={`flex ${isAdminMsg ? 'justify-end' : 'justify-start'} animate-fadeInUp`}>
-                        <div className={`max-w-[90%] flex flex-col ${isAdminMsg ? 'items-end' : 'items-start'}`}>
-                          <div
-                            className={`px-4 py-2.5 rounded-sm ${isAdminMsg ? 'bg-gold/10 text-white border border-gold/30' : 'bg-white/5 border border-white/10 text-gray-200'}`}
-                          >
-                            <p className="text-sm leading-relaxed whitespace-pre-wrap">{msg.text}</p>
+                      <React.Fragment key={msg.id || index}>
+                        {showDateDivider && (
+                          <div className="flex items-center my-8 animate-fadeIn shrink-0">
+                            <div className="flex-1 h-px bg-linear-to-r from-transparent via-white/6 to-transparent"></div>
+                            <div className="mx-4 px-3 py-1 rounded-sm border border-white/5 bg-white/1 text-[8px] uppercase tracking-[0.2em] text-gold/60 font-serif">
+                              {formatDate(msgDate)}
+                            </div>
+                            <div className="flex-1 h-px bg-linear-to-r from-transparent via-white/6 to-transparent"></div>
                           </div>
-                          <span className="text-[9px] text-gray-600 mt-1.5 uppercase tracking-tighter">{formatTime(msg.createdAt)}</span>
+                        )}
+                        <div className={`flex ${isAdminMsg ? 'justify-end' : 'justify-start'} animate-fadeInUp`}>
+                          <div className={`max-w-[90%] flex flex-col ${isAdminMsg ? 'items-end' : 'items-start'}`}>
+                            <div
+                              className={`px-4 py-2.5 rounded-sm ${isAdminMsg ? 'bg-gold/10 text-white border border-gold/30' : 'bg-white/5 border border-white/10 text-gray-200'}`}
+                            >
+                              <p className="text-sm leading-relaxed whitespace-pre-wrap">{msg.text}</p>
+                            </div>
+                            <span className="text-[9px] text-gray-600 mt-1.5 uppercase tracking-tighter">{formatTime(msg.createdAt)}</span>
+                          </div>
                         </div>
-                      </div>
+                      </React.Fragment>
                     );
                   })}
                 </div>
