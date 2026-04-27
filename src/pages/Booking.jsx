@@ -133,7 +133,7 @@ const Booking = () => {
     setSelectedLessonType(type);
     setBookingStep(4); // Summary/Confirm step
 
-    const slotsReq = Math.ceil(type.duration / 60);
+    const slotsReq = Math.ceil(type.duration / 30);
     if (slotsReq > 1) {
       setCheckingSlots(true);
       setSlotsError(null);
@@ -144,7 +144,7 @@ const Booking = () => {
 
         for (let i = 1; i < slotsReq; i++) {
           const nextTime = new Date(selectedSlot.dateTime.toDate());
-          nextTime.setHours(nextTime.getHours() + i, 0, 0, 0);
+          nextTime.setMinutes(nextTime.getMinutes() + i * 30);
 
           const q = query(collection(db, 'timeSlots'), where('dateTime', '==', Timestamp.fromDate(nextTime)), limit(1));
           const snap = await getDocs(q);
@@ -153,7 +153,7 @@ const Booking = () => {
             if (s.status === SLOT_STATUS.AVAILABLE) {
               slotsToBlock.push(s);
             } else {
-              setSlotsError(`Conflict: The hour at ${formatTime(nextTime)} is already booked.`);
+              setSlotsError(`Conflict: The slot at ${formatTime(nextTime)} is already booked.`);
               hasError = true;
               break;
             }
@@ -192,16 +192,16 @@ const Booking = () => {
         }
 
         // Verify extra slots if needed
-        const slotsReq = Math.ceil(selectedLessonType.duration / 60);
+        const slotsReq = Math.ceil(selectedLessonType.duration / 30);
         const verifiedBlockedDocs = [];
         if (slotsReq > 1) {
           if (slotsError || blockedSlots.length !== slotsReq - 1) {
-            throw new Error('The required consecutive hours for this lesson are not available.');
+            throw new Error('The required consecutive slots for this lesson are not available.');
           }
           for (const bSlot of blockedSlots) {
             const bDoc = await transaction.get(doc(db, 'timeSlots', bSlot.id));
             if (!bDoc.exists() || bDoc.data().status !== SLOT_STATUS.AVAILABLE) {
-              throw new Error('One of the required consecutive hours is no longer available.');
+              throw new Error('One of the required consecutive slots is no longer available.');
             }
             verifiedBlockedDocs.push(bDoc);
           }
@@ -450,7 +450,7 @@ const Booking = () => {
                       <p className="text-gray-400 text-sm">
                         {isAvailable ? 'Open Slot' : slot.lessonType === 'overlap-block' ? 'Extended Session Block' : lt?.name || 'Private Lesson'}
                       </p>
-                      <p className="text-gray-600 text-xs mt-1">1 hour unit</p>
+                      <p className="text-gray-600 text-xs mt-1">30 min unit</p>
                     </button>
                   );
                 })}
@@ -576,9 +576,9 @@ const Booking = () => {
                         </div>
 
                         {/* Overlap Check UI */}
-                        {Math.ceil(selectedLessonType.duration / 60) > 1 && (
+                        {Math.ceil(selectedLessonType.duration / 30) > 1 && (
                           <div className="mt-4 pt-4 border-t border-white/5">
-                            <span className="block text-[10px] text-gray-500 uppercase tracking-widest mb-2">Duration Extends Past 1 Hour</span>
+                            <span className="block text-[10px] text-gray-500 uppercase tracking-widest mb-2">Duration Extends Past 30 Minutes</span>
                             {checkingSlots ? (
                               <p className="text-[11px] text-gold/70 animate-pulse italic">Checking consecutive availability...</p>
                             ) : slotsError ? (
@@ -589,7 +589,7 @@ const Booking = () => {
                             ) : (
                               <p className="text-[11px] text-gold flex items-center bg-gold/5 p-2 rounded-sm border border-gold/20">
                                 <Check className="w-4 h-4 mr-2 flex-shrink-0" />
-                                Confirmed: All {Math.ceil(selectedLessonType.duration / 60)} hours are available.
+                                Confirmed: All {Math.ceil(selectedLessonType.duration / 30)} slots are available.
                               </p>
                             )}
                           </div>

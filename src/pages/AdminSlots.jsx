@@ -158,7 +158,7 @@ const AdminSlots = () => {
 
       await setDoc(docRef, {
         dateTime: Timestamp.fromDate(dateTime),
-        duration: 60,
+        duration: 30,
         lessonType: null,
         status: SLOT_STATUS.AVAILABLE,
         bookedBy: null,
@@ -204,7 +204,7 @@ const AdminSlots = () => {
           const dayStart = startHour * 60 + startMin;
           const dayEnd = endHour * 60 + endMin;
 
-          const interval = 60; // Default generation interval
+          const interval = 30; // Default generation interval
           for (let minuteOfDay = dayStart; minuteOfDay + interval <= dayEnd; minuteOfDay += interval) {
             const slotDate = new Date(current);
             slotDate.setHours(Math.floor(minuteOfDay / 60), minuteOfDay % 60, 0, 0);
@@ -212,7 +212,7 @@ const AdminSlots = () => {
               id: getSlotId(slotDate),
               data: {
                 dateTime: Timestamp.fromDate(slotDate),
-                duration: 60,
+                duration: 30,
                 lessonType: null,
                 status: SLOT_STATUS.AVAILABLE,
                 bookedBy: null,

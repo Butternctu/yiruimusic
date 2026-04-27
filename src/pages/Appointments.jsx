@@ -65,7 +65,7 @@ const Appointments = () => {
           bookedBy: null,
           bookedAt: null,
           lessonType: null,
-          duration: 60,
+          duration: 30,
         });
       }
 
@@ -77,7 +77,7 @@ const Appointments = () => {
             bookedBy: null,
             bookedAt: null,
             lessonType: null,
-            duration: 60,
+            duration: 30,
             blockedBy: null,
           });
         });
@@ -90,7 +90,7 @@ const Appointments = () => {
           bookedBy: null,
           bookedAt: null,
           lessonType: null,
-          duration: 60,
+          duration: 30,
           blockedBy: null,
         });
       }

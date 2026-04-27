@@ -1,7 +1,12 @@
 import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import yiruiCover from "../assets/yirui_cover.webp";
 
 const Hero = () => {
+  const navigate = useNavigate();
+  const { user } = useAuth();
+
   useEffect(() => {
     let lastWidth = window.innerWidth;
 
@@ -23,18 +28,22 @@ const Hero = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const handleScrollClick = (e, targetId) => {
+  const handleAction = (e) => {
     e.preventDefault();
-    const element = document.querySelector(targetId);
-    if (element) {
-      const navbarHeight = 80;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.scrollY - navbarHeight;
+    if (user) {
+      navigate('/booking');
+    } else {
+      const element = document.querySelector("#contact");
+      if (element) {
+        const navbarHeight = 80;
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.scrollY - navbarHeight;
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth",
-      });
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: "smooth",
+        });
+      }
     }
   };
 
@@ -58,13 +67,12 @@ const Hero = () => {
         <p className="text-gray-400 text-base md:text-lg font-light leading-relaxed max-w-2xl mx-auto mb-12">
           Houston's premier harpist, bridging cross-cultural artistry and nurturing the next generation of classical musicians.
         </p>
-        <a
-          href="#contact"
-          onClick={(e) => handleScrollClick(e, "#contact")}
+        <button
+          onClick={handleAction}
           className="inline-block border border-gold text-gold hover:bg-gold hover:text-dark-900 px-10 py-4 tracking-[0.2em] uppercase text-xs transition-all duration-500 scroll-link"
         >
           Book a Performance
-        </a>
+        </button>
       </div>
 
       <div className="absolute bottom-8 md:bottom-12 left-1/2 transform -translate-x-1/2 z-10 pointer-events-none scroll-indicator">
