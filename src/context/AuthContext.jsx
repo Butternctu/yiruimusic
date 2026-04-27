@@ -12,6 +12,7 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   sendPasswordResetEmail,
+  sendEmailVerification,
 } from 'firebase/auth';
 import { doc, getDoc, setDoc, updateDoc, serverTimestamp, collection, query, where, onSnapshot, limit } from 'firebase/firestore';
 import { auth, db, initializationError } from '../firebase';
@@ -37,6 +38,14 @@ export function AuthProvider({ children }) {
     }
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
+        const isPasswordProvider = firebaseUser.providerData?.some(p => p.providerId === 'password');
+        if (isPasswordProvider && !firebaseUser.emailVerified) {
+          setUser(null);
+          setUserProfile(null);
+          setLoading(false);
+          return;
+        }
+
         setUser(firebaseUser);
         try {
           if (db) {
@@ -100,6 +109,14 @@ export function AuthProvider({ children }) {
   const login = async (email, password) => {
     if (!auth) throw new Error('Firebase Auth not initialized. Check your credentials.');
     const result = await signInWithEmailAndPassword(auth, email, password);
+    
+    if (!result.user.emailVerified && result.user.providerData[0]?.providerId === 'password') {
+      await signOut(auth);
+      const err = new Error('Please verify your email address before signing in.');
+      err.code = 'auth/unverified-email';
+      throw err;
+    }
+
     if (db) {
       const profileDoc = await getDoc(doc(db, 'users', result.user.uid));
       if (profileDoc.exists()) {
@@ -125,9 +142,18 @@ export function AuthProvider({ children }) {
         createdAt: serverTimestamp(),
       };
       await setDoc(doc(db, 'users', result.user.uid), profileData);
-      setUserProfile({ id: result.user.uid, ...profileData });
     }
+
+    await sendEmailVerification(result.user);
+    await signOut(auth);
     return result;
+  };
+
+  const resendVerification = async (email, password) => {
+    if (!auth) throw new Error('Firebase Auth not initialized.');
+    const result = await signInWithEmailAndPassword(auth, email, password);
+    await sendEmailVerification(result.user);
+    await signOut(auth);
   };
 
   const loginWithGoogle = async () => {
@@ -202,6 +228,7 @@ export function AuthProvider({ children }) {
     hasUnreadMessages,
     login,
     register,
+    resendVerification,
     loginWithGoogle,
     logout,
     resetPassword,

@@ -10,16 +10,16 @@ const Register = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
-    email: '',
     phone: '',
+    email: '',
     password: '',
-    confirmPassword: '',
   });
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
   const [submitError, setSubmitError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [shakeError, setShakeError] = useState(false);
+  const [isVerificationSent, setIsVerificationSent] = useState(false);
 
   React.useEffect(() => {
     if (!loading && isAuthenticated && userProfile) {
@@ -50,9 +50,6 @@ const Register = () => {
     } else if (formData.password.length < 6) {
       newErrors.password = 'Password must be at least 6 characters.';
     }
-    if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Passwords do not match.';
-    }
     return newErrors;
   };
 
@@ -72,7 +69,7 @@ const Register = () => {
     setIsLoading(true);
     try {
       await register(formData.email, formData.password, formData.name, formData.phone);
-      // Redirect handled by useEffect
+      setIsVerificationSent(true);
     } catch (err) {
       let message = 'An error occurred. Please try again.';
       if (err.code === 'auth/email-already-in-use') {
@@ -120,13 +117,35 @@ const Register = () => {
         </div>
 
         <div className="w-full max-w-md relative z-10 animate-fadeInUp m-auto">
-          <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-14 h-14 rounded-full border border-gold/30 bg-gold/5 mb-4">
-              <UserPlus className="w-6 h-6 text-gold" />
+          {isVerificationSent ? (
+            <div className="text-center bg-dark-800 p-10 border border-white/10 rounded-sm shadow-2xl">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full border border-gold/30 bg-gold/10 mb-6">
+                <svg className="w-8 h-8 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <h2 className="font-serif text-2xl text-white mb-4">Check Your Email</h2>
+              <p className="text-gray-400 text-sm leading-relaxed mb-8">
+                We've sent a verification link to <span className="text-white font-medium">{formData.email}</span>.
+                <br /><br />
+                Please click the link to verify your account before signing in.
+              </p>
+              <Link
+                to="/login"
+                className="inline-block w-full border border-gold text-gold hover:bg-gold hover:text-dark-900 py-3.5 text-xs uppercase tracking-widest transition-all duration-300"
+              >
+                Go to Sign In
+              </Link>
             </div>
-            <h1 className="font-serif text-3xl text-white tracking-wide mb-2">Create Account</h1>
-            <p className="text-gray-500 text-xs tracking-wider uppercase">Join to book sessions</p>
-          </div>
+          ) : (
+            <>
+              <div className="text-center mb-8">
+                <div className="inline-flex items-center justify-center w-14 h-14 rounded-full border border-gold/30 bg-gold/5 mb-4">
+                  <UserPlus className="w-6 h-6 text-gold" />
+                </div>
+                <h1 className="font-serif text-3xl text-white tracking-wide mb-2">Create Account</h1>
+                <p className="text-gray-500 text-xs tracking-wider uppercase">Join to book sessions</p>
+              </div>
 
           <form onSubmit={handleSubmit} className="space-y-5" noValidate>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -179,47 +198,29 @@ const Register = () => {
               />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div className="relative">
+              <label htmlFor="reg-password" className="block text-xs uppercase tracking-widest text-gray-500 mb-2">
+                Password
+              </label>
               <div className="relative">
-                <label htmlFor="reg-password" className="block text-xs uppercase tracking-widest text-gray-500 mb-2">
-                  Password
-                </label>
-                <div className="relative">
-                  <input
-                    type={showPassword ? 'text' : 'password'}
-                    id="reg-password"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    autoComplete="new-password"
-                    className={`${inputClass('password')} pr-10`}
-                    placeholder="••••••••"
-                  />
-                  <button
-                    type="button"
-                    tabIndex={-1}
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-0 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gold transition-colors p-1"
-                  >
-                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                  </button>
-                </div>
-              </div>
-
-              <div className="relative">
-                <label htmlFor="reg-confirm" className="block text-xs uppercase tracking-widest text-gray-500 mb-2">
-                  Confirm
-                </label>
                 <input
                   type={showPassword ? 'text' : 'password'}
-                  id="reg-confirm"
-                  name="confirmPassword"
-                  value={formData.confirmPassword}
+                  id="reg-password"
+                  name="password"
+                  value={formData.password}
                   onChange={handleChange}
                   autoComplete="new-password"
-                  className={inputClass('confirmPassword')}
+                  className={`${inputClass('password')} pr-10`}
                   placeholder="••••••••"
                 />
+                <button
+                  type="button"
+                  tabIndex={-1}
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-0 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gold transition-colors p-1"
+                >
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
               </div>
             </div>
 
@@ -295,6 +296,8 @@ const Register = () => {
               </Link>
             </p>
           </div>
+            </>
+          )}
         </div>
       </section>
     </>

@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import SEO from '../components/SEO';
 
 const Login = () => {
-  const { login, loginWithGoogle, isAuthenticated, isAdmin, loading, initializationError, resetPassword, userProfile } = useAuth();
+  const { login, loginWithGoogle, isAuthenticated, isAdmin, loading, initializationError, resetPassword, userProfile, resendVerification } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -15,6 +15,8 @@ const Login = () => {
   const [shakeError, setShakeError] = useState(false);
   const [isResetMode, setIsResetMode] = useState(false);
   const [resetSent, setResetSent] = useState(false);
+  const [unverifiedEmail, setUnverifiedEmail] = useState(false);
+  const [resendSent, setResendSent] = useState(false);
 
   // Redirect if already logged in
   React.useEffect(() => {
@@ -49,6 +51,7 @@ const Login = () => {
       }
     } catch (err) {
       let message = 'An error occurred. Please try again.';
+      setUnverifiedEmail(false);
       if (err.message?.includes('not initialized')) {
         message = 'Firebase initialization failed. Please check your configuration.';
       } else if (err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
@@ -57,12 +60,29 @@ const Login = () => {
         message = 'Too many attempts. Please try again later.';
       } else if (err.code === 'auth/invalid-email') {
         message = 'Please enter a valid email address.';
+      } else if (err.code === 'auth/unverified-email') {
+        message = err.message;
+        setUnverifiedEmail(true);
       } else if (err.code) {
         message = `Error: ${err.message} (${err.code})`;
       }
       setError(message);
       setShakeError(true);
       setTimeout(() => setShakeError(false), 500);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleResendVerification = async () => {
+    setIsLoading(true);
+    setError('');
+    try {
+      await resendVerification(email, password);
+      setResendSent(true);
+      setError('');
+    } catch (err) {
+      setError('Failed to resend. Please check your credentials or try again later.');
     } finally {
       setIsLoading(false);
     }
@@ -203,9 +223,25 @@ const Login = () => {
             )}
 
             {error && (
-              <p className={`text-[11px] text-[#d9736c] tracking-wider uppercase text-center ${shakeError ? 'animate-error-shake' : 'animate-error-pulse'}`}>
-                {error}
-              </p>
+              <div className="text-center">
+                <p className={`text-[11px] text-[#d9736c] tracking-wider uppercase ${shakeError ? 'animate-error-shake' : 'animate-error-pulse'}`}>
+                  {error}
+                </p>
+                {unverifiedEmail && !resendSent && (
+                  <button
+                    type="button"
+                    onClick={handleResendVerification}
+                    className="mt-3 text-[10px] uppercase tracking-widest text-gold hover:text-white transition-colors underline underline-offset-4 decoration-gold/30"
+                  >
+                    Resend Verification Email
+                  </button>
+                )}
+                {resendSent && (
+                  <p className="mt-3 text-gold text-[10px] uppercase tracking-widest font-medium">
+                    Verification email sent! Please check your inbox.
+                  </p>
+                )}
+              </div>
             )}
 
             <button
