@@ -13,6 +13,7 @@ const Register = () => {
     phone: '',
     email: '',
     password: '',
+    confirmPassword: '',
   });
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
@@ -49,6 +50,9 @@ const Register = () => {
       newErrors.password = 'Password is required.';
     } else if (formData.password.length < 6) {
       newErrors.password = 'Password must be at least 6 characters.';
+    }
+    if (formData.password !== formData.confirmPassword) {
+      newErrors.confirmPassword = 'Passwords do not match.';
     }
     return newErrors;
   };
@@ -198,29 +202,57 @@ const Register = () => {
               />
             </div>
 
-            <div className="relative">
-              <label htmlFor="reg-password" className="block text-xs uppercase tracking-widest text-gray-500 mb-2">
-                Password
-              </label>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div className="relative">
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  id="reg-password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  autoComplete="new-password"
-                  className={`${inputClass('password')} pr-10`}
-                  placeholder="••••••••"
-                />
-                <button
-                  type="button"
-                  tabIndex={-1}
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-0 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gold transition-colors p-1"
-                >
-                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                </button>
+                <label htmlFor="reg-password" className="block text-xs uppercase tracking-widest text-gray-500 mb-2">
+                  Password
+                </label>
+                <div className="relative">
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    id="reg-password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    autoComplete="new-password"
+                    className={`${inputClass('password')} pr-10`}
+                    placeholder="••••••••"
+                  />
+                  <button
+                    type="button"
+                    tabIndex={-1}
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-0 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gold transition-colors p-1"
+                  >
+                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
+              </div>
+
+              <div className="relative">
+                <label htmlFor="reg-confirm" className="block text-xs uppercase tracking-widest text-gray-500 mb-2">
+                  Confirm Password
+                </label>
+                <div className="relative">
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    id="reg-confirm"
+                    name="confirmPassword"
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                    autoComplete="new-password"
+                    className={`${inputClass('confirmPassword')} pr-10`}
+                    placeholder="••••••••"
+                  />
+                  <button
+                    type="button"
+                    tabIndex={-1}
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-0 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gold transition-colors p-1"
+                  >
+                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
               </div>
             </div>
 
