@@ -407,7 +407,10 @@ const Booking = () => {
             </div>
 
             <div className="mt-8 animate-fadeInUp shrink-0" style={{ animationDelay: '400ms' }}>
-              <h2 className="font-serif text-lg text-white mb-6">{formatFullDate(selectedDate)}</h2>
+              <h2 className="font-serif text-lg text-white mb-1">{formatFullDate(selectedDate)}</h2>
+              <p className="text-gray-500 text-[10px] uppercase tracking-widest mb-6">
+                All times shown in your local timezone ({Intl.DateTimeFormat().resolvedOptions().timeZone})
+              </p>
             </div>
           </div>
 

@@ -192,8 +192,8 @@ const AdminSlots = () => {
     setBulkProgress({ current: 0, total: 0, status: 'Analyzing schedule...' });
 
     try {
-      const start = new Date(bulkData.startDate);
-      const end = new Date(bulkData.endDate);
+      const start = new Date(`${bulkData.startDate}T00:00:00`);
+      const end = new Date(`${bulkData.endDate}T00:00:00`);
       const targetSlots = [];
 
       const current = new Date(start);

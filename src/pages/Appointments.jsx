@@ -181,7 +181,7 @@ const Appointments = () => {
               </Link>
               <div>
                 <h1 className="font-serif text-2xl md:text-3xl text-white tracking-wide">My Appointments</h1>
-                <p className="text-gray-500 text-[10px] tracking-[0.2em] uppercase mt-1">Schedule overview</p>
+                <p className="text-gray-500 text-[10px] tracking-[0.2em] uppercase mt-1">Schedule overview • Times in {Intl.DateTimeFormat().resolvedOptions().timeZone}</p>
               </div>
             </div>
 
