@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { MessageSquare, ChevronDown, Check, Clock } from "lucide-react";
 import { useIntersectionObserver } from "../hooks/useIntersectionObserver";
+import { trackConversion } from "../lib/gtag.js";
 
 const Contact = () => {
   useIntersectionObserver();
@@ -163,6 +164,9 @@ const Contact = () => {
         if (isSuccess || needsActivation) {
           setIsSuccess(true);
           setFormData({ name: "", email: "", message: "" });
+
+          // Report the lead to Google Ads (no-op if tracking is not configured)
+          trackConversion();
 
           // Set 3 minute cooldown
           const cooldownEnd = Date.now() + 3 * 60 * 1000;
