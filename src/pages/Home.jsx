@@ -5,6 +5,7 @@ import Hero from '../components/Hero';
 import About from '../components/About';
 import Academic from '../components/Academic';
 import PerformancePreview from '../components/PerformancePreview';
+import Pricing from '../components/Pricing';
 import FAQ from '../components/FAQ';
 import Contact from '../components/Contact';
 import { faqs } from '../data/faqs';
@@ -36,6 +37,7 @@ const Home = () => {
       <About />
       <Academic />
       <PerformancePreview />
+      <Pricing />
       <FAQ />
       {!isAuthenticated && <Contact />}
     </>

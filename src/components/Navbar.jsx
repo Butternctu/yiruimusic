@@ -127,6 +127,7 @@ const Navbar = () => {
             <Link to="/#about" onClick={(e) => handleHashLinkClick(e, '/#about')} className="hover:text-gold transition-colors duration-300">About</Link>
             <Link to="/#teaching" onClick={(e) => handleHashLinkClick(e, '/#teaching')} className="hover:text-gold transition-colors duration-300">Academic</Link>
             <Link to="/#performance" onClick={(e) => handleHashLinkClick(e, '/#performance')} className="hover:text-gold transition-colors duration-300">Performance</Link>
+            <Link to="/#pricing" onClick={(e) => handleHashLinkClick(e, '/#pricing')} className="hover:text-gold transition-colors duration-300">Pricing</Link>
             <Link to="/repertoire" onClick={closeMobileMenu} className="hover:text-gold transition-colors duration-300">Programs</Link>
 
             {/* Auth Section */}
@@ -239,6 +240,7 @@ const Navbar = () => {
             <Link to="/#about" onClick={(e) => handleHashLinkClick(e, '/#about')} className="hover:text-gold transition-colors duration-300 px-8 py-2">About</Link>
             <Link to="/#teaching" onClick={(e) => handleHashLinkClick(e, '/#teaching')} className="hover:text-gold transition-colors duration-300 px-8 py-2">Academic</Link>
             <Link to="/#performance" onClick={(e) => handleHashLinkClick(e, '/#performance')} className="hover:text-gold transition-colors duration-300 px-8 py-2">Performance</Link>
+            <Link to="/#pricing" onClick={(e) => handleHashLinkClick(e, '/#pricing')} className="hover:text-gold transition-colors duration-300 px-8 py-2">Pricing</Link>
             <Link to="/repertoire" onClick={closeMobileMenu} className="hover:text-gold transition-colors duration-300 px-8 py-2">Programs</Link>
 
             {/* Mobile Auth */}

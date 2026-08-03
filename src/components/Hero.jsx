@@ -28,23 +28,27 @@ const Hero = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  const scrollToId = (id) => {
+    const element = document.querySelector(id);
+    if (!element) return;
+    const navbarHeight = 80;
+    const offsetPosition =
+      element.getBoundingClientRect().top + window.scrollY - navbarHeight;
+    window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+  };
+
   const handleAction = (e) => {
     e.preventDefault();
     if (user) {
       navigate('/booking');
     } else {
-      const element = document.querySelector("#contact");
-      if (element) {
-        const navbarHeight = 80;
-        const elementPosition = element.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.scrollY - navbarHeight;
-
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: "smooth",
-        });
-      }
+      scrollToId("#contact");
     }
+  };
+
+  const handlePricing = (e) => {
+    e.preventDefault();
+    scrollToId("#pricing");
   };
 
   return (
@@ -67,12 +71,20 @@ const Hero = () => {
         <p className="text-gray-400 text-base md:text-lg font-light leading-relaxed max-w-2xl mx-auto mb-12">
           Houston's premier harpist, bridging cross-cultural artistry and nurturing the next generation of classical musicians.
         </p>
-        <button
-          onClick={handleAction}
-          className="inline-block border border-gold text-gold hover:bg-gold hover:text-dark-900 px-10 py-4 tracking-[0.2em] uppercase text-xs transition-all duration-500 scroll-link"
-        >
-          Book a Performance
-        </button>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-5">
+          <button
+            onClick={handleAction}
+            className="inline-block border border-gold text-gold hover:bg-gold hover:text-dark-900 px-10 py-4 tracking-[0.2em] uppercase text-xs transition-all duration-500 scroll-link"
+          >
+            Book a Performance
+          </button>
+          <button
+            onClick={handlePricing}
+            className="inline-block border border-white/20 text-gray-300 hover:border-gold/50 hover:text-gold px-10 py-4 tracking-[0.2em] uppercase text-xs transition-all duration-500"
+          >
+            View Pricing
+          </button>
+        </div>
       </div>
 
       <div className="absolute bottom-8 md:bottom-12 left-1/2 transform -translate-x-1/2 z-10 pointer-events-none scroll-indicator">

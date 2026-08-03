@@ -8,8 +8,12 @@ export const faqs = [
         answer: "For local performances in the Houston and Greater Texas area, I provide my own professional concert grand harp. The instrument requires a flat, stable surface (approximately 5x5 feet) and an armless chair. For outdoor events, a completely shaded and dry area is essential. For international or out-of-state engagements, harp rental arrangements can be discussed."
     },
     {
-        question: "Can I request specific songs for my event?",
-        answer: "Absolutely. While I have an extensive existing repertoire, I am always happy to learn new pieces to make your event truly special. Please mention any specific requests when reaching out."
+        question: "Can you play a specific song that isn't on your repertoire list?",
+        answer: "Absolutely! I love learning new music. Depending on complexity and sheet music availability, a custom arrangement fee (starting at $50/song) may apply to cover preparation and rehearsal."
+    },
+    {
+        question: "Do you charge a travel fee?",
+        answer: "Travel within central Houston is included. For venues located further out (such as Montgomery, Galveston, or out-of-state), a transportation fee will be provided in your custom quote."
     },
     {
         question: "At what age can a student start learning the harp?",
