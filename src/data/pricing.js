@@ -4,10 +4,10 @@ export const lessonRates = [
 ];
 
 export const eventRates = [
-  { title: 'Weddings & Bridal Events', rate: 'from $550 / hr' },
-  { title: 'Corporate & VIP Events', rate: 'from $500 / hr' },
-  { title: 'Private Parties & Social', rate: 'from $450 / hr' },
-  { title: 'Memorials, Sacred & Orchestral', rate: 'from $400 / hr' },
+  { title: 'Weddings & Bridal Events', rate: 'from $550' },
+  { title: 'Corporate & VIP Events', rate: 'from $500' },
+  { title: 'Private Parties & Social', rate: 'from $450' },
+  { title: 'Memorials, Sacred & Orchestral', rate: 'from $400' },
 ];
 
 export const addOns = [
