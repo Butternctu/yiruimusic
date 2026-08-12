@@ -2,9 +2,12 @@ import React from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import Navbar from './Navbar';
 import Footer from './Footer';
+import MobileContactBar from './MobileContactBar';
+import { useScrollDepth } from '../hooks/useScrollDepth';
 
 const Layout = () => {
   const location = useLocation();
+  useScrollDepth();
   const authPaths = ['/dashboard', '/booking', '/appointments', '/profile', '/messages', '/admin'];
   const shouldHideFooter = authPaths.some(path => location.pathname.startsWith(path));
 
@@ -15,6 +18,7 @@ const Layout = () => {
         <Outlet />
       </main>
       {!shouldHideFooter && <Footer />}
+      <MobileContactBar />
     </div>
   );
 };

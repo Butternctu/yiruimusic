@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { trackEvent } from "../lib/gtag.js";
 import yiruiCover from "../assets/yirui_cover.webp";
 
-const Hero = () => {
+const Hero = ({ onSelectInquiry }) => {
   const navigate = useNavigate();
   const { user } = useAuth();
 
@@ -37,17 +38,24 @@ const Hero = () => {
     window.scrollTo({ top: offsetPosition, behavior: "smooth" });
   };
 
-  const handleAction = (e) => {
+  const handleBooking = (e) => {
     e.preventDefault();
-    if (user) {
-      navigate('/booking');
-    } else {
-      scrollToId("#contact");
-    }
+    trackEvent("cta_click", { cta: "hero_book_a_lesson" });
+    navigate('/booking');
+  };
+
+  // Both entry points land on the same form; they differ only in the inquiry
+  // type they preselect, so the visitor never has to classify themselves.
+  const handleInquiry = (cta, inquiryType) => (e) => {
+    e.preventDefault();
+    trackEvent("cta_click", { cta });
+    onSelectInquiry?.(inquiryType);
+    scrollToId("#contact");
   };
 
   const handlePricing = (e) => {
     e.preventDefault();
+    trackEvent("cta_click", { cta: "hero_view_pricing" });
     scrollToId("#pricing");
   };
 
@@ -64,27 +72,54 @@ const Hero = () => {
           Houston &bull; Harpist &bull; Educator
         </h2>
         <h1 className="font-serif text-5xl md:text-7xl text-white mb-8 leading-tight tracking-wide">
-          Bridging Tradition <br />
+          Weddings, Events <br />
           <span className="italic font-light text-gray-400">&amp;</span>{" "}
-          Innovation
+          Harp Lessons
         </h1>
-        <p className="text-gray-400 text-base md:text-lg font-light leading-relaxed max-w-2xl mx-auto mb-12">
-          Houston's premier harpist, bridging cross-cultural artistry and nurturing the next generation of classical musicians.
+        <p className="text-gray-400 text-base md:text-lg font-light leading-relaxed max-w-2xl mx-auto mb-10">
+          Dr. Yirui Li — award-winning harpist and Adjunct Harp Professor at Sam
+          Houston State University.
         </p>
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-5">
-          <button
-            onClick={handleAction}
-            className="inline-block border border-gold text-gold hover:bg-gold hover:text-dark-900 px-10 py-4 tracking-[0.2em] uppercase text-xs transition-all duration-500 scroll-link"
-          >
-            Book a Performance
-          </button>
-          <button
-            onClick={handlePricing}
-            className="inline-block border border-white/20 text-gray-300 hover:border-gold/50 hover:text-gold px-10 py-4 tracking-[0.2em] uppercase text-xs transition-all duration-500"
-          >
-            View Pricing
-          </button>
-        </div>
+
+        {user ? (
+          <div className="flex items-center justify-center">
+            <button
+              onClick={handleBooking}
+              className="inline-block border border-gold bg-gold text-dark-900 hover:bg-gold/85 px-10 py-4 tracking-[0.2em] uppercase text-xs transition-all duration-500"
+            >
+              Book a Lesson
+            </button>
+          </div>
+        ) : (
+          <>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-5">
+              <button
+                onClick={handleInquiry(
+                  "hero_get_a_free_quote",
+                  "Performance Booking",
+                )}
+                className="w-full sm:w-auto inline-block border border-gold bg-gold text-dark-900 hover:bg-gold/85 px-10 py-4 tracking-[0.2em] uppercase text-xs transition-all duration-500 scroll-link"
+              >
+                Get a Free Quote
+              </button>
+              <button
+                onClick={handleInquiry(
+                  "hero_ask_about_lessons",
+                  "Private Lesson",
+                )}
+                className="w-full sm:w-auto inline-block border border-gold text-gold hover:bg-gold hover:text-dark-900 px-10 py-4 tracking-[0.2em] uppercase text-xs transition-all duration-500 scroll-link"
+              >
+                Ask About Lessons
+              </button>
+            </div>
+            <button
+              onClick={handlePricing}
+              className="mt-8 text-gray-400 hover:text-gold text-[11px] uppercase tracking-[0.2em] border-b border-white/20 hover:border-gold/50 pb-1 transition-all duration-500"
+            >
+              View Pricing
+            </button>
+          </>
+        )}
       </div>
 
       <div className="absolute bottom-8 md:bottom-12 left-1/2 transform -translate-x-1/2 z-10 pointer-events-none scroll-indicator">

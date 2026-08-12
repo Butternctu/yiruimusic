@@ -1,16 +1,21 @@
 import React, { useState, useRef, useEffect } from "react";
-import { MessageSquare, ChevronDown, Check, Clock } from "lucide-react";
+import { MessageSquare, ChevronDown, Check, Clock, Mail } from "lucide-react";
 import { useIntersectionObserver } from "../hooks/useIntersectionObserver";
-import { trackConversion } from "../lib/gtag.js";
+import { useCopyToClipboard } from "../hooks/useCopyToClipboard";
+import { trackConversion, trackEvent } from "../lib/gtag.js";
+import { CONTACT_EMAIL, CONTACT_WECHAT, RESPONSE_TIME } from "../data/contact";
 
-const Contact = () => {
+const Contact = ({ inquiryType, onInquiryChange }) => {
   useIntersectionObserver();
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [selectedInquiry, setSelectedInquiry] = useState("Performance Booking");
-  const [copyStatus, setCopyStatus] = useState("harpist11");
+  const { copied: emailCopied, copy: copyEmail } =
+    useCopyToClipboard(CONTACT_EMAIL);
+  const { copied: wechatCopied, copy: copyWeChat } =
+    useCopyToClipboard(CONTACT_WECHAT);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    phone: "",
     message: "",
   });
   const [errors, setErrors] = useState({});
@@ -20,6 +25,8 @@ const Contact = () => {
   const [submitError, setSubmitError] = useState("");
   const [cooldownTime, setCooldownTime] = useState(0);
   const dropdownRef = useRef(null);
+  const sectionRef = useRef(null);
+  const hasStartedRef = useRef(false);
 
   // Check for cooldown on mount and set up timer
   useEffect(() => {
@@ -53,6 +60,32 @@ const Contact = () => {
     };
   }, []);
 
+  // Separates "never saw the form" from "saw it and did not fill it in".
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          trackEvent("view_contact_form");
+          observer.disconnect();
+        });
+      },
+      { threshold: 0.3 },
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
+  const handleFormStart = () => {
+    if (hasStartedRef.current) return;
+    hasStartedRef.current = true;
+    trackEvent("form_start", { form_name: "contact" });
+  };
+
   const inquiryOptions = [
     "Performance Booking",
     "Private Lesson",
@@ -62,18 +95,20 @@ const Contact = () => {
     "General Questions",
   ];
 
-  const handleCopyWeChat = async () => {
-    try {
-      await navigator.clipboard.writeText("harpist11");
-      setCopyStatus("Copied!");
-      setTimeout(() => setCopyStatus("harpist11"), 2000);
-    } catch (err) {
-      console.error("Failed to copy text: ", err);
-    }
+  const handleCopyWeChat = () => {
+    trackEvent("contact_click", { method: "wechat" });
+    copyWeChat();
+  };
+
+  // Copies as well as opening the mail client, which is often unconfigured on
+  // desktop and would otherwise leave the click doing nothing visible.
+  const handleEmailClick = () => {
+    trackEvent("contact_click", { method: "email" });
+    copyEmail();
   };
 
   const selectOption = (option) => {
-    setSelectedInquiry(option);
+    onInquiryChange(option);
     setDropdownOpen(false);
   };
 
@@ -110,7 +145,6 @@ const Contact = () => {
     if (honeypot) {
       // Bot detected, silently "succeed"
       setIsSuccess(true);
-      setTimeout(() => setIsSuccess(false), 5000);
       return;
     }
 
@@ -123,13 +157,15 @@ const Contact = () => {
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       newErrors.email = "Please provide a valid email address.";
     }
-    if (!formData.message.trim())
-      newErrors.message = "Please include a message for your inquiry.";
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       setShakeError(true);
       setTimeout(() => setShakeError(false), 500);
+      trackEvent("form_error", {
+        form_name: "contact",
+        error_fields: Object.keys(newErrors).join(","),
+      });
       return;
     }
 
@@ -140,13 +176,14 @@ const Contact = () => {
     const submitData = new FormData();
     submitData.append("name", formData.name);
     submitData.append("email", formData.email);
-    submitData.append("inquiry_type", selectedInquiry);
-    submitData.append("message", formData.message);
+    submitData.append("phone", formData.phone || "Not provided");
+    submitData.append("inquiry_type", inquiryType);
+    submitData.append("message", formData.message || "(No message provided)");
     submitData.append("_subject", "New Inquiry from Dr. Yirui Li Portfolio");
     submitData.append("_captcha", "false");
 
     // Make AJAX request to FormSubmit
-    fetch("https://formsubmit.co/ajax/liyiyi0411@gmail.com", {
+    fetch(`https://formsubmit.co/ajax/${CONTACT_EMAIL}`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -163,18 +200,19 @@ const Contact = () => {
 
         if (isSuccess || needsActivation) {
           setIsSuccess(true);
-          setFormData({ name: "", email: "", message: "" });
+          setFormData({ name: "", email: "", phone: "", message: "" });
 
           // Report the lead to Google Ads (no-op if tracking is not configured)
           trackConversion();
+          trackEvent("generate_lead", {
+            form_name: "contact",
+            inquiry_type: inquiryType,
+          });
 
           // Set 3 minute cooldown
           const cooldownEnd = Date.now() + 3 * 60 * 1000;
           localStorage.setItem("yirui_form_cooldown", cooldownEnd.toString());
           setCooldownTime(3 * 60);
-
-          // Auto-hide success message after 5 seconds
-          setTimeout(() => setIsSuccess(false), 5000);
         } else {
           setSubmitError(
             data.message || "Something went wrong. Please try again later.",
@@ -191,6 +229,7 @@ const Contact = () => {
   return (
     <section
       id="contact"
+      ref={sectionRef}
       className="py-32 relative border-t border-white/5 overflow-hidden"
     >
       <div className="absolute inset-0 bg-dark-900 z-0"></div>
@@ -207,23 +246,38 @@ const Contact = () => {
           </h2>
           <div className="h-px w-24 bg-gold mx-auto mt-8 mb-6 opacity-50"></div>
 
-          <div className="inline-flex items-center space-x-3 px-5 py-2 mt-2 rounded-full border border-white/10 bg-dark-900 shadow-lg">
-            <MessageSquare className="w-4 h-4 text-gold opacity-80" />
-            <span className="text-gray-400 font-light text-[11px] tracking-[0.15em] uppercase">
-              Direct WeChat:
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <a
+              href={`mailto:${CONTACT_EMAIL}`}
+              onClick={handleEmailClick}
+              title="Click to copy"
+              className="inline-flex items-center space-x-3 px-5 py-2 rounded-full border border-white/10 bg-dark-900 shadow-lg transition-colors duration-300 hover:border-gold/50"
+            >
+              <Mail className="w-4 h-4 text-gold opacity-80" />
+              <span className="text-gold font-medium text-xs tracking-wide">
+                {emailCopied ? "Copied!" : CONTACT_EMAIL}
+              </span>
+            </a>
+
+            <div className="inline-flex items-center space-x-3 px-5 py-2 rounded-full border border-white/10 bg-dark-900 shadow-lg">
+              <MessageSquare className="w-4 h-4 text-gold opacity-80" />
+              <span className="text-gray-400 font-light text-[11px] tracking-[0.15em] uppercase">
+                WeChat
+              </span>
               <span
-                className="text-gold font-medium cursor-pointer transition-all duration-300 hover:text-white hover:drop-shadow-[0_0_8px_rgba(197,160,89,0.8)] ml-1"
+                className="text-gold font-medium text-xs tracking-wide cursor-pointer transition-all duration-300 hover:text-white hover:drop-shadow-[0_0_8px_rgba(197,160,89,0.8)]"
                 title="Click to copy"
                 onClick={handleCopyWeChat}
               >
-                {copyStatus}
+                {wechatCopied ? "Copied!" : CONTACT_WECHAT}
               </span>
-            </span>
+            </div>
           </div>
         </div>
 
         <form
           onSubmit={handleSubmit}
+          onFocusCapture={handleFormStart}
           className="space-y-12 relative z-10 pb-12"
         >
           {/* Honeypot field for bot protection */}
@@ -289,103 +343,149 @@ const Contact = () => {
             </div>
           </div>
 
-          <div className="relative group" ref={dropdownRef}>
-            <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">
-              Inquiry Type
-            </label>
-            <input type="hidden" name="inquiry_type" value={selectedInquiry} />
-
-            <div
-              className={`w-full bg-transparent border-b py-3 focus:outline-none transition-colors cursor-pointer flex justify-between items-center relative z-20 ${dropdownOpen ? "border-gold" : "border-white/20 hover:border-white/50"}`}
-              onClick={() => setDropdownOpen(!dropdownOpen)}
-            >
-              <span className={selectedInquiry ? "text-gold" : "text-gray-600"}>
-                {selectedInquiry}
-              </span>
-              <ChevronDown
-                className={`w-4 h-4 text-gold transition-transform duration-300 ${dropdownOpen ? "rotate-180" : ""}`}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-12">
+            <div className="relative group">
+              <label
+                htmlFor="phone"
+                className="block text-xs uppercase tracking-widest text-gray-500 mb-2"
+              >
+                Phone <span className="text-gray-600">(Optional)</span>
+              </label>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                autoComplete="tel"
+                inputMode="tel"
+                className="w-full bg-transparent border-b border-white/20 py-3 text-gold placeholder-gray-600 focus:outline-none focus:ring-0 focus:border-gold transition-colors [&:-webkit-autofill]:[-webkit-text-fill-color:#C5A059] [&:-webkit-autofill]:[box-shadow:0_0_0_1000px_#111111_inset]"
+                placeholder="(713) 000-0000"
               />
             </div>
 
-            <div
-              className={`absolute left-0 top-full w-full mt-2 bg-dark-900 border border-white/10 shadow-2xl transition-all duration-300 transform z-30 ${dropdownOpen ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-2"}`}
-            >
-              {inquiryOptions.map((option, index) => (
-                <div
-                  key={index}
-                  className={`px-6 py-3 cursor-pointer transition-colors border-b border-white/5 last:border-0 flex justify-between items-center ${selectedInquiry === option ? "bg-[#1a1a1a] text-gold" : "text-gray-400 hover:bg-[#151515] hover:text-white"}`}
-                  onClick={() => selectOption(option)}
+            <div className="relative group" ref={dropdownRef}>
+              <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">
+                Inquiry Type
+              </label>
+              <input type="hidden" name="inquiry_type" value={inquiryType} />
+
+              <div
+                className={`w-full bg-transparent border-b py-3 focus:outline-none transition-colors cursor-pointer flex justify-between items-center relative z-20 ${dropdownOpen ? "border-gold" : "border-white/20 hover:border-white/50"}`}
+                onClick={() => setDropdownOpen(!dropdownOpen)}
+              >
+                <span
+                  className={inquiryType ? "text-gold" : "text-gray-600"}
                 >
-                  <span
-                    className={
-                      selectedInquiry === option ? "font-medium" : "font-light"
-                    }
+                  {inquiryType}
+                </span>
+                <ChevronDown
+                  className={`w-4 h-4 text-gold transition-transform duration-300 ${dropdownOpen ? "rotate-180" : ""}`}
+                />
+              </div>
+
+              <div
+                className={`absolute left-0 top-full w-full mt-2 bg-dark-900 border border-white/10 shadow-2xl transition-all duration-300 transform z-30 ${dropdownOpen ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-2"}`}
+              >
+                {inquiryOptions.map((option, index) => (
+                  <div
+                    key={index}
+                    className={`px-6 py-3 cursor-pointer transition-colors border-b border-white/5 last:border-0 flex justify-between items-center ${inquiryType === option ? "bg-[#1a1a1a] text-gold" : "text-gray-400 hover:bg-[#151515] hover:text-white"}`}
+                    onClick={() => selectOption(option)}
                   >
-                    {option}
-                  </span>
-                  {selectedInquiry === option && (
-                    <Check className="w-4 h-4 text-gold" />
-                  )}
-                </div>
-              ))}
+                    <span
+                      className={
+                        inquiryType === option
+                          ? "font-medium"
+                          : "font-light"
+                      }
+                    >
+                      {option}
+                    </span>
+                    {inquiryType === option && (
+                      <Check className="w-4 h-4 text-gold" />
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 
           <div className="relative group">
             <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">
-              Message
+              Message <span className="text-gray-600">(Optional)</span>
             </label>
             <textarea
               name="message"
               value={formData.message}
               onChange={handleChange}
               rows="4"
-              className={`w-full bg-transparent border-b py-3 text-gold placeholder-gray-600 focus:outline-none focus:ring-0 transition-colors resize-none custom-scrollbar ${errors.message ? "border-[#d9736c]/50" : "border-white/20 focus:border-gold"}`}
-              placeholder="Please share details about your inquiry, potential dates, and location..."
+              className="w-full bg-transparent border-b border-white/20 py-3 text-gold placeholder-gray-600 focus:outline-none focus:ring-0 focus:border-gold transition-colors resize-none custom-scrollbar"
+              placeholder="Anything helpful to know — dates, venue, or the student's age and experience."
             ></textarea>
-            {errors.message && (
-              <p
-                className={`absolute -bottom-[22px] left-0 text-[10px] text-[#d9736c] tracking-wider uppercase ${shakeError ? "animate-error-shake" : "animate-error-pulse"}`}
-              >
-                {errors.message}
-              </p>
-            )}
           </div>
 
           <div className="text-center pt-8 relative">
             {isSuccess ? (
-              <div className="inline-flex border border-gold text-gold bg-gold/5 px-10 py-4 tracking-[0.2em] uppercase text-xs animate-error-pulse items-center justify-center space-x-3">
-                <Check className="w-4 h-4" />
-                <span>INQUIRY SENT SUCCESSFULLY</span>
+              <div className="max-w-md mx-auto border border-gold bg-gold/5 px-8 py-7">
+                <div className="flex items-center justify-center space-x-3 text-gold tracking-[0.2em] uppercase text-xs mb-4">
+                  <Check className="w-4 h-4" />
+                  <span>Inquiry Sent</span>
+                </div>
+                <p className="text-gray-300 font-light text-sm leading-relaxed">
+                  Thank you — your inquiry is on its way to Dr. Li, and you can
+                  expect a personal reply {RESPONSE_TIME}.
+                </p>
+                <p className="text-gray-500 font-light text-xs leading-relaxed mt-4">
+                  If it&rsquo;s time-sensitive, email{" "}
+                  <a
+                    href={`mailto:${CONTACT_EMAIL}`}
+                    onClick={() =>
+                      trackEvent("contact_click", {
+                        method: "email",
+                        location: "post_submit",
+                      })
+                    }
+                    className="text-gold hover:text-white transition-colors"
+                  >
+                    {CONTACT_EMAIL}
+                  </a>{" "}
+                  directly.
+                </p>
               </div>
             ) : (
-              <button
-                type="submit"
-                disabled={isSubmitting || cooldownTime > 0}
-                className={`inline-flex items-center justify-center space-x-3 border px-10 py-4 tracking-[0.2em] uppercase text-xs transition-all duration-500 min-w-[300px] ${
-                  isSubmitting
-                    ? "border-gold text-dark-900 bg-gold/70 cursor-wait"
-                    : cooldownTime > 0
-                      ? "border-white/10 text-gray-500 bg-transparent cursor-not-allowed hover:bg-white/5"
-                      : "border-gold text-gold hover:bg-gold hover:text-dark-900"
-                }`}
-              >
-                {isSubmitting ? (
-                  <span>SENDING...</span>
-                ) : cooldownTime > 0 ? (
-                  <>
-                    <Clock className="w-4 h-4 text-gold/50" />
-                    <span>
-                      AVAILABLE IN{" "}
-                      <span className="text-gold tracking-[0.25em] ml-1">
-                        {formatTime(cooldownTime)}
+              <>
+                <p className="text-gray-500 font-light text-xs tracking-wide mb-6">
+                  Dr. Li replies personally {RESPONSE_TIME}.
+                </p>
+                <button
+                  type="submit"
+                  disabled={isSubmitting || cooldownTime > 0}
+                  className={`inline-flex items-center justify-center space-x-3 border px-10 py-4 tracking-[0.2em] uppercase text-xs transition-all duration-500 min-w-[300px] ${
+                    isSubmitting
+                      ? "border-gold text-dark-900 bg-gold/70 cursor-wait"
+                      : cooldownTime > 0
+                        ? "border-white/10 text-gray-500 bg-transparent cursor-not-allowed hover:bg-white/5"
+                        : "border-gold text-gold hover:bg-gold hover:text-dark-900"
+                  }`}
+                >
+                  {isSubmitting ? (
+                    <span>SENDING...</span>
+                  ) : cooldownTime > 0 ? (
+                    <>
+                      <Clock className="w-4 h-4 text-gold/50" />
+                      <span>
+                        AVAILABLE IN{" "}
+                        <span className="text-gold tracking-[0.25em] ml-1">
+                          {formatTime(cooldownTime)}
+                        </span>
                       </span>
-                    </span>
-                  </>
-                ) : (
-                  <span>SUBMIT INQUIRY</span>
-                )}
-              </button>
+                    </>
+                  ) : (
+                    <span>SUBMIT INQUIRY</span>
+                  )}
+                </button>
+              </>
             )}
             {submitError && (
               <p

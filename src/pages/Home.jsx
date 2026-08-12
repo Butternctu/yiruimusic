@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import SEO from '../components/SEO';
 import Hero from '../components/Hero';
@@ -24,19 +24,23 @@ const faqSchema = {
 };
 
 const Home = () => {
+  // Owned here so the hero's two entry points can land a visitor on the form
+  // with the matching inquiry type already selected.
+  const [inquiryType, setInquiryType] = useState('Performance Booking');
+
   return (
     <>
       <Helmet>
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
       </Helmet>
       <SEO title="Dr. Yirui Li, Harpist & Educator | Houston, Texas" url="/" />
-      <Hero />
+      <Hero onSelectInquiry={setInquiryType} />
       <About />
       <Academic />
       <PerformancePreview />
       <Pricing />
       <FAQ />
-      <Contact />
+      <Contact inquiryType={inquiryType} onInquiryChange={setInquiryType} />
     </>
   );
 };

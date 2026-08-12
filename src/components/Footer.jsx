@@ -1,22 +1,26 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Youtube, Instagram, Linkedin, MessageSquare, Facebook } from 'lucide-react';
+import { useCopyToClipboard } from '../hooks/useCopyToClipboard';
+import { trackEvent } from '../lib/gtag.js';
+import { CONTACT_EMAIL, CONTACT_WECHAT } from '../data/contact';
 import yiruiLogo from '../assets/yirui_logo.webp';
 
 const Footer = () => {
-  const [copyStatus, setCopyStatus] = useState('harpist11');
+  const { copied: emailCopied, copy: copyEmail } = useCopyToClipboard(CONTACT_EMAIL);
+  const { copied: wechatCopied, copy: copyWeChat } = useCopyToClipboard(CONTACT_WECHAT);
 
-  const handleCopyWeChat = async () => {
-    try {
-      await navigator.clipboard.writeText('harpist11');
-      setCopyStatus('Copied!');
-      setTimeout(() => setCopyStatus('harpist11'), 2000);
-    } catch (err) {
-      console.error('Failed to copy text: ', err);
-    }
+  const handleCopyWeChat = () => {
+    trackEvent('contact_click', { method: 'wechat', location: 'footer' });
+    copyWeChat();
+  };
+
+  const handleEmailClick = () => {
+    trackEvent('contact_click', { method: 'email', location: 'footer' });
+    copyEmail();
   };
 
   return (
-    <footer className="bg-dark-900 pt-24 pb-12 border-t border-white/5 relative overflow-hidden">
+    <footer className="bg-dark-900 pt-24 pb-28 md:pb-12 border-t border-white/5 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 md:px-12 flex flex-col items-center">
         <div 
           className="h-24 md:h-28 w-64 md:w-72 bg-gold mb-10 opacity-80 hover:opacity-100 transition-all duration-500"
@@ -54,16 +58,31 @@ const Footer = () => {
         
         <div className="w-full max-w-sm h-px bg-linear-to-r from-transparent via-white/10 to-transparent mb-10"></div>
         
-        <div className="flex items-center space-x-3 mb-10 text-[11px] font-light text-gray-400 tracking-[0.2em] uppercase">
-          <span>WeChat</span>
-          <span className="w-1 h-1 rounded-full bg-gold/50"></span>
-          <span 
-            className="text-gold font-medium cursor-pointer transition-all duration-300 hover:text-white hover:drop-shadow-[0_0_8px_rgba(197,160,89,0.8)]" 
+        <div className="flex flex-wrap justify-center items-center gap-x-8 gap-y-4 mb-10 text-[11px] font-light text-gray-400 tracking-[0.2em] uppercase">
+          <a
+            href={`mailto:${CONTACT_EMAIL}`}
+            onClick={handleEmailClick}
             title="Click to copy"
-            onClick={handleCopyWeChat}
+            className="flex items-center space-x-3 group"
           >
-            {copyStatus}
-          </span>
+            <span>Email</span>
+            <span className="w-1 h-1 rounded-full bg-gold/50"></span>
+            <span className="text-gold font-medium normal-case tracking-normal transition-all duration-300 group-hover:text-white group-hover:drop-shadow-[0_0_8px_rgba(197,160,89,0.8)]">
+              {emailCopied ? 'Copied!' : CONTACT_EMAIL}
+            </span>
+          </a>
+
+          <div className="flex items-center space-x-3">
+            <span>WeChat</span>
+            <span className="w-1 h-1 rounded-full bg-gold/50"></span>
+            <span 
+              className="text-gold font-medium cursor-pointer transition-all duration-300 hover:text-white hover:drop-shadow-[0_0_8px_rgba(197,160,89,0.8)]" 
+              title="Click to copy"
+              onClick={handleCopyWeChat}
+            >
+              {wechatCopied ? 'Copied!' : CONTACT_WECHAT}
+            </span>
+          </div>
         </div>
         
         <p className="text-[10px] font-light text-gray-600 tracking-[0.15em] mb-4">
