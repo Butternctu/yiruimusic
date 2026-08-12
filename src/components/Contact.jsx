@@ -3,7 +3,12 @@ import { MessageSquare, ChevronDown, Check, Clock, Mail } from "lucide-react";
 import { useIntersectionObserver } from "../hooks/useIntersectionObserver";
 import { useCopyToClipboard } from "../hooks/useCopyToClipboard";
 import { trackConversion, trackEvent } from "../lib/gtag.js";
-import { CONTACT_EMAIL, CONTACT_WECHAT, RESPONSE_TIME } from "../data/contact";
+import {
+  CONTACT_EMAIL,
+  CONTACT_WECHAT,
+  FORM_RECIPIENT_EMAIL,
+  RESPONSE_TIME,
+} from "../data/contact";
 
 const Contact = ({ inquiryType, onInquiryChange }) => {
   useIntersectionObserver();
@@ -183,7 +188,7 @@ const Contact = ({ inquiryType, onInquiryChange }) => {
     submitData.append("_captcha", "false");
 
     // Make AJAX request to FormSubmit
-    fetch(`https://formsubmit.co/ajax/${CONTACT_EMAIL}`, {
+    fetch(`https://formsubmit.co/ajax/${FORM_RECIPIENT_EMAIL}`, {
       method: "POST",
       headers: {
         Accept: "application/json",

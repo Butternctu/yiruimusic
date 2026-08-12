@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import { Send } from 'lucide-react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Send, Tag } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { trackEvent } from '../lib/gtag.js';
 
 const AUTH_PATHS = ['/dashboard', '/booking', '/appointments', '/profile', '/messages', '/admin'];
 
-// The inquiry form sits at the bottom of a long single page, so on phones a
-// visitor who does not scroll all the way down has no way to make contact.
-// This keeps both options reachable once they have scrolled past the hero, and
-// steps out of the way when the form itself is on screen.
+// Pricing and the inquiry form both sit far down a long single page, so on
+// phones a visitor who does not keep scrolling never reaches either. This keeps
+// them reachable once past the hero, and steps out of the way when the form
+// itself is on screen.
 const MobileContactBar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
   const [isPastHero, setIsPastHero] = useState(false);
   const [isFormInView, setIsFormInView] = useState(false);
@@ -44,16 +45,26 @@ const MobileContactBar = () => {
   const isOnMemberPage = AUTH_PATHS.some((path) => location.pathname.startsWith(path));
   if (isAuthenticated || isOnMemberPage) return null;
 
-  const handleInquire = () => {
-    trackEvent('cta_click', { cta: 'mobile_bar_send_inquiry' });
-
-    const form = document.querySelector('#contact');
-    if (form) {
-      const top = form.getBoundingClientRect().top + window.scrollY - 80;
+  // Sections only exist on the home page; elsewhere fall back to routing there
+  // and let ScrollToHash finish the job.
+  const goToSection = (id) => {
+    const section = document.querySelector(`#${id}`);
+    if (section) {
+      const top = section.getBoundingClientRect().top + window.scrollY - 80;
       window.scrollTo({ top, behavior: 'smooth' });
     } else {
-      window.location.href = '/#contact';
+      navigate(`/#${id}`);
     }
+  };
+
+  const handlePricing = () => {
+    trackEvent('cta_click', { cta: 'mobile_bar_view_pricing' });
+    goToSection('pricing');
+  };
+
+  const handleInquire = () => {
+    trackEvent('cta_click', { cta: 'mobile_bar_send_inquiry' });
+    goToSection('contact');
   };
 
   const isVisible = isPastHero && !isFormInView;
@@ -64,6 +75,14 @@ const MobileContactBar = () => {
         isVisible ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0 pointer-events-none'
       }`}
     >
+      <button
+        onClick={handlePricing}
+        className="flex-1 flex items-center justify-center space-x-2 py-4 text-gray-300 text-[11px] uppercase tracking-[0.2em] border-r border-white/10 active:bg-white/5"
+      >
+        <Tag className="w-4 h-4 text-gold/70" />
+        <span>View Pricing</span>
+      </button>
+
       <button
         onClick={handleInquire}
         className="flex-1 flex items-center justify-center space-x-2 py-4 bg-gold/10 text-gold text-[11px] uppercase tracking-[0.2em] active:bg-gold/20"
