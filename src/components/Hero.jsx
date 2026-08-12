@@ -71,12 +71,12 @@ const Hero = ({ onSelectInquiry }) => {
         <h2 className="text-gold text-xs md:text-sm uppercase tracking-[0.3em] md:tracking-[0.4em] mb-6">
           Houston &bull; Harpist &bull; Educator
         </h2>
-        <h1 className="font-serif text-5xl md:text-7xl text-white mb-8 leading-tight tracking-wide">
+        <h1 className="font-serif text-4xl sm:text-5xl md:text-7xl text-white mb-8 leading-tight tracking-wide">
           Weddings, Events <br />
           <span className="italic font-light text-gray-400">&amp;</span>{" "}
           Harp Lessons
         </h1>
-        <p className="text-gray-400 text-base md:text-lg font-light leading-relaxed max-w-2xl mx-auto mb-10">
+        <p className="text-gray-400 text-base md:text-lg font-light leading-relaxed text-pretty max-w-2xl mx-auto mb-10">
           Dr. Yirui Li — award-winning harpist and Adjunct Harp Professor at Sam
           Houston State University.
         </p>
@@ -85,7 +85,7 @@ const Hero = ({ onSelectInquiry }) => {
           <div className="flex items-center justify-center">
             <button
               onClick={handleBooking}
-              className="inline-block border border-gold bg-gold text-dark-900 hover:bg-gold/85 px-10 py-4 tracking-[0.2em] uppercase text-xs transition-all duration-500"
+              className="inline-block border border-gold text-gold hover:bg-gold hover:text-dark-900 px-10 py-4 tracking-[0.2em] uppercase text-xs transition-all duration-500"
             >
               Book a Lesson
             </button>
@@ -95,19 +95,19 @@ const Hero = ({ onSelectInquiry }) => {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-5">
               <button
                 onClick={handleInquiry(
-                  "hero_get_a_free_quote",
+                  "hero_check_availability",
                   "Performance Booking",
                 )}
-                className="w-full sm:w-auto inline-block border border-gold bg-gold text-dark-900 hover:bg-gold/85 px-10 py-4 tracking-[0.2em] uppercase text-xs transition-all duration-500 scroll-link"
+                className="inline-block border border-gold text-gold hover:bg-gold hover:text-dark-900 px-10 py-4 tracking-[0.2em] uppercase text-xs transition-all duration-500 scroll-link"
               >
-                Get a Free Quote
+                Check Availability
               </button>
               <button
                 onClick={handleInquiry(
                   "hero_ask_about_lessons",
                   "Private Lesson",
                 )}
-                className="w-full sm:w-auto inline-block border border-gold text-gold hover:bg-gold hover:text-dark-900 px-10 py-4 tracking-[0.2em] uppercase text-xs transition-all duration-500 scroll-link"
+                className="inline-block border border-white/20 text-gray-300 hover:border-gold/50 hover:text-gold px-10 py-4 tracking-[0.2em] uppercase text-xs transition-all duration-500 scroll-link"
               >
                 Ask About Lessons
               </button>
