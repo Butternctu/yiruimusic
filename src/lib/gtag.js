@@ -1,7 +1,9 @@
 // Google tag (gtag.js) helper for Google Ads conversions and GA4 behaviour events.
 // Configured via Vite env vars so no IDs are hard-coded:
 //   VITE_GOOGLE_ADS_ID                 e.g. "AW-123456789"
-//   VITE_GOOGLE_ADS_CONVERSION_LABEL   e.g. "AbC-D_efG-h12_34-567"
+//   VITE_GOOGLE_ADS_CONVERSION_LABEL   either:
+//     - the conversion label only, e.g. "AbC-D_efG-h12_34-567"
+//     - or the full send_to value, e.g. "AW-123456789/AbC-D_efG-h12_34-567"
 //   VITE_GA4_ID                        e.g. "G-XXXXXXXXXX"
 // VITE_FIREBASE_MEASUREMENT_ID is used as a GA4 fallback: a Firebase project with
 // Analytics enabled already owns a GA4 property, so the site can report without a
@@ -61,7 +63,13 @@ export function trackConversion() {
   if (!ADS_ID || !CONVERSION_LABEL) return;
   if (typeof window === 'undefined' || typeof window.gtag !== 'function') return;
 
+  // Some deployments store the full send_to string in
+  // VITE_GOOGLE_ADS_CONVERSION_LABEL. Make it robust for both formats.
+  const sendTo = CONVERSION_LABEL.includes('/')
+    ? CONVERSION_LABEL
+    : `${ADS_ID}/${CONVERSION_LABEL}`;
+
   window.gtag('event', 'conversion', {
-    send_to: `${ADS_ID}/${CONVERSION_LABEL}`,
+    send_to: sendTo,
   });
 }
