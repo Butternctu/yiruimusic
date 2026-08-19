@@ -9,10 +9,11 @@
 // When an ID is absent the related functions are no-ops, so environments without
 // the vars (local dev, previews) behave exactly as they did before.
 
-const ADS_ID = import.meta.env.VITE_GOOGLE_ADS_ID;
-const CONVERSION_LABEL = import.meta.env.VITE_GOOGLE_ADS_CONVERSION_LABEL;
-const GA4_ID =
-  import.meta.env.VITE_GA4_ID || import.meta.env.VITE_FIREBASE_MEASUREMENT_ID;
+const ADS_ID = import.meta.env.VITE_GOOGLE_ADS_ID?.trim();
+const CONVERSION_LABEL = import.meta.env.VITE_GOOGLE_ADS_CONVERSION_LABEL?.trim();
+const GA4_ID = (
+  import.meta.env.VITE_GA4_ID || import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
+)?.trim();
 
 let initialized = false;
 
@@ -23,7 +24,13 @@ export function initAnalytics() {
 
   const script = document.createElement('script');
   script.async = true;
-  script.src = `https://www.googletagmanager.com/gtag/js?id=${GA4_ID || ADS_ID}`;
+  // If Ads ID is present, prioritize loading the gtag script with the Ads ID.
+  // Some Google Ads "tag diagnostics" are sensitive to which id was used
+  // when the gtag library was loaded.
+  const scriptId = ADS_ID || GA4_ID;
+  script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(
+    scriptId,
+  )}`;
   document.head.appendChild(script);
 
   window.dataLayer = window.dataLayer || [];
