@@ -208,9 +208,7 @@ const Contact = ({ inquiryType, onInquiryChange }) => {
           setFormData({ name: "", email: "", phone: "", message: "" });
 
           // Report the lead to Google Ads (no-op if tracking is not configured)
-          trackConversion({
-            transactionId: `contact-${Date.now()}`,
-          });
+          trackConversion();
           trackEvent("generate_lead", {
             form_name: "contact",
             inquiry_type: inquiryType,

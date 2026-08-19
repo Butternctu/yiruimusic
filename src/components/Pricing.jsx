@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
-import { useCtaSectionView } from '../hooks/useCtaSectionView';
 import { trackEvent } from '../lib/gtag.js';
 import { lessonRates, eventRates, addOns } from '../data/pricing';
 
@@ -14,14 +13,9 @@ const RateRow = ({ title, rate }) => (
 
 const Pricing = () => {
   useIntersectionObserver();
-  const ctaSectionRef = useCtaSectionView('pricing');
 
   return (
-    <section
-      id="pricing"
-      ref={ctaSectionRef}
-      className="py-24 bg-dark-800 relative overflow-hidden border-y border-white/5"
-    >
+    <section id="pricing" className="py-24 bg-dark-800 relative overflow-hidden border-y border-white/5">
       <div className="absolute inset-0 luxury-lines opacity-20 z-0"></div>
 
       <div className="max-w-3xl mx-auto px-6 md:px-12 relative z-10">

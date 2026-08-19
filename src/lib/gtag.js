@@ -4,8 +4,6 @@
 //   VITE_GOOGLE_ADS_CONVERSION_LABEL   either:
 //     - the conversion label only, e.g. "AbC-D_efG-h12_34-567"
 //     - or the full send_to value, e.g. "AW-123456789/AbC-D_efG-h12_34-567"
-//   VITE_GOOGLE_ADS_CTA_CONVERSION_LABEL  optional debug goal — fires when a
-//     visitor scrolls to the pricing CTA section (same label formats as above)
 //   VITE_GA4_ID                        e.g. "G-XXXXXXXXXX"
 // VITE_FIREBASE_MEASUREMENT_ID is used as a GA4 fallback: a Firebase project with
 // Analytics enabled already owns a GA4 property, so the site can report without a
@@ -14,29 +12,23 @@
 // the vars (local dev, previews) behave exactly as they did before.
 
 const ADS_ID = import.meta.env.VITE_GOOGLE_ADS_ID?.trim();
-const LEAD_CONVERSION_LABEL = import.meta.env.VITE_GOOGLE_ADS_CONVERSION_LABEL?.trim();
-const CTA_CONVERSION_LABEL = import.meta.env.VITE_GOOGLE_ADS_CTA_CONVERSION_LABEL?.trim();
-const GA4_ID = (
-  import.meta.env.VITE_GA4_ID || import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
-)?.trim();
+const CONVERSION_LABEL = import.meta.env.VITE_GOOGLE_ADS_CONVERSION_LABEL?.trim();
+const GA4_ID = (import.meta.env.VITE_GA4_ID || import.meta.env.VITE_FIREBASE_MEASUREMENT_ID)?.trim();
 
 let initialized = false;
 
 export function initAnalytics() {
   if (initialized || typeof window === 'undefined') return;
-  initialized = true;
-
-  // Production builds inject gtag in index.html so Google Ads can detect the
-  // global site tag. Skip duplicate setup when already present.
-  if (typeof window.gtag === 'function') return;
   if (!ADS_ID && !GA4_ID) return;
+  initialized = true;
 
   const script = document.createElement('script');
   script.async = true;
+  // If Ads ID is present, prioritize loading the gtag script with the Ads ID.
+  // Some Google Ads "tag diagnostics" are sensitive to which id was used
+  // when the gtag library was loaded.
   const scriptId = ADS_ID || GA4_ID;
-  script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(
-    scriptId,
-  )}`;
+  script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(scriptId)}`;
   document.head.appendChild(script);
 
   window.dataLayer = window.dataLayer || [];
@@ -46,25 +38,10 @@ export function initAnalytics() {
   window.gtag = gtag;
   gtag('js', new Date());
 
+  // GA4's enhanced measurement picks up SPA route changes from history events,
+  // so page_view is not sent manually.
   if (GA4_ID) gtag('config', GA4_ID);
   if (ADS_ID) gtag('config', ADS_ID);
-}
-
-function buildSendTo(label) {
-  if (!ADS_ID || !label) return null;
-
-  return label.includes('/') ? label : `${ADS_ID}/${label}`;
-}
-
-function fireAdsConversion(sendTo, { transactionId, value } = {}) {
-  if (!sendTo) return;
-  if (typeof window === 'undefined' || typeof window.gtag !== 'function') return;
-
-  window.gtag('event', 'conversion', {
-    send_to: sendTo,
-    ...(value != null ? { value, currency: 'USD' } : {}),
-    ...(transactionId ? { transaction_id: transactionId } : {}),
-  });
 }
 
 // Report a behaviour event to GA4. Used to see how far visitors actually get
@@ -78,16 +55,15 @@ export function trackEvent(name, params = {}) {
 
 // Fire a Google Ads conversion. Call this the moment a lead is captured
 // (e.g. after the contact form is submitted successfully).
-export function trackConversion({ transactionId } = {}) {
-  fireAdsConversion(buildSendTo(LEAD_CONVERSION_LABEL), {
-    transactionId,
-    value: 1.0,
-  });
-}
+export function trackConversion() {
+  if (!ADS_ID || !CONVERSION_LABEL) return;
+  if (typeof window === 'undefined' || typeof window.gtag !== 'function') return;
 
-// Debug-friendly Ads conversion — scroll to the pricing CTA section.
-export function trackCtaSectionConversion({ section, transactionId } = {}) {
-  fireAdsConversion(buildSendTo(CTA_CONVERSION_LABEL), {
-    transactionId: transactionId ?? `cta-${section ?? 'pricing'}-${Date.now()}`,
+  // Some deployments store the full send_to string in
+  // VITE_GOOGLE_ADS_CONVERSION_LABEL. Make it robust for both formats.
+  const sendTo = CONVERSION_LABEL.includes('/') ? CONVERSION_LABEL : `${ADS_ID}/${CONVERSION_LABEL}`;
+
+  window.gtag('event', 'conversion', {
+    send_to: sendTo,
   });
 }
