@@ -21,14 +21,15 @@ let initialized = false;
 
 export function initAnalytics() {
   if (initialized || typeof window === 'undefined') return;
-  if (!ADS_ID && !GA4_ID) return;
   initialized = true;
+
+  // Production builds inject gtag in index.html so Google Ads can detect the
+  // global site tag. Skip duplicate setup when already present.
+  if (typeof window.gtag === 'function') return;
+  if (!ADS_ID && !GA4_ID) return;
 
   const script = document.createElement('script');
   script.async = true;
-  // If Ads ID is present, prioritize loading the gtag script with the Ads ID.
-  // Some Google Ads "tag diagnostics" are sensitive to which id was used
-  // when the gtag library was loaded.
   const scriptId = ADS_ID || GA4_ID;
   script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(
     scriptId,
@@ -42,10 +43,16 @@ export function initAnalytics() {
   window.gtag = gtag;
   gtag('js', new Date());
 
-  // GA4's enhanced measurement picks up SPA route changes from history events,
-  // so page_view is not sent manually.
   if (GA4_ID) gtag('config', GA4_ID);
   if (ADS_ID) gtag('config', ADS_ID);
+}
+
+function getConversionSendTo() {
+  if (!ADS_ID || !CONVERSION_LABEL) return null;
+
+  return CONVERSION_LABEL.includes('/')
+    ? CONVERSION_LABEL
+    : `${ADS_ID}/${CONVERSION_LABEL}`;
 }
 
 // Report a behaviour event to GA4. Used to see how far visitors actually get
@@ -59,17 +66,15 @@ export function trackEvent(name, params = {}) {
 
 // Fire a Google Ads conversion. Call this the moment a lead is captured
 // (e.g. after the contact form is submitted successfully).
-export function trackConversion() {
-  if (!ADS_ID || !CONVERSION_LABEL) return;
+export function trackConversion({ transactionId } = {}) {
+  const sendTo = getConversionSendTo();
+  if (!sendTo) return;
   if (typeof window === 'undefined' || typeof window.gtag !== 'function') return;
-
-  // Some deployments store the full send_to string in
-  // VITE_GOOGLE_ADS_CONVERSION_LABEL. Make it robust for both formats.
-  const sendTo = CONVERSION_LABEL.includes('/')
-    ? CONVERSION_LABEL
-    : `${ADS_ID}/${CONVERSION_LABEL}`;
 
   window.gtag('event', 'conversion', {
     send_to: sendTo,
+    value: 1.0,
+    currency: 'USD',
+    ...(transactionId ? { transaction_id: transactionId } : {}),
   });
 }
