@@ -4,6 +4,8 @@
 //   VITE_GOOGLE_ADS_CONVERSION_LABEL   either:
 //     - the conversion label only, e.g. "AbC-D_efG-h12_34-567"
 //     - or the full send_to value, e.g. "AW-123456789/AbC-D_efG-h12_34-567"
+//   VITE_GOOGLE_ADS_CTA_CONVERSION_LABEL  optional debug goal — fires when a
+//     visitor scrolls to the pricing CTA section (same label formats as above)
 //   VITE_GA4_ID                        e.g. "G-XXXXXXXXXX"
 // VITE_FIREBASE_MEASUREMENT_ID is used as a GA4 fallback: a Firebase project with
 // Analytics enabled already owns a GA4 property, so the site can report without a
@@ -12,7 +14,8 @@
 // the vars (local dev, previews) behave exactly as they did before.
 
 const ADS_ID = import.meta.env.VITE_GOOGLE_ADS_ID?.trim();
-const CONVERSION_LABEL = import.meta.env.VITE_GOOGLE_ADS_CONVERSION_LABEL?.trim();
+const LEAD_CONVERSION_LABEL = import.meta.env.VITE_GOOGLE_ADS_CONVERSION_LABEL?.trim();
+const CTA_CONVERSION_LABEL = import.meta.env.VITE_GOOGLE_ADS_CTA_CONVERSION_LABEL?.trim();
 const GA4_ID = (
   import.meta.env.VITE_GA4_ID || import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 )?.trim();
@@ -47,12 +50,21 @@ export function initAnalytics() {
   if (ADS_ID) gtag('config', ADS_ID);
 }
 
-function getConversionSendTo() {
-  if (!ADS_ID || !CONVERSION_LABEL) return null;
+function buildSendTo(label) {
+  if (!ADS_ID || !label) return null;
 
-  return CONVERSION_LABEL.includes('/')
-    ? CONVERSION_LABEL
-    : `${ADS_ID}/${CONVERSION_LABEL}`;
+  return label.includes('/') ? label : `${ADS_ID}/${label}`;
+}
+
+function fireAdsConversion(sendTo, { transactionId, value } = {}) {
+  if (!sendTo) return;
+  if (typeof window === 'undefined' || typeof window.gtag !== 'function') return;
+
+  window.gtag('event', 'conversion', {
+    send_to: sendTo,
+    ...(value != null ? { value, currency: 'USD' } : {}),
+    ...(transactionId ? { transaction_id: transactionId } : {}),
+  });
 }
 
 // Report a behaviour event to GA4. Used to see how far visitors actually get
@@ -67,14 +79,15 @@ export function trackEvent(name, params = {}) {
 // Fire a Google Ads conversion. Call this the moment a lead is captured
 // (e.g. after the contact form is submitted successfully).
 export function trackConversion({ transactionId } = {}) {
-  const sendTo = getConversionSendTo();
-  if (!sendTo) return;
-  if (typeof window === 'undefined' || typeof window.gtag !== 'function') return;
-
-  window.gtag('event', 'conversion', {
-    send_to: sendTo,
+  fireAdsConversion(buildSendTo(LEAD_CONVERSION_LABEL), {
+    transactionId,
     value: 1.0,
-    currency: 'USD',
-    ...(transactionId ? { transaction_id: transactionId } : {}),
+  });
+}
+
+// Debug-friendly Ads conversion — scroll to the pricing CTA section.
+export function trackCtaSectionConversion({ section, transactionId } = {}) {
+  fireAdsConversion(buildSendTo(CTA_CONVERSION_LABEL), {
+    transactionId: transactionId ?? `cta-${section ?? 'pricing'}-${Date.now()}`,
   });
 }
