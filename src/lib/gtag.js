@@ -2,7 +2,7 @@
 // Global site tag (AW-18349267081) is in index.html.
 // send_to must match Google Ads → Goals → Submit lead form → Tag setup exactly.
 
-const CONVERSION_SEND_TO = 'AW-18349267081/pF4mCLirpdocEImxzqlE';
+const CONVERSION_SEND_TO = 'AW-18349267081/pF4mCLirpdoeEImxzqlE';
 
 export function trackConversion({ transactionId } = {}) {
   if (typeof window === 'undefined' || typeof window.gtag !== 'function') return;
