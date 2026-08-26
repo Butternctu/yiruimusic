@@ -5,6 +5,23 @@
     <!-- viewport-fit=cover lets the fixed mobile bar reach the physical bottom
          edge; it also makes env(safe-area-inset-*) resolve to real values. -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+    <!-- Google tag (gtag.js) - must load before the app so Ads diagnostics can detect it -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18349267081"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      window.gtag = gtag;
+      gtag('consent', 'default', {
+        ad_storage: 'granted',
+        ad_user_data: 'granted',
+        ad_personalization: 'granted',
+        analytics_storage: 'denied',
+        wait_for_update: 500,
+      });
+      gtag('js', new Date());
+      gtag('config', 'AW-18349267081');
+    </script>
     
     <!-- Google Fonts: loaded async to prevent render-blocking -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -173,18 +190,8 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
     <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
     <link rel="apple-touch-icon" sizes="192x192" href="/favicon-192.png">
-    <script type="module" crossorigin src="/assets/index-DbjzLujm.js"></script>
+    <script type="module" crossorigin src="/assets/index-JwTkSLVU.js"></script>
     <link rel="stylesheet" crossorigin href="/assets/index-Bhpj54YM.css">
-  
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18349267081"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      window.gtag = gtag;
-      gtag('js', new Date());
-      gtag('config', 'AW-18349267081');
-    </script>
   </head>
   <body>
     <div id="root"></div>
