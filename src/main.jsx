@@ -2,9 +2,9 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
-import { initAnalytics } from './lib/gtag.js'
+import { initGoogleAds } from './lib/gtag.js'
 
-initAnalytics()
+initGoogleAds()
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

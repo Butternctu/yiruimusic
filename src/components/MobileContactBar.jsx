@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Send, Tag } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import { trackEvent } from '../lib/gtag.js';
 
 const AUTH_PATHS = ['/dashboard', '/booking', '/appointments', '/profile', '/messages', '/admin'];
 
@@ -58,12 +57,10 @@ const MobileContactBar = () => {
   };
 
   const handlePricing = () => {
-    trackEvent('cta_click', { cta: 'mobile_bar_view_pricing' });
     goToSection('pricing');
   };
 
   const handleInquire = () => {
-    trackEvent('cta_click', { cta: 'mobile_bar_send_inquiry' });
     goToSection('contact');
   };
 

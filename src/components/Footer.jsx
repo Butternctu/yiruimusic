@@ -1,23 +1,12 @@
 import React from 'react';
 import { Youtube, Instagram, Linkedin, MessageSquare, Facebook } from 'lucide-react';
 import { useCopyToClipboard } from '../hooks/useCopyToClipboard';
-import { trackEvent } from '../lib/gtag.js';
 import { CONTACT_EMAIL, CONTACT_WECHAT } from '../data/contact';
 import yiruiLogo from '../assets/yirui_logo.webp';
 
 const Footer = () => {
   const { copied: emailCopied, copy: copyEmail } = useCopyToClipboard(CONTACT_EMAIL);
   const { copied: wechatCopied, copy: copyWeChat } = useCopyToClipboard(CONTACT_WECHAT);
-
-  const handleCopyWeChat = () => {
-    trackEvent('contact_click', { method: 'wechat', location: 'footer' });
-    copyWeChat();
-  };
-
-  const handleEmailClick = () => {
-    trackEvent('contact_click', { method: 'email', location: 'footer' });
-    copyEmail();
-  };
 
   return (
     <footer className="bg-dark-900 pt-24 pb-28 md:pb-12 border-t border-white/5 relative overflow-hidden">
@@ -61,7 +50,7 @@ const Footer = () => {
         <div className="flex flex-wrap justify-center items-center gap-x-8 gap-y-4 mb-10 text-[11px] font-light text-gray-400 tracking-[0.2em] uppercase">
           <a
             href={`mailto:${CONTACT_EMAIL}`}
-            onClick={handleEmailClick}
+            onClick={copyEmail}
             title="Click to copy"
             className="flex items-center space-x-3 group"
           >
@@ -78,7 +67,7 @@ const Footer = () => {
             <span 
               className="text-gold font-medium cursor-pointer transition-all duration-300 hover:text-white hover:drop-shadow-[0_0_8px_rgba(197,160,89,0.8)]" 
               title="Click to copy"
-              onClick={handleCopyWeChat}
+              onClick={copyWeChat}
             >
               {wechatCopied ? 'Copied!' : CONTACT_WECHAT}
             </span>

@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { trackEvent } from "../lib/gtag.js";
 import yiruiCover from "../assets/yirui_cover.webp";
 
 const Hero = ({ onSelectInquiry }) => {
@@ -40,22 +39,19 @@ const Hero = ({ onSelectInquiry }) => {
 
   const handleBooking = (e) => {
     e.preventDefault();
-    trackEvent("cta_click", { cta: "hero_book_a_lesson" });
     navigate('/booking');
   };
 
   // Both entry points land on the same form; they differ only in the inquiry
   // type they preselect, so the visitor never has to classify themselves.
-  const handleInquiry = (cta, inquiryType) => (e) => {
+  const handleInquiry = (_cta, inquiryType) => (e) => {
     e.preventDefault();
-    trackEvent("cta_click", { cta });
     onSelectInquiry?.(inquiryType);
     scrollToId("#contact");
   };
 
   const handlePricing = (e) => {
     e.preventDefault();
-    trackEvent("cta_click", { cta: "hero_view_pricing" });
     scrollToId("#pricing");
   };
 

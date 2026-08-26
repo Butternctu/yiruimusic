@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
-import { trackEvent } from '../lib/gtag.js';
 import { lessonRates, eventRates, addOns } from '../data/pricing';
 
 const RateRow = ({ title, rate }) => (
@@ -58,7 +57,6 @@ const Pricing = () => {
           <Link
             to="/#contact"
             onClick={(e) => {
-              trackEvent('cta_click', { cta: 'pricing_request_a_quote' });
               const el = document.querySelector('#contact');
               if (el) {
                 e.preventDefault();
