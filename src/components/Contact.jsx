@@ -152,8 +152,8 @@ const Contact = ({ inquiryType, onInquiryChange }) => {
           setIsSuccess(true);
           setFormData({ name: '', email: '', phone: '', message: '' });
 
-          // Report the lead to Google Ads (no-op if tracking is not configured)
-          trackConversion();
+          // Report the lead to Google Ads
+          trackConversion({ transactionId: `contact-${Date.now()}` });
 
           // Set 3 minute cooldown
           const cooldownEnd = Date.now() + 3 * 60 * 1000;
