@@ -122,8 +122,8 @@ const Navbar = () => {
             />
           </Link>
 
-          {/* Desktop Menu */}
-          <nav className="hidden md:flex items-center space-x-10 text-xs uppercase tracking-[0.2em] text-gray-300">
+          {/* Desktop Menu — lg+ only; md is too narrow for logo + full link row */}
+          <nav className="hidden lg:flex items-center space-x-8 text-xs uppercase tracking-[0.2em] text-gray-300">
             <Link to="/#about" onClick={(e) => handleHashLinkClick(e, '/#about')} className="hover:text-gold transition-colors duration-300">About</Link>
             <Link to="/#teaching" onClick={(e) => handleHashLinkClick(e, '/#teaching')} className="hover:text-gold transition-colors duration-300">Academic</Link>
             <Link to="/#performance" onClick={(e) => handleHashLinkClick(e, '/#performance')} className="hover:text-gold transition-colors duration-300">Performance</Link>
@@ -215,7 +215,7 @@ const Navbar = () => {
 
           <button
             onClick={toggleMobileMenu}
-            className="md:hidden text-gray-300 hover:text-gold focus:outline-none transition-colors relative z-50"
+            className="lg:hidden text-gray-300 hover:text-gold focus:outline-none transition-colors relative z-50"
           >
             <span id="menu-icon-wrapper">
               {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
