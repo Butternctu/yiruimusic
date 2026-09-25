@@ -154,26 +154,6 @@ const FeeEstimator = () => {
         </div>
 
         <div>
-          <label htmlFor="venue-zip" className="block text-xs uppercase tracking-widest text-gray-500 mb-2">
-            Venue ZIP
-          </label>
-          <input
-            id="venue-zip"
-            type="text"
-            inputMode="numeric"
-            autoComplete="postal-code"
-            maxLength={5}
-            placeholder={ORIGIN_ZIP}
-            value={zip}
-            onChange={(event) => {
-              setZip(event.target.value.replace(/\D/g, '').slice(0, 5));
-              clearResult();
-            }}
-            className="w-full bg-transparent border-b border-white/20 py-3 text-gold placeholder-gray-600 focus:outline-none focus:border-gold transition-colors"
-          />
-        </div>
-
-        <div>
           <span id="duration-label" className="block text-xs uppercase tracking-widest text-gray-500 mb-2">
             Duration
           </span>
@@ -200,6 +180,26 @@ const FeeEstimator = () => {
               +
             </button>
           </div>
+        </div>
+
+        <div>
+          <label htmlFor="venue-zip" className="block text-xs uppercase tracking-widest text-gray-500 mb-2">
+            Venue ZIP
+          </label>
+          <input
+            id="venue-zip"
+            type="text"
+            inputMode="numeric"
+            autoComplete="postal-code"
+            maxLength={5}
+            placeholder={ORIGIN_ZIP}
+            value={zip}
+            onChange={(event) => {
+              setZip(event.target.value.replace(/\D/g, '').slice(0, 5));
+              clearResult();
+            }}
+            className="w-full bg-transparent border-b border-white/20 py-3 text-gold placeholder-gray-600 focus:outline-none focus:border-gold transition-colors"
+          />
         </div>
 
         <div className="min-w-0">
@@ -251,16 +251,16 @@ const FeeEstimator = () => {
             </span>
             <span className="text-gold font-serif whitespace-nowrap">{money(result.performance)}</span>
           </div>
+          <div className="flex justify-between items-baseline gap-6 py-3">
+            <span className="text-gray-200 font-light">Travel · {result.roundTripMiles} mi round trip</span>
+            <span className="text-gold font-serif whitespace-nowrap">{money(result.travelFee)}</span>
+          </div>
           {result.songs > 0 && (
             <div className="flex justify-between items-baseline gap-6 py-3">
               <span className="text-gray-200 font-light">Custom songs × {result.songs}</span>
               <span className="text-gold font-serif whitespace-nowrap">{money(result.songFee)}</span>
             </div>
           )}
-          <div className="flex justify-between items-baseline gap-6 py-3">
-            <span className="text-gray-200 font-light">Travel · {result.roundTripMiles} mi round trip</span>
-            <span className="text-gold font-serif whitespace-nowrap">{money(result.travelFee)}</span>
-          </div>
           <div className="flex justify-between items-baseline gap-6 pt-4 mt-2 border-t border-gold/30">
             <span className="text-white tracking-wide">Estimated price</span>
             <span className="text-gold font-serif text-2xl whitespace-nowrap">{money(result.total)}</span>
