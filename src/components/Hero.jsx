@@ -52,7 +52,7 @@ const Hero = ({ onSelectInquiry }) => {
 
   const handlePricing = (e) => {
     e.preventDefault();
-    scrollToId("#pricing");
+    scrollToId("#estimate");
   };
 
   return (
@@ -112,7 +112,7 @@ const Hero = ({ onSelectInquiry }) => {
               onClick={handlePricing}
               className="mt-8 text-gray-400 hover:text-gold text-[11px] uppercase tracking-[0.2em] border-b border-white/20 hover:border-gold/50 pb-1 transition-all duration-500"
             >
-              View Pricing
+              Calculate Price
             </button>
           </>
         )}

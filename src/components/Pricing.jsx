@@ -2,11 +2,15 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 import { lessonRates, eventRates, addOns } from '../data/pricing';
+import FeeEstimator from './FeeEstimator';
 
-const RateRow = ({ title, rate }) => (
+const RateRow = ({ title, rate, detail }) => (
   <div className="flex justify-between items-baseline gap-6 py-4 border-b border-white/5 last:border-0">
     <span className="text-gray-200 font-light tracking-wide">{title}</span>
-    <span className="text-gold font-serif text-lg tracking-wide whitespace-nowrap shrink-0">{rate}</span>
+    <span className="text-right shrink-0">
+      <span className="block text-gold font-serif text-lg tracking-wide whitespace-nowrap">{rate}</span>
+      {detail && <span className="block text-[11px] text-gray-400 font-light tracking-wide mt-1 whitespace-nowrap">{detail}</span>}
+    </span>
   </div>
 );
 
@@ -37,7 +41,7 @@ const Pricing = () => {
             Live Events · 1 Hour Minimum
           </h3>
           {eventRates.map((item) => (
-            <RateRow key={item.title} title={item.title} rate={item.rate} />
+            <RateRow key={item.title} title={item.title} rate={item.rate} detail={item.detail} />
           ))}
         </div>
 
@@ -50,9 +54,11 @@ const Pricing = () => {
           ))}
         </div>
 
+        <FeeEstimator />
+
         <div className="fade-in-section text-center">
           <p className="text-gray-500 text-xs font-light mb-8 tracking-wide">
-            Quotes may vary by venue, duration, and repertoire. Extra hours at discounted rates.
+            Quotes may vary by venue and repertoire.
           </p>
           <Link
             to="/#contact"

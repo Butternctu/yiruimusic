@@ -13,7 +13,7 @@ export const faqs = [
     },
     {
         question: "Do you charge a travel fee?",
-        answer: "Travel within central Houston is included. For venues located further out (such as Montgomery, Galveston, or out-of-state), a transportation fee will be provided in your custom quote."
+        answer: "Travel is the round-trip driving distance from ZIP 77070, at $2 per mile. For a wedding, corporate event, or private party, the Rates section can estimate the total from the event type, venue ZIP, and performance length."
     },
     {
         question: "At what age can a student start learning the harp?",
