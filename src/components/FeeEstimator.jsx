@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Check, ChevronDown } from 'lucide-react';
 import { CUSTOM_SONG_FROM, EVENT_MIN_MINUTES, EXTRA_HALF_HOUR, MILE_RATE, ORIGIN_ZIP, timedEvents } from '../data/pricing';
 import { milesFromOrigin } from '../lib/travelDistance';
+import { trackQuoteCalculated } from '../lib/gtag.js';
 
 const MAX_MINUTES = 8 * 60;
 const MAX_SONGS = 12;
@@ -85,7 +86,9 @@ const FeeEstimator = () => {
       const performance = performanceFee(selected.min, minutes);
       const songFee = songs * CUSTOM_SONG_FROM;
       const travelFee = roundTripMiles * MILE_RATE;
+      const total = performance + songFee + travelFee;
 
+      trackQuoteCalculated(total);
       setResult({
         title: selected.title,
         minutes,
@@ -94,7 +97,7 @@ const FeeEstimator = () => {
         performance,
         roundTripMiles,
         travelFee,
-        total: performance + songFee + travelFee,
+        total,
         approximate: distance.approximate,
       });
     } catch (err) {
