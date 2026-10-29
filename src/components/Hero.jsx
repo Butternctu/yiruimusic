@@ -72,9 +72,10 @@ const Hero = ({ onSelectInquiry }) => {
           <span className="italic font-light text-gray-400">&amp;</span>{" "}
           Harp Lessons
         </h1>
-        <p className="text-gray-400 text-base md:text-lg font-light leading-relaxed text-pretty max-w-2xl mx-auto mb-10">
-          Dr. Yirui Li — award-winning harpist and Adjunct Harp Professor at Sam
-          Houston State University.
+        <p className="text-gray-200 text-base md:text-lg font-light leading-relaxed text-pretty max-w-2xl mx-auto mb-10">
+          Dr. Yirui Li — Adjunct Harp Professor at Sam Houston State University
+          and President of the Greater Houston Chapter of the American Harp
+          Society.
         </p>
 
         {user ? (
