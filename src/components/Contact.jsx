@@ -1,9 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
+import emailjs from '@emailjs/browser';
 import { MessageSquare, ChevronDown, Check, Clock, Mail } from 'lucide-react';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 import { useCopyToClipboard } from '../hooks/useCopyToClipboard';
 import { trackConversion } from '../lib/gtag.js';
-import { CONTACT_EMAIL, CONTACT_WECHAT, FORM_RECIPIENT_EMAIL, RESPONSE_TIME } from '../data/contact';
+import { CONTACT_EMAIL, CONTACT_WECHAT, RESPONSE_TIME } from '../data/contact';
 
 const Contact = ({ inquiryType, onInquiryChange }) => {
   useIntersectionObserver();
@@ -85,7 +86,7 @@ const Contact = ({ inquiryType, onInquiryChange }) => {
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
 
     // Check cooldown
@@ -123,50 +124,49 @@ const Contact = ({ inquiryType, onInquiryChange }) => {
     setIsSubmitting(true);
     setSubmitError('');
 
-    // Prepare data for FormSubmit
-    const submitData = new FormData();
-    submitData.append('name', formData.name);
-    submitData.append('email', formData.email);
-    submitData.append('phone', formData.phone || 'Not provided');
-    submitData.append('inquiry_type', inquiryType);
-    submitData.append('message', formData.message || '(No message provided)');
-    submitData.append('_subject', 'New Inquiry from Dr. Yirui Li Portfolio');
-    submitData.append('_captcha', 'false');
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+    const templateId = import.meta.env.VITE_EMAILJS_ADMIN_TEMPLATE_ID;
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
-    // Make AJAX request to FormSubmit
-    fetch(`https://formsubmit.co/ajax/${FORM_RECIPIENT_EMAIL}`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-      },
-      body: submitData,
-    })
-      .then(response => response.json())
-      .then(data => {
-        setIsSubmitting(false);
+    try {
+      if (!serviceId || !templateId || !publicKey) {
+        throw new Error('EmailJS is not configured');
+      }
 
-        const isSuccess = data.success === 'true' || data.success === true;
-        const needsActivation = data.message && data.message.toLowerCase().includes('activation');
+      await emailjs.send(
+        serviceId,
+        templateId,
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          reply_to: formData.email,
+          to_name: 'Dr. Li',
+          message: [
+            'New inquiry from the portfolio site.',
+            `Inquiry type: ${inquiryType}`,
+            `Name: ${formData.name}`,
+            `Email: ${formData.email}`,
+            `Phone: ${formData.phone || 'Not provided'}`,
+            '',
+            formData.message || '(No message provided)',
+          ].join('\n'),
+        },
+        publicKey,
+      );
 
-        if (isSuccess || needsActivation) {
-          setIsSuccess(true);
-          setFormData({ name: '', email: '', phone: '', message: '' });
+      setIsSuccess(true);
+      setFormData({ name: '', email: '', phone: '', message: '' });
+      trackConversion();
 
-          trackConversion();
-
-          // Set 3 minute cooldown
-          const cooldownEnd = Date.now() + 3 * 60 * 1000;
-          localStorage.setItem('yirui_form_cooldown', cooldownEnd.toString());
-          setCooldownTime(3 * 60);
-        } else {
-          setSubmitError(data.message || 'Something went wrong. Please try again later.');
-        }
-      })
-      .catch(error => {
-        setIsSubmitting(false);
-        setSubmitError('Failed to send message. Please try again later.');
-        console.error('FormSubmit Error:', error);
-      });
+      const cooldownEnd = Date.now() + 3 * 60 * 1000;
+      localStorage.setItem('yirui_form_cooldown', cooldownEnd.toString());
+      setCooldownTime(3 * 60);
+    } catch (error) {
+      setSubmitError('Failed to send message. Please try again later.');
+      console.error('Inquiry email failed:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
