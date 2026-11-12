@@ -23,6 +23,7 @@ const Contact = ({ inquiryType, onInquiryChange }) => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [submitError, setSubmitError] = useState('');
   const [cooldownTime, setCooldownTime] = useState(0);
+  const [fieldKey, setFieldKey] = useState(0);
   const dropdownRef = useRef(null);
 
   // Check for cooldown on mount and set up timer
@@ -156,6 +157,7 @@ const Contact = ({ inquiryType, onInquiryChange }) => {
 
       setIsSuccess(true);
       setFormData({ name: '', email: '', phone: '', message: '' });
+      setFieldKey(key => key + 1);
       trackConversion();
 
       const cooldownEnd = Date.now() + 3 * 60 * 1000;
@@ -216,6 +218,7 @@ const Contact = ({ inquiryType, onInquiryChange }) => {
                 Full Name
               </label>
               <input
+                key={`name-${fieldKey}`}
                 type="text"
                 id="name"
                 name="name"
@@ -238,6 +241,7 @@ const Contact = ({ inquiryType, onInquiryChange }) => {
                 Email Address
               </label>
               <input
+                key={`email-${fieldKey}`}
                 type="email"
                 id="email"
                 name="email"
@@ -264,6 +268,7 @@ const Contact = ({ inquiryType, onInquiryChange }) => {
                 Phone <span className="text-gray-600">(Optional)</span>
               </label>
               <input
+                key={`phone-${fieldKey}`}
                 type="tel"
                 id="phone"
                 name="phone"
