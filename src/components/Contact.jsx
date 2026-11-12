@@ -25,6 +25,7 @@ const Contact = ({ inquiryType, onInquiryChange }) => {
   const [cooldownTime, setCooldownTime] = useState(0);
   const [fieldKey, setFieldKey] = useState(0);
   const dropdownRef = useRef(null);
+  const formRef = useRef(null);
 
   // Check for cooldown on mount and set up timer
   useEffect(() => {
@@ -44,6 +45,51 @@ const Contact = ({ inquiryType, onInquiryChange }) => {
     checkCooldown();
     const interval = setInterval(checkCooldown, 1000);
     return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    const form = formRef.current;
+    if (!form) return;
+
+    const lockField = el => {
+      if (!(el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement)) return;
+      if (el.type === 'hidden') return;
+      el.style.setProperty('-webkit-appearance', 'none', 'important');
+      el.style.setProperty('appearance', 'none', 'important');
+      el.style.setProperty('color-scheme', 'dark', 'important');
+      el.style.setProperty('background-color', '#0a0a0a', 'important');
+      el.style.setProperty('background-image', 'none', 'important');
+      el.style.setProperty('-webkit-box-shadow', '0 0 0 1000px #0a0a0a inset', 'important');
+      el.style.setProperty('box-shadow', '0 0 0 1000px #0a0a0a inset', 'important');
+      el.style.setProperty('caret-color', '#c5a059', 'important');
+      el.style.setProperty('transition', 'background-color 99999s ease-out 0s', 'important');
+      if (el.value) {
+        el.style.setProperty('-webkit-text-fill-color', '#c5a059', 'important');
+        el.style.setProperty('color', '#c5a059', 'important');
+      } else {
+        el.style.removeProperty('-webkit-text-fill-color');
+        el.style.removeProperty('color');
+      }
+    };
+
+    const onFieldEvent = event => {
+      const el = event.target;
+      lockField(el);
+      requestAnimationFrame(() => lockField(el));
+      window.setTimeout(() => lockField(el), 50);
+      window.setTimeout(() => lockField(el), 300);
+    };
+
+    form.addEventListener('input', onFieldEvent);
+    form.addEventListener('change', onFieldEvent);
+    form.addEventListener('focusin', onFieldEvent);
+    form.addEventListener('animationstart', onFieldEvent);
+    return () => {
+      form.removeEventListener('input', onFieldEvent);
+      form.removeEventListener('change', onFieldEvent);
+      form.removeEventListener('focusin', onFieldEvent);
+      form.removeEventListener('animationstart', onFieldEvent);
+    };
   }, []);
 
   useEffect(() => {
@@ -208,7 +254,7 @@ const Contact = ({ inquiryType, onInquiryChange }) => {
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-12 relative z-10 pb-12">
+        <form ref={formRef} onSubmit={handleSubmit} className="space-y-12 relative z-10 pb-12">
           {/* Honeypot field for bot protection */}
           <input type="text" name="_honey" style={{ display: 'none' }} tabIndex="-1" autoComplete="off" />
 
@@ -225,7 +271,7 @@ const Contact = ({ inquiryType, onInquiryChange }) => {
                 value={formData.name}
                 onChange={handleChange}
                 autoComplete="name"
-                className={`w-full bg-transparent border-b py-3 text-gold placeholder-gray-600 focus:outline-none focus:ring-0 transition-colors [&:-webkit-autofill]:[-webkit-text-fill-color:#C5A059] [&:-webkit-autofill]:[box-shadow:0_0_0_1000px_#111111_inset] ${errors.name ? 'border-[#d9736c]/50' : 'border-white/20 focus:border-gold'}`}
+                className={`w-full bg-dark-900 border-b py-3 text-gold placeholder-gray-600 focus:outline-none focus:ring-0 ${errors.name ? 'border-[#d9736c]/50' : 'border-white/20 focus:border-gold'}`}
                 placeholder="Yirui Li"
               />
               {errors.name && (
@@ -249,7 +295,7 @@ const Contact = ({ inquiryType, onInquiryChange }) => {
                 onChange={handleChange}
                 autoComplete="email"
                 inputMode="email"
-                className={`w-full bg-transparent border-b py-3 text-gold placeholder-gray-600 focus:outline-none focus:ring-0 transition-colors [&:-webkit-autofill]:[-webkit-text-fill-color:#C5A059] [&:-webkit-autofill]:[box-shadow:0_0_0_1000px_#111111_inset] ${errors.email ? 'border-[#d9736c]/50' : 'border-white/20 focus:border-gold'}`}
+                className={`w-full bg-dark-900 border-b py-3 text-gold placeholder-gray-600 focus:outline-none focus:ring-0 ${errors.email ? 'border-[#d9736c]/50' : 'border-white/20 focus:border-gold'}`}
                 placeholder="email@example.com"
               />
               {errors.email && (
@@ -276,7 +322,7 @@ const Contact = ({ inquiryType, onInquiryChange }) => {
                 onChange={handleChange}
                 autoComplete="tel"
                 inputMode="tel"
-                className="w-full bg-transparent border-b border-white/20 py-3 text-gold placeholder-gray-600 focus:outline-none focus:ring-0 focus:border-gold transition-colors [&:-webkit-autofill]:[-webkit-text-fill-color:#C5A059] [&:-webkit-autofill]:[box-shadow:0_0_0_1000px_#111111_inset]"
+                className="w-full bg-dark-900 border-b border-white/20 py-3 text-gold placeholder-gray-600 focus:outline-none focus:ring-0 focus:border-gold"
                 placeholder="(713) 000-0000"
               />
             </div>
@@ -319,7 +365,7 @@ const Contact = ({ inquiryType, onInquiryChange }) => {
               value={formData.message}
               onChange={handleChange}
               rows="4"
-              className="w-full bg-transparent border-b border-white/20 py-3 text-gold placeholder-gray-600 focus:outline-none focus:ring-0 focus:border-gold transition-colors resize-none custom-scrollbar"
+              className="w-full bg-dark-900 border-b border-white/20 py-3 text-gold placeholder-gray-600 focus:outline-none focus:ring-0 focus:border-gold resize-none custom-scrollbar"
               placeholder="Anything helpful to know — dates, venue, or the student's age and experience."
             ></textarea>
           </div>

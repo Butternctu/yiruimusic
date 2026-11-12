@@ -268,10 +268,32 @@ textarea::-webkit-input-placeholder {
 }
 
 /*
-  iOS paints autofilled inputs white and keeps that paint after React clears the
-  value. Delay the background change so the white never appears, and cover it
-  with the page color in case the delay does not win.
+  iOS / Google keyboard autofill paints a light plate and black text.
+  Keep :-webkit-autofill and :autofill in separate rules: if one selector is
+  unknown, the browser drops the entire comma-separated list.
+  The long background transition has to live on the field itself. A short
+  transition-colors rule otherwise lets the white plate finish painting.
 */
+input:not([type='checkbox']):not([type='radio']):not([type='range']):not([type='file']):not([type='button']):not([type='submit']):not([type='reset']):not([type='hidden']):not([type='color']):not([type='date']):not([type='time']),
+textarea {
+  -webkit-appearance: none;
+  appearance: none;
+  color-scheme: dark;
+}
+
+#contact input:not([type='hidden']),
+#contact textarea {
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  color-scheme: dark;
+  background-color: #0a0a0a !important;
+  background-image: none !important;
+  -webkit-box-shadow: 0 0 0 1000px #0a0a0a inset !important;
+  box-shadow: 0 0 0 1000px #0a0a0a inset !important;
+  caret-color: #c5a059;
+  transition: background-color 99999s ease-out 0s !important;
+}
+
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
@@ -282,22 +304,47 @@ textarea:-webkit-autofill:focus,
 textarea:-webkit-autofill:active,
 select:-webkit-autofill,
 select:-webkit-autofill:hover,
-select:-webkit-autofill:focus,
-input:autofill,
-textarea:autofill,
-select:autofill {
+select:-webkit-autofill:focus {
   -webkit-text-fill-color: #c5a059 !important;
   caret-color: #c5a059;
   color-scheme: dark;
-  background-color: transparent !important;
+  background-color: #0a0a0a !important;
   background-image: none !important;
   -webkit-box-shadow: 0 0 0 1000px #0a0a0a inset !important;
   box-shadow: 0 0 0 1000px #0a0a0a inset !important;
+  -webkit-background-clip: padding-box !important;
+  background-clip: padding-box !important;
+  transition: background-color 99999s ease-out 0s !important;
+}
+
+input:autofill,
+input:autofill:hover,
+input:autofill:focus,
+input:autofill:active,
+textarea:autofill,
+textarea:autofill:hover,
+textarea:autofill:focus,
+textarea:autofill:active,
+select:autofill,
+select:autofill:hover,
+select:autofill:focus {
+  -webkit-text-fill-color: #c5a059 !important;
+  caret-color: #c5a059;
+  color-scheme: dark;
+  background-color: #0a0a0a !important;
+  background-image: none !important;
+  -webkit-box-shadow: 0 0 0 1000px #0a0a0a inset !important;
+  box-shadow: 0 0 0 1000px #0a0a0a inset !important;
+  -webkit-background-clip: padding-box !important;
+  background-clip: padding-box !important;
   transition: background-color 99999s ease-out 0s !important;
 }
 
 input:-webkit-autofill::placeholder,
-textarea:-webkit-autofill::placeholder,
+textarea:-webkit-autofill::placeholder {
+  -webkit-text-fill-color: #4b5563 !important;
+}
+
 input:autofill::placeholder,
 textarea:autofill::placeholder {
   -webkit-text-fill-color: #4b5563 !important;

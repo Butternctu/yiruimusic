@@ -5,6 +5,8 @@
     <!-- viewport-fit=cover lets the fixed mobile bar reach the physical bottom
          edge; it also makes env(safe-area-inset-*) resolve to real values. -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <!-- Tell WebKit the page is dark before CSS loads, so autofill does not paint a light plate. -->
+    <meta name="color-scheme" content="dark" />
 
     <!-- Google tag (gtag.js) - must load before the app so Ads diagnostics can detect it -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18349267081"></script>
